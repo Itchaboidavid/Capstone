@@ -1,0 +1,262 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Subject</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#track2").change(function() {
+                var track_name = $(this).val();
+                $.ajax({
+                    url: "dropdown.php",
+                    method: "POST",
+                    data: {
+                        trackName: track_name
+                    },
+                    success: function(data) {
+                        $("#strand2").html(data);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center mt-0">
+                    <div>
+                        <h1 class="mt-4">Subject</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Subject table</li>
+                        </ol>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
+                        Add
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="trackModal" tabindex="-1" aria-labelledby="trackModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add subject</h1>
+                                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="" method="POST" class="needs-validation" novalidate>
+                                    <div class="modal-body">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="name" id="name" placeholder="name" class="form-control bg-body-tertiary" required />
+                                            <label for="name">Subject Title</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a title.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" name="subject_type" id="subject_type">
+                                                <option value="" selected>Subject type</option>
+                                                <option value="Core">Core</option>
+                                                <option value="Applied">Applied</option>
+                                                <option value="Specialized">Specialized</option>
+                                            </select>
+                                            <label for="subject_type">Subject type</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select subject type.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="track" id="track2">
+                                                <option value="" selected disabled>Track</option>
+                                                <?php
+                                                $select = "SELECT * FROM track";
+                                                $result = mysqli_query($conn, $select);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                            <label for="track">Track</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select track.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="strand" id="strand2">
+                                                <option value="" selected disabled>Strand</option>
+                                            </select>
+                                            <label for="strand">Strand</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select strand.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" name="grade" id="grade">
+                                                <option value="" selected>Grade</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                            <label for="grade">Grade</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select the grade level.</div>
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
+                                                <option value="" selected>Semester</option>
+                                                <?php
+                                                $select = "SELECT * FROM `semester`";
+                                                $result = mysqli_query($conn, $select);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                    <option value="<?php echo $row["output"] ?>"><?php echo $row["output"] ?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                            <label for=" semester">Semester</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a semester.</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" name="add_subject">Add</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                if (isset($_GET['msg'])) {
+                    $msg = $_GET['msg'];
+                    echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
+                        . $msg .
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+                }
+
+                if (isset($_GET['errmsg'])) {
+                    $errmsg = $_GET['errmsg'];
+                    echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
+                        . $errmsg .
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+                }
+                ?>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Subject table
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Track</th>
+                                    <th>Strand</th>
+                                    <th>Grade</th>
+                                    <th>Semester</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Track</th>
+                                    <th>Strand</th>
+                                    <th>Grade</th>
+                                    <th>Semester</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <?php
+                                $subject = "SELECT * FROM `subject`";
+                                $subjectResult = $conn->query($subject);
+                                while ($subjectRow = $subjectResult->fetch_assoc()) :
+                                    if ($subjectRow['name'] != "All") :
+                                ?>
+                                        <tr>
+                                            <td><?php echo $subjectRow["id"] ?></td>
+                                            <td><?php echo $subjectRow["name"] ?></td>
+                                            <td><?php echo $subjectRow["track"] ?></td>
+                                            <td><?php echo $subjectRow["strand"] ?></td>
+                                            <td><?php echo $subjectRow["grade"] ?></td>
+                                            <td><?php echo $subjectRow["semester"] ?></td>
+                                            <td>
+                                                <a href="edit_subject.php?id=<?php echo $subjectRow['id'] ?>" style="border: none; background: transparent;">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    endif;
+                                endwhile;
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
+</body>
+
+</html>
+
+<?php
+if (isset($_POST["add_subject"])) {
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type"]);
+    $track = mysqli_real_escape_string($conn, $_POST["track"]);
+    $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
+    $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
+    $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+
+    $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
+    $result_semester = $conn->query($select_semester);
+    $row_semester = $result_semester->fetch_assoc();
+
+    $semester_name = $row_semester["name"];
+    $start_year = $row_semester["start_year"];
+    $end_year = $row_semester["end_year"];
+
+    $subject = "SELECT * FROM `subject` WHERE `name` = '$name'";
+    $subjectResult = $conn->query($subject);
+
+    if (mysqli_num_rows($subjectResult) > 0) {
+        header("location:subject_table.php?errmsg=The subject/subject code already exist!");
+        exit();
+    } else {
+        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`,`semester_name`,`start_year`,`end_year`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester','$semester_name','$start_year','$end_year')";
+        mysqli_query($conn, $insert);
+        header("location:subject_table.php?msg=Subject added successfully!");
+        exit();
+    }
+}
+$conn->close();
+?>
