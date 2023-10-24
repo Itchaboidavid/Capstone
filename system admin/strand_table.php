@@ -52,6 +52,7 @@ session_start();
                                         </div>
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="track" id="track" placeholder="track" required>
+                                                <option value="" selected>Track</option>
                                                 <?php
                                                 $select = "SELECT * FROM `track` ORDER BY `name` ASC";
                                                 $result = mysqli_query($conn, $select);

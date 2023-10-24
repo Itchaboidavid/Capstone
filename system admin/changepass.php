@@ -15,7 +15,7 @@ session_start();
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="../index.js"></script>
+    <script defer src="../index.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -73,20 +73,6 @@ session_start();
                 </form>
             </div>
         </main>
-        <script>
-            function togglePasswordVisibility() {
-                const passwordField = document.getElementById('accPassword');
-                const button = document.querySelector('button[onclick="togglePasswordVisibility()"]');
-
-                if (passwordField.getAttribute('type') === "password") {
-                    passwordField.setAttribute('type', 'text');
-                    button.innerHTML = '<i class="bi bi-eye-slash"></i>';
-                } else {
-                    passwordField.setAttribute('type', 'password');
-                    button.innerHTML = '<i class="bi bi-eye"></i>';
-                }
-            }
-        </script>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>

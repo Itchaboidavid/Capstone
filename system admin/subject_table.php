@@ -70,7 +70,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please enter a title.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" name="subject_type" id="subject_type">
+                                            <select class="form-select" name="subject_type" id="subject_type" required>
                                                 <option value="" selected>Subject type</option>
                                                 <option value="Core">Core</option>
                                                 <option value="Applied">Applied</option>
@@ -81,7 +81,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select subject type.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="track" id="track2">
+                                            <select class="form-select bg-body-tertiary" name="track" id="track2" required>
                                                 <option value="" selected disabled>Track</option>
                                                 <?php
                                                 $select = "SELECT * FROM track";
@@ -97,7 +97,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select track.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="strand" id="strand2">
+                                            <select class="form-select bg-body-tertiary" name="strand" id="strand2" required>
                                                 <option value="" selected disabled>Strand</option>
                                             </select>
                                             <label for="strand">Strand</label>
@@ -105,7 +105,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select strand.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" name="grade" id="grade">
+                                            <select class="form-select" name="grade" id="grade" required>
                                                 <option value="" selected>Grade</option>
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>

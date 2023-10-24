@@ -97,7 +97,7 @@
                     </a>
                     <div class="collapse" id="sectionCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="subject_table.php">
+                            <a class="nav-link" href="section_table.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Section table
                             </a>

@@ -14,25 +14,6 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#track2").change(function() {
-                var track_name = $(this).val();
-                $.ajax({
-                    url: "dropdown.php",
-                    method: "POST",
-                    data: {
-                        trackName: track_name
-                    },
-                    success: function(data) {
-                        $("#strand2").html(data);
-                    }
-                })
-            })
-        })
-    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -82,7 +63,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please enter a password.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="user_type" id="user_type">
+                                            <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
                                                 <option value="adviser">Adviser</option>
                                                 <option value="clinic staff">Clinic staff</option>
@@ -94,7 +75,7 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select type of user.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="status" id="status">
+                                            <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                                 <option value="" selected>Status</option>
                                                 <option value="active" class="text-success">Active</option>
                                                 <option value="disabled" class="text-danger">Disabled</option>
@@ -160,7 +141,7 @@ session_start();
                                 $user = "SELECT * FROM `user`";
                                 $userResult = $conn->query($user);
                                 while ($userRow = $userResult->fetch_assoc()) :
-                                    if ($userRow['name'] != "All") :
+                                    if ($userRow['name'] != "system admin") :
                                 ?>
                                         <tr>
                                             <td><?php echo $userRow["id"] ?></td>

@@ -68,7 +68,7 @@ session_start();
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-success text-white mb-4">
                             <div class="card-header text-center">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Strand</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Strands</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
@@ -87,7 +87,7 @@ session_start();
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-danger text-white mb-4">
                             <div class="card-header text-center">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Subject</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Subjects</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
