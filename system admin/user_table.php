@@ -1,32 +1,118 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/fb9a379660.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../index.css">
-    <title>USER TABLE</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Faculty</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-    <!-- DATA TABLES -->
-    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <script defer src="data_table.js"></script>
-    <script defer src="../index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#track2").change(function() {
+                var track_name = $(this).val();
+                $.ajax({
+                    url: "dropdown.php",
+                    method: "POST",
+                    data: {
+                        trackName: track_name
+                    },
+                    success: function(data) {
+                        $("#strand2").html(data);
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 
-<body>
-    <div class="container-fluid g-0">
-        <div class="row flex-nowrap g-0">
-            <?php include("navigation.php") ?>
-            <!-- CONTENT -->
-            <main class="p-5">
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center mt-0">
+                    <div>
+                        <h1 class="mt-4">Faculty</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Faculty table</li>
+                        </ol>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
+                        Add
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class=" modal-title fs-5" id="userModalLabel">Add faculty</h1>
+                                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="" method="POST" class="needs-validation" novalidate>
+                                    <div class="modal-body">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="name" id="name" placeholder="name" class="form-control bg-body-tertiary" required />
+                                            <label for="name">Name</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a name.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="username" id="username" placeholder="username" class="form-control bg-body-tertiary" required />
+                                            <label for="username">Username</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a username.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="password" name="password" id="password" placeholder="password" class="form-control bg-body-tertiary" required />
+                                            <label for="password">Password</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a password.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="user_type" id="user_type">
+                                                <option value="" selected>User type</option>
+                                                <option value="adviser">Adviser</option>
+                                                <option value="clinic staff">Clinic staff</option>
+                                                <option value="human resources">Human Resources</option>
+                                                <option value="registrar">Registrar</option>
+                                            </select>
+                                            <label for="user_type">User type</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select type of user.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="status" id="status">
+                                                <option value="" selected>Status</option>
+                                                <option value="active" class="text-success">Active</option>
+                                                <option value="disabled" class="text-danger">Disabled</option>
+                                            </select>
+                                            <label for="status">Status</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select the status.</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" name="add_user">Add</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <?php
                 if (isset($_GET['msg'])) {
                     $msg = $_GET['msg'];
@@ -44,58 +130,98 @@
                              </div>';
                 }
                 ?>
-                <div class="card">
-                    <div class="card-header bg-primary text-light">
-                        <span class="fs-4" style="text-shadow: 1px 1px 1px black;">List of User</span>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Faculty table
                     </div>
-                    <div class="card-body bg-body-tertiary">
-                        <table id="adviserTable" class="table table-striped table-secondary table-hover" style="width:100%">
+                    <div class="card-body">
+                        <table id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Status</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>User type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
                             <tbody>
                                 <?php
-                                $select = "SELECT * FROM `user`";
-                                $result = mysqli_query($conn, $select);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    if ($row["name"] != "admin") {
+                                $user = "SELECT * FROM `user`";
+                                $userResult = $conn->query($user);
+                                while ($userRow = $userResult->fetch_assoc()) :
+                                    if ($userRow['name'] != "All") :
                                 ?>
                                         <tr>
-                                            <td><?php echo $row["id"] ?></td>
-                                            <td><?php echo $row["name"] ?></td>
-                                            <td style="text-transform: capitalize;"><?php echo $row["user_type"] ?></td>
+                                            <td><?php echo $userRow["id"] ?></td>
+                                            <td><?php echo $userRow["name"] ?></td>
+                                            <td><?php echo $userRow["user_type"] ?></td>
                                             <td>
-                                                <?php if ($row["status"] == "active") {
-                                                    echo '<span class="text-success">' . $row["status"] . "</span>";
-                                                } elseif ($row["status"] == "disabled") {
-                                                    echo '<span class="text-danger">' . $row["status"] . "</span>";
+                                                <?php if ($userRow["status"] == "active") {
+                                                    echo '<span class="text-success">' . $userRow["status"] . "</span>";
+                                                } elseif ($userRow["status"] == "disabled") {
+                                                    echo '<span class="text-danger">' . $userRow["status"] . "</span>";
                                                 } ?>
                                             </td>
-                                            <td class="text-center">
-                                                <a href="edit_user.php?id=<?php echo $row['id'] ?>">
-                                                    <i class="bi bi-pencil-square"></i>
+                                            <td>
+                                                <a href="edit_user.php?id=<?php echo $userRow['id'] ?>" style="border: none; background: transparent;">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                 <?php
-                                    }
-                                }
+                                    endif;
+                                endwhile;
                                 ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST["add_user"])) {
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $username = mysqli_real_escape_string($conn, $_POST["username"]);
+    $password = md5($_POST["password"]);
+    $password2 = $_POST["password"];
+    $user_type = mysqli_real_escape_string($conn, $_POST["user_type"]);
+    $status = mysqli_real_escape_string($conn, $_POST["status"]);
+
+    $select = "SELECT * FROM user WHERE username = '$username' AND `name` = '$name'";
+    $result = mysqli_query($conn, $select);
+
+    if (mysqli_num_rows($result) > 0) {
+        echo ("<script>location.href = 'user_table.php?errmsg=The class adviser account already exist / The class advisory is already been assigned!';</script>");
+        exit();
+    } else {
+        $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`, `status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type', '$status')";
+        mysqli_query($conn, $insert);
+        echo ("<script>location.href = 'user_table.php?msg=Account successfully registered!';</script>");
+        exit();
+    }
+}
+$conn->close();
+?>
