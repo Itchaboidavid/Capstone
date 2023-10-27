@@ -108,7 +108,7 @@
                     </a>
                     <div class="collapse" id="semesterCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="semester_table.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Semester table
                             </a>

@@ -152,7 +152,7 @@ session_start();
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
                                 <button type="submit" class="btn btn-primary" name="edit_section">Save</button>
-                                <a href="strand_table.php" type="button" class="btn btn-danger">Close</a>
+                                <a href="section_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
                 </form>

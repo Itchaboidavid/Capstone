@@ -1,71 +1,92 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/fb9a379660.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../index.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Edit Semester</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="../index.js"></script>
-    <title>EDIT SEMESTER</title>
 </head>
 
-<body>
-    <div class="container-fluid g-0">
-        <div class="row flex-nowrap g-0">
-            <?php include("navigation.php") ?>
-            <!-- CONTENT -->
-            <main class="py-4 px-3 pb-0">
-                <div class="card">
-                    <div class="card-header bg-primary text-light">
-                        <h2>Update Semester</h2>
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-end">
+                    <div>
+                        <h1 class="mt-4">Semester</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="semester_table.php">Semester Table</a></li>
+                            <li class="breadcrumb-item active">Edit Semester</li>
+                        </ol>
                     </div>
-                    <?php
-                    $id = $_GET["id"];
-                    $select = "SELECT * FROM semester WHERE id = $id";
-                    $result = mysqli_query($conn, $select);
-                    $row = mysqli_fetch_assoc($result);
-                    ?>
-                    <div class="card-body">
-                        <form action="" method="POST" class="needs-validation" novalidate>
+                </div>
+                <form action="" method="POST" class="needs-validation" novalidate>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Edit Semester</h4>
+                        </div>
+                        <div class="card-body">
+                            <?php
+                            $id = $_GET["id"];
+                            $semester = "SELECT * FROM `semester` WHERE id = $id";
+                            $semesterResult = $conn->query($semester);
+                            $semesterRow = $semesterResult->fetch_assoc();
+                            ?>
                             <div class="form-floating mb-3">
-                                <input type="text" name="name" id="name" placeholder="name" class="form-control bg-body-tertiary" value="<?php echo $row["name"] ?>" required />
+                                <input type="text" name="name" id="name" placeholder="name" class="form-control bg-body-tertiary" value="<?php echo $semesterRow["name"] ?>" required />
                                 <label for="name">Semester</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a semester.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="start_year" id="start_year" placeholder="start_year" class="form-control bg-body-tertiary" maxlength="4" value="<?php echo $row["start_year"] ?>" required />
+                                <input type="text" name="start_year" id="start_year" placeholder="start_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" value="<?php echo $semesterRow["start_year"] ?>" required />
                                 <label for="start_year">Beginning year of the semester</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter a year.</div>
+                                <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="end_year" id="end_year" placeholder="end_year" class="form-control bg-body-tertiary" maxlength="4" value="<?php echo $row["end_year"] ?>" required />
+                                <input type="text" name="end_year" id="end_year" placeholder="end_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" value="<?php echo $semesterRow["end_year"] ?>" required />
                                 <label for="end_year">End year of the semester</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter a year.</div>
+                                <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
                             </div>
-                            <div class="mt-4 me-auto">
-                                <input type="submit" value="Update" class="btn btn-primary" name="submit">
-                                <a href="section_table.php" class="btn btn-danger">Close</a>
+                        </div>
+                        <div class="card-footer pe-0">
+                            <div class="ms-auto" style="width: 150px;">
+                                <button type="submit" class="btn btn-primary" name="edit_semester">Save</button>
+                                <a href="semester_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </main>
-        </div>
+                        </div>
+                </form>
+            </div>
+        </main>
     </div>
-    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="../assets/demo/chart-area-demo.js"></script>
+    <script src="../assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>
 <?php
-ob_start();
-if (isset($_POST['submit'])) {
+//EDIT SEMESTER
+if (isset($_POST['edit_semester'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $start_year = mysqli_real_escape_string($conn, $_POST["start_year"]);
     $end_year = mysqli_real_escape_string($conn, $_POST["end_year"]);
@@ -82,5 +103,3 @@ if (isset($_POST['submit'])) {
         exit();
     }
 }
-ob_end_flush();
-?>

@@ -1,32 +1,82 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/fb9a379660.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../index.css">
-    <title>SEMESTER TABLE</title>
-
-    <!-- DATA TABLES -->
-    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <script defer src="data_table.js"></script>
-    <script defer src="../index.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Semester</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <div class="container-fluid g-0">
-        <div class="row flex-nowrap g-0">
-            <?php include("navigation.php") ?>
-            <!-- CONTENT -->
-            <main class="p-5">
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center mt-0">
+                    <div>
+                        <h1 class="mt-4">Semester</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Semester table</li>
+                        </ol>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
+                        Add
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="trackModal" tabindex="-1" aria-labelledby="trackModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add strand</h1>
+                                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="" method="POST" class="needs-validation" novalidate>
+                                    <div class="modal-body">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="name" id="name" placeholder="name" required>
+                                                <option value="" selected>Semester</option>
+                                                <option value="1st">1st</option>
+                                                <option value="2nd">2nd</option>
+                                                <option value="3rd">3rd</option>
+                                            </select>
+                                            <label for="name">Semester</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter semester.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="start_year" id="start_year" placeholder="start_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" required />
+                                            <label for="start_year">Beginning year of the semester</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="end_year" id="end_year" placeholder="end_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" required />
+                                            <label for="end_year">End year of the semester</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" name="add_semester">Add</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <?php
                 if (isset($_GET['msg'])) {
                     $msg = $_GET['msg'];
@@ -44,12 +94,13 @@
                              </div>';
                 }
                 ?>
-                <div class="card">
-                    <div class="card-header bg-primary text-light">
-                        <span class="fs-4" style="text-shadow: 1px 1px 1px black;">List of semester</span>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Semester table
                     </div>
-                    <div class="card-body bg-body-tertiary">
-                        <table id="adviserTable" class="table table-striped table-hover table-secondary" style="width:100%">
+                    <div class="card-body">
+                        <table id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -57,34 +108,68 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Semester</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
                             <tbody>
                                 <?php
-                                $select = "SELECT * FROM `semester`";
-                                $result = mysqli_query($conn, $select);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
+                                $semester = "SELECT * FROM `semester`";
+                                $semesterResult = $conn->query($semester);
+                                while ($semesterRow = $semesterResult->fetch_assoc()) :
                                 ?>
                                     <tr>
-                                        <td><?php echo $row["id"] ?></td>
-                                        <td><?php echo $row["output"] ?></td>
+                                        <td><?php echo $semesterRow["id"] ?></td>
+                                        <td><?php echo $semesterRow["output"] ?></td>
                                         <td>
-                                            <a href="edit_semester.php?id=<?php echo $row['id'] ?>">
-                                                <i class="bi bi-pencil-square"></i>
+                                            <a href="edit_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent;">
+                                                <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 <?php
-                                }
+                                endwhile;
                                 ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST["add_semester"])) {
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $start_year = mysqli_real_escape_string($conn, $_POST["start_year"]);
+    $end_year = mysqli_real_escape_string($conn, $_POST["end_year"]);
+    $output = $name . " (" . $start_year . " - " . $end_year . ")";
+
+    $select = "SELECT * FROM `semester` WHERE `output` = '$output'";
+    $result = mysqli_query($conn, $select);
+
+    if (mysqli_num_rows($result) > 0) {
+        echo ("<script>location.href = 'semester_table.php?errmsg=The semester already exist!';</script>");
+        exit();
+    } else {
+        $insert = "INSERT INTO `semester` (`name`,`start_year`,`end_year`,`output`) VALUES ('$name','$start_year','$end_year','$output')";
+        mysqli_query($conn, $insert);
+        echo ("<script>location.href = 'semester_table.php?msg=Semester successfully added!';</script>");
+        exit();
+    }
+}
+$conn->close();
+?>
