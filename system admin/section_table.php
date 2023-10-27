@@ -32,6 +32,21 @@ session_start();
                 })
             })
         })
+
+        $(document).ready(function() {
+            // When the filterSemester dropdown changes
+            $("#filterSemester").change(function() {
+                var selectedSemester = $(this).val();
+                $("#datatablesSimple tbody tr").each(function() {
+                    var semester = $(this).find("td:eq(5)").text(); // Assuming semester is in the 6th column
+                    if (selectedSemester === "all" || selectedSemester === semester) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
     </script>
 </head>
 
@@ -166,9 +181,21 @@ session_start();
                 }
                 ?>
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table me-1"></i>
-                        Section table
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-table me-1"></i>
+                            Subject table
+                        </div>
+                        <select class="form-select" id="filterSemester" style="max-width: 180px;">
+                            <option value="all">All Semester</option>
+                            <?php
+                            $selectSemester = "SELECT DISTINCT `semester` FROM `section` ORDER BY `semester` ASC";
+                            $semesterResult = $conn->query($selectSemester);
+                            while ($row = $semesterResult->fetch_assoc()) {
+                                echo '<option value="' . $row["semester"] . '">' . $row["semester"] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">

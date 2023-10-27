@@ -134,10 +134,14 @@ session_start();
                                     <?php
                                     $select = "SELECT * FROM `semester`";
                                     $result = mysqli_query($conn, $select);
-                                    while ($sectionRow = mysqli_fetch_assoc($result)) {
+                                    while ($semesterRow = mysqli_fetch_assoc($result)) {
+                                        if ($sectionRow['semester'] != $semesterRow['output']) {
+
                                     ?>
-                                        <option value="<?php echo $sectionRow["output"] ?>"><?php echo $sectionRow["output"] ?></option>
-                                    <?php  }
+                                            <option value="<?php echo $semesterRow["output"] ?>"><?php echo $semesterRow["output"] ?></option>
+                                    <?php
+                                        }
+                                    }
                                     ?>
                                 </select>
                                 <label for="semester">semester</label>
@@ -168,7 +172,7 @@ session_start();
 </html>
 <?php
 //EDIT STRAND
-if (isset($_POST['submit'])) {
+if (isset($_POST['edit_section'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
