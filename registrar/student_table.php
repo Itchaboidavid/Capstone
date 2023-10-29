@@ -1,32 +1,39 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/fb9a379660.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../index.css">
-    <title>CLASS LIST</title>
-
-    <!-- DATA TABLES -->
-    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script defer src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <script defer src="data_table.js"></script>
-    <script defer src="../index.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <div class="container-fluid g-0">
-        <div class="row flex-nowrap g-0">
-            <?php include("navigation.php") ?>
-            <!-- CONTENT -->
-            <main class="p-5">
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center mt-0">
+                    <div>
+                        <h1 class="mt-4">Student</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Student table</li>
+                        </ol>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3">
+                        Add
+                    </a>
+                </div>
                 <?php
                 if (isset($_GET['msg'])) {
                     $msg = $_GET['msg'];
@@ -44,75 +51,106 @@
                              </div>';
                 }
                 ?>
-                <div class="card">
-                    <div class="card-header bg-primary text-light d-flex align-items-center justify-content-between">
-                        <span class="fs-4" style="text-shadow: 1px 1px 3px black; letter-spacing: 1px;">Student list</span>
-                        <form action="sf1.php" method="POST" target="_blank">
-                            <button type="submit" name="print" id="print" class="ms-auto"><i class="bi bi-printer-fill fs-6"></i></button>
-                        </form>
-                    </div>
-                    <div class="card-body bg-body-tertiary">
-                        <div class="table-responsive">
-                            <table id="adviserTable" class="table table-striped table-secondary table-hover" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>LRN</th>
-                                        <th>Name</th>
-                                        <th>Sex</th>
-                                        <th>Birthday</th>
-                                        <th>Age</th>
-                                        <th>Address</th>
-                                        <th>Grade & Section</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $select = "SELECT * FROM `student`";
-                                    $result = mysqli_query($conn, $select);
-
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $row["lrn"] ?></td>
-                                            <td><?php echo $row["name"] ?></td>
-                                            <td><?php echo $row["sex"] ?></td>
-                                            <td><?php echo $row["birth_date"] ?></td>
-                                            <td><?php echo $row["age"] ?></td>
-                                            <td>
-                                                <?php echo $row["house_no"] ?>,
-                                                <?php echo $row["barangay"] ?>,
-                                                <?php echo $row["municipality"] ?>,
-                                                <?php echo $row["province"] ?>
-                                            </td>
-                                            <td><?php echo $row["section"] . " - " . $row["grade"] ?></td>
-                                            <td class="text-center">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Action
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a href="edit_student.php?id=<?php echo $row['id'] ?>" class="dropdown-item">
-                                                                Edit
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-table me-1"></i>
+                            Student table
                         </div>
+                        <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
+                            <i class="fa-solid fa-print"></i>
+                        </a>
+
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th>LRN</th>
+                                    <th>Name</th>
+                                    <th>Sex</th>
+                                    <th>Birthday</th>
+                                    <th>Age</th>
+                                    <th>Address</th>
+                                    <th>Grade & Section</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>LRN</th>
+                                    <th>Name</th>
+                                    <th>Sex</th>
+                                    <th>Birthday</th>
+                                    <th>Age</th>
+                                    <th>Address</th>
+                                    <th>Grade & Section</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <?php
+                                $student = "SELECT * FROM `student` ORDER BY `name` ASC";
+                                $studentResult = $conn->query($student);
+                                while ($studentRow = $studentResult->fetch_assoc()) :
+                                ?>
+                                    <tr>
+                                        <td><?php echo $studentRow["lrn"] ?></td>
+                                        <td><?php echo $studentRow["name"] ?></td>
+                                        <td><?php echo $studentRow["sex"] ?></td>
+                                        <td><?php echo $studentRow["birth_date"] ?></td>
+                                        <td><?php echo $studentRow["age"] ?></td>
+                                        <td>
+                                            <?php echo $studentRow["house_no"] ?>,
+                                            <?php echo $studentRow["barangay"] ?>,
+                                            <?php echo $studentRow["municipality"] ?>,
+                                            <?php echo $studentRow["province"] ?>
+                                        </td>
+                                        <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                        <td>
+                                            <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                endwhile;
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST["add_strand"])) {
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $track = mysqli_real_escape_string($conn, $_POST["track"]);
+
+    $select = "SELECT * FROM `strand` WHERE `name` = '$name'";
+    $result = $conn->query($select);
+
+    if (mysqli_num_rows($result) > 0) {
+        echo ("<script>location.href = 'strand_table.php?errmsg=The strand already exist!';</script>");
+        exit();
+    } else {
+        $insert = "INSERT INTO `strand` (`name`, `track`) VALUES ('$name', '$track')";
+        mysqli_query($conn, $insert);
+        echo ("<script>location.href = 'strand_table.php?msg=Strand successfully added!';</script>");
+        exit();
+    }
+}
+$conn->close();
+?>

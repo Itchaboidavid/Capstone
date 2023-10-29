@@ -29,7 +29,7 @@ session_start();
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-header text-center">
+                            <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Faculty</h3>
                             </div>
                             <div class="card-body text-center p-0">
@@ -48,7 +48,7 @@ session_start();
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-warning text-white mb-4">
-                            <div class="card-header text-center">
+                            <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Sections</h3>
                             </div>
                             <div class="card-body text-center p-0">
@@ -67,7 +67,7 @@ session_start();
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-success text-white mb-4">
-                            <div class="card-header text-center">
+                            <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Strands</h3>
                             </div>
                             <div class="card-body text-center p-0">
@@ -86,7 +86,7 @@ session_start();
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-danger text-white mb-4">
-                            <div class="card-header text-center">
+                            <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Subjects</h3>
                             </div>
                             <div class="card-body text-center p-0">
@@ -110,9 +110,9 @@ session_start();
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-simple me-1"></i>
-                                Faculty Chart
+                                Subject Chart
                             </div>
-                            <div class="card-body"><canvas id="facultyChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body"><canvas id="subjectChart" width="100%" height="40"></canvas></div>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -122,6 +122,15 @@ session_start();
                                 Section Chart
                             </div>
                             <div class="card-body"><canvas id="sectionChart" width="100%" height="40"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fa-solid fa-chart-simple me-1"></i>
+                                Faculty Chart
+                            </div>
+                            <div class="card-body"><canvas id="facultyChart" width="100%" height="40"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -176,6 +185,15 @@ $rowG11 = mysqli_num_rows($resultG11);
 $sectionG12 = "SELECT * FROM `section` WHERE `grade` = '12'";
 $resultG12 = mysqli_query($conn, $sectionG12);
 $rowG12 = mysqli_num_rows($resultG12);
+
+//SUBJECT CHART
+$subjectG11 = "SELECT * FROM `subject` WHERE `grade` = '11'";
+$subjectResultG11 = mysqli_query($conn, $subjectG11);
+$subjectRowG11 = mysqli_num_rows($subjectResultG11);
+
+$subjectG12 = "SELECT * FROM `subject` WHERE `grade` = '12'";
+$subjectResultG12 = mysqli_query($conn, $subjectG12);
+$subjectRowG12 = mysqli_num_rows($subjectResultG12);
 ?>
 <script>
     //USER CHART
@@ -222,6 +240,30 @@ $rowG12 = mysqli_num_rows($resultG12);
             title: {
                 display: true,
                 text: "Section Chart"
+            }
+        }
+    });
+
+    //SUBJECT CHART
+    var xValues = ["Grade 11", "Grade 12"];
+    var yValues = [<?php echo $subjectRowG11 ?>, <?php echo $subjectRowG12 ?>];
+    var barColors = ["#003049", "#d62828"];
+    const subjectChart = new Chart("subjectChart", {
+        type: "doughnut",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: "Subject Chart"
             }
         }
     });
