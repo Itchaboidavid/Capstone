@@ -117,7 +117,7 @@ session_start();
                             </tfoot>
                             <tbody>
                                 <?php
-                                $semester = "SELECT * FROM `semester`";
+                                $semester = "SELECT * FROM `semester` ORDER BY `name`";
                                 $semesterResult = $conn->query($semester);
                                 while ($semesterRow = $semesterResult->fetch_assoc()) :
                                 ?>

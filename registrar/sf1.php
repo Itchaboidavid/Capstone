@@ -1,477 +1,392 @@
 <?php
 include("../config.php");
-session_start();
+require_once './vendor/autoload.php';
 
-require_once('../TCPDF/tcpdf.php');
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-// create new PDF document
-$pdf = new TCPDF('L', 'mm', 'A4');
+$option = new Options();
+$option->set('chroot', realpath(''));
+$dompdf = new Dompdf($option);
 
 $sections = "SELECT * FROM `section` ORDER BY `name` ASC";
-$result = mysqli_query($conn, $sections);
-
-while ($row = mysqli_fetch_assoc($result)) {
-  // set document information
-  $pdf->setPrintHeader(false);
-  $pdf->setPrintFooter(false);
-
-  // add a page
-  $pdf->AddPage();
-  $pdf->Image('../images/sf_logo.gif', 6, 4, 21.9, 23.0);
-  $pdf->Image('../images/sf_logo2.png', 264, 5, 20.7, 12.0);
-  $pdf->Image('../images/gender.jpg', 78, 41.5, 2, 7);
-  $pdf->SetFont('helvetica', 'B', 15);
-  $pdf->Text(65, 5, ' School Form 1 School Register for Senior High School (SF1-SHS) ');
-
-  $pdf->SetFont('helvetica', 'B', 5);
-  $pdf->Text(46.5, 43, "NAME");
-  $pdf->Text(25.7, 45, "(Last Name, First Name, Name Extension, Middle Name)");
-
-  $pdf->Text(85, 44.5, "BIRTH DATE");
-  $pdf->Text(84.5, 46.5, "(mm/dd/yyyy)");
-  $pdf->SetFont('helvetica', 'B', 4);
-
-  $pdf->Text(186.5, 45, "Father's Name (Last ");
-  $pdf->Text(184.5,  47, "Name, First Name, Middle)");
-  $pdf->Text(191.5, 49, "Name)");
-
-  $pdf->Text(272.5, 46, '(Please refer to the');
-  $pdf->Text(271.5, 48, 'legend on the last page)');
-  $pdf->Text(262, 43.5, 'Learning');
-  $pdf->Text(262, 45.5, 'Modality');
-  $pdf->Text(252.5, 41.5, 'Contact');
-  $pdf->Text(251.5, 43.5, 'Number of');
-  $pdf->Text(252, 45.5, 'Parent or');
-  $pdf->Text(252, 47.5, 'Guardian');
-  $pdf->Text(231, 38.5, 'GUARDIAN');
-  $pdf->Text(223, 40.5, '(if learner is not Living with Parent)');
-  $pdf->Text(226, 44, 'Name');
-  $pdf->Text(219, 46, '(Last Name, First Name,');
-  $pdf->Text(221.5, 48, 'Extension Name,');
-  $pdf->Text(225, 50, 'Middle)');
-  $pdf->Text(205, 44, "Mother's Maiden");
-  $pdf->Text(204.5, 46, 'Name (Last Name,');
-  $pdf->Text(204, 48, ' First Name, Middle');
-  $pdf->Text(208, 50, ' Name)');
-  /*-First Row-*/
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(32, 21.8, 'School Name');
-
-  $pdf->SetLineWidth(0.1);
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(46, 20.5);
-  $pdf->Cell(48.5, 5, 'Tagaytay City National High School-Integrated ', 1, 0, 'C', 0);
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(34, 27.8, 'Semester');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(46, 26.5);
-  $pdf->Cell(48.5, 5, $row["semester"], 1, 0, 'C', 0);
-
-  $pdf->SetLineWidth(0.1);
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(37.5, 33.8, 'Section');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(46, 32.5);
-  $pdf->Cell(48.5, 5, $row["name"], 1, 0, 'C', 0);
-
-  /*-Second Row-*/
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(103, 21.8, 'School ID');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(114, 20.5);
-  $pdf->Cell(20, 5, '301216 ', 1, 0, 'C', 0);
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(101, 27.5, 'School Year');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(114, 26.5);
-  $pdf->Cell(20, 5, $row["start_year"] . " - " . $row["end_year"], 1, 0, 'C', 0);
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(101, 33.8, 'Course(for TVL only) ');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(123, 32.5);
-  if ($row["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(60, 5, $row["strand"], 1, 0, 'C', 0);
-  } else {
-    $pdf->Cell(60, 5, '', 1, 0, 'C', 0);
-  }
-
-  /*-Third row-*/
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(146, 21.8, 'District');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(154, 20.5);
-  $pdf->Cell(29, 5, 'Tagaytay City  ', 1, 0, 'C', 0);
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(147, 27.8, 'Grade Level');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(160, 26.5);
-  $pdf->Cell(23, 5, "Grade " . $row["grade"], 1, 0, 'C', 0);
-
-  /*-Fourth row-*/
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(191, 21.8, 'Division');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(200, 20.5);
-  $pdf->Cell(33, 5, 'Cavite', 1, 0, 'C', 0);
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(192, 27.8, 'Track and strand');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(209, 26.5);
-  if ($row["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(64.5, 5, $row["track"], 1, 0, 'C', 0);
-  } elseif ($row["track"] == "Academic") {
-    $pdf->Cell(64.5, 5, $row["track"] . " - " . $row["strand"], 1, 0, 'C', 0);
-  }
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(236, 21.8, 'Region');
-
-  $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(244, 20.5);
-  $pdf->Cell(29.5, 5, 'Cavite', 1, 0, 'C', 0);
-
-
-  $pdf->SetFont('helvetica', 'B', 5);
-  $pdf->SetXY(5, 37.5);
-  $pdf->Cell(16, 15, 'LRN', 1, 0, 'C', 0);
-  $pdf->Cell(56, 15, '', 1, 0, 'C', 0);
-  $pdf->Cell(4, 15, '', 1, 0, 'C', 0);
-  $pdf->Cell(18, 15, '', 1, 0, 'C', 0);
-  $pdf->SetFont('helvetica', 'B', 4);
-  $pdf->MultiCell(5.5, 15, '           Age  as of October 31st           ', 1, 'C',);
-  $pdf->SetFont('helvetica', 'B', 5);
-  $pdf->SetXY(104.5, 37.5);
-  $pdf->Cell(20, 15, 'Religious Affication', 1, 0, 'C', 0);
-  $pdf->Cell(60, 6, 'COMPLETE ADDRESS', 1, 0, 'C', 0);
-  $pdf->Cell(35, 6, 'Parents', 1, 0, 'C', 0);
-  $pdf->Cell(32, 6, '', 1, 0, 'C', 0);
-  $pdf->Cell(9, 15, '', 1, 0, 'C', 0);
-  $pdf->Cell(10, 15, '', 1, 0, 'C', 0);
-  $pdf->Cell(20, 6, 'Remarks', 1, 0, 'C', 0);
-
-  $pdf->SetXY(124.5, 43.5);
-  $pdf->SetFont('helvetica', 'B', 4);
-  $pdf->Cell(20, 9, 'House#/ Street/ Sitio/ Purok', 1, 0, 'C', 0);
-  $pdf->Cell(13, 9, 'Barangay', 1, 0, 'C', 0);
-  $pdf->Cell(15, 9, 'Municipality/ City', 1, 0, 'C', 0);
-  $pdf->Cell(12, 9, 'Province', 1, 0, 'C', 0);
-
-  $pdf->SetXY(184.5, 43.5);
-  $pdf->SetFont('helvetica', 'B', 4);
-  $pdf->Cell(19, 9, "", 1, 0, 'C', 0);
-  $pdf->Cell(16, 9, "", 1, 0, 'C', 0);
-  $pdf->Cell(17, 9, "", 1, 0, 'C', 0);
-  $pdf->Cell(15, 9, 'Relationship', 1, 0, 'C', 0);
-
-  $pdf->SetXY(270.5, 43.5);
-  $pdf->SetFont('helvetica', 'B', 4);
-  $pdf->Cell(20, 9, '', 1, 1, 'C', 0);
-
-
-  /*-TABLES-*/
-  $pdf->ln(0);
-  $pdf->SetFont('helvetica', '', 5);
+$sectionResult = $conn->query($sections);
+$sectionRow = mysqli_fetch_assoc($sectionResult);
+while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
+  $trackContent = ($sectionRow["track"] === "Academic") ? $sectionRow["track"] . " - " .  $sectionRow["strand"] : $sectionRow["track"];
+  $tvl = ($sectionRow["track"] === "Academic") ? "" : $sectionRow["strand"];
   $html =
-    '<table>';
+    '
+  <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+       }
+  </style>
+       <img src="sf_logo.gif" style="height: 88px; Width:85px; margin-top:-27px; margin-left:-23px;">
+       <h1 style="font-size: 15.2pt; text-align: center; margin-top:-84px; margin-left: 10px;">
+       School Form 1 School Register for Senior High School (SF1-SHS)
+       </h1>
+       <img src="sf_logo2.png" alt="" style="Height: 43px; Width:57; margin-top: -93px;margin-bottom: 5px; margin-left: 973px">
+       
+       <div class="School Name">
+        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-43px; margin-left: 78px; " > School Name </p> 
+       </div>
+       <div >
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -47px; margin-left: 127px; border: 1px solid black;" >Tagaytay National High School - Integrated</p> 
+       </div>
+       <div class="Semester">
+       <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -21px; margin-left: 86px; " > Semester </p> 
+      </div>
+      <div >
+       <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -25px; margin-left: 127px; border: 1px solid black;" >' . $sectionRow['semester_name'] . '</p> 
+      </div>
 
-  $section = $row["name"];
-  $select_male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' ORDER BY `name` ASC";
-  $result_select_male = mysqli_query($conn, $select_male);
-  foreach ($result_select_male as $emp) {
+      <div class="School ID">
+        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 345px; " > School ID </p> 
+      </div>
+      <div >
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 389px; border: 1px solid black;" >301216</p> 
+      </div>
+      <div class="School Year">
+      <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 345px; " > School Year </p> 
+     </div>
+     <div >
+      <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -27px; margin-left: 389px; border: 1px solid black;" >' . $sectionRow['start_year'] . ' - ' . $sectionRow['end_year'] . '</p> 
+     </div>
+      <div class="District">
+        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 492px; " > District </p> 
+      </div>
+      <div >
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 138px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 517px; border: 1px solid black;" >Tagaytay City</p> 
+      </div>
+      <div  class="Grade Level">
+      <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 496px; " >Grade Level</p> 
+     </div>
+     <div >
+      <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 115px; text-align:center; font-size: 6pt; margin-top: -27px; margin-left: 540px; border: 1px solid black;" >' . $sectionRow['grade'] . '</p> 
+     </div>
+      <div class="Division">
+        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 690px; " > Division </p> 
+      </div>
+      <div >
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 128px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 720px; border: 1px solid black;" >Cavite</p> 
+      </div>
+      <div  class="Track and Strand">
+      <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -18px; margin-left: 692px; " >Track and Strand</p> 
+      </div>    
+     <div>
+     <p style="padding-top:3px; padding-bottom:2px; height:12px; width:250px; text-align:center; font-size:6pt; margin-top: -23px; margin-left:755px; border:1px solid black;">' . $trackContent . '</p> 
+     </div>
+      <div class="Region">
+        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-48px; margin-left: 866px; " > Region </p> 
+      </div>
+      <div >
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 113px; text-align:center; font-size: 6pt; margin-top: -53px; margin-left:892px; border: 1px solid black;" >Region IV-A</p> 
+      </div>
+      <table style="border: 0px;">
+      <div class="Section">
+      <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -3px; margin-left: 100px; " > Section </p> 
+     </div>
+     <div >
+      <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -24px; margin-left: 127px; border: 1px solid black;" >' . $sectionRow['name'] . '</p> 
+     </div>
+      </style>
+     <div class="Course (for TVL only)">
+     <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 334px; " > Course (for TVL only) </p> 
+    </div>
+    <div >
+     <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 235px; text-align:center; font-size: 6pt; margin-top: -27px; margin-left: 420px; border: 1px solid black;" >' . $tvl . '</p> 
+    </div>
+
+    </table>
+
+      ';
+}
+$html .= '
+
+        <table  style=" margin-left: -25px; font-size: 5pt; margin-top: -9px;">
+  
+        <style>
+        *{
+          font-family: Arial, Helvetica, sans-serif;
+        }
+    table, td, th {
+      border-collapse: collapse;
+      border: 1px solid black;
+      }
+    
+    td{  height: 20px;
+    }
+  
+      </style>
+        <tr >
+
+          <th  rowspan =  "2">LRN</th>
+          <th  rowspan =  "2">NAME <br> (Last Name, First Name, Name Extension, Middle Name)</th>
+          <th rowspan =  "2"
+        <div style="   margin-top: -1px; margin-left: 0px;  border: 0px solid black; font-weight: bold; font-size: 4pt; transform: rotate(450deg); transform-origin: 50%; width: 100%; "> 
+             S
+        </div>
+        <div style=" margin-top: -1.5px;margin-left: 0px;  border: 0px solid black; font-weight: bold; font-size: 4pt; transform: rotate(450deg); transform-origin: 50%; width: 100%; "> 
+          ex
+        </div>
+        <div style="margin-top: 1px;  margin-left: 0px;  border: 0px solid black; font-weight: bold; font-size: 4pt; transform: rotate(450deg); transform-origin: 50%; width: 100%; "> 
+          (M
+       </div>
+
+       <div style=" margin-left: 0px;  border: 0px solid black; font-weight: bold; font-size: 4pt; transform: rotate(450deg); transform-origin: 50%; width: 100%; "> 
+       /F)
+      </div>
+        </th>        
+          <th  rowspan =  "2">BIRTH DATE <br> (mm/dd/yyyy) </th>
+          <th style=" font-size: 5pt;"rowspan =  "2">AGE as of octob er 31st</th>
+          <th rowspan =  "2">Religious Affiliation</th>
+          <th style="height: 1%;" colspan= "4">COMPLETE ADDRESS </th>
+          <th style="height: 1%;" colspan= "2">PARENTS</th>
+          <th style="height: 1%;" colspan= "2">GUARDIAN <br>  (if learner is not Living with parent)</th>
+          <th rowspan =  "2">Contact Number of Parent or Guardian</th>
+          <th rowspan =  "2">Learning Modality</th>
+          <th colspan= "1">REMARKS</th>
+        </tr>
+        <tr style="font-size: 5pt;  font-weight: bold;  text-align : center;">
+          <td style=" height: 9px;">House #/ Street/ Sitio/ Purok</td>
+          <td style=" height: 9px;">Barangay</td>
+          <td style=" height: 9px;">Municipality/ City</td>
+          <td style=" height: 9px;">Province</td>
+          <td style=" height: 9px;">Father&rsquo;s Name (Last Name, First Name, Middle name)</td>
+          <td style=" height: 9px;">Mother&rsquo;s Maiden Name (Last Name, First Name, Middle name)</td>
+          <td style=" height: 9px;">Name <br> (Last Name, First <br> Name, Name <br> Extension, Middle</td>
+          <td style=" height: 9px;">Relationship</td>
+          <td style=" height: 9px; font-size: 3.5pt; text-align : center;">(Please refer to the legend on the last page)</td>
+        </tr>
+       ';
+//MALE TABLE
+$maleStudents = "SELECT *  FROM student WHERE sex = 'M' ORDER BY name ASC";
+$maleStudentResult = mysqli_query($conn, $maleStudents);
+$maleStudentCount = mysqli_num_rows($maleStudentResult);
+if ($maleStudentCount === 0) {
+  $html .=
+    '
+                <tr style="font-size: 5.5pt; "> 
+                  <td style= " width:59px; vertical-align: middle; text-align: center;" ></td>
+                  <td style= " width:215px; vertical-align: middle; text-align: center; "></td>
+                  <td style="width: 10px;  text-align: center; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:57px;  text-align: right; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:19px; text-align: center; vertical-align: middle; text-align: center;  "></td>
+                  <td style="width:78px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:79px; vertical-align: middle; text-align: center;  "></td>
+                  <td style="width:41px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:53px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:46px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:69px ; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:58px;   vertical-align: middle; text-align: center; "></td>
+                  <td style="width:63px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:46px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:34px;  vertical-align: middle; text-align: center; font-size: 5pt;"></td>
+                  <td style="width:44px;  vertical-align: middle; text-align: center;"></td>
+                  <td style= " width:66px; vertical-align: middle; text-align: center;"></td>
+                </tr>
+                <tr> 
+                  <td  style="height: 17px; width: 54px; text-align: right;">' . $maleStudentCount . '</td>
+                  <td  colspan="16"style=" height: 17px; width: 942px; text-align: left;">&lt;=== TOTAL MALE </td>
+                </tr>
+                ';
+} else {
+  foreach ($maleStudentResult as $male) {
     $html .=
       '
-  <tr nobr="true";>
-    <td style="width:7.76%;" >' . $emp['lrn'] . '</td>
-    <td style="width:27.2%">' . $emp['name'] . '</td>
-    <td style="width:1.93%">' . $emp['sex'] . '</td>
-    <td style="width:8.74%">' . $emp['birth_date'] . '</td>
-    <td style="width:2.67%">' . $emp['age'] . '</td>
-    <td style="width:9.7%">' . $emp['ra'] . '</td>
-    <td style="width:9.72%">' . $emp['house_no'] . '</td>
-    <td style="width:6.3%">' . $emp['barangay'] . '</td>
-    <td style="width:7.3%">' . $emp['municipality'] . '</td>
-    <td style="width:5.8%">' . $emp['province'] . '</td>
-    <td style="width:9.25%">' . $emp['father'] . '</td>
-    <td style="width:7.75%">' . $emp['mother'] . '</td>
-    <td style="width:8.25%">' . $emp['guardian'] . '</td>
-    <td style="width:7.3%">' . $emp['relationship'] . '</td>
-    <td style="width:4.35%">' . $emp['contact'] . '</td>
-    <td style="width:4.85%">' . $emp['lm'] . '</td>
-    <td style="width: 9.73%">' . $emp['indicator'] . " " . $emp['ri'] . '</td>
-  </tr>';
+                  <tr style="font-size: 5.5pt; "> 
+                    <td style= " width:59px; vertical-align: middle; text-align: center;" >' . $male['lrn'] . '</td>
+                    <td style= " width:215px; vertical-align: middle; text-align: center; ">' . $male['name'] . '</td>
+                    <td style="width: 10px;  text-align: center; vertical-align: middle; text-align: center; ">' . $male['sex'] . '</td>
+                    <td style="width:57px;  text-align: right; vertical-align: middle; text-align: center; ">' . $male['birth_date'] . '</td>
+                    <td style="width:19px; text-align: center; vertical-align: middle; text-align: center;  ">' . $male['age'] . '</td>
+                    <td style="width:78px;  vertical-align: middle; text-align: center; ">' . $male['ra'] . '</td>
+                    <td style="width:79px; vertical-align: middle; text-align: center;  ">' . $male['house_no'] . '</td>
+                    <td style="width:41px;  vertical-align: middle; text-align: center; ">' . $male['barangay'] . '</td>
+                    <td style="width:53px;  vertical-align: middle; text-align: center; ">' . $male['municipality'] . '</td>
+                    <td style="width:46px;  vertical-align: middle; text-align: center; ">' . $male['province'] . '</td>
+                    <td style="width:69px ; vertical-align: middle; text-align: center; ">' . $male['father'] . '</td>
+                    <td style="width:58px;   vertical-align: middle; text-align: center; ">' . $male['mother'] . '</td>
+                    <td style="width:63px;  vertical-align: middle; text-align: center; ">' . $male['guardian'] . '</td>
+                    <td style="width:46px;  vertical-align: middle; text-align: center; ">' . $male['relationship'] . '</td>
+                    <td style="width:34px;  vertical-align: middle; text-align: center; font-size: 5pt; padding: 0px 2px 0px 2px;">' . $male['contact'] . '</td>
+                    <td style="width:44px;  vertical-align: middle; text-align: center;">' . $male['lm'] . '</td>
+                    <td style= " width:66px; vertical-align: middle; text-align: center;">' . $male['indicator'] . " " . $male['ri'] . '</td>
+                  </tr>
+                  ';
   }
   $html .= '
-</table>
-<style>
-table {
-	border-collapse: collapse;
-	width: 100%;
-
-  }
-td{
-	border: 0.4px solid black;
-  height: 10px;
-  text-align:center;
-  white-space: nowrap;
-  }
-
-</style>
-';
-  //TOTAL MALE
-  $select_total_male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M'";
-  $result_total_male = mysqli_query($conn, $select_total_male);
-  $row_total_male = mysqli_num_rows($result_total_male);
-
-  $pdf->WriteHTMLCell(208, 0, 4, '', $html, 0, 1, 0, true, '', true);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 5, $row_total_male, 1, 0, 'R', 0);
-  $pdf->Cell(269.54, 5, '<=== TOTAL MALE', 1, 1, '', 0);
-
-  $html =
-    '<table>
-
- ';
-  //FEMALE TABLE
-  $select_female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' ORDER BY `name` ASC";
-  $result_select_female = mysqli_query($conn, $select_female);
-  foreach ($result_select_female as $empf) {
-    $html .=
-      '
-      <tr nobr="true";>
-      <td style="width:7.76% nobr="true"" >' . $empf['lrn'] . '</td>
-      <td style="width:27.2% nobr="true" ">' . $empf['name'] . '</td>
-      <td style="width:1.93% nobr="true" ">' . $empf['sex'] . '</td>
-      <td style="width:8.74% nobr="true" ">' . $empf['birth_date'] . '</td>
-      <td style="width:2.67% nobr="true" ">' . $empf['age'] . '</td>
-      <td style="width:9.7% nobr="true" ">' . $empf['ra'] . '</td>
-      <td style="width:9.72% nobr="true" ">' . $empf['house_no'] . '</td>
-      <td style="width:6.3% nobr="true" ">' . $empf['barangay'] . '</td>
-      <td style="width:7.3% nobr="true" ">' . $empf['municipality'] . '</td>
-      <td style="width:5.8% nobr="true" ">' . $empf['province'] . '</td>
-      <td style="width:9.25% nobr="true" ">' . $empf['father'] . '</td>
-      <td style="width:7.75%  nobr="true" ">' . $empf['mother'] . '</td>
-      <td style="width:8.25% nobr="true" ">' . $empf['guardian'] . '</td>
-      <td style="width:7.3% nobr="true" ">' . $empf['relationship'] . '</td>
-      <td style="width:4.35% nobr="true" ">' . $empf['contact'] . '</td>
-      <td style="width:4.85% nobr="true" ">' . $empf['lm'] . '</td>
-      <td style="width: 9.73% nobr="true" ">' . $empf['indicator'] . " " . $empf['ri'] . " " . $empf['rid'] . '</td>
-    </tr>';
-  }
-  $html .= '
-</table>
-<style>
-table {
-	border-collapse: collapse;
-	width: 100%;
-  }
-
-td {
-	border: 0.4px solid black;
-  height: 10px;
-  text-align:center;
-  white-space: nowrap;
-  }
-</style>
-';
-
-
-  // TOTAL FEMALE
-  $section = $row["name"];
-  $select_total_female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F'";
-  $result_total_female = mysqli_query($conn, $select_total_female);
-  $row_total_female = mysqli_num_rows($result_total_female);
-
-  $pdf->WriteHTMLCell(208, 0, 4, '', $html, 0, 1, 0, true, '', true);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 5, $row_total_female, 1, 0, 'R', 0);
-  $pdf->Cell(269.54, 5, '<=== TOTAL FEMALE', 1, 1, '', 0);
-
-
-  //COMBINED
-  $section = $row["name"];
-  $select_combined = "SELECT * FROM `student` WHERE `section` = '$section'";
-  $result_combined = mysqli_query($conn, $select_combined);
-  $row_combined = mysqli_num_rows($result_combined);
-
-  $pdf->SetX(5);
-  $pdf->Cell(16, 5, $row_combined, 1, 0, 'R', 0);
-  $pdf->Cell(269.54, 5, 'COMBINED', 1, 1, '', 0);
-
-  $pdf->SetX(5.5);
-  $pdf->SetFont('helvetica', 'B', 5);
-  $pdf->Cell(268.5, 4, 'Legend: List and Code of Indicators under REMARKS column', 0, 1, 'L', 0);
-  $pdf->SetFont('helvetica', 'B', 3);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 4, 'Indicator', 1, 0, 'L', 0);
-  $pdf->Cell(8, 4, 'Code', 1, 0, 'C', 0);
-  $pdf->Cell(38, 4, 'Required Information', 1, 0, 'L', 0);
-  $pdf->Cell(16, 4, 'Indicator', 1, 0, 'L', 0);
-  $pdf->Cell(8, 4, 'Code', 1, 0, 'C', 0);
-  $pdf->Cell(38, 4, 'Required Information', 1, 0, 'L', 0);
-
-  $pdf->Cell(5, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(11, 4, 'REGISTERED', 1, 0, 'L', 0);
-  $pdf->Cell(14, 4, '', 1, 0, 'L', 0);
-  $pdf->Cell(12, 4, '', 1, 0, 'L', 0);
-
-
-  $pdf->SetFont('helvetica', 'B', 3);
-  $pdf->Cell(18, 4, '', 0, 0, 'L', 0);
-
-  $pdf->Cell(12, 1, 'Prepared by:', 0, 1, 'L', 0);
-
-
-  $pdf->Ln(2.7);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, 'Transferred Out', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, 'T/O', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, 'CCT Recipient', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, 'CCT', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'CCT Control/reference number &', 'LR', 0, 'L', 0);
-  $pdf->Cell(5, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(11, 5, 'MALE', 1, 0, 'C', 0);
-  $pdf->Cell(14, 5, $row_total_male, 1, 0, 'C', 0);
-  $pdf->Cell(12, 5, '', 1, 0, 'L', 0);
-  $pdf->Cell(18, 5, '', 0, 0, 'L', 0);
-  $pdf->SetFont('helvetica', 'B', 3);
-  $pdf->Cell(130, 0, '____________________________________________________________________' . $row['faculty'] . '_____________________________________________________________________________', 0, 1, 'L', 0);
-
-
-
-
-  $pdf->Ln(-0.11111);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Effectivity Date', 'LR', 0, 'L', 0);
-  $pdf->Cell(5, 4, '', 0, 0, 'L', 0);
-  $pdf->Ln(3.8);
-  $pdf->Cell(124);
-  $pdf->Cell(11, 4, 'Female', 1, 0, 'C', 0);
-  $pdf->Cell(14, 4, $row_total_female, 1, 0, 'C', 0);
-  $pdf->Cell(12, 4, '', 1, 0, 'L', 0);
-  $pdf->Cell(15, 5, '', 0, 0, 'L', 0);
-  $pdf->Ln(-2);
-  $pdf->Cell(208);
-  $pdf->SetFont('helvetica', 'B', 4);
-  $pdf->Cell(35, 2, '(Signature of Adviser over Printed Name)', 0, 1, 'L', 0);
-
-  $pdf->SetFont('helvetica', 'B', 3);
-  $pdf->Ln(-2.4);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Name of the School, Date of 1st Attendance and ', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, 'Balik Aral', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, 'B/A', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Name of school last attended & Year', 'LR', 0, 'L', 0);
-
-
-  $pdf->Ln(6.4);
-  $pdf->Cell(119);
-  $pdf->Cell(5, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(11, 5, 'TOTAL', 1, 0, 'C', 0);
-  $pdf->Cell(14, 5, $row_combined, 1, 0, 'C', 0);
-  $pdf->Cell(12, 5, '', 1, 0, 'L', 0);
-  $pdf->Cell(19, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(23, 5, $row["start_year"] . ' 12:00 AM', 1, 0, 'L', 0);
-  $pdf->Cell(27, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(23, 5, $row["end_year"] . ' 12:00 AM', 1, 0, 'L', 0);
-  $pdf->Ln(-2.5);
-  $pdf->Cell(179);
-  $pdf->Cell(35, 2, 'Begining of the Semester Date:', 0, 0, 'L', 0);
-  $pdf->Cell(15.5, 4, '', 0, 0, 'L', 0);
-  $pdf->Cell(35, 2, 'End of the Semester Date:', 0, 1, 'L', 0);
-
-  $pdf->Ln(-4.8);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Date of Last Attendace if Transffered Out', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(5, 4, '', 0, 1, 'L', 0);
-
-  $pdf->Ln(-2.8);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, 'Transffered In', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, 'T/I', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, 'Learner With', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, 'LWE', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Specify Exceptionality if the Learner', 'LR', 1, 'L', 0);
-
-  $pdf->Ln(-.8);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, 'Exceptionality', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 1, 'L', 0);
-
-  $pdf->Ln(-.8);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LR', 0, 'L', 0);
-  $pdf->Cell(16, 2, 'Accelerated', 'LR', 0, 'L', 0);
-  $pdf->Cell(8, 2, 'ACL', 'LR', 0, 'C', 0);
-  $pdf->Cell(38, 2, 'Specify Level & Effectivity Date', 'LR', 1, 'L', 0);
-
-  $pdf->Ln(-1);
-  $pdf->SetX(5);
-  $pdf->Cell(16, 2, '', 'LBR', 0, 'T', 0);
-  $pdf->Cell(8, 2, '', 'LBR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LBR', 0, 'L', 0);
-  $pdf->Cell(16, 2, '', 'LBR', 0, 'L', 0);
-  $pdf->Cell(8, 2, '', 'LBR', 0, 'C', 0);
-  $pdf->Cell(38, 2, '', 'LBR', 1, 'L', 0);
-
-  $pdf->Ln(1);
-  $pdf->SetX(5);
-  $pdf->SetFont('helvetica', '', 4);
-  $pdf->Cell(38, 2, 'Generated on: ' . date("l") . ', June 20, 2023', 0, 1, 'L', 0);
+          <tr> 
+           <td  style="height: 17px; width: 54px; text-align: right;">' . $maleStudentCount . '</td>
+           <td  colspan="16"style=" height: 17px; width: 942px; text-align: left;">&lt;=== TOTAL MALE </td>
+          </tr>
+              ';
 }
 
-/*
+//FEMALE TABLE
+$femaleStudents = "SELECT *  FROM student WHERE sex = 'F' ORDER BY name ASC";
+$femaleStudentResult = mysqli_query($conn, $femaleStudents);
+$femaleStudentCount = mysqli_num_rows($femaleStudentResult);
+if ($femaleStudentCount === 0) {
+  $html .=
+    '
+                <tr style="font-size: 5.5pt; "> 
+                  <td style= " width:59px; vertical-align: middle; text-align: center;" ></td>
+                  <td style= " width:215px; vertical-align: middle; text-align: center; "></td>
+                  <td style="width: 10px;  text-align: center; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:57px;  text-align: right; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:19px; text-align: center; vertical-align: middle; text-align: center;  "></td>
+                  <td style="width:78px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:79px; vertical-align: middle; text-align: center;  "></td>
+                  <td style="width:41px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:53px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:46px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:69px ; vertical-align: middle; text-align: center; "></td>
+                  <td style="width:58px;   vertical-align: middle; text-align: center; "></td>
+                  <td style="width:63px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:46px;  vertical-align: middle; text-align: center; "></td>
+                  <td style="width:34px;  vertical-align: middle; text-align: center; font-size: 5pt;"></td>
+                  <td style="width:44px;  vertical-align: middle; text-align: center;"></td>
+                  <td style= " width:66px; vertical-align: middle; text-align: center;"></td>
+                </tr>
+                <tr> 
+                  <td  style="height: 17px; width: 54px; text-align: right;">' . $femaleStudentCount . '</td>
+                  <td  colspan="16"style=" height: 17px; width: 942px; text-align: left;">&lt;=== TOTAL FEMALE </td>
+                </tr>
+                ';
+} else {
+  foreach ($femaleStudentResult as $female) {
+    $html .=
+      '
+                  <tr style="font-size: 5.5pt; "> 
+                    <td style= " width:59px; vertical-align: middle; text-align: center;" >' . $female['lrn'] . '</td>
+                    <td style= " width:215px; vertical-align: middle; text-align: center; ">' . $female['name'] . '</td>
+                    <td style="width: 10px;  text-align: center; vertical-align: middle; text-align: center; ">' . $female['sex'] . '</td>
+                    <td style="width:57px;  text-align: right; vertical-align: middle; text-align: center; ">' . $female['birth_date'] . '</td>
+                    <td style="width:19px; text-align: center; vertical-align: middle; text-align: center;  ">' . $female['age'] . '</td>
+                    <td style="width:78px;  vertical-align: middle; text-align: center; ">' . $female['ra'] . '</td>
+                    <td style="width:79px; vertical-align: middle; text-align: center;  ">' . $female['house_no'] . '</td>
+                    <td style="width:41px;  vertical-align: middle; text-align: center; ">' . $female['barangay'] . '</td>
+                    <td style="width:53px;  vertical-align: middle; text-align: center; ">' . $female['municipality'] . '</td>
+                    <td style="width:46px;  vertical-align: middle; text-align: center; ">' . $female['province'] . '</td>
+                    <td style="width:69px ; vertical-align: middle; text-align: center; ">' . $female['father'] . '</td>
+                    <td style="width:58px;   vertical-align: middle; text-align: center; ">' . $female['mother'] . '</td>
+                    <td style="width:63px;  vertical-align: middle; text-align: center; ">' . $female['guardian'] . '</td>
+                    <td style="width:46px;  vertical-align: middle; text-align: center; ">' . $female['relationship'] . '</td>
+                    <td style="width:34px;  vertical-align: middle; text-align: center; font-size: 5pt;">' . $female['contact'] . '</td>
+                    <td style="width:44px;  vertical-align: middle; text-align: center;">' . $female['lm'] . '</td>
+                    <td style= " width:66px; vertical-align: middle; text-align: center;">' . $female['indicator'] . " " . $female['ri'] . '</td>
+                  </tr>
+                  ';
+  }
+  $html .= '
+          <tr> 
+           <td  style="height: 17px; width: 54px; text-align: right;">' . $femaleStudentCount . '</td>
+           <td  colspan="16"style=" height: 17px; width: 942px; text-align: left;">&lt;=== TOTAL FEMALE </td>
+          </tr>
+              ';
+}
+//TOTAL COUNT OF STUDENTS COMBINED
+$totalCountOfStudents = $maleStudentCount + $femaleStudentCount;
 
-$pdf->SetFont('helvetica', 'B', 3);
-$pdf->SetXY(91,157);
-$pdf->Cell(38, 2, 'Effectivity Date', 'LR', 0, 'L', 0);
+$html .= '
+          <tr> 
+          <td style="margin-left: -25px;  font-size: 5pt;  margin-top: -1px; height: 17px;  width: 54px; text-align: right;">' . $totalCountOfStudents . '</td>
+          <td colspan="16" style="font-size: 5pt;  margin-top: -1px; height: 17px; width: 942px; text-align: left;">&lt;=== COMBINED </td>
+          </tr>
+        </table>
+';
 
-$pdf->SetXY(83,157);
-$pdf->Cell(8, 2, '', 'LR', 0, 'L', 0);
+$html .= '
+   <p style=" font-weight: bold; width: 300px; font-size: 6pt; margin-top: 0px; margin-left: -23px; text-align: left; " >Legend: List and Code of Indicators under REMARKS column</p> 
 
-$pdf->SetXY(67,157);
-$pdf->Cell(16, 2, '', 'LR', 0, 'L', 0);
+<table style="margin-top: -6px; font-size: 4.5pt; margin-left: -25px; ">
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 22px; width:60px; text-align: left;">Indicator</td>
+   <td style=" width: 24px; text-align: center;">Code </td>
+   <td style=" width:  155px; text-align: left;">Required Information </td>
+   <td style=" height: 22px; width: 60px; text-align: left;">Indicator</td>
+   <td style=" width: 25px; text-align: center;">Code </td>
+   <td style=" width:  155px; text-align: left;">Required Information </td>
+ </tr>
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 22px; width: 54px; text-align: left; vertical-align: top;">Transfered out  <br> <br> <br> <br> Transfered Out</td>
+   <td style=" width: 22px; text-align: center; vertical-align: top;" >T/O  <br> <br> <br> <br> T/I </td>
+   <td style=" width:  137px; text-align: left; vertical-align: top;"> <br> <br> Name of School, Date of 1st Attendance and <br> Date of last attendance if Transferred out</td>
+   <td style=" height: 60px; width: 60px; text-align: left; vertical-align: top;">CCT Receipient <br> <br> Balik Aral <br> <br> Learner With <br> Exceptionality <br> Accelerated</td>
+   <td style=" width: 22px; text-align: center; vertical-align: top; ">CCT <br> <br> B/A <br> <br> LWE <br> <br> ACL</td>
+   <td style=" width:  137px; text-align: left; vertical-align: top;">CCT Control number & <br> Effectivity Date<br>Name of school last attnded & Year <br> <br> Specify Extentionality of the Learner <br> <br> Specify Level & Effectivity Date</td>
+ </tr>
 
-$pdf->SetXY(5,157);
-$pdf->Cell(16, 2, '', 'LR', 0, 'L', 0);
 
-$pdf->SetXY(21,157);
-$pdf->Cell(8, 2, '', 'LR', 0, 'L', 0);
-*/
-//Close and output PDF document
-$pdf->Output();
+
+   </table>
+   <table style="margin-top: -100px; font-size: 5pt; margin-left: 480px; ">
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 22px; width: 41px; text-align: center;">REGISTERED</td>
+   <td style=" height: 22px; width: 65px; text-align: center;">Beginning of the <br> Semester </td>
+   <td style=" height: 22px; width:  47px; text-align: center;">End of the <br> Semester </td>
+ </tr>
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 18px; width: 39px; text-align: center;">MALE</td>
+   <td style=" height: 18px; width: 59px; text-align: center;">' . $maleStudentCount . '</td>
+   <td style=" height: 18px; width:  42px; text-align: center;">' . $maleStudentCount . '</td>
+ </tr>
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 18px; width: 39px; text-align: center;">FEMALE</td>
+   <td style=" height: 18px; width: 59px; text-align: center;">' . $femaleStudentCount . '</td>
+   <td style=" height: 18px; width:  42px; text-align: center;">' . $femaleStudentCount . '</td>
+ </tr>
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 18px; width: 39px; text-align: center;">TOTAL</td>
+   <td style=" height: 18px; width: 59px; text-align: center;">' . $totalCountOfStudents . '</td>
+   <td style=" height: 18px; width:  42px; text-align: center;">' . $totalCountOfStudents . '</td>
+ </tr>
+
+ </table>
+ ';
+$sections = "SELECT * FROM `section` ORDER BY `name` ASC";
+$sectionResult = $conn->query($sections);
+$sectionRow = mysqli_fetch_assoc($sectionResult);
+
+$html .= '
+ <table style="margin-top: -100px; font-size: 5pt; margin-left: 715px; border : 0px;">
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0;">Prepared by:</td>
+  </tr>
+ <tr style=" font-weight: bold;"> 
+   <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0; border-bottom: 1px solid black; text-align: center;">' . $sectionRow['faculty'] . ' </td>
+  </tr>
+ <tr style=" font-weight: bold;"> 
+ <td style=" height: 20px; width: 40px; text-align: center; vertical-align: top; border: 0px;"><br> (Signature of Adviser over Printed Name)  </td>
+ </tr>
+ </table>
+
+ <table style="margin-top: 6px; font-size: 5pt; margin-left: 715px; border : 0px;">
+ <tr style=" font-weight: bold;"> 
+ <td style="  height: 20px; width: 205px; text-align: left; vertical-align: top; border: 0px;">Beginning of the Semester Date:</td>
+ <td style="  height: 20px; width: 150px; text-align: left; vertical-align: top; border: 0px; "> End of the Semester Date:</td>
+ </table>
+
+ <table style="margin-top: -6px; font-size: 5pt; margin-left: 715px; border : 0px;">
+ <tr style=" border : 1px solid black;"> 
+ <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_year'] . ' AM</td>
+ </table>
+ <table style="margin-top: -25px; font-size: 5pt; margin-left: 922px; border : 0px;">
+ </tr>
+ <tr style=" border : 1px solid black;"> 
+ <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_year'] . ' AM</td>
+ </tr>
+</table>
+ ';
+
+
+
+$dompdf->loadHtml($html);
+
+$dompdf->setPaper('A4', 'landscape');
+
+$dompdf->render();
+
+$dompdf->stream('my. pdf', array('Attachment' => 0));

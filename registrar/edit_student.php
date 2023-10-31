@@ -209,8 +209,8 @@ session_start();
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
                                 <select class="form-select" name="lm" id="lm">
-                                    <option value="ftf" <?php echo ($studentRow['lm'] == 'ftf') ? "selected" : ""; ?>>Face to face</option>
-                                    <option value="ol" <?php echo ($studentRow['lm'] == 'ol') ? "selected" : ""; ?>>Online class</option>
+                                    <option value="Face to face" <?php echo ($studentRow['lm'] == 'Face to face') ? "selected" : ""; ?>>Face to face</option>
+                                    <option value="Online class" <?php echo ($studentRow['lm'] == 'Online class') ? "selected" : ""; ?>>Online class</option>
                                 </select>
                                 <label for="lm">Learning modality</label>
                                 <div class="valid-feedback ps-1">Great!</div>
