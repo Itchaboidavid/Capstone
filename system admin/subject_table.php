@@ -17,21 +17,21 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $("#track2").change(function() {
-                var track_name = $(this).val();
-                $.ajax({
-                    url: "dropdown.php",
-                    method: "POST",
-                    data: {
-                        trackName: track_name
-                    },
-                    success: function(data) {
-                        $("#strand2").html(data);
-                    }
-                })
-            })
-        })
+        // $(document).ready(function() {
+        //     $("#track2").change(function() {
+        //         var track_name = $(this).val();
+        //         $.ajax({
+        //             url: "dropdown.php",
+        //             method: "POST",
+        //             data: {
+        //                 trackName: track_name
+        //             },
+        //             success: function(data) {
+        //                 $("#strand2").html(data);
+        //             }
+        //         })
+        //     })
+        // })
 
         $(document).ready(function() {
             // When the filterSemester dropdown changes
@@ -96,24 +96,15 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select subject type.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="track" id="track2" required>
-                                                <option value="" selected disabled>Track</option>
-                                                <?php
-                                                $select = "SELECT * FROM track";
-                                                $result = mysqli_query($conn, $select);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
-                                                <?php }
-                                                ?>
-                                            </select>
-                                            <label for="track">Track</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select track.</div>
-                                        </div>
-                                        <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="strand" id="strand2" required>
                                                 <option value="" selected disabled>Strand</option>
+                                                <?php
+                                                $strand = "SELECT * FROM `strand`";
+                                                $strandResult = $conn->query($strand);
+                                                while ($strandRow = $strandResult->fetch_assoc()) :
+                                                ?>
+                                                    <option value="<?php echo $strandRow['name'] ?>"><?php echo $strandRow['name'] ?></option>
+                                                <?php endwhile; ?>
                                             </select>
                                             <label for="strand">Strand</label>
                                             <div class="valid-feedback ps-1">Great!</div>
@@ -259,8 +250,12 @@ session_start();
 if (isset($_POST["add_subject"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
+
+    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
+    $forTrackResult = $conn->query($forTrack);
+    $forTrackRow = $forTrackResult->fetch_assoc();
+    $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
 
@@ -272,7 +267,7 @@ if (isset($_POST["add_subject"])) {
     $start_year = $row_semester["start_year"];
     $end_year = $row_semester["end_year"];
 
-    $subject = "SELECT * FROM `subject` WHERE `name` = '$name'";
+    $subject = "SELECT * FROM `subject` WHERE `name` = '$name' AND `grade` = '$grade'";
     $subjectResult = $conn->query($subject);
 
     if (mysqli_num_rows($subjectResult) > 0) {
@@ -281,7 +276,7 @@ if (isset($_POST["add_subject"])) {
     } else {
         $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`,`semester_name`,`start_year`,`end_year`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester','$semester_name','$start_year','$end_year')";
         mysqli_query($conn, $insert);
-        header("location:subject_table.php?msg=Subject added successfully!");
+        echo ("<script>location.href = 'subject_table.php?msg=Subject added successfully!';</script>");
         exit();
     }
 }

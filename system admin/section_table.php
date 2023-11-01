@@ -17,21 +17,21 @@ session_start();
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $("#track2").change(function() {
-                var track_name = $(this).val();
-                $.ajax({
-                    url: "dropdown.php",
-                    method: "POST",
-                    data: {
-                        trackName: track_name
-                    },
-                    success: function(data) {
-                        $("#strand2").html(data);
-                    }
-                })
-            })
-        })
+        // $(document).ready(function() {
+        //     $("#track2").change(function() {
+        //         var track_name = $(this).val();
+        //         $.ajax({
+        //             url: "dropdown.php",
+        //             method: "POST",
+        //             data: {
+        //                 trackName: track_name
+        //             },
+        //             success: function(data) {
+        //                 $("#strand2").html(data);
+        //             }
+        //         })
+        //     })
+        // })
 
         $(document).ready(function() {
             // When the filterSemester dropdown changes
@@ -85,8 +85,8 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please enter a section name.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="grade" id="grade">
-                                                <option selected>Grade</option>
+                                            <select class="form-select bg-body-tertiary" name="grade" id="grade" required>
+                                                <option selected value="">Grade</option>
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
                                             </select>
@@ -95,42 +95,52 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select the grade level.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="track" id="track">
-                                                <option value="" selected>Track</option>
-                                                <?php
-                                                $select = "SELECT * FROM track ORDER BY `name` ASC";
-                                                $result = mysqli_query($conn, $select);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    if ($row["name"] != "All") {
-                                                ?>
-                                                        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
-                                                <?php }
-                                                }
-                                                ?>
-                                            </select>
-                                            <label for="track">Track</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select track.</div>
-                                        </div>
-                                        <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="strand" id="strand">
+                                            <select class="form-select bg-body-tertiary" name="strand" id="strand" required>
                                                 <option value="" selected disabled>Strand</option>
+                                                <?php
+                                                $strand = "SELECT * FROM `strand`";
+                                                $strandResult = $conn->query($strand);
+                                                while ($strandRow = $strandResult->fetch_assoc()) :
+                                                    if ($strandRow['name'] != 'All') :
+                                                ?>
+                                                        <option value="<?php echo $strandRow['name'] ?>"><?php echo $strandRow['name'] ?></option>
+                                                <?php
+                                                    endif;
+                                                endwhile;
+                                                ?>
                                             </select>
                                             <label for="strand">Strand</label>
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select strand.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="faculty" id="faculty">
+                                            <select class="form-select bg-body-tertiary" name="faculty" id="faculty" required>
                                                 <option value="" selected>Faculty</option>
                                                 <?php
-                                                $select = "SELECT * FROM `user` WHERE `user_type` = 'adviser' ORDER BY `name` ASC";
-                                                $result = mysqli_query($conn, $select);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    if ($row["name"] != "admin") {
+                                                // Fetch all advisers
+                                                $tchr = "SELECT * FROM `user` WHERE `user_type` = 'adviser'";
+                                                $tchrResult = $conn->query($tchr);
+                                                $availableAdvisers = [];
+
+                                                while ($tchrRow = $tchrResult->fetch_assoc()) {
+                                                    $availableAdvisers[] = $tchrRow['name'];
+                                                }
+
+                                                // Fetch already assigned faculty
+                                                $existingFaculty = [];
+                                                $existingFacultyQuery = "SELECT DISTINCT `faculty` FROM `section`";
+                                                $existingFacultyResult = $conn->query($existingFacultyQuery);
+                                                while ($row = $existingFacultyResult->fetch_assoc()) {
+                                                    $existingFaculty[] = $row['faculty'];
+                                                }
+
+                                                // Output advisers who are not already assigned as faculty
+                                                foreach ($availableAdvisers as $adviser) {
+                                                    if (!in_array($adviser, $existingFaculty)) {
                                                 ?>
-                                                        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
-                                                <?php  }
+                                                        <option value="<?php echo $adviser; ?>"><?php echo $adviser; ?></option>
+                                                <?php
+                                                    }
                                                 }
                                                 ?>
                                             </select>
@@ -140,6 +150,7 @@ session_start();
                                         </div>
                                         <div class="form-floating mb-3 ">
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
+                                                <option value="" selected>Semester</option>
                                                 <?php
                                                 $select = "SELECT * FROM `semester`";
                                                 $result = mysqli_query($conn, $select);
@@ -155,7 +166,7 @@ session_start();
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" name="add_user">Add</button>
+                                        <button type="submit" class="btn btn-primary" name="add_section">Add</button>
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </form>
@@ -262,10 +273,14 @@ session_start();
 </html>
 
 <?php
-if (isset($_POST["submit"])) {
+if (isset($_POST["add_section"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
+
+    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
+    $forTrackResult = $conn->query($forTrack);
+    $forTrackRow = $forTrackResult->fetch_assoc();
+    $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
@@ -277,28 +292,19 @@ if (isset($_POST["submit"])) {
     $semester_name = $row_semester["name"];
     $start_year = $row_semester["start_year"];
     $end_year = $row_semester["end_year"];
+    $start_date = $row_semester["start_date"];
+    $end_date = $row_semester["end_date"];
 
     $select = "SELECT * FROM `section` WHERE `name` = '$name'";
     $result = mysqli_query($conn, $select);
 
-    $select2 = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
-    $result2 = mysqli_query($conn, $select2);
-
-    $select3 = "SELECT * FROM `section` WHERE `track` = '$track' AND `strand` = '$strand' AND `grade` = '$grade'";
-    $result3 = $conn->query($select3);
-
     if (mysqli_num_rows($result) > 0) {
         header("location:section_table.php?errmsg=The section name already exist!");
         exit();
-    } elseif (mysqli_num_rows($result2) > 0) {
-        header("location:section_table.php?errmsg=The faculty is already assigned!");
-        exit();
-    } elseif (mysqli_num_rows($result3) > 0) {
-        header("location:section_table.php?errmsg=Track, strand and grade is duplicated!");
     } else {
         $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `faculty`, `semester`, `semester_name`, `start_year`, `end_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$semester', '$semester_name', '$start_year', '$end_year')";
         mysqli_query($conn, $insert);
-        header("location:section_table.php?msg=Section added successfully!");
+        echo ("<script>location.href = 'section_table.php?msg=Section added successfully!';</script>");
         exit();
     }
 }

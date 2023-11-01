@@ -258,7 +258,7 @@ if (isset($_POST["add_student"])) {
     $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
     $suffix = mysqli_real_escape_string($conn, $_POST["suffix"]);
-    $name = $lname . ", " . $fname . " " . $mname . " " . $suffix;
+    $name = $lname . ", " . $fname . " " . $suffix . " " . $mname;
     $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
     $birth_date = mysqli_real_escape_string($conn, $_POST["birth_date"]);
     $birth_date2 = mysqli_real_escape_string($conn, $_POST["birth_date"]);

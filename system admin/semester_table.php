@@ -56,16 +56,16 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please enter semester.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="start_year" id="start_year" placeholder="start_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" required />
-                                            <label for="start_year">Beginning year of the semester</label>
+                                            <input type="date" name="start_date" id="start_date" placeholder="start_date" class="form-control bg-body-tertiary" required />
+                                            <label for="start_date">Start of semester</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a date.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="end_year" id="end_year" placeholder="end_year" class="form-control bg-body-tertiary" maxlength="4" minlength="4" required />
-                                            <label for="end_year">End year of the semester</label>
+                                            <input type="date" name="end_date" id="end_date" placeholder="end_date" class="form-control bg-body-tertiary" required />
+                                            <label for="end_date">End of semester</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter a valid year.</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a date.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -152,10 +152,26 @@ session_start();
 </html>
 
 <?php
-if (isset($_POST["add_semester"])) {
+if (isset($_POST["edit_semester"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $start_year = mysqli_real_escape_string($conn, $_POST["start_year"]);
-    $end_year = mysqli_real_escape_string($conn, $_POST["end_year"]);
+
+    $defaultStartDate = mysqli_real_escape_string($conn, $_POST["start_date"]);
+    $defaultEndDate = mysqli_real_escape_string($conn, $_POST["end_date"]);
+    $dateStringStart = mysqli_real_escape_string($conn, $_POST["start_date"]);
+    // Creating a DateTime object from the date string
+    $dateStart = new DateTime($dateStringStart);
+    // Formatting the date to mm/dd/yy format
+    $formattedStartDate = $dateStart->format('m/d/y');
+    // Extracting the year from the DateTime object
+    $start_year = $dateStart->format('Y');
+
+    $dateStringEnd = mysqli_real_escape_string($conn, $_POST["end_date"]);
+    // Creating a DateTime object from the date string
+    $dateEnd = new DateTime($dateStringEnd);
+    // Formatting the date to mm/dd/yy format
+    $formattedEndDate = $dateEnd->format('m/d/y');
+    // Extracting the year from the DateTime object
+    $end_year = $dateEnd->format('Y');
     $output = $name . " (" . $start_year . " - " . $end_year . ")";
 
     $select = "SELECT * FROM `semester` WHERE `output` = '$output'";
@@ -165,7 +181,7 @@ if (isset($_POST["add_semester"])) {
         echo ("<script>location.href = 'semester_table.php?errmsg=The semester already exist!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `semester` (`name`,`start_year`,`end_year`,`output`) VALUES ('$name','$start_year','$end_year','$output')";
+        $insert = "INSERT INTO `semester` (`name`,`start_year`,`end_year`,`output`,`start_date`,`end_date`,`default_start`,`default_end`) VALUES ('$name','$start_year','$end_year','$output','$formattedStartDate','$formattedEndDate','$defaultStartDate','$defaultEndDate')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'semester_table.php?msg=Semester successfully added!';</script>");
         exit();

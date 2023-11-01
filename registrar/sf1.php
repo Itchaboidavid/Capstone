@@ -371,12 +371,12 @@ $html .= '
 
  <table style="margin-top: -6px; font-size: 5pt; margin-left: 715px; border : 0px;">
  <tr style=" border : 1px solid black;"> 
- <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_year'] . ' AM</td>
+ <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_date'] . ' 12:00 AM</td>
  </table>
  <table style="margin-top: -25px; font-size: 5pt; margin-left: 922px; border : 0px;">
  </tr>
  <tr style=" border : 1px solid black;"> 
- <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_year'] . ' AM</td>
+ <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_date'] . ' 12:00 AM</td>
  </tr>
 </table>
  ';
