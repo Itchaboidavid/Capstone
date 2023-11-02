@@ -1,56 +1,53 @@
-<?php
-include("../config.php");
-session_start();
-?>
-
-<!-- SIDENAV -->
-<div class="col-auto col-md-2 min-vh-100 p-3 collapse collapse-horizontal show" id="sidenav" style="background-color:#003459;">
-    <div class="d-flex justify-content-center align-items-baseline gap-3 mb-2" style="border-bottom: 2px solid gray">
-        <a href="dashboard.php" style="color: white; text-shadow: 3px 3px 10px black;" class="fs-4"><i class="bi bi-person-circle"></i></a>
-        <a href="dashboard.php" class="text-light text-decoration-none fw-bold fs-4">
-            <p class="text-capitalize" style="text-shadow: 3px 3px 10px black;"><?php echo $_SESSION["user_type"]; ?></p>
-        </a>
-    </div>
-    <a href="dashboard.php" class="d-flex text-decoration-none align-items-baseline text-light fs-5 mb-2 pb-2" style="border-bottom: 1px solid gray; text-shadow: 1px 1px 1px black;">
-        <i class="bi bi-speedometer2 me-2"></i>
-        <span>Dashboard</span>
-    </a>
-
-    <!-- STUDENTS -->
-    <a class="d-flex text-decoration-none text-light fs-5 align-items-center mb-2 pb-2" style="border-bottom: 1px solid gray; text-shadow: 1px 1px 1px black;" data-bs-toggle="collapse" href="#classSubmenu" role=" button">
-        <i class="bi bi-people-fill me-2"></i>
-        <span>Students</span>
-        <span class="dropdown-toggle align-self-center ms-auto"></span>
-    </a>
-    <ul class="collapse nav mb-3" id="classSubmenu">
-        <li class="w-100">
-            <a href="student_table.php" class="nav-link text-white">
-                <i class="fa-solid fa-list"></i>
-                <span class="d-none d-sm-inline ms-1">Student list</span>
-            </a>
-        </li>
-    </ul>
-</div>
-<div class="col">
-    <!-- NAVBAR -->
-    <nav class="navbar" style="height: 70px; box-shadow: 0px 3px 10px black">
-        <div class="container-fluid px-3 d-flex">
-            <!-- SIDENAV TOGGLER -->
-            <button class="btn navbar-toggler-icon fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#sidenav" accesskey="s">
-            </button>
-            <!-- ACCOUNT SETTINGS -->
-            <div class="dropstart">
-                <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-fill fs-5" style="color:#003459"></i>
-                    <span class="d-none d-sm-inline mx-1 text-dark text-capitalize"><?php echo $_SESSION["name"]; ?></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #023047;">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <!-- Navbar-->
+    <div class="ms-auto me-0" style="width: 55px;">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="account.php">Account</a></li>
                     <li>
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="../logout.php">Sign out</a></li>
+                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                 </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #023047;">
+            <div class=" sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" href="dashboard.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Sub</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                        Students
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link" href="student_table.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Student table
+                            </a>
+                        </nav>
+                    </div>
+                </div>
             </div>
-        </div>
-    </nav>
+            <div class="sb-sidenav-footer" style="background: #003568;">
+                <div class="small">Logged in as:</div>
+                <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
+            </div>
+        </nav>
+    </div>

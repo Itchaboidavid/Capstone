@@ -377,7 +377,7 @@ $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 $pdf->ln(0.7);
 
 $studentName = $studentRow['name'];
-$sf10 = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem` = '1st' ORDER BY `subject_title` ASC";
+$sf10 = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem` = '1st' AND `subject_type` != '' AND `subject_title` != '' ORDER BY `subject_title` ASC";
 $sf10Result = $conn->query($sf10);
 
 $sf10Count = $sf10Result->num_rows;
@@ -452,7 +452,7 @@ $pdf->Cell(18, 4, 'Date Checked (MM/DD/YYYY):', 0, 1, 'L');
 $pdf->Cell(18, 4, '', 0, 1, 'L');
 $pdf->Cell(63, 4, $sectionRow['faculty'], 'B', 0, 'C');
 $pdf->Cell(13, 4, '', 0, 0, 'L');
-$pdf->Cell(65, 4, 'LORENA V> MIRANDA, PRINCIPAL IV', 'B', 0, 'C');
+$pdf->Cell(65, 4, 'LORENA V. MIRANDA, PRINCIPAL IV', 'B', 0, 'C');
 $pdf->Cell(12, 4, '', 0, 0, 'L');
 $pdf->Cell(41.5, 4, $formattedDate, 'B', 1, 'C');
 $pdf->SetFont('unicodehelvetin', '', 7);
@@ -549,43 +549,43 @@ $pdf->Cell(12.75, 4.25, 'FINAL GRADE', 0, 0, 'C', 0);
 $pdf->SetX(189);
 $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 
-//REMEDIAL
-$pdf->ln(0.4);
-$studentName = $studentRow['name'];
-$sf10Remedial = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem_remedial` = '1st' ORDER BY `subject_titleRemedial` ASC";
-$sf10ResultRemedial = $conn->query($sf10Remedial);
-$sf10Count = $sf10ResultRemedial->num_rows;
-if ($sf10Count === 0) {
-    $pdf->SetFont('unicodehelvetin', '', 7);
-    $pdf->SetX(11);
-    $pdf->SetFillColor(0);
-    $pdf->SetFont('unicodehelvetin', '', 7);
-    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
-    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
-    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
-    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
-    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
-    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
-    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
-    $pdf->SetFont('unicodehelvetin', '', 7);
-    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
-} else {
-    while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
-        $pdf->SetFont('unicodehelvetin', '', 7);
-        $pdf->SetX(11);
-        $pdf->SetFillColor(0);
-        $pdf->SetFont('unicodehelvetin', '', 7);
-        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
-        $pdf->Cell(30, 5, $sf10RowRemedial['subject_typeRemedial'], 1, 0, 'C', 0);
-        $pdf->Cell(105.8, 5, $sf10RowRemedial['subject_titleRemedial'], 1, 0, 'L', 0);
-        $pdf->Cell(12.75, 5, $sf10RowRemedial['final_gradeRemedial'], 1, 0, 'C', 0);
-        $pdf->Cell(12.75, 5, $sf10RowRemedial['remedial_mark'], 1, 0, 'C', 0);
-        $pdf->Cell(16, 5, $sf10RowRemedial['recomputed_fg'], 1, 0, 'C', 0);
-        $pdf->Cell(15.8, 5, $sf10RowRemedial['action_remedial'], 1, 0, 'C', 0);
-        $pdf->SetFont('unicodehelvetin', '', 7);
-        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
-    }
-}
+// //REMEDIAL
+// $pdf->ln(0.4);
+// $studentName = $studentRow['name'];
+// $sf10Remedial = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem_remedial` = '1st' ORDER BY `subject_titleRemedial` ASC";
+// $sf10ResultRemedial = $conn->query($sf10Remedial);
+// $sf10Count = $sf10ResultRemedial->num_rows;
+// if ($sf10Count === 0) {
+//     $pdf->SetFont('unicodehelvetin', '', 7);
+//     $pdf->SetX(11);
+//     $pdf->SetFillColor(0);
+//     $pdf->SetFont('unicodehelvetin', '', 7);
+//     $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+//     $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+//     $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+//     $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+//     $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+//     $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+//     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+//     $pdf->SetFont('unicodehelvetin', '', 7);
+//     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+// } else {
+//     while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
+//         $pdf->SetFont('unicodehelvetin', '', 7);
+//         $pdf->SetX(11);
+//         $pdf->SetFillColor(0);
+//         $pdf->SetFont('unicodehelvetin', '', 7);
+//         $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+//         $pdf->Cell(30, 5, $sf10RowRemedial['subject_typeRemedial'], 1, 0, 'C', 0);
+//         $pdf->Cell(105.8, 5, $sf10RowRemedial['subject_titleRemedial'], 1, 0, 'L', 0);
+//         $pdf->Cell(12.75, 5, $sf10RowRemedial['final_gradeRemedial'], 1, 0, 'C', 0);
+//         $pdf->Cell(12.75, 5, $sf10RowRemedial['remedial_mark'], 1, 0, 'C', 0);
+//         $pdf->Cell(16, 5, $sf10RowRemedial['recomputed_fg'], 1, 0, 'C', 0);
+//         $pdf->Cell(15.8, 5, $sf10RowRemedial['action_remedial'], 1, 0, 'C', 0);
+//         $pdf->SetFont('unicodehelvetin', '', 7);
+//         $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+//     }
+// }
 
 $pdf->SetFillColor(0);
 $pdf->SetX(11);
@@ -723,7 +723,7 @@ $pdf->Cell(18, 4, 'Date Checked (MM/DD/YYYY):', 0, 1, 'L');
 $pdf->Cell(18, 4, '', 0, 1, 'L');
 $pdf->Cell(63, 4, 'DAISY A. SARMIENTO', 'B', 0, 'C');
 $pdf->Cell(13, 4, '', 0, 0, 'L');
-$pdf->Cell(65, 4, 'LORENA V> MIRANDA, PRINCIPAL IV', 'B', 0, 'C');
+$pdf->Cell(65, 4, 'LORENA V. MIRANDA, PRINCIPAL IV', 'B', 0, 'C');
 $pdf->Cell(12, 4, '', 0, 0, 'L');
 $pdf->Cell(41.5, 4, '06/26/2023', 'B', 1, 'C');
 $pdf->SetFont('unicodehelvetin', '', 7);

@@ -23,10 +23,10 @@ session_start();
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center mt-0">
                     <div>
-                        <h1 class="mt-4">Students</h1>
+                        <h1 class="mt-4">Student</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Students table</li>
+                            <li class="breadcrumb-item active">Student table</li>
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
@@ -104,6 +104,7 @@ session_start();
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Section</th>
                                     <th>LRN</th>
                                     <th>Name</th>
                                     <th>Birthdate</th>
@@ -119,12 +120,13 @@ session_start();
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `sf8` ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `sf8` ORDER BY `section` ASC";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>
                                     <tr>
                                         <td><?php echo $studentRow["id"] ?></td>
+                                        <td><?php echo $studentRow["section"] ?></td>
                                         <td><?php echo $studentRow["lrn"] ?></td>
                                         <td><?php echo $studentRow["name"] ?></td>
                                         <td><?php echo $studentRow["birth_date"] ?></td>

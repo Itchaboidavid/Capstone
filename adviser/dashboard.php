@@ -1,72 +1,215 @@
+<?php
+include("../config.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/fb9a379660.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../index.css">
-    <script src="../index.js"></script>
-    <title>DASHBOARD</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 
-<body id="up">
-    <div class="container-fluid g-0">
-        <div class="row flex-nowrap g-0">
-            <?php include("navigation.php") ?>
-            <!-- CONTENT -->
-            <main class="py-4 px-3">
-                <div class="container p-4 text-center px-5">
-                    <div class="row d-flex justify-content-evenly align-items-center border rounded-4 bg-dark-subtle" style="box-shadow: 1px 1px 5px black;">
-                        <div class="col">
-                            <h1 style="text-shadow: 1px 1px 1px;" class="fw-bold"><span class="text-primary" style="font-size: 60px; text-shadow: 2px 2px 3px black;">Tagaytay City</span><br>National High School - Integrated High School</h1>
-                            <p style="font-size:10px;">S.Y <?php echo date("Y"); ?></p>
+<body class="sb-nav-fixed">
+    <?php include("navigation.php") ?>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-header">
+                                <h3 style="text-shadow: 1px 1px 3px black;">Students</h3>
+                            </div>
+                            <div class="card-body text-center p-0">
+                                <?php
+                                $students = "SELECT * FROM `student`";
+                                $studentsResult = $conn->query($students);
+                                $studentsCount = $studentsResult->num_rows;
+                                ?>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="user_table.php">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
                         </div>
-                        <!-- ---------------------------------------------------------------------------------------- -->
-                        <div class="col">
-                            <div id="carouselExampleAutoplaying" class="carousel slide rounded rounded-5 bg-body-tertiary carousel-fade" data-bs-ride="carousel">
-                                <div class="carousel-inner rounded rounded-5 p-3 bg-dark-subtle">
-                                    <div class="carousel-item active" data-bs-interval="2500">
-                                        <img src="../images/tc.jpg" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="TCNHS">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2500">
-                                        <img src="../images/tc2.jpg" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="Teachers of TCNHS">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2500">
-                                        <img src="../images/dashboard_students.png" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="Teachers of TCNHS">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2500">
-                                        <img src="../images/dashboard_award.png" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="Teachers of TCNHS">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2500">
-                                        <img src="../images/family.png" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="Teachers of TCNHS">
-                                    </div>
-                                    <div class="carousel-item" data-bs-interval="2500">
-                                        <img src="../images/mass.png" style="height: 250px; width:100%;" class="d-block rounded rounded-5" alt="Teachers of TCNHS">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-header">
+                                <h3 style="text-shadow: 1px 1px 3px black;">Sections</h3>
+                            </div>
+                            <div class="card-body text-center p-0">
+                                <?php
+                                $section = "SELECT * FROM `section`";
+                                $sectionResult = $conn->query($section);
+                                $sectionCount = $sectionResult->num_rows;
+                                ?>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="section_table.php">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-header">
+                                <h3 style="text-shadow: 1px 1px 3px black;">Strands</h3>
+                            </div>
+                            <div class="card-body text-center p-0">
+                                <?php
+                                $strand = "SELECT * FROM `strand`";
+                                $strandResult = $conn->query($strand);
+                                $strandCount = $strandResult->num_rows;
+                                ?>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $strandCount ?></span>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="strand_table.php">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-header">
+                                <h3 style="text-shadow: 1px 1px 3px black;">Subjects</h3>
+                            </div>
+                            <div class="card-body text-center p-0">
+                                <?php
+                                $subject = "SELECT * FROM `subject`";
+                                $subjectResult = $conn->query($subject);
+                                $subjectCount = $subjectResult->num_rows;
+                                ?>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $subjectCount ?></span>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="subject_table.php">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="container mt-5">
-                    <div class="row"></div>
+                <!-- CHARTS -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fa-solid fa-chart-simple me-1"></i>
+                                Subject Chart
+                            </div>
+                            <div class="card-body"><canvas id="subjectChart" width="100%" height="40"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fa-solid fa-chart-pie me-1"></i>
+                                Section Chart
+                            </div>
+                            <div class="card-body"><canvas id="sectionChart" width="100%" height="40"></canvas></div>
+                        </div>
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; All rights reserved 2023</div>
+                </div>
+            </div>
+        </footer>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>
+
+<?php
+//SECTION CHART
+$sectionG11 = "SELECT * FROM `section` WHERE `grade` = '11'";
+$resultG11 = mysqli_query($conn, $sectionG11);
+$rowG11 = mysqli_num_rows($resultG11);
+
+$sectionG12 = "SELECT * FROM `section` WHERE `grade` = '12'";
+$resultG12 = mysqli_query($conn, $sectionG12);
+$rowG12 = mysqli_num_rows($resultG12);
+
+//SUBJECT CHART
+$subjectG11 = "SELECT * FROM `subject` WHERE `grade` = '11'";
+$subjectResultG11 = mysqli_query($conn, $subjectG11);
+$subjectRowG11 = mysqli_num_rows($subjectResultG11);
+
+$subjectG12 = "SELECT * FROM `subject` WHERE `grade` = '12'";
+$subjectResultG12 = mysqli_query($conn, $subjectG12);
+$subjectRowG12 = mysqli_num_rows($subjectResultG12);
+?>
+<script>
+    //SECTION CHART
+    var xValues = ["Grade 11", "Grade 12"];
+    var yValues = [<?php echo $rowG11 ?>, <?php echo $rowG12 ?>];
+    var barColors = ["#003049", "#d62828"];
+    const sectionChart = new Chart("sectionChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: "Section Chart"
+            }
+        }
+    });
+
+    //SUBJECT CHART
+    var xValues = ["Grade 11", "Grade 12"];
+    var yValues = [<?php echo $subjectRowG11 ?>, <?php echo $subjectRowG12 ?>];
+    var barColors = ["#003049", "#d62828"];
+    const subjectChart = new Chart("subjectChart", {
+        type: "doughnut",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: "Subject Chart"
+            }
+        }
+    });
+</script>

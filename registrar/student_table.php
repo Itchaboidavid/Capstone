@@ -29,7 +29,7 @@ session_start();
                             <li class="breadcrumb-item active">Student table</li>
                         </ol>
                     </div>
-                    <!-- Button trigger modal -->
+                    <!-- Add student -->
                     <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3">
                         Add
                     </a>
@@ -133,24 +133,3 @@ session_start();
 </body>
 
 </html>
-
-<?php
-if (isset($_POST["add_strand"])) {
-    $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
-
-    $select = "SELECT * FROM `strand` WHERE `name` = '$name'";
-    $result = $conn->query($select);
-
-    if (mysqli_num_rows($result) > 0) {
-        echo ("<script>location.href = 'strand_table.php?errmsg=The strand already exist!';</script>");
-        exit();
-    } else {
-        $insert = "INSERT INTO `strand` (`name`, `track`) VALUES ('$name', '$track')";
-        mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'strand_table.php?msg=Strand successfully added!';</script>");
-        exit();
-    }
-}
-$conn->close();
-?>
