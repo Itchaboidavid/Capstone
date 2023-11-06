@@ -397,12 +397,17 @@ if ($modalityRow['ip_q4'] == 1) {
                 <td style="width: 44px; border: 1px solid black;">  </td>';
 }
 
+
+$ov = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$student'";
+$ovResult = $conn->query($ov);
+$ovRow = $ovResult->fetch_assoc();
+
 $html .= '
         </tr>
 </table>
 </div>
     <div>
-    <table style="margin-top: -10px;; margin-left: 555px; position:fixed; font-size:8.2pt;">
+    <table style="margin-top: -10px; margin-left: 555px; position:fixed; font-size:8.2pt;">
     <tr>
     <th colspan="6" style="font-size:11.3pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
     </tr>
@@ -423,70 +428,69 @@ $html .= '
         <td rowspan="2" style=" text-align: left; width: 100px; border: 1px solid black;">1. Maka-Diyos</td>
 
         <td style="height:59px; text-align: left; border: 1px solid black;"> Expresses ones spiritual belief&rsquo;s while respecting the spiritual beliefs of other </td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center;border: 1px solid black;">SO  </td>
+        <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq1'] . ' </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mdq2'] . '  </td>
+        <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq3'] . '</td>
+        <td style="text-align: center;border: 1px solid black;">' . $ovRow['mdq4'] . '  </td>
         
         </tr>
 
         <tr style="text-align: center;">
         <td style="text-align: left; height: 39px; border: 1px solid black;">Shows adherence to ethical principles by uplholding truth. </td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;"> SO  </td>
+        <td style="border: 1px solid black;">' . $ovRow['mdq5'] . '</td>
+        <td style="border: 1px solid black;">' . $ovRow['mdq6'] . '</td>
+        <td style="border: 1px solid black;">' . $ovRow['mdq7'] . '</td>
+        <td style="border: 1px solid black;"> ' . $ovRow['mdq8'] . '  </td>
         </tr>
 
         <tr >
         <td rowspan="2" style="text-align: left; width: 100px; border: 1px solid black;">2. Makatao</td>
         <td style="text-align: Left; height: 39px; border: 1px solid black;"> Is sensitive to individual, social and cultural differences</td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq1'] . ' </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq2'] . '  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq3'] . '  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq4'] . ' </td>
         
         </tr>
 
         <tr style="text-align: center;">
         <td style="text-align: left;height: 39px;  width: 30px; border: 1px solid black;">Demonstrate contribution toward solidarity </td>
-        <td style="text-align: center; border: 1px solid black;">SO</td>
-        <td style="text-align: center; border: 1px solid black;">SO</td>
-        <td style="text-align: center; border: 1px solid black;">SO</td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
+        <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq5'] . '</td>
+        <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq6'] . '</td>
+        <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq7'] . '</td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq8'] . '  </td>
         </tr>
 
         <tr >
         <td style="width: 100px; border: 1px solid black;">3.Makakalikasan</td>
         <td style="text-align: left; height: 78px; border: 1px solid black;"> Cares for the environment and utilizes resources wisely, judiciously, and economically.</td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq1'] . ' </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq2'] . '  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq3'] . ' </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq4'] . '  </td>
         
         </tr>
         <tr >
         <td rowspan="2" style="width: 100px; border: 1px solid black;">4.Makabansa</td>
         <td style="text-align: left; border: 1px solid black;"> Demonstrate pride in being a Filipino, exercises the rights and responsibilities of a <br>Filipio citizen.</td>
-        <td style="text-align: center; border: 1px solid black;"> SO </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center; border: 1px solid black;"> SO  </td>
-        <td style="text-align: center;  border: 1px solid black;"> SO  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq1'] . ' </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq2'] . '  </td>
+        <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq3'] . '  </td>
+        <td style="text-align: center;  border: 1px solid black;"> ' . $ovRow['mbq4'] . '  </td>
         </tr>
         <tr style="text-align: center;">
         <td style="text-align: left;height: 78px; width: 30px; border: 1px solid black;">Demonstrate appropriate behavior in carrying out activities in the school, community, and country.</td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;">SO</td>
-        <td style="border: 1px solid black;"> SO </td>
+        <td style="border: 1px solid black;">' . $ovRow['mbq5'] . '</td>
+        <td style="border: 1px solid black;">' . $ovRow['mbq6'] . '</td>
+        <td style="border: 1px solid black;">' . $ovRow['mbq7'] . '</td>
+        <td style="border: 1px solid black;"> ' . $ovRow['mbq8'] . ' </td>
         </tr>
     </table>
                                                                     
     </div>
-
         
 <div>
-<table style=" margin-top: 485px; margin-left: 553px; position:fixed;         font-size:8pt;">
+<table style=" margin-top: 485px; margin-left: 553px; position:fixed; font-size:8pt;">
 
         <tr  style="font-size: 8pt; font-weight: bold; text-align: left;" >
         <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">OBSERVED VALUES</td>
@@ -531,20 +535,16 @@ $html .= '
 </div>
 
 <div>
-<table style="margin-top: 595px; margin-left: 553px; position:fixed;         font-size:8pt;">
+<table style="margin-top: 595px; margin-left: 553px; position:fixed; font-size:8pt;">
 
         <tr  style=" font-weight: bold; text-align: left;" >
         <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">Learner Progress and Achievement</td>
-
-
-
         </tr>
 
         <tr style="  font-weight: bold; text-align: left; ">
         <td style="width: 155px; height: 0px; text-align: left;  border: 0px solid black;">Descriptor</td>
         <td style="width: 200px; border: 0px solid black;">Grading Scale </td>
     
-
         </tr>
         <tr  style="" >
         <td style="width: 155px; height: 0px;  border: 0px solid black;">Outstanding</td>
