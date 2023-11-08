@@ -100,7 +100,7 @@ $sctn = $studentSectionRow['name'];
                                             <a href="add_sf9.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none; color:green; border-right: 1px solid black;" class="me-1 pe-1">
                                                 <i class="fa-solid fa-plus"></i>
                                             </a>
-                                            <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-3 pe-1">
+                                            <a href="edit_sf9.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-3 pe-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                             <a href="sf9back.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" target="_blank">

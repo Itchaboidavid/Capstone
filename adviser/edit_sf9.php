@@ -6,6 +6,7 @@ $id = $_GET["id"];
 $student = "SELECT * FROM `student` WHERE `id` = '$id'";
 $studentResult = $conn->query($student);
 $studentRow = $studentResult->fetch_assoc();
+$studentName = $studentRow['name'];
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ $studentRow = $studentResult->fetch_assoc();
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>SF 9</title>
+    <title>EDIT SF 9</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -117,7 +118,7 @@ $studentRow = $studentResult->fetch_assoc();
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="student_table.php">Student Table</a></li>
-                            <li class="breadcrumb-item active">SF 9</li>
+                            <li class="breadcrumb-item active">Edit SF 9</li>
                         </ol>
                     </div>
                 </div>
@@ -140,52 +141,79 @@ $studentRow = $studentResult->fetch_assoc();
                                     </tr>
                                 </thead>
                                 <tbody class="grades">
-                                    <tr>
-                                        <td>
-                                            <select class="form-select-sm w-100 bg-body-tertiary" name="sem[]" id="sem">
-                                                <option value="" selected>--Semester--</option>
-                                                <?php
-                                                $semester = "SELECT DISTINCT `name` FROM `semester`";
-                                                $semesterResult = $conn->query($semester);
-                                                while ($semesterRow = $semesterResult->fetch_assoc()) :
-                                                ?> <option value="<?php echo $semesterRow['name'] ?>"><?php echo $semesterRow['name'] ?></option>
-                                                <?php endwhile; ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_type_0" id="subject_type">
-                                                <option value="" selected>--Subject type--</option>
-                                                <option value="Core">Core</option>
-                                                <option value="Applied">Applied</option>
-                                                <option value="Specialized">Specialized</option>
-                                            </select>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select subject type.</div>
-                                        </td>
-                                        <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_title_0" id="subject_title">
-                                                <option value="" selected disabled>--Subject title--</option>
-                                            </select>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select subject title.</div>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="first_0" id="first" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage1stRow()" step="0.01" min="0" max="100" required />
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="second_0" id="second" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage1stRow()" step="0.01" min="0" max="100" />
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="final_grade_0" id="final_grade" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName'";
+                                    $sf9Result = $conn->query($sf9);
+                                    $count = 0;
+                                    while ($sf9Row = $sf9Result->fetch_assoc()) :
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <select class="form-select-sm w-100 bg-body-tertiary" name="sem[]" id="sem">
+                                                    <option value="<?php echo $sf9Row['semester'] ?>" selected><?php echo $sf9Row['semester'] ?></option>
+                                                    <?php
+                                                    $semester = "SELECT DISTINCT `name` FROM `semester`";
+                                                    $semesterResult = $conn->query($semester);
+                                                    while ($semesterRow = $semesterResult->fetch_assoc()) :
+                                                    ?> <option value="<?php echo $semesterRow['name'] ?>"><?php echo $semesterRow['name'] ?></option>
+                                                    <?php endwhile; ?>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type_<?php echo $count; ?>" id="subject_type">
+                                                    <option value="<?php echo $sf9Row['subject_type'] ?>" selected><?php echo $sf9Row['subject_type'] ?></option>
+                                                    <option value="Core">Core</option>
+                                                    <option value="Applied">Applied</option>
+                                                    <option value="Specialized">Specialized</option>
+                                                </select>
+                                                <div class="valid-feedback ps-1">Great!</div>
+                                                <div class="invalid-feedback ps-1"> Please select subject type.</div>
+                                            </td>
+                                            <td>
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title_<?php echo $count; ?>" id="subject_title">
+                                                    <option value="<?php echo $sf9Row['subject_title'] ?>" selected>
+                                                        <?php echo $sf9Row['subject_title'] ?>
+                                                    </option>
+                                                    <?php
+                                                    $subSem = $sf9Row['semester'];
+                                                    $subType = $sf9Row['subject_type'];
+                                                    $title = "SELECT * FROM `sf9` WHERE `semester` = '$subSem' AND `subject_type` = '$subType'";
+                                                    $titleResult = $conn->query($title);
+                                                    while ($titleRow = $titleResult->fetch_assoc()) :
+                                                        if ($titleRow['subject_title'] != $sf9Row['subject_title']) :
+                                                    ?>
+                                                            <option value="<?php echo $titleRow['subject_title'] ?>"><?php echo $titleRow['subject_title'] ?></option>
+                                                    <?php endif;
+                                                    endwhile; ?>
+                                                </select>
+                                                <div class="valid-feedback ps-1">Great!</div>
+                                                <div class="invalid-feedback ps-1"> Please select subject title.</div>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="first_<?php echo $count; ?>" id="first_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade1'] ?>" />
+                                                <div class="valid-feedback ps-1">Great!</div>
+                                                <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="second_<?php echo $count; ?>" id="second_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade2'] ?>" />
+                                                <div class="valid-feedback ps-1">Great!</div>
+                                                <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="final_grade_<?php echo $count; ?>" id="final_grade_<?php echo $count; ?>" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="<?php echo $sf9Row['final_grade'] ?>" />
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $count++;
+                                    endwhile; ?>
                                 </tbody>
                             </table>
                             <br>
+                            <?php
+                            $modality = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$studentName'";
+                            $modalityResult = $conn->query($modality);
+                            $modalityRow = $modalityResult->fetch_assoc();
+                            ?>
                             <h4>LEARNING MODALITY</h4>
                             <!-- MODALITY -->
                             <table class="table table-sm table-hover table-bordered">
@@ -201,24 +229,87 @@ $studentRow = $studentResult->fetch_assoc();
                                 <tbody>
                                     <tr>
                                         <td class="fw-bold">BLENDED</td>
-                                        <td><input type="checkbox" name="blended_q1" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="blended_q2" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="blended_q3" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="blended_q4" value="1" class="w-100"></td>
+                                        <?php
+                                        if ($modalityRow['blended_q1'] == 1) {
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['blended_q2'] == 1) {
+                                            echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['blended_q3'] == 1) {
+                                            echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['blended_q4'] == 1) {
+                                            echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100"></td>';
+                                        };
+                                        ?>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">MODULAR DISTANCE LEARNING</td>
-                                        <td><input type="checkbox" name="mdl_q1" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="mdl_q2" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="mdl_q3" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="mdl_q4" value="1" class="w-100"></td>
+                                        <?php
+                                        if ($modalityRow['mdl_q1'] == 1) {
+                                            echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['mdl_q2'] == 1) {
+                                            echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['mdl_q3'] == 1) {
+                                            echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['mdl_q4'] == 1) {
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100"></td>';
+                                        };
+                                        ?>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">IN-PERSON</td>
-                                        <td><input type="checkbox" name="ip_q1" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="ip_q2" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="ip_q3" value="1" class="w-100"></td>
-                                        <td><input type="checkbox" name="ip_q4" value="1" class="w-100"></td>
+                                        <?php
+                                        if ($modalityRow['ip_q1'] == 1) {
+                                            echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['ip_q2'] == 1) {
+                                            echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['ip_q3'] == 1) {
+                                            echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100"></td>';
+                                        };
+
+                                        if ($modalityRow['ip_q4'] == 1) {
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" checked></td>';
+                                        } else {
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100"></td>';
+                                        };
+                                        ?>
                                     </tr>
                                 </tbody>
                             </table>
@@ -243,6 +334,11 @@ $studentRow = $studentResult->fetch_assoc();
                                         <td>Q4</td>
                                     </tr>
                                 </thead>
+                                <?php
+                                $editOV = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$studentName'";
+                                $editOVResult = $conn->query($editOV);
+                                $editOVRow = $editOVResult->fetch_assoc();
+                                ?>
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
@@ -253,7 +349,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq1" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq1'] ?>"><?php echo $editOVRow['mdq1'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -262,7 +358,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq2" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq2'] ?>"><?php echo $editOVRow['mdq2'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -271,7 +367,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq3" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq3'] ?>"><?php echo $editOVRow['mdq3'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -280,7 +376,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq4" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq4'] ?>"><?php echo $editOVRow['mdq4'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -295,7 +391,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq5" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq5'] ?>"><?php echo $editOVRow['mdq5'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -304,7 +400,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq6" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq6'] ?>"><?php echo $editOVRow['mdq6'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -313,7 +409,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq7" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq7'] ?>"><?php echo $editOVRow['mdq7'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -322,7 +418,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mdq8" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mdq8'] ?>"><?php echo $editOVRow['mdq8'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -339,7 +435,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq1" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq1'] ?>"><?php echo $editOVRow['mkq1'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -348,7 +444,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq2" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq2'] ?>"><?php echo $editOVRow['mkq2'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -357,7 +453,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq3" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq3'] ?>"><?php echo $editOVRow['mkq3'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -366,7 +462,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq4" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq4'] ?>"><?php echo $editOVRow['mkq4'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -381,7 +477,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq5" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq5'] ?>"><?php echo $editOVRow['mkq5'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -390,7 +486,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq6" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq6'] ?>"><?php echo $editOVRow['mkq6'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -399,7 +495,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq7" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq7'] ?>"><?php echo $editOVRow['mkq7'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -408,7 +504,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkq8" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkq8'] ?>"><?php echo $editOVRow['mkq8'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -427,7 +523,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkkq1" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkkq1'] ?>"><?php echo $editOVRow['mkkq1'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -436,7 +532,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkkq2" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkkq2'] ?>"><?php echo $editOVRow['mkkq2'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -445,7 +541,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkkq3" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkkq3'] ?>"><?php echo $editOVRow['mkkq3'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -454,7 +550,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mkkq4" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mkkq4'] ?>"><?php echo $editOVRow['mkkq4'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -473,7 +569,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq1" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq1'] ?>"><?php echo $editOVRow['mbq1'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -482,7 +578,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq2" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq2'] ?>"><?php echo $editOVRow['mbq2'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -491,7 +587,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq3" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq3'] ?>"><?php echo $editOVRow['mbq3'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -500,7 +596,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq4" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq4'] ?>"><?php echo $editOVRow['mbq4'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -516,7 +612,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq5" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq5'] ?>"><?php echo $editOVRow['mbq5'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -525,7 +621,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq6" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq6'] ?>"><?php echo $editOVRow['mbq6'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -534,7 +630,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq7" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq7'] ?>"><?php echo $editOVRow['mbq7'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -543,7 +639,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select name="mbq8" id="" required>
-                                                <option value="" selected></option>
+                                                <option value="<?php echo $editOVRow['mbq8'] ?>"><?php echo $editOVRow['mbq8'] ?></option>
                                                 <option value="AO">AO</option>
                                                 <option value="SO">SO</option>
                                                 <option value="RO">RO</option>
@@ -556,7 +652,7 @@ $studentRow = $studentResult->fetch_assoc();
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
-                                <button type="submit" class="btn btn-primary" name="add_sf9">Add</button>
+                                <button type="submit" class="btn btn-primary" name="edit_sf9">Save</button>
                                 <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
@@ -586,27 +682,6 @@ $studentRow = $studentResult->fetch_assoc();
         }
     </script>
 
-    <script>
-        function calculateAverage1stRow() {
-            var first = parseFloat(document.getElementById("first").value);
-            var second = parseFloat(document.getElementById("second").value);
-            var final_grade = parseFloat(document.getElementById("final_grade").value);
-
-            if (!isNaN(first) && !isNaN(second)) {
-                var average = (first + second) / 2;
-                var roundedAverage = Math.round(average);
-                document.getElementById("final_grade").value = roundedAverage;
-
-                var finalGradeElement = document.getElementById("final_grade");
-                if (roundedAverage < 75) {
-                    finalGradeElement.style.color = "red";
-                } else {
-                    finalGradeElement.style.color = "green";
-                }
-            }
-        }
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -618,9 +693,20 @@ $studentRow = $studentResult->fetch_assoc();
 
 </html>
 <?php
-if (isset($_POST['add_sf9'])) {
+$sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName'";
+$sf9Result = $conn->query($sf9);
+$count = 0;
+$sf9Row = $sf9Result->fetch_assoc();
+
+if (isset($_POST['edit_sf9'])) {
     $studentName = $studentRow['name'];
     $rowCount = count($_POST['sem']); // Get the total count of rows
+    $edit_sem = $sf9Row['semester'];
+    $edit_type = $sf9Row['subject_type'];
+    $edit_title = $sf9Row['subject_title'];
+    $edit_grade1 = $sf9Row['sem_grade1'];
+    $edit_grade2 = $sf9Row['sem_grade2'];
+    $edit_finalgrade = $sf9Row['final_grade'];
 
     for ($index = 0; $index < $rowCount; $index++) {
         $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type_" . $index]);
@@ -633,9 +719,8 @@ if (isset($_POST['add_sf9'])) {
         if (!empty($subject_type) && !empty($subject_title) && is_numeric($first) && is_numeric($second)) {
             $final_grade = round(($first + $second) / 2);
 
-            // Insert data for each non-empty and valid row into the database
-            $insert = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subject_type','$subject_title','$first','$second','$final_grade','$sem')";
-            $insertResult = $conn->query($insert);
+            $update = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subject_type',`subject_title`='$subject_title',`sem_grade1`='$first',`sem_grade2`='$second',`final_grade`='$final_grade',`semester`='$sem' WHERE `student_name` = '$studentName' AND `semester` = '$edit_sem' AND `subject_title` = '$edit_title' AND `subject_type` = '$edit_type' AND `sem_grade1` = '$edit_grade1' AND `sem_grade2` = '$edit_grade2' AND `final_grade` = '$edit_finalgrade'";
+            $updateResult = $conn->query($update);
         } else {
             // Handle the case where fields are empty or not valid
             echo "Error: Invalid or empty values in row $index";
@@ -656,13 +741,8 @@ if (isset($_POST['add_sf9'])) {
     $ipQ3 = isset($_POST['ip_q3']) ? 1 : 0;
     $ipQ4 = isset($_POST['ip_q4']) ? 1 : 0;
 
-    if ($checkCount > 0) {
-        echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in Modality!';</script>";
-    } else {
-        $insertModality = "INSERT INTO `sf9_modality`(`student_name`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES ('$studentName','$blendedQ1','$blendedQ2','$blendedQ3','$blendedQ4','$mdlQ1','$mdlQ2','$mdlQ3','$mdlQ4','$ipQ1','$ipQ2','$ipQ3','$ipQ4')";
-        $insertModalityResult = $conn->query($insertModality);
-    }
-
+    $updateModality = "UPDATE `sf9_modality` SET `student_name`='$studentName',`blended_q1`='$blendedQ1',`blended_q2`='$blendedQ2',`blended_q3`='$blendedQ3',`blended_q4`='$blendedQ4',`mdl_q1`='$mdlQ1',`mdl_q2`='$mdlQ2',`mdl_q3`='$mdlQ3',`mdl_q4`='$mdlQ4',`ip_q1`='$ipQ1',`ip_q2`='$ipQ2',`ip_q3`='$ipQ3',`ip_q4`='$ipQ4' WHERE `student_name` = '$studentName'";
+    $updateModalityResult = $conn->query($updateModality);
 
     $mdq1 = $_POST['mdq1'];
     $mdq2 = $_POST['mdq2'];
@@ -696,17 +776,10 @@ if (isset($_POST['add_sf9'])) {
     $mbq7 = $_POST['mbq7'];
     $mbq8 = $_POST['mbq8'];
 
-    $checkOV = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$studentName'";
-    $checkOVResult = $conn->query($checkOV);
-    $checkOVCount = $checkOVResult->num_rows;
-    if ($checkOVCount > 0) {
-        echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in OBSERVED VALUES!';</script>";
-    } else {
-        $insertOV = "INSERT INTO `sf9_ov`(`student_name`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES ('$studentName','$mdq1','$mdq2','$mdq3','$mdq4','$mdq5','$mdq6','$mdq7','$mdq8','$mkq1','$mkq2','$mkq3','$mkq4','$mkq5','$mkq6','$mkq7','$mkq8','$mkkq1','$mkkq2','$mkkq3','$mkkq4','$mbq1','$mbq2','$mbq3','$mbq4','$mbq5','$mbq6','$mbq7','$mbq8')";
-        $insertOVResult = $conn->query($insertOV);
+    $updateOV = "UPDATE `sf9_ov` SET `student_name`='$studentName',`mdq1`='$mdq1',`mdq2`='$mdq2',`mdq3`='$mdq3',`mdq4`='$mdq4',`mdq5`='$mdq5',`mdq6`='$mdq6',`mdq7`='$mdq7',`mdq8`='$mdq8',`mkq1`='$mkq1',`mkq2`='$mkq2',`mkq3`='$mkq3',`mkq4`='$mkq4',`mkq5`='$mkq5',`mkq6`='$mkq6',`mkq7`='$mkq7',`mkq8`='$mkq8',`mkkq1`='$mkkq1',`mkkq2`='$mkkq2',`mkkq3`='$mkkq3',`mkkq4`='$mkkq4',`mbq1`='$mbq1',`mbq2`='$mbq2',`mbq3`='$mbq3',`mbq4`='$mbq4',`mbq5`='$mbq5',`mbq6`='$mbq6',`mbq7`='$mbq7',`mbq8`='$mbq8' WHERE `student_name` = '$studentName'";
+    $updateOVResult = $conn->query($updateOV);
 
-        echo "<script>location.href = 'student_table.php?msg=SF 9 added successfully!';</script>";
-        exit();
-    }
+    echo "<script>location.href = 'student_table.php?msg=SF 9 updated successfully!';</script>";
+    exit();
 }
 ?>
