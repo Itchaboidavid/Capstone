@@ -60,7 +60,7 @@ $studentName = $studentRow['name'];
                                                 </select>
                                         </td>
                                         <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type_${rowCounter}" id="subject_type_${rowCounter}">
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type_${rowCounter}">
                                                     <option value="" selected>--Subject type--</option>
                                                     <option value="Core">Core</option>
                                                     <option value="Applied">Applied</option>
@@ -70,24 +70,24 @@ $studentName = $studentRow['name'];
                                                 <div class="invalid-feedback ps-1"> Please select subject type.</div>
                                         </td>
                                         <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title_${rowCounter}" id="subject_title_${rowCounter}">
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title_${rowCounter}">
                                                     <option value="" selected disabled>--Subject title--</option>
                                                 </select>
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1"> Please select subject title.</div>
                                         </td>
                                         <td>
-                                                <input type="number" name="first_${rowCounter}" id="first_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
+                                                <input type="number" name="first[]" id="first_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
                                         </td>
                                         <td>
-                                                <input type="number" name="second_${rowCounter}" id="second_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
+                                                <input type="number" name="second[]" id="second_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
                                         </td>
                                         <td>
-                                                <input type="text" name="final_grade_${rowCounter}" id="final_grade_${rowCounter}" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                                <input type="text" name="final_grade[]" id="final_grade_${rowCounter}" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1">.</div>
                                         </td>
@@ -160,7 +160,7 @@ $studentName = $studentRow['name'];
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type_<?php echo $count; ?>" id="subject_type">
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type">
                                                     <option value="<?php echo $sf9Row['subject_type'] ?>" selected><?php echo $sf9Row['subject_type'] ?></option>
                                                     <option value="Core">Core</option>
                                                     <option value="Applied">Applied</option>
@@ -170,7 +170,7 @@ $studentName = $studentRow['name'];
                                                 <div class="invalid-feedback ps-1"> Please select subject type.</div>
                                             </td>
                                             <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title_<?php echo $count; ?>" id="subject_title">
+                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title">
                                                     <option value="<?php echo $sf9Row['subject_title'] ?>" selected>
                                                         <?php echo $sf9Row['subject_title'] ?>
                                                     </option>
@@ -190,21 +190,20 @@ $studentName = $studentRow['name'];
                                                 <div class="invalid-feedback ps-1"> Please select subject title.</div>
                                             </td>
                                             <td>
-                                                <input type="number" name="first_<?php echo $count; ?>" id="first_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade1'] ?>" />
+                                                <input type="number" name="first[]" id="first_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade1'] ?>" />
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
                                             </td>
                                             <td>
-                                                <input type="number" name="second_<?php echo $count; ?>" id="second_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade2'] ?>" />
+                                                <input type="number" name="second[]" id="second_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade2'] ?>" />
                                                 <div class="valid-feedback ps-1">Great!</div>
                                                 <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
                                             </td>
                                             <td>
-                                                <input type="text" name="final_grade_<?php echo $count; ?>" id="final_grade_<?php echo $count; ?>" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="<?php echo $sf9Row['final_grade'] ?>" />
+                                                <input type="text" name="final_grade[]" id="final_grade_<?php echo $count; ?>" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="<?php echo $sf9Row['final_grade'] ?>" />
                                             </td>
                                         </tr>
-                                    <?php
-                                        $count++;
+                                    <?php $count++;
                                     endwhile; ?>
                                 </tbody>
                             </table>
@@ -693,33 +692,23 @@ $studentName = $studentRow['name'];
 
 </html>
 <?php
-$sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName'";
-$sf9Result = $conn->query($sf9);
-$count = 0;
-$sf9Row = $sf9Result->fetch_assoc();
-
 if (isset($_POST['edit_sf9'])) {
     $studentName = $studentRow['name'];
     $rowCount = count($_POST['sem']); // Get the total count of rows
-    $edit_sem = $sf9Row['semester'];
-    $edit_type = $sf9Row['subject_type'];
-    $edit_title = $sf9Row['subject_title'];
-    $edit_grade1 = $sf9Row['sem_grade1'];
-    $edit_grade2 = $sf9Row['sem_grade2'];
-    $edit_finalgrade = $sf9Row['final_grade'];
 
     for ($index = 0; $index < $rowCount; $index++) {
-        $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type_" . $index]);
-        $subject_title = mysqli_real_escape_string($conn, $_POST["subject_title_" . $index]);
-        $first = (float)$_POST["first_" . $index];
-        $second = (float)$_POST["second_" . $index];
+        $subject_type = mysqli_real_escape_string($conn, $_POST['subject_type'][$index]);
+        $subject_title = mysqli_real_escape_string($conn, $_POST['subject_title'][$index]);
+        $first = (float)$_POST['first'][$index]; // Modified to use 'first' array
+        $second = (float)$_POST['second'][$index]; // Modified to use 'second' array
         $sem = mysqli_real_escape_string($conn, $_POST['sem'][$index]);
 
         // Check if the required fields are not empty and are valid numbers
         if (!empty($subject_type) && !empty($subject_title) && is_numeric($first) && is_numeric($second)) {
             $final_grade = round(($first + $second) / 2);
 
-            $update = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subject_type',`subject_title`='$subject_title',`sem_grade1`='$first',`sem_grade2`='$second',`final_grade`='$final_grade',`semester`='$sem' WHERE `student_name` = '$studentName' AND `semester` = '$edit_sem' AND `subject_title` = '$edit_title' AND `subject_type` = '$edit_type' AND `sem_grade1` = '$edit_grade1' AND `sem_grade2` = '$edit_grade2' AND `final_grade` = '$edit_finalgrade'";
+            // Insert data for each non-empty and valid row into the database
+            $update = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subject_type',`subject_title`='$subject_title',`sem_grade1`='$first',`sem_grade2`='$second',`final_grade`='$final_grade',`semester`='$sem' WHERE `student_name`='$studentName' AND `subject_type`='$subject_type' AND `subject_title`='$subject_title' AND `semester`='$sem' LIMIT 1";
             $updateResult = $conn->query($update);
         } else {
             // Handle the case where fields are empty or not valid
