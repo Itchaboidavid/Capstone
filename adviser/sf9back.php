@@ -18,12 +18,15 @@ $student = $row['name'];
 //CORE SUBJECTS 1ST SEM
 $core = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '1st'";
 $coreResult = $conn->query($core);
+$coreResultCount = $coreResult->num_rows;
 //APPLIED SUBJECTS 1ST SEM
 $applied = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '1st'";
 $appliedResult = $conn->query($applied);
+$appliedResultCount = $appliedResult->num_rows;
 //SPECIALIZED SUBJECTS 1ST SEM
 $specialized = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '1st'";
 $specializedResult = $conn->query($specialized);
+$specializedResultCount = $specializedResult->num_rows;
 
 $semAverage = 0;
 
@@ -36,12 +39,15 @@ $specializedCount = 0;
 //CORE SUBJECTS 2ND SEM
 $core2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '2nd'";
 $coreResult2 = $conn->query($core2);
+$coreResultCount2 = $coreResult2->num_rows;
 //APPLIED SUBJECTS 2ND SEM
 $applied2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '2nd'";
 $appliedResult2 = $conn->query($applied2);
+$appliedResultCount2 = $appliedResult2->num_rows;
 //SPECIALIZED SUBJECTS 2ND SEM
 $specialized2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '2nd'";
 $specializedResult2 = $conn->query($specialized2);
+$specializedResultCount2 = $specializedResult2->num_rows;
 
 $semAverage2 = 0;
 
@@ -90,16 +96,26 @@ $html =
         <td style="border: 1px solid black;">   </td>
         </tr>
         ';
-while ($coreRow = $coreResult->fetch_assoc()) {
+
+if ($coreResultCount == 0) {
     $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($coreRow = $coreResult->fetch_assoc()) {
+        $html .= '<tr style="text-align: center; vertical-align: bottom;">
             <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow['subject_title'] . '</td>
             <td style="height: 18px; border: 1px solid black;">' . $coreRow['sem_grade1'] . '</td>
             <td style="border: 1px solid black;">' . $coreRow['sem_grade2'] . '</td>
             <td style="border: 1px solid black; font-weight: bold;">' .  $coreRow['final_grade'] . '</td>
             </tr>';
-    // Calculate the sum for Core subjects
-    $semAverage += $coreRow['final_grade'];
-    $coreCount++;
+        // Calculate the sum for Core subjects
+        $semAverage += $coreRow['final_grade'];
+        $coreCount++;
+    }
 }
 
 $html .= '
@@ -111,16 +127,25 @@ $html .= '
         </tr>
 ';
 
-while ($appliedRow = $appliedResult->fetch_assoc()) {
+if ($appliedResultCount == 0) {
     $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($appliedRow = $appliedResult->fetch_assoc()) {
+        $html .= '<tr style="text-align: center; vertical-align: bottom;">
             <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow['subject_title'] . '</td>
             <td style="height: 18px; border: 1px solid black;">' . $appliedRow['sem_grade1'] . '</td>
             <td style="border: 1px solid black;">' . $appliedRow['sem_grade2'] . '</td>
             <td style="border: 1px solid black; font-weight: bold;">' .  $appliedRow['final_grade'] . '</td>
             </tr>';
-    // Calculate the sum for Applied subjects
-    $semAverage += $appliedRow['final_grade'];
-    $appliedCount++;
+        // Calculate the sum for Applied subjects
+        $semAverage += $appliedRow['final_grade'];
+        $appliedCount++;
+    }
 }
 
 $html .= '
@@ -132,16 +157,25 @@ $html .= '
         </tr>
 ';
 
-while ($specializedRow = $specializedResult->fetch_assoc()) {
+if ($specializedResultCount == 0) {
     $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($specializedRow = $specializedResult->fetch_assoc()) {
+        $html .= '<tr style="text-align: center; vertical-align: bottom;">
             <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow['subject_title'] . '</td>
             <td style="height: 18px; border: 1px solid black;">' . $specializedRow['sem_grade1'] . '</td>
             <td style="border: 1px solid black;">' . $specializedRow['sem_grade2'] . '</td>
             <td style="border: 1px solid black; font-weight: bold;">' .  $specializedRow['final_grade'] . '</td>
             </tr>';
-    // Calculate the sum for Specialized subjects
-    $semAverage += $specializedRow['final_grade'];
-    $specializedCount++;
+        // Calculate the sum for Specialized subjects
+        $semAverage += $specializedRow['final_grade'];
+        $specializedCount++;
+    }
 }
 $semAverage = ($semAverage) / ($coreCount + $appliedCount + $specializedCount);
 $html .= '
@@ -185,8 +219,16 @@ $html .= '
         </tr>
 ';
 //2ND SEM
-while ($coreRow2 = $coreResult2->fetch_assoc()) {
-    $html .= '
+if ($coreResultCount2 == 0) {
+    $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($coreRow2 = $coreResult2->fetch_assoc()) {
+        $html .= '
         <tr style="text-align: center; vertical-align: bottom;">
         <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow2['subject_title'] . '</td>
         <td style="height: 18px; border: 1px solid black;">' . $coreRow2['sem_grade1'] . '</td>
@@ -194,9 +236,10 @@ while ($coreRow2 = $coreResult2->fetch_assoc()) {
         <td style="border: 1px solid black; font-weight: bold;">' . $coreRow2['final_grade'] . '</td>
         </tr>
 ';
-    // Calculate the sum for Core subjects
-    $semAverage2 += $coreRow2['final_grade'];
-    $coreCount2++;
+        // Calculate the sum for Core subjects
+        $semAverage2 += $coreRow2['final_grade'];
+        $coreCount2++;
+    }
 }
 
 $html .= '
@@ -207,9 +250,16 @@ $html .= '
         <td style="border: 1px solid black;">   </td>
         </tr>
 ';
-
-while ($appliedRow2 = $appliedResult2->fetch_assoc()) {
-    $html .= '
+if ($appliedResultCount2 == 0) {
+    $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($appliedRow2 = $appliedResult2->fetch_assoc()) {
+        $html .= '
         <tr style="text-align: center; vertical-align: bottom;">
         <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow2['subject_title'] . '</td>
         <td style="height: 18px; border: 1px solid black;">' . $appliedRow2['sem_grade1'] . '</td>
@@ -217,9 +267,10 @@ while ($appliedRow2 = $appliedResult2->fetch_assoc()) {
         <td style="border: 1px solid black; font-weight: bold;">' . $appliedRow2['final_grade'] . '</td>
         </tr>
 ';
-    // Calculate the sum for Applied subjects
-    $semAverage2 += $appliedRow2['final_grade'];
-    $appliedCount2++;
+        // Calculate the sum for Applied subjects
+        $semAverage2 += $appliedRow2['final_grade'];
+        $appliedCount2++;
+    }
 }
 
 $html .= '
@@ -231,8 +282,16 @@ $html .= '
         </tr>
 ';
 
-while ($specializedRow2 = $specializedResult2->fetch_assoc()) {
-    $html .= '
+if ($specializedResultCount2 == 0) {
+    $html .= '<tr style="text-align: center; vertical-align: bottom;">
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
+} else {
+    while ($specializedRow2 = $specializedResult2->fetch_assoc()) {
+        $html .= '
         <tr style="text-align: center; vertical-align: bottom;">
         <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow2['subject_title'] . '</td>
         <td style="height: 18px; border: 1px solid black;">' . $specializedRow2['sem_grade1'] . '</td>
@@ -240,9 +299,10 @@ while ($specializedRow2 = $specializedResult2->fetch_assoc()) {
         <td style="border: 1px solid black; font-weight: bold;">' . $specializedRow2['final_grade'] . '</td>
         </tr>
 ';
-    // Calculate the sum for Specialized subjects
-    $semAverage2 += $specializedRow2['final_grade'];
-    $specializedCount2++;
+        // Calculate the sum for Specialized subjects
+        $semAverage2 += $specializedRow2['final_grade'];
+        $specializedCount2++;
+    }
 }
 
 $semAverage2 = ($semAverage2) / ($coreCount2 + $appliedCount2 + $specializedCount2);
