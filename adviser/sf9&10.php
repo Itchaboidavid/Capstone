@@ -313,7 +313,7 @@ $pdf->Cell(17, 3, $studentRow["grade"], 'B', 0, 'C');
 $pdf->Cell(5.5, 3, 'SY:', 0, 0, 0);
 $pdf->Cell(20, 3, $studentRow["school_year"], 'B', 0, 'C');
 $pdf->Cell(7.5, 3, 'SEM:', 0, 0, 0);
-$pdf->Cell(8.5, 3, '1st', 'B', 1, 'C');
+$pdf->Cell(8.5, 3, '1ST', 'B', 1, 'C');
 $pdf->SetLineWidth(0.1);
 $pdf->SetX(11);
 $pdf->Cell(19.5, 3, ' TRACK/STRAND:', 0, 0, 0);
@@ -377,12 +377,12 @@ $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 $pdf->ln(0.7);
 
 $studentName = $studentRow['name'];
-$sf10 = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem` = '1st' AND `subject_type` != '' AND `subject_title` != '' ORDER BY `subject_title` ASC";
-$sf10Result = $conn->query($sf10);
-
-$sf10Count = $sf10Result->num_rows;
+$sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st' AND `subject_type` != '' AND `subject_title` != '' ORDER BY `subject_type`, `subject_title` ASC";
+$sf9Result = $conn->query($sf9);
+$sf9Count = $sf9Result->num_rows;
 $finalGrade = 0;
-if ($sf10Count === 0) {
+
+if ($sf9Count === 0) {
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->SetX(11);
     $pdf->SetFillColor(0);
@@ -402,20 +402,24 @@ if ($sf10Count === 0) {
     $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
     $pdf->SetFillColor(192);
 } else {
-    while ($sf10Row = $sf10Result->fetch_assoc()) {
-        $finalGrade += (float) $sf10Row['final_grade'];
+    while ($sf9Row = $sf9Result->fetch_assoc()) {
+        $finalGrade += (float) $sf9Row['final_grade'];
         /*1st Semester Table*/
         $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->SetX(11);
         $pdf->SetFillColor(0);
         $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
-        $pdf->Cell(30, 5, $sf10Row['subject_type'], 1, 0, 'C', 0);
-        $pdf->Cell(105.8, 5, $sf10Row['subject_title'], 1, 0, 'L', 0);
-        $pdf->Cell(12.75, 5, $sf10Row['first'], 1, 0, 'C', 0);
-        $pdf->Cell(12.75, 5, $sf10Row['second'], 1, 0, 'C', 0);
-        $pdf->Cell(16, 5, $sf10Row['final_grade'], 1, 0, 'C', 0);
-        $pdf->Cell(15.8, 5, $sf10Row['action'], 1, 0, 'C', 0);
+        $pdf->Cell(30, 5, $sf9Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf9Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf9Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf9Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
         $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
         $pdf->SetFillColor(0);
@@ -426,8 +430,8 @@ if ($sf10Count === 0) {
     }
 }
 
-$finalGradeAverage = $sf10Count > 0 ? $finalGrade / $sf10Count : 0;
-$finalGradeRemarks = $finalGradeAverage >= 75 ? "Passed" : "Failed";
+$finalGradeAverage = $sf9Count > 0 ? $finalGrade / $sf9Count : 0;
+$finalGradeRemarks = $finalGradeAverage >= 75 ? "PASSED" : "FAILED";
 $pdf->SetFont('helveticanarrowb', '', 6.5);
 $pdf->Cell(161.3, 4, 'General Ave. for the Semester:', 1, 0, 'R', 1);
 $pdf->Cell(16, 4, round($finalGradeAverage), 1, 0, 'C', 0);
@@ -549,7 +553,7 @@ $pdf->Cell(12.75, 4.25, 'FINAL GRADE', 0, 0, 'C', 0);
 $pdf->SetX(189);
 $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 
-// //REMEDIAL
+//REMEDIAL
 // $pdf->ln(0.4);
 // $studentName = $studentRow['name'];
 // $sf10Remedial = "SELECT * FROM `sf10` WHERE `student_name` = '$studentName' AND `sem_remedial` = '1st' ORDER BY `subject_titleRemedial` ASC";
@@ -613,17 +617,17 @@ $pdf->Cell(68, 3, 'TAGAYTAY CITY NATIONAL HIGH SCHOOL - ISHS', 'B', 0, 'L',);
 $pdf->Cell(15.5, 3, ' SCHOOL ID:', 0, 0, 0);
 $pdf->Cell(20.5, 3, '301216', 'B', 0, 'C');
 $pdf->Cell(18.5, 3, 'GRADE LEVEL:', 0, 0, 0);
-$pdf->Cell(17, 3, '12', 'B', 0, 'C');
+$pdf->Cell(17, 3, $studentRow["grade"], 'B', 0, 'C');
 $pdf->Cell(5.5, 3, 'SY:', 0, 0, 0);
-$pdf->Cell(20, 3, '2022-2023', 'B', 0, 'C');
+$pdf->Cell(20, 3, $studentRow["school_year"], 'B', 0, 'C');
 $pdf->Cell(7.5, 3, 'SEM:', 0, 0, 0);
-$pdf->Cell(8.5, 3, '2nd', 'B', 1, 'C');
+$pdf->Cell(8.5, 3, '2ND', 'B', 1, 'C');
 $pdf->SetLineWidth(0.1);
 $pdf->SetX(11);
 $pdf->Cell(19.5, 3, ' TRACK/STRAND:', 0, 0, 0);
-$pdf->Cell(99.5, 3, 'ACADEMIC TRACK / HUMANITIES AND SOCIAL SCIENCES', 'B', 0, 'L',);
+$pdf->Cell(99.5, 3, $studentRow["track"] . " / " . $studentRow["strand"], 'B', 0, 'L',);
 $pdf->Cell(15, 3, '    SECTION:', 0, 0, 0);
-$pdf->Cell(59.5, 3, 'SINCERITY', 'B', 0, 'C');
+$pdf->Cell(59.5, 3, $studentRow["section"], 'B', 0, 'C');
 
 
 $pdf->ln(4);
@@ -670,8 +674,8 @@ $pdf->Cell(16, 5, 'SEM FINAL', 0, 0, 'C', 0);
 $pdf->Cell(15.8, 5, 'ACTION', 0, 1, 'C', 0);
 $pdf->ln(-0.76);
 $pdf->SetX(147);
-$pdf->Cell(12.75, 4.25, '1ST', 1, 0, 'C', 0);
-$pdf->Cell(12.75, 4.25, '2ND', 1, 1, 'C', 0);
+$pdf->Cell(12.75, 4.25, '3RD', 1, 0, 'C', 0);
+$pdf->Cell(12.75, 4.25, '4TH', 1, 1, 'C', 0);
 
 $pdf->ln(-5);
 $pdf->SetX(174);
@@ -679,32 +683,62 @@ $pdf->Cell(12.8, 4.25, 'GRADE', 0, 0, 'C', 0);
 $pdf->SetX(188.5);
 $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 
-/*1st Semester Table*/
-$pdf->ln(0.7);
-$pdf->SetFont('unicodehelvetin', '', 7);
-$pdf->SetX(11);
-$pdf->SetFillColor(0);
-$pdf->SetFont('unicodehelvetin', '', 7);
-$pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
-$pdf->Cell(30, 5, '', 1, 0, 'C', 0);
-$pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
-$pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
-$pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
-$pdf->Cell(16, 5, '', 1, 0, 'C', 0);
-$pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
-$pdf->SetFont('unicodehelvetin', '', 7);
-$pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+$studentName = $studentRow['name'];
+$sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd' AND `subject_type` != '' AND `subject_title` != '' ORDER BY `subject_type`, `subject_title` ASC";
+$sf92Result = $conn->query($sf92);
+$sf92Count = $sf92Result->num_rows;
+$finalGrade2 = 0;
+/*2ND Semester Table*/
+if ($sf92Count == 0) {
+    $pdf->ln(0.7);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+} else {
+    while ($sf92Row = $sf92Result->fetch_assoc()) {
+        $finalGrade2 += (float) $sf92Row['final_grade'];
+        $pdf->ln(0.7);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf92Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf92Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf92Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf92Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+}
 
-$pdf->SetFillColor(0);
-$pdf->SetX(11);
-$pdf->SetFont('unicodehelvetin', '', 7.4);
-$pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
-$pdf->SetFillColor(192);
-
+$finalGradeAverage2 = $sf92Count > 0 ? $finalGrade2 / $sf92Count : 0;
+$finalGradeRemarks2 = $finalGradeAverage2 >= 75 ? "PASSED" : "FAILED";
 $pdf->SetFont('helveticanarrowb', '', 6.5);
 $pdf->Cell(161.3, 4, 'General Ave. for the Semester:', 1, 0, 'R', 1);
-$pdf->Cell(16, 4, 'AVE', 1, 0, 'C', 0);
-$pdf->Cell(15.8, 4, 'AVE', 1, 0, 'C', 0);
+$pdf->Cell(16, 4, round($finalGradeAverage2), 1, 0, 'C', 0);
+$pdf->Cell(15.8, 4, $finalGradeRemarks2, 1, 0, 'C', 0);
 
 $pdf->SetFillColor(0);
 $pdf->SetFont('unicodehelvetin', '', 7.4);

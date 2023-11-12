@@ -70,12 +70,12 @@ $studentRow = $studentResult->fetch_assoc();
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr class="fw-bold" style="font-size: 14px;">
-                                        <td>Semester</td>
-                                        <td>Subject Type</td>
+                                        <td style="width: 100px;">Semester</td>
+                                        <td style="width: 150px;">Subject Type</td>
                                         <td>Subject Title</td>
-                                        <td>Quarter Grade</td>
-                                        <td>Quarter Grade</td>
-                                        <td>Sem Final Grade</td>
+                                        <td style="width: 100px;">Quarter Grade</td>
+                                        <td style="width: 100px;">Quarter Grade</td>
+                                        <td style="width: 130px;">Sem Final Grade</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -585,9 +585,6 @@ $studentRow = $studentResult->fetch_assoc();
 </html>
 <?php
 if (isset($_POST['add_sf9'])) {
-    $studentName = $studentRow['name'];
-
-    $studentName = $studentRow['name'];
     $studentName = $studentRow['name'];
 
     for ($i = 1; $i <= 10; $i++) {
