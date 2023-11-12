@@ -24,8 +24,8 @@ $studentRow = $studentResult->fetch_assoc();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(document).on('change', 'select[name^="sem"], select[name^="subject_type"]', function() {
-                var semester = $(this).closest('tr').find('select[name^="sem"]').val();
+            $(document).on('change', 'input[name^="sem"], select[name^="subject_type"]', function() {
+                var semester = $(this).closest('tr').find('input[name^="sem"]').val();
                 var subjectType = $(this).closest('tr').find('select[name^="subject_type"]').val();
                 var subjectTitle = $(this).closest('tr').find('select[name^="subject_title"]');
 
@@ -42,68 +42,7 @@ $studentRow = $studentResult->fetch_assoc();
                 });
             });
         });
-
-        // This function adds a new row to the table
-        let rowCounter = 1;
-
-        function addNewRow() {
-            var newRow = `<tr>
-                            <!-- The structure for the new row will be the same as the initial row -->
-                            <!-- ... Insert structure of a row here ... -->
-                                        <td>
-                                                <select class="form-select bg-body-tertiary" name="sem[]" id="sem_${rowCounter}">
-                                                    <option value="" selected>--Semester--</option>
-                                                    <option value="1st">1st</option>
-                                                    <option value="2nd">2nd</option>
-                                                    <option value="3rd">3rd</option>
-                                                </select>
-                                        </td>
-                                        <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type_${rowCounter}">
-                                                    <option value="" selected>--Subject type--</option>
-                                                    <option value="Core">Core</option>
-                                                    <option value="Applied">Applied</option>
-                                                    <option value="Specialized">Specialized</option>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject type.</div>
-                                        </td>
-                                        <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title_${rowCounter}">
-                                                    <option value="" selected disabled>--Subject title--</option>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject title.</div>
-                                        </td>
-                                        <td>
-                                                <input type="number" name="first[]" id="first_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
-                                        </td>
-                                        <td>
-                                                <input type="number" name="second[]" id="second_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
-                                        </td>
-                                        <td>
-                                                <input type="text" name="final_grade[]" id="final_grade_${rowCounter}" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1">.</div>
-                                        </td>
-                        </tr>`;
-
-            $('.grades').append(newRow); // Append the new row to the table body
-            rowCounter++;
-        }
-
-        $(document).ready(function() {
-            // Event delegation to handle change event for dynamically added rows
-            $(document).on('change', 'select[name^="sem"]:last', function() {
-                addNewRow();
-            });
-        });
     </script>
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -139,50 +78,78 @@ $studentRow = $studentResult->fetch_assoc();
                                         <td>Sem Final Grade</td>
                                     </tr>
                                 </thead>
-                                <tbody class="grades">
+                                <tbody>
+                                    <?php
+                                    for ($i = 1; $i <= 10; $i++) {
+                                        echo
+                                        '
                                     <tr>
                                         <td>
-                                            <select class="form-select-sm w-100 bg-body-tertiary" name="sem[]" id="sem">
-                                                <option value="" selected>--Semester--</option>
-                                                <?php
-                                                $semester = "SELECT DISTINCT `name` FROM `semester`";
-                                                $semesterResult = $conn->query($semester);
-                                                while ($semesterRow = $semesterResult->fetch_assoc()) :
-                                                ?> <option value="<?php echo $semesterRow['name'] ?>"><?php echo $semesterRow['name'] ?></option>
-                                                <?php endwhile; ?>
-                                            </select>
+                                            <input type="text" name="sem1' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="1st" readonly />
                                         </td>
                                         <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type">
+                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">
                                                 <option value="" selected>--Subject type--</option>
                                                 <option value="Core">Core</option>
                                                 <option value="Applied">Applied</option>
                                                 <option value="Specialized">Specialized</option>
                                             </select>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select subject type.</div>
                                         </td>
                                         <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title">
+                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">
                                                 <option value="" selected disabled>--Subject title--</option>
                                             </select>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select subject title.</div>
                                         </td>
                                         <td>
-                                            <input type="number" name="first[]" id="first" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage1stRow()" step="0.01" min="0" max="100" required />
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
+                                            <input type="number" name="first1' . $i . '" id="first1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" />
                                         </td>
                                         <td>
-                                            <input type="number" name="second[]" id="second" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage1stRow()" step="0.01" min="0" max="100" />
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
+                                            <input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" />
                                         </td>
                                         <td>
-                                            <input type="text" name="final_grade[]" id="final_grade" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                            <input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
                                         </td>
                                     </tr>
+                                        ';
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td colspan="6" class="fw-bold text-center">2nd Semester</td>
+                                    </tr>
+                                    <?php
+                                    for ($i = 1; $i <= 10; $i++) {
+                                        echo
+                                        '
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="sem2' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="2nd" readonly />
+                                        </td>
+                                        <td>
+                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $i . '">
+                                                <option value="" selected>--Subject type--</option>
+                                                <option value="Core">Core</option>  
+                                                <option value="Applied">Applied</option>
+                                                <option value="Specialized">Specialized</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $i . '">
+                                                <option value="" selected disabled>--Subject title--</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="first2' . $i . '" id="first2' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $i . ')" step="0.01" max="100" />
+                                        </td>
+                                        <td>
+                                            <input type="number" name="second2' . $i . '" id="second2' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $i . ')" step="0.01" max="100" />
+                                        </td>
+                                        <td>
+                                            <input type="text" name="final_grade2' . $i . '" id="final_grade2' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                        </td>
+                                    </tr>
+                                        ';
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                             <br>
@@ -200,21 +167,21 @@ $studentRow = $studentResult->fetch_assoc();
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="fw-bold">BLENDED</td>
+                                        <td class="fw-bold" style="font-size: small;">BLENDED</td>
                                         <td><input type="checkbox" name="blended_q1" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="blended_q2" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="blended_q3" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="blended_q4" value="1" class="w-100"></td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">MODULAR DISTANCE LEARNING</td>
+                                        <td class="fw-bold" style="font-size: small;">MODULAR DISTANCE LEARNING</td>
                                         <td><input type="checkbox" name="mdl_q1" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="mdl_q2" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="mdl_q3" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="mdl_q4" value="1" class="w-100"></td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">IN-PERSON</td>
+                                        <td class="fw-bold" style="font-size: small;">IN-PERSON</td>
                                         <td><input type="checkbox" name="ip_q1" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="ip_q2" value="1" class="w-100"></td>
                                         <td><input type="checkbox" name="ip_q3" value="1" class="w-100"></td>
@@ -567,14 +534,14 @@ $studentRow = $studentResult->fetch_assoc();
 
     <script>
         function calculateAverage(index) {
-            var first = parseFloat(document.getElementById("first_" + index).value);
-            var second = parseFloat(document.getElementById("second_" + index).value);
-            var finalGrade = document.getElementById("final_grade_" + index);
+            var first = parseFloat(document.getElementById("first1" + index).value);
+            var second = parseFloat(document.getElementById("second1" + index).value);
+            var finalGrade = document.getElementById("final_grade1" + index);
 
             if (!isNaN(first) && !isNaN(second)) {
                 var average = (first + second) / 2;
                 var roundedAverage = Math.round(average);
-                document.getElementById("final_grade_" + index).value = roundedAverage;
+                document.getElementById("final_grade1" + index).value = roundedAverage;
                 finalGrade.value = roundedAverage;
 
                 if (average >= 75) {
@@ -585,23 +552,22 @@ $studentRow = $studentResult->fetch_assoc();
             }
         }
     </script>
-
     <script>
-        function calculateAverage1stRow() {
-            var first = parseFloat(document.getElementById("first").value);
-            var second = parseFloat(document.getElementById("second").value);
-            var final_grade = parseFloat(document.getElementById("final_grade").value);
+        function calculateAverage2ndSem(index) {
+            var first = parseFloat(document.getElementById("first2" + index).value);
+            var second = parseFloat(document.getElementById("second2" + index).value);
+            var finalGrade = document.getElementById("final_grade2" + index);
 
             if (!isNaN(first) && !isNaN(second)) {
                 var average = (first + second) / 2;
                 var roundedAverage = Math.round(average);
-                document.getElementById("final_grade").value = roundedAverage;
+                document.getElementById("final_grade2" + index).value = roundedAverage;
+                finalGrade.value = roundedAverage;
 
-                var finalGradeElement = document.getElementById("final_grade");
-                if (roundedAverage < 75) {
-                    finalGradeElement.style.color = "red";
+                if (average >= 75) {
+                    finalGrade.style.color = 'green';
                 } else {
-                    finalGradeElement.style.color = "green";
+                    finalGrade.style.color = 'red';
                 }
             }
         }
@@ -620,27 +586,32 @@ $studentRow = $studentResult->fetch_assoc();
 <?php
 if (isset($_POST['add_sf9'])) {
     $studentName = $studentRow['name'];
-    $rowCount = count($_POST['sem']); // Get the total count of rows
 
-    for ($index = 0; $index < $rowCount; $index++) {
-        $subject_type = mysqli_real_escape_string($conn, $_POST['subject_type'][$index]);
-        $subject_title = mysqli_real_escape_string($conn, $_POST['subject_title'][$index]);
-        $first = (float)$_POST['first'][$index]; // Modified to use 'first' array
-        $second = (float)$_POST['second'][$index]; // Modified to use 'second' array
-        $sem = mysqli_real_escape_string($conn, $_POST['sem'][$index]);
+    $studentName = $studentRow['name'];
+    $studentName = $studentRow['name'];
 
-        // Check if the required fields are not empty and are valid numbers
-        if (!empty($subject_type) && !empty($subject_title) && is_numeric($first) && is_numeric($second)) {
-            $final_grade = round(($first + $second) / 2);
+    for ($i = 1; $i <= 10; $i++) {
+        $sem1 = $_POST['sem1' . $i];
+        $subjectType1 = $_POST['subject_type1' . $i];
+        $subjectTitle1 = $_POST['subject_title1' . $i];
+        $first1 = (float)$_POST['first1' . $i];
+        $second1 = (float)$_POST['second1' . $i];
+        $finalGrade1 = ($first1 + $second1) / 2;
 
-            // Insert data for each non-empty and valid row into the database
-            $insert = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subject_type','$subject_title','$first','$second','$final_grade','$sem')";
-            $insertResult = $conn->query($insert);
-        } else {
-            // Handle the case where fields are empty or not valid
-            echo "Error: Invalid or empty values in row $index";
-            // You might also consider logging the error for debugging purposes.
-        }
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1')";
+        $sqlResult = $conn->query($sql);
+    }
+
+    for ($i = 1; $i <= 10; $i++) {
+        $sem2 = $_POST['sem2' . $i];
+        $subjectType2 = $_POST['subject_type2' . $i];
+        $subjectTitle2 = $_POST['subject_title2' . $i];
+        $first2 = (float)$_POST['first2' . $i];
+        $second2 = (float)$_POST['second2' . $i];
+        $finalGrade2 = ($first2 + $second2) / 2;
+
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2')";
+        $sqlResult = $conn->query($sql);
     }
 
     $blendedQ1 = isset($_POST['blended_q1']) ? 1 : 0;

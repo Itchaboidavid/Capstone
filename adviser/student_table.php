@@ -80,6 +80,7 @@ $sctn = $studentSectionRow['name'];
                                     <th>Birthday</th>
                                     <th>Age</th>
                                     <th>Grade & Section</th>
+                                    <th>Remarks</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -96,6 +97,20 @@ $sctn = $studentSectionRow['name'];
                                         <td><?php echo $studentRow["birth_date"] ?></td>
                                         <td><?php echo $studentRow["age"] ?></td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                        <?php
+                                        $student = "SELECT * FROM `student` WHERE `section` = '$sctn' ORDER BY `name` ASC";
+                                        $studentResult = $conn->query($student);
+                                        $studentRow = $studentResult->fetch_assoc();
+                                        $name = $studentRow['name'];
+                                        $checksf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$name'";
+                                        $checksf9Result = $conn->query($checksf9);
+                                        $checksf9Count = $checksf9Result->num_rows;
+                                        if ($checksf9Count > 0) {
+                                            echo '<td class="text-success">Done</td>';
+                                        } else {
+                                            echo '<td class="text-warning">Pending</td>';
+                                        }
+                                        ?>
                                         <td>
                                             <a href="add_sf9.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none; color:green; border-right: 1px solid black;" class="me-1 pe-1">
                                                 <i class="fa-solid fa-plus"></i>

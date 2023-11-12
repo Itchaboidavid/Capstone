@@ -25,8 +25,8 @@ $studentName = $studentRow['name'];
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(document).on('change', 'select[name^="sem"], select[name^="subject_type"]', function() {
-                var semester = $(this).closest('tr').find('select[name^="sem"]').val();
+            $(document).on('change', 'input[name^="sem"], select[name^="subject_type"]', function() {
+                var semester = $(this).closest('tr').find('input[name^="sem"]').val();
                 var subjectType = $(this).closest('tr').find('select[name^="subject_type"]').val();
                 var subjectTitle = $(this).closest('tr').find('select[name^="subject_title"]');
 
@@ -43,68 +43,7 @@ $studentName = $studentRow['name'];
                 });
             });
         });
-
-        // This function adds a new row to the table
-        let rowCounter = 1;
-
-        function addNewRow() {
-            var newRow = `<tr>
-                            <!-- The structure for the new row will be the same as the initial row -->
-                            <!-- ... Insert structure of a row here ... -->
-                                        <td>
-                                                <select class="form-select bg-body-tertiary" name="sem[]" id="sem_${rowCounter}">
-                                                    <option value="" selected>--Semester--</option>
-                                                    <option value="1st">1st</option>
-                                                    <option value="2nd">2nd</option>
-                                                    <option value="3rd">3rd</option>
-                                                </select>
-                                        </td>
-                                        <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type_${rowCounter}">
-                                                    <option value="" selected>--Subject type--</option>
-                                                    <option value="Core">Core</option>
-                                                    <option value="Applied">Applied</option>
-                                                    <option value="Specialized">Specialized</option>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject type.</div>
-                                        </td>
-                                        <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title_${rowCounter}">
-                                                    <option value="" selected disabled>--Subject title--</option>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject title.</div>
-                                        </td>
-                                        <td>
-                                                <input type="number" name="first[]" id="first_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
-                                        </td>
-                                        <td>
-                                                <input type="number" name="second[]" id="second_${rowCounter}" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(${rowCounter})" step="0.01" min="0" max="100" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
-                                        </td>
-                                        <td>
-                                                <input type="text" name="final_grade[]" id="final_grade_${rowCounter}" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1">.</div>
-                                        </td>
-                        </tr>`;
-
-            $('.grades').append(newRow); // Append the new row to the table body
-            rowCounter++;
-        }
-
-        $(document).ready(function() {
-            // Event delegation to handle change event for dynamically added rows
-            $(document).on('change', 'select[name^="sem"]:last', function() {
-                addNewRow();
-            });
-        });
     </script>
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -140,71 +79,89 @@ $studentName = $studentRow['name'];
                                         <td>Sem Final Grade</td>
                                     </tr>
                                 </thead>
-                                <tbody class="grades">
+                                <tbody>
                                     <?php
-                                    $sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName'";
-                                    $sf9Result = $conn->query($sf9);
-                                    $count = 0;
-                                    while ($sf9Row = $sf9Result->fetch_assoc()) :
+                                    $sf91 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st' ORDER BY `subject_type` ASC";
+                                    $sf91Result = $conn->query($sf91);
+                                    $i = 1;
+
+                                    $fetchedData = [];
+                                    while ($sf91Row = $sf91Result->fetch_assoc()) {
+                                        $fetchedData[$i] = $sf91Row;
+                                        $i++;
+                                    }
+                                    for ($i = 1; $i <= 10; $i++) {
+                                        echo '<tr>';
+
+                                        // Display form fields with fetched data
+                                        echo '<td>
+                                            <input type="hidden" name="id' . $i . '" value="' . $fetchedData[$i]['id'] . '" />
+                                            <input type="text" name="sem1' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="1st" readonly />
+                                            </td>';
+                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">';
+                                        echo '<option value="' . $fetchedData[$i]['subject_type'] . '" selected>' . $fetchedData[$i]['subject_type'] . '</option>';
+                                        echo '<option value="Core">Core</option>';
+                                        echo '<option value="Applied">Applied</option>';
+                                        echo '<option value="Specialized">Specialized</option>';
+                                        echo '</select></td>';
+
+                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">';
+                                        echo '<option value="' . $fetchedData[$i]['subject_title'] . '" selected>' . $fetchedData[$i]['subject_title'] . '</option>';
+                                        echo '</select></td>';
+
+                                        echo '<td><input type="number" name="first1' . $i . '" id="first1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade1'] . '"/></td>';
+
+                                        echo '<td><input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade2'] . '" /></td>';
+
+                                        echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData[$i]['final_grade'] . '" /></td>';
+
+                                        echo '</tr>';
+                                    }
+
                                     ?>
-                                        <tr>
-                                            <td>
-                                                <select class="form-select-sm w-100 bg-body-tertiary" name="sem[]" id="sem">
-                                                    <option value="<?php echo $sf9Row['semester'] ?>" selected><?php echo $sf9Row['semester'] ?></option>
-                                                    <?php
-                                                    $semester = "SELECT DISTINCT `name` FROM `semester`";
-                                                    $semesterResult = $conn->query($semester);
-                                                    while ($semesterRow = $semesterResult->fetch_assoc()) :
-                                                    ?> <option value="<?php echo $semesterRow['name'] ?>"><?php echo $semesterRow['name'] ?></option>
-                                                    <?php endwhile; ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_type[]" id="subject_type">
-                                                    <option value="<?php echo $sf9Row['subject_type'] ?>" selected><?php echo $sf9Row['subject_type'] ?></option>
-                                                    <option value="Core">Core</option>
-                                                    <option value="Applied">Applied</option>
-                                                    <option value="Specialized">Specialized</option>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject type.</div>
-                                            </td>
-                                            <td>
-                                                <select class="form-select-sm bg-body-tertiary w-100" name="subject_title[]" id="subject_title">
-                                                    <option value="<?php echo $sf9Row['subject_title'] ?>" selected>
-                                                        <?php echo $sf9Row['subject_title'] ?>
-                                                    </option>
-                                                    <?php
-                                                    $subSem = $sf9Row['semester'];
-                                                    $subType = $sf9Row['subject_type'];
-                                                    $title = "SELECT * FROM `sf9` WHERE `semester` = '$subSem' AND `subject_type` = '$subType'";
-                                                    $titleResult = $conn->query($title);
-                                                    while ($titleRow = $titleResult->fetch_assoc()) :
-                                                        if ($titleRow['subject_title'] != $sf9Row['subject_title']) :
-                                                    ?>
-                                                            <option value="<?php echo $titleRow['subject_title'] ?>"><?php echo $titleRow['subject_title'] ?></option>
-                                                    <?php endif;
-                                                    endwhile; ?>
-                                                </select>
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please select subject title.</div>
-                                            </td>
-                                            <td>
-                                                <input type="number" name="first[]" id="first_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade1'] ?>" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 1st quarter grade.</div>
-                                            </td>
-                                            <td>
-                                                <input type="number" name="second[]" id="second_<?php echo $count; ?>" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(<?php echo $count; ?>)" step="0.01" min="0" max="100" required value="<?php echo $sf9Row['sem_grade2'] ?>" />
-                                                <div class="valid-feedback ps-1">Great!</div>
-                                                <div class="invalid-feedback ps-1"> Please enter 2nd quarter grade.</div>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="final_grade[]" id="final_grade_<?php echo $count; ?>" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="<?php echo $sf9Row['final_grade'] ?>" />
-                                            </td>
-                                        </tr>
-                                    <?php $count++;
-                                    endwhile; ?>
+                                    <!-- 2ndSEM -->
+                                    <tr>
+                                        <td colspan="6" class="fw-bold text-center">2nd Semester</td>
+                                    </tr>
+                                    <?php
+                                    $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd' ORDER BY `subject_type` ASC";
+                                    $sf92Result = $conn->query($sf92);
+                                    $x = 1;
+
+                                    $fetchedData2 = [];
+                                    while ($sf92Row = $sf92Result->fetch_assoc()) {
+                                        $fetchedData2[$x] = $sf92Row;
+                                        $x++;
+                                    }
+                                    for ($x = 1; $x <= 10; $x++) {
+                                        echo '<tr>';
+
+                                        // Display form fields with fetched data
+                                        echo '<td>
+                                            <input type="hidden" name="id2' . $x . '" value="' . $fetchedData2[$x]['id'] . '" />
+                                            <input type="text" name="sem2' . $x . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="2nd" readonly />
+                                            </td>';
+                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $x . '">';
+                                        echo '<option value="' . $fetchedData2[$x]['subject_type'] . '" selected>' . $fetchedData2[$x]['subject_type'] . '</option>';
+                                        echo '<option value="Core">Core</option>';
+                                        echo '<option value="Applied">Applied</option>';
+                                        echo '<option value="Specialized">Specialized</option>';
+                                        echo '</select></td>';
+
+                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $x . '">';
+                                        echo '<option value="' . $fetchedData2[$x]['subject_title'] . '" selected>' . $fetchedData2[$x]['subject_title'] . '</option>';
+                                        echo '</select></td>';
+
+                                        echo '<td><input type="number" name="first2' . $x . '" id="first2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade1'] . '"/></td>';
+
+                                        echo '<td><input type="number" name="second2' . $x . '" id="second2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade2'] . '" /></td>';
+
+                                        echo '<td><input type="text" name="final_grade2' . $x . '" id="final_grade2' . $x . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData2[$x]['final_grade'] . '" /></td>';
+
+                                        echo '</tr>';
+                                    }
+
+                                    ?>
                                 </tbody>
                             </table>
                             <br>
@@ -662,14 +619,34 @@ $studentName = $studentRow['name'];
 
     <script>
         function calculateAverage(index) {
-            var first = parseFloat(document.getElementById("first_" + index).value);
-            var second = parseFloat(document.getElementById("second_" + index).value);
-            var finalGrade = document.getElementById("final_grade_" + index);
+            var first = parseFloat(document.getElementById("first1" + index).value);
+            var second = parseFloat(document.getElementById("second1" + index).value);
+            var finalGrade = document.getElementById("final_grade1" + index);
 
             if (!isNaN(first) && !isNaN(second)) {
                 var average = (first + second) / 2;
                 var roundedAverage = Math.round(average);
-                document.getElementById("final_grade_" + index).value = roundedAverage;
+                document.getElementById("final_grade1" + index).value = roundedAverage;
+                finalGrade.value = roundedAverage;
+
+                if (average >= 75) {
+                    finalGrade.style.color = 'green';
+                } else {
+                    finalGrade.style.color = 'red';
+                }
+            }
+        }
+    </script>
+    <script>
+        function calculateAverage2ndSem(index) {
+            var first = parseFloat(document.getElementById("first2" + index).value);
+            var second = parseFloat(document.getElementById("second2" + index).value);
+            var finalGrade = document.getElementById("final_grade2" + index);
+
+            if (!isNaN(first) && !isNaN(second)) {
+                var average = (first + second) / 2;
+                var roundedAverage = Math.round(average);
+                document.getElementById("final_grade2" + index).value = roundedAverage;
                 finalGrade.value = roundedAverage;
 
                 if (average >= 75) {
@@ -694,28 +671,39 @@ $studentName = $studentRow['name'];
 <?php
 if (isset($_POST['edit_sf9'])) {
     $studentName = $studentRow['name'];
-    $rowCount = count($_POST['sem']); // Get the total count of rows
 
-    for ($index = 0; $index < $rowCount; $index++) {
-        $subject_type = mysqli_real_escape_string($conn, $_POST['subject_type'][$index]);
-        $subject_title = mysqli_real_escape_string($conn, $_POST['subject_title'][$index]);
-        $first = (float)$_POST['first'][$index]; // Modified to use 'first' array
-        $second = (float)$_POST['second'][$index]; // Modified to use 'second' array
-        $sem = mysqli_real_escape_string($conn, $_POST['sem'][$index]);
+    // Process form submission and update the database
+    for ($i = 1; $i <= 10; $i++) {
+        // Process form data and update the database
+        $id = $_POST['id' . $i];
+        $sem1 = $_POST['sem1' . $i];
+        $subjectType1 = $_POST['subject_type1' . $i];
+        $subjectTitle1 = $_POST['subject_title1' . $i];
+        $first1 = (float)$_POST['first1' . $i];
+        $second1 = (float)$_POST['second1' . $i];
+        $finalGrade1 = ($first1 + $second1) / 2;
 
-        // Check if the required fields are not empty and are valid numbers
-        if (!empty($subject_type) && !empty($subject_title) && is_numeric($first) && is_numeric($second)) {
-            $final_grade = round(($first + $second) / 2);
-
-            // Insert data for each non-empty and valid row into the database
-            $update = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subject_type',`subject_title`='$subject_title',`sem_grade1`='$first',`sem_grade2`='$second',`final_grade`='$final_grade',`semester`='$sem' WHERE `student_name`='$studentName' AND `subject_type`='$subject_type' AND `subject_title`='$subject_title' AND `semester`='$sem' LIMIT 1";
-            $updateResult = $conn->query($update);
-        } else {
-            // Handle the case where fields are empty or not valid
-            echo "Error: Invalid or empty values in row $index";
-            // You might also consider logging the error for debugging purposes.
-        }
+        // Update the database
+        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType1',`subject_title`='$subjectTitle1',`sem_grade1`='$first1',`sem_grade2`='$second1',`final_grade`='$finalGrade1',`semester`='$sem1' WHERE `id` = '$id'";
+        $sqlResult = $conn->query($sql);
     }
+
+    // Process form submission and update the database
+    for ($x = 1; $x <= 10; $x++) {
+        // Process form data and update the database
+        $id2 = $_POST['id2' . $x];
+        $sem2 = $_POST['sem2' . $x];
+        $subjectType2 = $_POST['subject_type2' . $x];
+        $subjectTitle2 = $_POST['subject_title2' . $x];
+        $first2 = (float)$_POST['first2' . $x];
+        $second2 = (float)$_POST['second2' . $x];
+        $finalGrade2 = ($first2 + $second2) / 2;
+
+        // Update the database
+        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType2',`subject_title`='$subjectTitle2',`sem_grade1`='$first2',`sem_grade2`='$second2',`final_grade`='$finalGrade2',`semester`='$sem2' WHERE `id` = '$id2'";
+        $sqlResult = $conn->query($sql);
+    }
+
 
     $blendedQ1 = isset($_POST['blended_q1']) ? 1 : 0;
     $blendedQ2 = isset($_POST['blended_q2']) ? 1 : 0;
