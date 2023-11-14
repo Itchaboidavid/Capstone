@@ -121,6 +121,9 @@ $sctn = $studentSectionRow['name'];
                                             <a href="edit_sf9.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-3 pe-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
+                                            <a href="edit_sf10.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-1 pe-1">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
                                             <a href="sf9back.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" target="_blank">
                                                 <i class="fa-solid fa-print"></i>
                                             </a>

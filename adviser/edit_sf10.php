@@ -6,6 +6,7 @@ $id = $_GET["id"];
 $student = "SELECT * FROM `student` WHERE `id` = '$id'";
 $studentResult = $conn->query($student);
 $studentRow = $studentResult->fetch_assoc();
+$studentName = $studentRow['name'];
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ $studentRow = $studentResult->fetch_assoc();
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>SF 10 REMEDIAL</title>
+    <title>EDIT SF 10 REMEDIAL</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -56,7 +57,7 @@ $studentRow = $studentResult->fetch_assoc();
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="student_table.php">Student Table</a></li>
-                            <li class="breadcrumb-item active">SF 10 REMEDIAL</li>
+                            <li class="breadcrumb-item active">EDIT SF 10 REMEDIAL</li>
                         </ol>
                     </div>
                 </div>
@@ -80,43 +81,53 @@ $studentRow = $studentResult->fetch_assoc();
                                 </thead>
                                 <tbody>
                                     <?php
+                                    $remedial = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$studentName'";
+                                    $remedialResult = $conn->query($remedial);
+                                    $i = 1;
+
+                                    $fetchedData = [];
+                                    while ($remedialRow = $remedialResult->fetch_assoc()) {
+                                        $fetchedData[$i] = $remedialRow;
+                                        $i++;
+                                    }
                                     for ($i = 1; $i <= 5; $i++) {
                                         echo
                                         '
-                                    <tr>
-                                        <td>
-                                        <select class="form-select-sm bg-body-tertiary w-100" name="semester' . $i . '">
-                                        <option value="" selected>Semester</option>
-                                        <option value="1st">1st</option>
-                                        <option value="2nd">2nd</option>
-                                    </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_type' . $i . '">
-                                                <option value="" selected>Subject type</option>
-                                                <option value="Core">Core</option>
-                                                <option value="Applied">Applied</option>
-                                                <option value="Specialized">Specialized</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-select-sm bg-body-tertiary w-100" name="subject_title' . $i . '">
-                                                <option value="" selected disabled>Subject title</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="first' . $i . '" id="first' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" />
-                                        </td>
-                                        <td>
-                                            <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" />
-                                        </td>
-                                        <td>
-                                            <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly />
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                                <td>
+                                                    <input type="hidden" name="id' . $i . '" value="' . $fetchedData[$i]["id"] . '" />
+                                                    <select class="form-select-sm bg-body-tertiary w-100" name="semester' . $i . '">
+                                                        <option value="' . $fetchedData[$i]["semester"] . '" selected>' . $fetchedData[$i]["semester"] . '</option>
+                                                        <option value="1st">1st</option>
+                                                        <option value="2nd">2nd</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-select-sm bg-body-tertiary w-100" name="subject_type' . $i . '">
+                                                        <option value="' . $fetchedData[$i]["subject_type"] . '" selected>' . $fetchedData[$i]["subject_type"] . '</option>
+                                                        <option value="Core">Core</option>
+                                                        <option value="Applied">Applied</option>
+                                                        <option value="Specialized">Specialized</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-select-sm bg-body-tertiary w-100" name="subject_title' . $i . '">
+                                                        <option value="' . $fetchedData[$i]["subject_title"] . '" selected readonly>' . $fetchedData[$i]["subject_title"] . '</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="first' . $i . '" id="first' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["old_grade"] . '"/>
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["new_grade"] . '"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData[$i]["final_grade"] . '" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["action"] . '" />
+                                                </td>
+                                            </tr>
                                         ';
                                     }
                                     ?>
@@ -125,7 +136,7 @@ $studentRow = $studentResult->fetch_assoc();
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
-                                <button type="submit" class="btn btn-primary" name="add_sf10">Add</button>
+                                <button type="submit" class="btn btn-primary" name="edit_sf10">Save</button>
                                 <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
@@ -172,10 +183,9 @@ $studentRow = $studentResult->fetch_assoc();
 
 </html>
 <?php
-if (isset($_POST['add_sf10'])) {
-    $studentName = $studentRow['name'];
-
+if (isset($_POST['edit_sf10'])) {
     for ($i = 1; $i <= 5; $i++) {
+        $id = $conn->real_escape_string($_POST['id' . $i]);
         $sem = $conn->real_escape_string($_POST['semester' . $i]);
         $subjectType = $conn->real_escape_string($_POST['subject_type' . $i]);
         $subjectTitle = $conn->real_escape_string($_POST['subject_title' . $i]);
@@ -184,11 +194,11 @@ if (isset($_POST['add_sf10'])) {
         $finalGrade = ($first + $second) / 2;
         $action = $conn->real_escape_string($_POST['action' . $i]);
 
-        $sql = "INSERT INTO `sf10remedial`(`student_name`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`) VALUES ('$studentName','$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action')";
+        $sql = "UPDATE `sf10remedial` SET `subject_type`='$subjectType',`subject_title`='$subjectTitle',`old_grade`='$first',`new_grade`='$second',`final_grade`='$finalGrade',`semester`='$sem',`action`='$action' WHERE `id` = '$id'";
         $sqlResult = $conn->query($sql);
     }
-    echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
+
+    echo ("<script>location.href = 'student_table.php?msg=Information updated successfully!';</script>");
     exit();
 }
-
 ?>

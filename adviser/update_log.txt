@@ -1,0 +1,41 @@
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='Empowerment Technologies',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='dadawdawdaw',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='21st Century from the Philippines and the World',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='Empowerment Technologies',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='',`subject_title`='',`old_grade`='0',`new_grade`='0',`final_grade`='0',`semester`='',`action`='' WHERE `id` = ''
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'
+
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '23'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='Oral Communication in Context',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='2nd',`action`='PASSED' WHERE `id` = '24'
+UPDATE `sf10remedial` SET `subject_type`='Core',`subject_title`='21st Century from the Philippines and the World',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '25'
+UPDATE `sf10remedial` SET `subject_type`='Applied',`subject_title`='Empowerment Technologies',`old_grade`='77',`new_grade`='77',`final_grade`='77',`semester`='1st',`action`='PASSED' WHERE `id` = '26'

@@ -81,7 +81,7 @@ $studentName = $studentRow['name'];
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sf91 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st' ORDER BY `subject_type` ASC";
+                                    $sf91 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st'";
                                     $sf91Result = $conn->query($sf91);
                                     $i = 1;
 
@@ -124,7 +124,7 @@ $studentName = $studentRow['name'];
                                         <td colspan="6" class="fw-bold text-center">2nd Semester</td>
                                     </tr>
                                     <?php
-                                    $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd' ORDER BY `subject_type` ASC";
+                                    $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd'";
                                     $sf92Result = $conn->query($sf92);
                                     $x = 1;
 
