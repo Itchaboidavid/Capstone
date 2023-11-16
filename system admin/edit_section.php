@@ -111,24 +111,6 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select the grade.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="faculty" id="faculty">
-                                    <option value="<?php echo $sectionRow["faculty"] ?>" selected><?php echo $sectionRow["faculty"] ?></option>
-                                    <?php
-                                    $select = "SELECT * FROM user";
-                                    $result = mysqli_query($conn, $select);
-                                    while ($sectionRow_faculty = mysqli_fetch_assoc($result)) {
-                                        if ($sectionRow_faculty["name"] != "admin") {
-                                    ?>
-                                            <option value="<?php echo $sectionRow_faculty["name"] ?>"><?php echo $sectionRow_faculty["name"] ?></option>
-                                    <?php  }
-                                    }
-                                    ?>
-                                </select>
-                                <label for="faculty">faculty</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select a faculty.</div>
-                            </div>
-                            <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="semester" id="semester">
                                     <option value="<?php echo $sectionRow["semester"] ?>" selected><?php echo $sectionRow["semester"] ?></option>
                                     <?php
@@ -177,7 +159,6 @@ if (isset($_POST['edit_section'])) {
     $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
-    $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
 
     $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
@@ -188,7 +169,7 @@ if (isset($_POST['edit_section'])) {
     $start_year = $row_semester["start_year"];
     $end_year = $row_semester["end_year"];
 
-    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`faculty`='$faculty',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
+    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
     $result = mysqli_query($conn, $update);
 
     if ($result) {

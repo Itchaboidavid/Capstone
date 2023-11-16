@@ -14,6 +14,13 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -75,6 +82,21 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select type of user.</div>
                                         </div>
                                         <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="section" id="section">
+                                                <option value="" selected>Section</option>
+                                                <?php
+                                                $section = "SELECT * FROM `section`";
+                                                $sectionResult = $conn->query($section);
+                                                while ($sectionRow = $sectionResult->fetch_assoc()) {
+                                                    echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                            <label for="section">Section</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a section.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                                 <option value="" selected>Status</option>
                                                 <option value="active" class="text-success">Active</option>
@@ -124,6 +146,7 @@ session_start();
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Status</th>
+                                    <th>Section</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -133,6 +156,7 @@ session_start();
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Status</th>
+                                    <th>Section</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
@@ -147,6 +171,7 @@ session_start();
                                             <td><?php echo $userRow["id"] ?></td>
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
+                                            <td><?php echo $userRow["section"] ?></td>
                                             <td>
                                                 <?php if ($userRow["status"] == "active") {
                                                     echo '<span class="text-success">' . $userRow["status"] . "</span>";
@@ -189,6 +214,7 @@ if (isset($_POST["add_user"])) {
     $password = md5($_POST["password"]);
     $password2 = $_POST["password"];
     $user_type = mysqli_real_escape_string($conn, $_POST["user_type"]);
+    $section = mysqli_real_escape_string($conn, $_POST["section"]);
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
     $select = "SELECT * FROM user WHERE username = '$username' AND `name` = '$name'";
@@ -198,7 +224,7 @@ if (isset($_POST["add_user"])) {
         echo ("<script>location.href = 'user_table.php?errmsg=The class adviser account already exist / The class advisory is already been assigned!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`, `status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type', '$status')";
+        $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`, `section`, `status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type', '$section', '$status')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'user_table.php?msg=Account successfully registered!';</script>");
         exit();

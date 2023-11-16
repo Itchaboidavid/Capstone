@@ -14,7 +14,13 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
         // $(document).ready(function() {
@@ -38,7 +44,7 @@ session_start();
             $("#filterSemester").change(function() {
                 var selectedSemester = $(this).val();
                 $("#datatablesSimple tbody tr").each(function() {
-                    var semester = $(this).find("td:eq(5)").text(); // Assuming semester is in the 6th column
+                    var semester = $(this).find("td:eq(4)").text(); // Assuming semester is in the 6th column
                     if (selectedSemester === "all" || selectedSemester === semester) {
                         $(this).show();
                     } else {
@@ -114,41 +120,6 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select strand.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="faculty" id="faculty" required>
-                                                <option value="" selected>Faculty</option>
-                                                <?php
-                                                // Fetch all advisers
-                                                $tchr = "SELECT * FROM `user` WHERE `user_type` = 'adviser'";
-                                                $tchrResult = $conn->query($tchr);
-                                                $availableAdvisers = [];
-
-                                                while ($tchrRow = $tchrResult->fetch_assoc()) {
-                                                    $availableAdvisers[] = $tchrRow['name'];
-                                                }
-
-                                                // Fetch already assigned faculty
-                                                $existingFaculty = [];
-                                                $existingFacultyQuery = "SELECT DISTINCT `faculty` FROM `section`";
-                                                $existingFacultyResult = $conn->query($existingFacultyQuery);
-                                                while ($row = $existingFacultyResult->fetch_assoc()) {
-                                                    $existingFaculty[] = $row['faculty'];
-                                                }
-
-                                                // Output advisers who are not already assigned as faculty
-                                                foreach ($availableAdvisers as $adviser) {
-                                                    if (!in_array($adviser, $existingFaculty)) {
-                                                ?>
-                                                        <option value="<?php echo $adviser; ?>"><?php echo $adviser; ?></option>
-                                                <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                            <label for="faculty">faculty</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select a faculty.</div>
-                                        </div>
-                                        <div class="form-floating mb-3 ">
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
                                                 <option value="" selected>Semester</option>
                                                 <?php
@@ -216,7 +187,6 @@ session_start();
                                     <th>Track</th>
                                     <th>Strand</th>
                                     <th>Grade</th>
-                                    <th>Faculty</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
@@ -227,7 +197,6 @@ session_start();
                                     <th>Track</th>
                                     <th>Strand</th>
                                     <th>Grade</th>
-                                    <th>Faculty</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
@@ -243,7 +212,6 @@ session_start();
                                         <td><?php echo $sectionRow["track"] ?></td>
                                         <td><?php echo $sectionRow["strand"] ?></td>
                                         <td><?php echo $sectionRow["grade"] ?></td>
-                                        <td><?php echo $sectionRow["faculty"] ?></td>
                                         <td><?php echo $sectionRow["semester"] ?></td>
                                         <td>
                                             <a href="edit_section.php?id=<?php echo $sectionRow['id'] ?>" style="border: none; background: transparent;">

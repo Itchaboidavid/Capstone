@@ -14,6 +14,13 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
 </head>
 
 <body class="sb-nav-fixed">

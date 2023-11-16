@@ -3,10 +3,14 @@ include("../config.php");
 session_start();
 
 $faculty = $_SESSION['name'];
-$studentSection = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
+$section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
+$sectionResult = $conn->query($section);
+$sectionRow = $sectionResult->fetch_assoc();
+$sectionName = $sectionRow['section'];
+
+$studentSection = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
 $studentSectionResult = $conn->query($studentSection);
 $studentSectionRow = $studentSectionResult->fetch_assoc();
-$sctn = $studentSectionRow['name'];
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +68,7 @@ $sctn = $studentSectionRow['name'];
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-table me-1"></i>
-                            <?php echo $sctn . " - " . $studentSectionRow['grade'] ?>
+                            <?php echo $sectionName . " - " . $studentSectionRow['grade'] ?>
                         </div>
                         <a href="sf5.php" style="border: none; background: transparent;" target="_blank">
                             <i class="fa-solid fa-print"></i>
@@ -86,7 +90,7 @@ $sctn = $studentSectionRow['name'];
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sctn' ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>
@@ -98,7 +102,7 @@ $sctn = $studentSectionRow['name'];
                                         <td><?php echo $studentRow["age"] ?></td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
                                         <?php
-                                        $student = "SELECT * FROM `student` WHERE `section` = '$sctn' ORDER BY `name` ASC";
+                                        $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' ORDER BY `name` ASC";
                                         $studentResult = $conn->query($student);
                                         $studentRow = $studentResult->fetch_assoc();
                                         $name = $studentRow['name'];
@@ -112,24 +116,42 @@ $sctn = $studentSectionRow['name'];
                                         }
                                         ?>
                                         <td>
-                                            <a href="add_sf9.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none; color:green; border-right: 1px solid black;" class="me-1 pe-1">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </a>
-                                            <a href="add_sf10.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none; color:green; border-right: 1px solid black;" class="me-1 pe-1">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </a>
-                                            <a href="edit_sf9.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-3 pe-1">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </a>
-                                            <a href="edit_sf10.php?id=<?php echo $studentRow['id'] ?>section=" style="border: none; background: transparent; text-decoration:none; border-right: 1px solid black;" class="mx-1 pe-1">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </a>
-                                            <a href="sf9back.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" target="_blank">
-                                                <i class="fa-solid fa-print"></i>
-                                            </a>
-                                            <a href="sf9&10.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" target="_blank">
-                                                <i class="fa-solid fa-print"></i>
-                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="add_sf9.php?id=<?php echo $studentRow['id'] ?>">
+                                                            Add SF9
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="add_sf10.php?id=<?php echo $studentRow['id'] ?>">Add SF10 Remedial
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="edit_sf9.php?id=<?php echo $studentRow['id'] ?>">
+                                                            Edit SF9
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="edit_sf10.php?id=<?php echo $studentRow['id'] ?>">
+                                                            Edit SF10 Remedial
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="sf9back.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
+                                                            Print SF9
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="sf9&10.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
+                                                            Print SF10
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php

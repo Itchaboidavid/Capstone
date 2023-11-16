@@ -9,7 +9,8 @@ $pdf = new TCPDF('P', 'mm', 'LETTER');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
-$sections = "SELECT * FROM `section` ORDER BY `name` ASC";
+$clinicSection = $_SESSION['section'];
+$sections = "SELECT * FROM `section` WHERE `name` = '$clinicSection'";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page
@@ -21,7 +22,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $pdf->Text(91.5, 5.5, 'Department of Education');
 
   $pdf->SetFont('helvetica', 'B', 6.2);
-  $pdf->Text(75.3, 9.5, "School Form 8 Learner's Basic Health and Nutrition Report (SF8)");
+  $pdf->Text(75.3, 9.5, "School Form 8 Learner's Basic Health and Nutrition Report (student)");
 
   $pdf->SetFont('helvetica', 'I', 5.2);
   $pdf->Text(100, 13.5, "(For All Grade Levels)");
@@ -173,24 +174,43 @@ while ($row = mysqli_fetch_assoc($result)) {
   //MALE TABLE
   $html = '<table>';
   $section = $row["name"];
-  $select_male = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' ORDER BY `name` ASC";
+  $select_male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' ORDER BY `name` ASC";
   $result_select_male = mysqli_query($conn, $select_male);
-  foreach ($result_select_male as $emp) {
+  $select_male_count = $result_select_male->num_rows;
+  if ($select_male_count == 0) {
     $html .= '<tr >
-    <td style="width:2.44%; nobr=true; text-align:center;">' . $emp["id"] . '</td>
-    <td style="width:7.5%; nobr=true; text-align:center;">' . $emp['lrn'] . '</td>
-    <td style="width:20.15%; nobr=true; text-align:center;">' . $emp['name'] . '</td>
-    <td style="width:7.52%; nobr=true; text-align:center;">' . $emp['birth_date'] . '</td>
-    <td style="width:5.6%; nobr=true; text-align:center;">' . $emp['age'] . '</td>
-    <td style="width:5.8%; nobr=true; text-align:center;">' . $emp['weight'] . '</td>
-    <td style="width:5.6%; nobr=true text-align:center;">' . $emp['height'] . '</td>
-    <td style="width:8%; nobr=true; text-align:center;">' . $emp['height2'] . '</td>
-    <td style="width:5.84%; nobr=true; text-align:center;">' . $emp["bmi"] . '</td>
-    <td style="width:7.78%; nobr=true; text-align:center;">' . $emp["bmi_category"] . '</td>
-    <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa'] . '</td>
-    <td style="width:12.6%;  nobr=true; text-align:center;">' . 'not yet done' . '</td>
+    <td style="width:2.44%; nobr=true; text-align:center;"></td>
+    <td style="width:7.5%; nobr=true; text-align:center;"></td>
+    <td style="width:20.15%; nobr=true; text-align:center;"></td>
+    <td style="width:7.52%; nobr=true; text-align:center;"></td>
+    <td style="width:5.6%; nobr=true; text-align:center;"></td>
+    <td style="width:5.8%; nobr=true; text-align:center;"></td>
+    <td style="width:5.6%; nobr=true text-align:center;"></td>
+    <td style="width:8%; nobr=true; text-align:center;"></td>
+    <td style="width:5.84%; nobr=true; text-align:center;"></td>
+    <td style="width:7.78%; nobr=true; text-align:center;"></td>
+    <td style="width:8.25%; nobr=true; text-align:center;"></td>
+    <td style="width:12.6%;  nobr=true; text-align:center;"></td>
     </tr>';
+  } else {
+    foreach ($result_select_male as $emp) {
+      $html .= '<tr >
+      <td style="width:2.44%; nobr=true; text-align:center;">' . $emp["id"] . '</td>
+      <td style="width:7.5%; nobr=true; text-align:center;">' . $emp['lrn'] . '</td>
+      <td style="width:20.15%; nobr=true; text-align:center;">' . $emp['name'] . '</td>
+      <td style="width:7.52%; nobr=true; text-align:center;">' . $emp['birth_date'] . '</td>
+      <td style="width:5.6%; nobr=true; text-align:center;">' . $emp['age'] . '</td>
+      <td style="width:5.8%; nobr=true; text-align:center;">' . $emp['weight'] . '</td>
+      <td style="width:5.6%; nobr=true text-align:center;">' . $emp['height'] . '</td>
+      <td style="width:8%; nobr=true; text-align:center;">' . $emp['height2'] . '</td>
+      <td style="width:5.84%; nobr=true; text-align:center;">' . $emp["bmi"] . '</td>
+      <td style="width:7.78%; nobr=true; text-align:center;">' . $emp["bmi_category"] . '</td>
+      <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa'] . '</td>
+      <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+      </tr>';
+    }
   }
+
   $html .= '
 </table>
 <style>
@@ -224,24 +244,42 @@ td {
 
   //FEMALE TALBE
   $html = '<table>';
-  $select_female = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' ORDER BY `name` ASC";
+  $select_female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' ORDER BY `name` ASC";
   $result_select_female = mysqli_query($conn, $select_female);
-  foreach ($result_select_female as $empf) {
+  if ($result_select_female->num_rows == 0) {
     $html .= '<tr>
-        <td style="width:2.44%; nobr=true; text-align:center;">' . $empf["id"] . '</td>
-        <td style="width:7.5%; nobr=true; text-align:center;">' . $empf['lrn'] . '</td>
-        <td style="width:20.15%; nobr=true; text-align:center;">' . $empf['name'] . '</td>
-        <td style="width:7.52%; nobr=true; text-align:center;">' . $empf['birth_date'] . '</td>
-        <td style="width:5.6%; nobr=true; text-align:center;">' . $empf['age'] . '</td>
-        <td style="width:5.8%; nobr=true; text-align:center;">' . $empf['weight'] . '</td>
-        <td style="width:5.6%; nobr=true text-align:center;">' . $empf['height'] . '</td>
-        <td style="width:8%; nobr=true; text-align:center;">' . $empf['height2'] . '</td>
-        <td style="width:5.84%; nobr=true; text-align:center;">' . $empf["bmi"] . '</td>
-        <td style="width:7.78%; nobr=true; text-align:center;">' . $empf["bmi_category"] . '</td>
-        <td style="width:8.25%; nobr=true; text-align:center;">' . $empf['hfa'] . '</td>
-        <td style="width:12.6%;  nobr=true; text-align:center;">' . 'not yet done' . '</td>
+        <td style="width:2.44%; nobr=true; text-align:center;"></td>
+        <td style="width:7.5%; nobr=true; text-align:center;"></td>
+        <td style="width:20.15%; nobr=true; text-align:center;"></td>
+        <td style="width:7.52%; nobr=true; text-align:center;"></td>
+        <td style="width:5.6%; nobr=true; text-align:center;"></td>
+        <td style="width:5.8%; nobr=true; text-align:center;"></td>
+        <td style="width:5.6%; nobr=true text-align:center;"></td>
+        <td style="width:8%; nobr=true; text-align:center;"></td>
+        <td style="width:5.84%; nobr=true; text-align:center;"></td>
+        <td style="width:7.78%; nobr=true; text-align:center;"></td>
+        <td style="width:8.25%; nobr=true; text-align:center;"></td>
+        <td style="width:12.6%;  nobr=true; text-align:center;"></td>
   </tr>';
+  } else {
+    foreach ($result_select_female as $empf) {
+      $html .= '<tr>
+          <td style="width:2.44%; nobr=true; text-align:center;">' . $empf["id"] . '</td>
+          <td style="width:7.5%; nobr=true; text-align:center;">' . $empf['lrn'] . '</td>
+          <td style="width:20.15%; nobr=true; text-align:center;">' . $empf['name'] . '</td>
+          <td style="width:7.52%; nobr=true; text-align:center;">' . $empf['birth_date'] . '</td>
+          <td style="width:5.6%; nobr=true; text-align:center;">' . $empf['age'] . '</td>
+          <td style="width:5.8%; nobr=true; text-align:center;">' . $empf['weight'] . '</td>
+          <td style="width:5.6%; nobr=true text-align:center;">' . $empf['height'] . '</td>
+          <td style="width:8%; nobr=true; text-align:center;">' . $empf['height2'] . '</td>
+          <td style="width:5.84%; nobr=true; text-align:center;">' . $empf["bmi"] . '</td>
+          <td style="width:7.78%; nobr=true; text-align:center;">' . $empf["bmi_category"] . '</td>
+          <td style="width:8.25%; nobr=true; text-align:center;">' . $empf['hfa'] . '</td>
+          <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+    </tr>';
+    }
   }
+
   $html .= '
 </table>
 <style>
@@ -296,82 +334,127 @@ td {
   $pdf->Cell(20.5, 3.2, '        MALE', 1, 0, 'L', 1);
 
   //SEVERELY WASTED
-  $severelyWasted = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Severely wasted'";
+  $severelyWasted = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Severely wasted'";
   $severelyWastedResult = mysqli_query($conn, $severelyWasted);
   $severelyWastedCount = mysqli_num_rows($severelyWastedResult);
   $pdf->Cell(18, 3.2, $severelyWastedCount, 1, 0, 'C', 0);
 
   //WASTED
-  $wasted = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Wasted'";
+  $wasted = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Wasted'";
   $wastedResult = mysqli_query($conn, $wasted);
   $wastedCount = mysqli_num_rows($wastedResult);
   $pdf->Cell(11.5, 3.2, $wastedCount, 1, 0, 'C', 0);
 
   //NORMAL
-  $normal = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Normal'";
+  $normal = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Normal'";
   $normalResult = mysqli_query($conn, $normal);
   $normalCount = mysqli_num_rows($normalResult);
   $pdf->Cell(11.5, 3.2, $normalCount, 1, 0, 'C', 0);
 
   //OVERWEIGHT
-  $overweight = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Overweight'";
+  $overweight = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Overweight'";
   $overweightResult = mysqli_query($conn, $overweight);
   $overweightCount = mysqli_num_rows($overweightResult);
   $pdf->Cell(16.5, 3.2, $overweightCount, 1, 0, 'C', 0);
 
   //OBESE
-  $obese = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Obese'";
+  $obese = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `bmi_category` = 'Obese'";
   $obeseResult = mysqli_query($conn, $obese);
   $obeseCount = mysqli_num_rows($obeseResult);
   $pdf->Cell(11.5, 3.2, $obeseCount, 1, 0, 'C', 0);
 
   $totalM = $severelyWastedCount + $wastedCount + $normalCount + $overweightCount + $obeseCount;
   $pdf->Cell(11.5, 3.2, $totalM, 1, 0, 'C', 0);
-  $pdf->Cell(28, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(12, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(16, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(17, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(26, 3.2, '', 1, 1, 'C', 0);
+
+  //SEVERELY STUNTED
+  $severelyStunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `hfa_category` = 'Severely Stunted'";
+  $severelyStuntedResult = mysqli_query($conn, $severelyStunted);
+  $severelyStuntedCount = mysqli_num_rows($severelyStuntedResult);
+  $pdf->Cell(28, 3.2, $severelyStuntedCount, 1, 0, 'C', 0);
+
+  //STUNTED
+  $stunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `hfa_category` = 'Stunted'";
+  $stuntedResult = mysqli_query($conn, $stunted);
+  $stuntedCount = mysqli_num_rows($stuntedResult);
+  $pdf->Cell(12, 3.2,  $stuntedCount, 1, 0, 'C', 0);
+
+  //NORMAL
+  $normalHfa = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `hfa_category` = 'Normal'";
+  $normalHfaResult = mysqli_query($conn, $normalHfa);
+  $normalHfaCount = mysqli_num_rows($normalHfaResult);
+  $pdf->Cell(16, 3.2, $normalHfaCount, 1, 0, 'C', 0);
+
+  //TALL
+  $tall = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND `hfa_category` = 'Tall'";
+  $tallResult = mysqli_query($conn, $tall);
+  $tallCount = mysqli_num_rows($tallResult);
+  $pdf->Cell(17, 3.2, $tallCount, 1, 0, 'C', 0);
+
+  $totalMHfa = $tallCount + $normalHfaCount + $stuntedCount + $severelyStuntedCount;
+  $pdf->Cell(26, 3.2, $totalMHfa, 1, 1, 'C', 0);
 
   $pdf->Setx(9);
   $pdf->Cell(20.5, 3.2, '      FEMALE', 1, 0, 'L', 1);
   //SEVERELY WASTED
-  $severelyWastedf = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Severely wasted'";
+  $severelyWastedf = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Severely wasted'";
   $severelyWastedResultf = mysqli_query($conn, $severelyWastedf);
   $severelyWastedCountf = mysqli_num_rows($severelyWastedResultf);
   $pdf->Cell(18, 3.2, $severelyWastedCountf, 1, 0, 'C', 0);
 
   //WASTED
-  $wastedf = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Wasted'";
+  $wastedf = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Wasted'";
   $wastedResultf = mysqli_query($conn, $wastedf);
   $wastedCountf = mysqli_num_rows($wastedResultf);
   $pdf->Cell(11.5, 3.2, $wastedCountf, 1, 0, 'C', 0);
 
   //NORMAL
-  $normalf = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Normal'";
+  $normalf = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Normal'";
   $normalResultf = mysqli_query($conn, $normalf);
   $normalCountf = mysqli_num_rows($normalResultf);
   $pdf->Cell(11.5, 3.2, $normalCountf, 1, 0, 'C', 0);
 
   //OVERWEIGHT
-  $overweightf = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Overweight'";
+  $overweightf = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Overweight'";
   $overweightResultf = mysqli_query($conn, $overweightf);
   $overweightCountf = mysqli_num_rows($overweightResultf);
   $pdf->Cell(16.5, 3.2, $overweightCountf, 1, 0, 'C', 0);
 
   //OBESE
-  $obesef = "SELECT * FROM `sf8` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Obese'";
+  $obesef = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `bmi_category` = 'Obese'";
   $obeseResultf = mysqli_query($conn, $obesef);
   $obeseCountf = mysqli_num_rows($obeseResultf);
   $pdf->Cell(11.5, 3.2, $obeseCountf, 1, 0, 'C', 0);
 
   $totalF = $severelyWastedCountf + $wastedCountf + $normalCountf + $overweightCountf + $obeseCountf;
   $pdf->Cell(11.5, 3.2, $totalF, 1, 0, 'C', 0);
-  $pdf->Cell(28, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(12, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(16, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(17, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(26, 3.2, '', 1, 1, 'C', 0);
+
+  //SEVERELY STUNTED
+  $severelyStuntedF = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `hfa_category` = 'Severely Stunted'";
+  $severelyStuntedResultF = mysqli_query($conn, $severelyStuntedF);
+  $severelyStuntedCountF = mysqli_num_rows($severelyStuntedResultF);
+  $pdf->Cell(28, 3.2, $severelyStuntedCountF, 1, 0, 'C', 0);
+
+  //STUNTED
+  $stuntedF = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `hfa_category` = 'Stunted'";
+  $stuntedResultF = mysqli_query($conn, $stuntedF);
+  $stuntedCountF = mysqli_num_rows($stuntedResultF);
+  $pdf->Cell(12, 3.2,  $stuntedCountF, 1, 0, 'C', 0);
+
+  //NORMAL
+  $normalHfaF = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `hfa_category` = 'Normal'";
+  $normalHfaResultF = mysqli_query($conn, $normalHfaF);
+  $normalHfaCountF = mysqli_num_rows($normalHfaResultF);
+  $pdf->Cell(16, 3.2, $normalHfaCountF, 1, 0, 'C', 0);
+
+  //TALL
+  $tallF = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND `hfa_category` = 'Tall'";
+  $tallResultF = mysqli_query($conn, $tallF);
+  $tallCountF = mysqli_num_rows($tallResultF);
+  $pdf->Cell(17, 3.2, $tallCountF, 1, 0, 'C', 0);
+
+  //TOTAL
+  $totalMHfaF = $tallCountF + $normalHfaCountF + $stuntedCountF + $severelyStuntedCountF;
+  $pdf->Cell(26, 3.2, $totalMHfaF, 1, 1, 'C', 0);
 
   $pdf->Setx(9);
   $pdf->Cell(20.5, 3.2, '        TOTAL', 1, 0, 'L', 1);
@@ -392,11 +475,21 @@ td {
   $pdf->Cell(11.5, 3.2, $totalObese, 1, 0, 'C', 0);
   $total = $totalM + $totalF;
   $pdf->Cell(11.5, 3.2, $total, 1, 0, 'C', 0);
-  $pdf->Cell(28, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(12, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(16, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(17, 3.2, '', 1, 0, 'C', 0);
-  $pdf->Cell(26, 3.2, '', 1, 1, 'C', 0);
+
+  $totalSeverelyStunted = $severelyStuntedCount + $severelyStuntedCountF;
+  $pdf->Cell(28, 3.2, $totalSeverelyStunted, 1, 0, 'C', 0);
+
+  $totalStunted = $stuntedCount + $stuntedCountF;
+  $pdf->Cell(12, 3.2, $totalStunted, 1, 0, 'C', 0);
+
+  $totalNormalHFA = $normalHfaCount + $normalHfaCountF;
+  $pdf->Cell(16, 3.2, $totalNormalHFA, 1, 0, 'C', 0);
+
+  $totalTall = $tallCount + $tallCountF;
+  $pdf->Cell(17, 3.2, $totalTall, 1, 0, 'C', 0);
+
+  $totalHFA = $totalMHfa + $totalMHfaF;
+  $pdf->Cell(26, 3.2, $totalHFA, 1, 1, 'C', 0);
 
 
   $pdf->SetFont('helvetica', '', 5.8);
@@ -419,7 +512,7 @@ td {
   $pdf->Setx(9);
   $pdf->Cell(32, 3.2, $formattedDate, 'B', 0, 'C', 0);
   $pdf->Cell(7, 3.2, '', 0, 0, 'C', 0);
-  $pdf->Cell(39, 3.2, '', 'B', 0, 'C', 0);
+  $pdf->Cell(39, 3.2, $_SESSION['name'], 'B', 0, 'C', 0);
   $pdf->Cell(11.5, 3.2, '', 0, 0, 'C', 0);
   $pdf->Cell(39.5, 3.2, '', 'B', 0, 'C', 0);
   $pdf->Cell(12, 3.2, '', 0, 0, 'C', 0);

@@ -15,7 +15,13 @@ session_start();
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
     <script>
         // $(document).ready(function() {
         //     $("#track2").change(function() {

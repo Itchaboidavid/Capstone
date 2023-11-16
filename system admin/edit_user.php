@@ -63,7 +63,7 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please enter a name.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="user_type" id="user_type">
+                                <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                     <option value="adviser" <?php echo ($userRow['user_type'] == 'adviser') ? "selected" : ""; ?>>Adviser</option>
                                     <option value="clinic" <?php echo ($userRow['user_type'] == 'clinic staff') ? "selected" : ""; ?>>Clinic staff</option>
                                     <option value="human resources" <?php echo ($userRow['user_type'] == 'human resources') ? "selected" : ""; ?>>Human Resources</option>
@@ -74,7 +74,22 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select type of user.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="status" id="status">
+                                <select class="form-select bg-body-tertiary" name="section" id="section">
+                                    <option value="<?php echo $userRow['section'] ?>"><?php echo $userRow['section'] ?></option>
+                                    <?php
+                                    $section = "SELECT * FROM `section`";
+                                    $sectionResult = $conn->query($section);
+                                    while ($sectionRow = $sectionResult->fetch_assoc()) {
+                                        echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <label for="section">Section</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a section.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                     <option value="active" class="text-success" <?php echo ($userRow['status'] == 'active') ? "selected" : ""; ?>>active</option>
                                     <option value="disabled" class="text-danger" <?php echo ($userRow['status'] == 'disabled') ? "selected" : ""; ?>>disabled</option>
                                 </select>
@@ -109,16 +124,20 @@ session_start();
 if (isset($_POST['edit_user'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
-    if ($_POST["password"] == $row["password"]) {
+    $check = "SELECT * FROM `user` WHERE `name` = '$name' AND `username` = '$username'";
+    $checkResult = $conn->query($check);
+    $checkRow = $checkResult->fetch_assoc();
+    if ($_POST["password"] == $checkRow["password"]) {
         $password = $_POST["password"];
     } else {
         $password = md5($_POST["password"]);
     }
     $password2 = $_POST["password"];
     $user_type = mysqli_real_escape_string($conn, $_POST["user_type"]);
+    $section = mysqli_real_escape_string($conn, $_POST["section"]);
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
-    $update = "UPDATE `user` SET `name`='$name',`username`='$username',`password`='$password',`password2`='$password2',`user_type`='$user_type',`status`='$status' WHERE id = $id";
+    $update = "UPDATE `user` SET `name`='$name',`username`='$username',`password`='$password',`password2`='$password2',`user_type`='$user_type',`section`='$section',`status`='$status' WHERE id = $id";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'user_table.php?msg=Record updated successfully!';</script>");
     exit();

@@ -167,6 +167,11 @@ $section = "SELECT * FROM `section` WHERE `name` = '$section_name'";
 $sectionResult = mysqli_query($conn, $section);
 $sectionRow = mysqli_fetch_assoc($sectionResult);
 
+$adviserSection = $sectionRow['name'];
+$adviser = "SELECT * FROM `user` WHERE `section` = '$adviserSection' AND `user_type` = 'adviser'";
+$adviserResult = $conn->query($adviser);
+$adviserRow = $adviserResult->fetch_assoc();
+
 $pdf->SetFont('helvetica', '', 9);
 $pdf->SetX(131);
 $pdf->Cell(24.5, 7.5, 'School Year:', '', 0, 'L', 0);
@@ -223,7 +228,7 @@ $pdf->Cell(20.5, 10, "your child's progress.", '', 0, 'L', 0);
 $pdf->SetXY(206, 116);
 $pdf->SetLineWidth(0.4);
 $pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, $sectionRow["faculty"], 'B', 0, 'C', 0);
+$pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
 
 $pdf->SetXY(206, 121);
 $pdf->SetLineWidth(0.4);
@@ -258,7 +263,7 @@ $pdf->Cell(74, 5, 'eligibility', 'B', 0, 'L', 0);
 $pdf->SetXY(206, 166);
 $pdf->SetLineWidth(0.4);
 $pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, $sectionRow["faculty"], 'B', 0, 'C', 0);
+$pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
 
 $pdf->SetXY(206, 171);
 $pdf->SetLineWidth(0.4);
@@ -295,10 +300,10 @@ $pdf->SetFont('helvetica', 'B', 6.3);
 $pdf->SetXY(188, 6);
 $pdf->Cell(0, 4, 'SF10-SHS', 0, 1, 1);
 
-$faculty = $_SESSION["name"];
-$section = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
-$sectionResult = mysqli_query($conn, $section);
-$sectionRow = mysqli_fetch_assoc($sectionResult);
+// $faculty = $_SESSION["name"];
+// $section = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
+// $sectionResult = mysqli_query($conn, $section);
+// $sectionRow = mysqli_fetch_assoc($sectionResult);
 
 $pdf->ln(0.4);
 $pdf->SetFont('helveticanarrowb', 'B', 7.4);
@@ -454,7 +459,7 @@ $pdf->Cell(65, 4, 'Prepared by:', 0, 0, 'L');
 $pdf->Cell(87, 4, 'Certified True and Correct:', 0, 0, 'L');
 $pdf->Cell(18, 4, 'Date Checked (MM/DD/YYYY):', 0, 1, 'L');
 $pdf->Cell(18, 4, '', 0, 1, 'L');
-$pdf->Cell(63, 4, $sectionRow['faculty'], 'B', 0, 'C');
+$pdf->Cell(63, 4, $adviserRow['name'], 'B', 0, 'C');
 $pdf->Cell(13, 4, '', 0, 0, 'L');
 $pdf->Cell(65, 4, 'LORENA V. MIRANDA, PRINCIPAL IV', 'B', 0, 'C');
 $pdf->Cell(12, 4, '', 0, 0, 'L');
@@ -601,7 +606,7 @@ $pdf->Cell(12, 2, '', 0, 1, 'L');
 $pdf->SetFont('unicodehelvetin', '', 7);
 $pdf->SetX(10);
 $pdf->Cell(35, 3.5, ' Name of the Teacher/Adviser:', 0, 0, 'L', 0);
-$pdf->Cell(103, 3.5, $sectionRow['faculty'], 'B', 0, 'L', 0);
+$pdf->Cell(103, 3.5, $adviserRow['name'], 'B', 0, 'L', 0);
 $pdf->Cell(3, 2, '', 0, 0, 'L');
 $pdf->Cell(11, 4.25, 'Signature:', 0, 0, 'L', 0);
 $pdf->Cell(42.5, 4.25, '', 'B', 1, 'C', 0);

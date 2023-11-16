@@ -8,9 +8,14 @@ $pdf->AddPage('L', 'A4');
 $pdf->SetMargins(10, 0, 5);
 
 $faculty = $_SESSION["name"];
-$section = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
-$resultOfSection = mysqli_query($conn, $section);
-$rowOfSection = mysqli_fetch_assoc($resultOfSection);
+$section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
+$sectionResult = $conn->query($section);
+$sectionRow = $sectionResult->fetch_assoc();
+$sectionName = $sectionRow['section'];
+
+$sectionsf5 = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$sectionsf5Result = $conn->query($sectionsf5);
+$sectionsf5Row = $sectionsf5Result->fetch_assoc();
 
 $pdf->SetAutoPageBreak(true, 5);
 $pdf->Image('../images/sf_logo.gif', 7, 4, 21, 21.0);
@@ -36,17 +41,17 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(36.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(55.5, 7, $rowOfSection["semester_name"], 1, 0, 'C', 0);
+$pdf->Cell(55.5, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(10.5, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
 $pdf->SetXY(36.5, 42.5);
 $pdf->SetFont('Arial', 'B', 9);
-if ($rowOfSection["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(99, 7, $rowOfSection["track"], 1, 0, 'C', 0);
+if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
+    $pdf->Cell(99, 7, $sectionsf5Row["track"], 1, 0, 'C', 0);
 } else {
-    $pdf->Cell(99, 7, $rowOfSection["track"] . " - " . $rowOfSection["strand"], 1, 0, 'C', 0);
+    $pdf->Cell(99, 7, $sectionsf5Row["track"] . " - " . $sectionsf5Row["strand"], 1, 0, 'C', 0);
 }
 
 
@@ -63,7 +68,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(115.7, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20, 7, $rowOfSection["start_year"] . " - " . $rowOfSection["end_year"], 1, 0, 'C', 0);
+$pdf->Cell(20, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
 
 $pdf->SetXY(148.5, 24.9);
 $pdf->SetFont('Arial', '', 9);
@@ -77,7 +82,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Grade level', 0, 0, '', 0);
 $pdf->SetXY(160.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20.5, 7, $rowOfSection["grade"], 1, 0, 'C', 0);
+$pdf->Cell(20.5, 7, $sectionsf5Row["grade"], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(188, 24.9);
@@ -92,14 +97,14 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Section', 0, 0, '', 0);
 $pdf->SetXY(200.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(71, 7, $rowOfSection["name"], 1, 0, 'C', 0);
+$pdf->Cell(71, 7, $sectionsf5Row["name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(149, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Course (only for TVL)', 0, 0, '', 0);
 $pdf->SetXY(183.5, 42.5);
 $pdf->SetFont('Arial', 'B', 9);
-if ($rowOfSection["track"] == "Technical-Vocational-Livelihood") {
+if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(88, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'C', 0);
 } else {
     $pdf->Cell(88, 7, '', 1, 0, 'C', 0);
@@ -293,7 +298,7 @@ $pdf->CellFitSpaceForce(77.5, 8, "of learners who completed/satisfied the requir
 
 
 /*--Male table--*/
-$nameOfSection = $rowOfSection["name"];
+$nameOfSection = $sectionsf5Row["name"];
 $maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' ORDER BY `name` ASC";
 $resultMaleStudent = mysqli_query($conn, $maleStudent);
 $pdf->SetXY(10, 89.5);
@@ -492,17 +497,17 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(36.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(55.5, 7, $rowOfSection["semester_name"], 1, 0, 'C', 0);
+$pdf->Cell(55.5, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(10.5, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
 $pdf->SetXY(36.5, 42.5);
 $pdf->SetFont('Arial', 'B', 9);
-if ($rowOfSection["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(99, 7, $rowOfSection["track"], 1, 0, 'C', 0);
+if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
+    $pdf->Cell(99, 7, $sectionsf5Row["track"], 1, 0, 'C', 0);
 } else {
-    $pdf->Cell(99, 7, $rowOfSection["track"] . " - " . $rowOfSection["strand"], 1, 0, 'C', 0);
+    $pdf->Cell(99, 7, $sectionsf5Row["track"] . " - " . $sectionsf5Row["strand"], 1, 0, 'C', 0);
 }
 
 
@@ -519,7 +524,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(115.7, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20, 7, $rowOfSection["start_year"] . " - " . $rowOfSection["end_year"], 1, 0, 'C', 0);
+$pdf->Cell(20, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
 
 $pdf->SetXY(148.5, 24.9);
 $pdf->SetFont('Arial', '', 9);
@@ -533,7 +538,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Grade level', 0, 0, '', 0);
 $pdf->SetXY(160.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20.5, 7, $rowOfSection["grade"], 1, 0, 'C', 0);
+$pdf->Cell(20.5, 7, $sectionsf5Row["grade"], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(188, 24.9);
@@ -548,14 +553,14 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Section', 0, 0, '', 0);
 $pdf->SetXY(200.5, 33.5);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(71, 7, $rowOfSection["name"], 1, 0, 'C', 0);
+$pdf->Cell(71, 7, $sectionsf5Row["name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(149, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Course (only for TVL)', 0, 0, '', 0);
 $pdf->SetXY(183.5, 42.5);
 $pdf->SetFont('Arial', 'B', 9);
-if ($rowOfSection["track"] == "Technical-Vocational-Livelihood") {
+if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(88, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'C', 0);
 } else {
     $pdf->Cell(88, 7, '', 1, 0, 'C', 0);

@@ -14,6 +14,13 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -28,47 +35,6 @@ session_start();
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item active">Student table</li>
                         </ol>
-                    </div>
-                    <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
-                        Add
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="trackModal" tabindex="-1" aria-labelledby="trackModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add strand</h1>
-                                    <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="" method="POST" class="needs-validation" novalidate>
-                                    <div class="modal-body">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" name="lrn" id="lrn" placeholder="LRN" class="form-control bg-body-tertiary" required />
-                                            <label for="lrn">LRN</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter an LRN.</div>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" name="weight" id="weight" placeholder="weight" class="form-control bg-body-tertiary" required />
-                                            <label for="weight">Weight</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter student's weight.</div>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" name="height" id="height" placeholder="height" class="form-control bg-body-tertiary" required />
-                                            <label for="height">Height</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter student's height.</div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" name="add_bmi">Add</button>
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <?php
@@ -107,37 +73,43 @@ session_start();
                                     <th>Section</th>
                                     <th>LRN</th>
                                     <th>Name</th>
-                                    <th>Birthdate</th>
                                     <th>Age</th>
-                                    <th>Weight (kg)</th>
+                                    <th>Sex</th>
+                                    <!-- <th>Weight (kg)</th>
                                     <th>Height (m)</th>
-                                    <th>Height<sup>2</sup> (m<sup>2</sup>)</th>
-                                    <th>BMI (kg/m<sup>2</sup>)</th>
-                                    <th>BMI Category</th>
-                                    <th>Height for Age (HFA)</th>
+                                    <th>Height<sup>2</sup> (m<sup>2</sup>)</th> -->
+                                    <th>BMI<br>(kg/m<sup>2</sup>)</th>
+                                    <th>BMI<br>Category</th>
+                                    <th>Height for Age <br>(HFA)</th>
+                                    <th>HFA<br>Category</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `sf8` ORDER BY `section` ASC";
+                                $clinicSection = $_SESSION['section'];
+                                $student = "SELECT * FROM `student` WHERE `section` = '$clinicSection'";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
+                                    $studentName = $studentRow['name'];
+                                    $sf8 = "SELECT * FROM `sf8` WHERE `name` = '$studentName'";
+                                    $sf8Result = $conn->query($sf8);
                                 ?>
                                     <tr>
                                         <td><?php echo $studentRow["id"] ?></td>
                                         <td><?php echo $studentRow["section"] ?></td>
                                         <td><?php echo $studentRow["lrn"] ?></td>
                                         <td><?php echo $studentRow["name"] ?></td>
-                                        <td><?php echo $studentRow["birth_date"] ?></td>
                                         <td><?php echo $studentRow["age"] ?></td>
-                                        <td><?php echo $studentRow["weight"] ?></td>
-                                        <td><?php echo $studentRow["height"] ?></td>
-                                        <td> <?php echo $studentRow["height2"] ?></td>
+                                        <td><?php echo $studentRow["sex"] ?></td>
                                         <td><?php echo $studentRow["bmi"] ?></td>
                                         <td><?php echo $studentRow["bmi_category"] ?></td>
                                         <td><?php echo $studentRow["hfa"] ?></td>
+                                        <td><?php echo $studentRow["hfa_category"] ?></td>
                                         <td>
+                                            <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </a>
                                             <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>

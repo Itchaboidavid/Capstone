@@ -40,24 +40,18 @@ session_start();
                         <div class="card-body">
                             <?php
                             $id = $_GET["id"];
-                            $sf8 = "SELECT * FROM `sf8` WHERE id = $id";
-                            $sf8Result = $conn->query($sf8);
-                            $sf8Row = $sf8Result->fetch_assoc();
+                            $select = "SELECT * FROM `student` WHERE `id` = '$id'";
+                            $result = mysqli_query($conn, $select);
+                            $row = mysqli_fetch_assoc($result);
                             ?>
                             <div class="form-floating mb-3">
-                                <input type="number" name="lrn" id="lrn" placeholder="LRN" class="form-control bg-body-tertiary" value="<?php echo $sf8Row['lrn'] ?>" required />
-                                <label for="lrn">LRN</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter an LRN.</div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" name="weight" id="weight" placeholder="weight" class="form-control bg-body-tertiary" value="<?php echo $sf8Row['weight'] ?>" required />
+                                <input type="text" name="weight" id="weight" placeholder="weight" class="form-control bg-body-tertiary" value="<?php echo $row['weight'] ?>" required />
                                 <label for="weight">Weight</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student's weight.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="height" id="height" placeholder="height" class="form-control bg-body-tertiary" value="<?php echo $sf8Row['height'] ?>" required />
+                                <input type="text" name="height" id="height" placeholder="height" class="form-control bg-body-tertiary" value="<?php echo $row['height'] ?>" required />
                                 <label for="height">Height</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student's height.</div>
@@ -87,19 +81,12 @@ session_start();
 <?php
 //EDIT STRAND
 if (isset($_POST['edit_bmi'])) {
-    $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
-    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-    $studentResult = $conn->query($student);
-    $studentRow = $studentResult->fetch_assoc();
-    $name = $studentRow['name'];
-    $birth_date = $studentRow['birth_date'];
-    $age = $studentRow['age'];
-    $section = $studentRow['section'];
-    $sex = $studentRow['sex'];
     $weight = floatval($_POST["weight"]);
     $height = floatval($_POST["height"]);
     $height2 = $height * $height;
     $bmi = $weight / $height2;
+    $hfa = 0;
+    $hfa_category = '';
 
     if ($bmi <= 16.5) {
         $bmi_category = "Severly wasted";
@@ -113,7 +100,7 @@ if (isset($_POST['edit_bmi'])) {
         $bmi_category = "Obese";
     };
 
-    $update = "UPDATE `sf8` SET `lrn`='$lrn',`name`='$name',`birth_date`='$birth_date',`age`='$age',`weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$bmi',`bmi_category`='$bmi_category',`section`='$section',`sex`='$sex' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$bmi',`bmi_category`='$bmi_category',`hfa`='$hfa',`hfa_category`='$hfa_category' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Student updated successfully!';</script>");
     exit();
