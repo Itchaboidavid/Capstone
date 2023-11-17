@@ -79,17 +79,20 @@ session_start();
 
 </html>
 <?php
-//EDIT STRAND
+include("functions.php");
+
 if (isset($_POST['edit_bmi'])) {
     $weight = floatval($_POST["weight"]);
     $height = floatval($_POST["height"]);
+    $age = intval($row['age']);
+    $sex = $row['sex'];
+
     $height2 = $height * $height;
     $bmi = $weight / $height2;
-    $hfa = 0;
-    $hfa_category = '';
+    $formattedBMI = number_format($bmi, 2);
 
     if ($bmi <= 16.5) {
-        $bmi_category = "Severly wasted";
+        $bmi_category = "Severely wasted";
     } elseif ($bmi < 18.5) {
         $bmi_category = "Wasted";
     } elseif ($bmi <= 24.9) {
@@ -100,8 +103,25 @@ if (isset($_POST['edit_bmi'])) {
         $bmi_category = "Obese";
     };
 
-    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$bmi',`bmi_category`='$bmi_category',`hfa`='$hfa',`hfa_category`='$hfa_category' WHERE `id` = '$id'";
+    // Compute HFA
+    $hfaInCm = $height * 100;
+
+    $hfaZScore = computeHFAZScore($age, $hfaInCm, $sex);
+    $formattedHfaZScore = number_format($hfaZScore, 2);
+
+
+    if ($hfaZScore < -2) {
+        $hfaCategory = "Severely stunted";
+    } elseif ($hfaZScore < -1) {
+        $hfaCategory = "Stunted";
+    } elseif ($hfaZScore <= 2) {
+        $hfaCategory = "Normal";
+    } else {
+        $hfaCategory = "Tall";
+    };
+
+    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa`='$formattedHfaZScore',`hfa_category`='$hfaCategory' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
-    echo ("<script>location.href = 'student_table.php?msg=Student updated successfully!';</script>");
+    echo ("<script>location.href = 'student_table.php?msg=Information updated successfully!';</script>");
     exit();
 }

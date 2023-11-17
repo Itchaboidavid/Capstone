@@ -35,7 +35,8 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $students = "SELECT * FROM `student`";
+                                $section = $_SESSION['section'];
+                                $students = "SELECT * FROM `student` WHERE `section` = '$section'";
                                 $studentsResult = $conn->query($students);
                                 $studentsCount = $studentsResult->num_rows;
                                 ?>
@@ -54,7 +55,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $bmi = "SELECT * FROM `sf8` WHERE `bmi_category` != ''";
+                                $bmi = "SELECT * FROM `student` WHERE `bmi_category` != '' AND `section` = '$section'";
                                 $bmiResult = $conn->query($bmi);
                                 $bmiCount = $bmiResult->num_rows;
                                 ?>
@@ -73,7 +74,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $hfa = "SELECT * FROM `sf8` WHERE `hfa` != ''";
+                                $hfa = "SELECT * FROM `student` WHERE `hfa` != '' AND `section` = '$section'";
                                 $hfaResult = $conn->query($hfa);
                                 $hfaCount = $hfaResult->num_rows;
                                 ?>
@@ -134,27 +135,43 @@ session_start();
 
 <?php
 //BMI CHART
-$severe = "SELECT * FROM `sf8` WHERE `bmi_category` = 'Severly wasted'";
+$severe = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Severly wasted'";
 $severeResult = mysqli_query($conn, $severe);
 $severeCount = mysqli_num_rows($severeResult);
 
-$wasted = "SELECT * FROM `sf8` WHERE `bmi_category` = 'Wasted'";
+$wasted = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Wasted'";
 $wastedResult = mysqli_query($conn, $wasted);
 $wastedCount = mysqli_num_rows($wastedResult);
 
-$normal = "SELECT * FROM `sf8` WHERE `bmi_category` = 'Normal'";
+$normal = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Normal'";
 $normalResult = mysqli_query($conn, $normal);
 $normalCount = mysqli_num_rows($normalResult);
 
-$overweight = "SELECT * FROM `sf8` WHERE `bmi_category` = 'Overweight'";
+$overweight = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Overweight'";
 $overweightResult = mysqli_query($conn, $overweight);
 $overweightCount = mysqli_num_rows($overweightResult);
 
-$obese = "SELECT * FROM `sf8` WHERE `bmi_category` = 'obese'";
+$obese = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'obese'";
 $obeseResult = mysqli_query($conn, $obese);
 $obeseCount = mysqli_num_rows($obeseResult);
 
 //HFA CHART
+$severelyStunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Severly stunted'";
+$severelyStuntedResult = mysqli_query($conn, $severelyStunted);
+$severelyStuntedCount = mysqli_num_rows($severelyStuntedResult);
+
+$stunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Stunted'";
+$stuntedResult = mysqli_query($conn, $stunted);
+$stuntedCount = mysqli_num_rows($stuntedResult);
+
+$normalHeight = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Normal'";
+$normalHeightResult = mysqli_query($conn, $normalHeight);
+$normalHeightCount = mysqli_num_rows($normalHeightResult);
+
+$tall = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Tall'";
+$tallResult = mysqli_query($conn, $tall);
+$tallCount = mysqli_num_rows($tallResult);
+
 ?>
 <script>
     google.charts.load('current', {
@@ -189,11 +206,10 @@ $obeseCount = mysqli_num_rows($obeseResult);
     function hfaChart() {
         const data = google.visualization.arrayToDataTable([
             ['Contry', 'Mhl'],
-            ['Severly Wasted', <?php echo $severeCount ?>],
-            ['Wasted', <?php echo $wastedCount ?>],
-            ['Normal', <?php echo $normalCount ?>],
-            ['Overweight', <?php echo $overweightCount ?>],
-            ['Obese', <?php echo $obeseCount ?>]
+            ['Severly Stunted', <?php echo $severelyStuntedCount ?>],
+            ['Stunted', <?php echo $stuntedCount ?>],
+            ['Normal', <?php echo $normalHeightCount ?>],
+            ['Tall', <?php echo $tallCount ?>],
         ]);
 
         const options = {
