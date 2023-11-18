@@ -133,6 +133,32 @@ $studentName = $studentRow['name'];
                                     ?>
                                 </tbody>
                             </table>
+                            <table class="table table-sm table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Semester</td>
+                                        <td>Start of remedial</td>
+                                        <td>End of remedial</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $sf10RemedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
+                                    $sf10RemedialDateResult = $conn->query($sf10RemedialDate);
+                                    $sf10RemedialDateRow = $sf10RemedialDateResult->fetch_assoc()
+                                    ?>
+                                    <tr>
+                                        <td><input type="text" name="remedialSem1" value="1st" disabled></td>
+                                        <td><input type="date" name="startDate1" value="<?php echo $sf10RemedialDateRow['start_date1'] ?>"></td>
+                                        <td><input type="date" name="endDate1" value="<?php echo $sf10RemedialDateRow['end_date1'] ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="remedialSem2" value="2nd" disabled></td>
+                                        <td><input type="date" name="startDate2" value="<?php echo $sf10RemedialDateRow['start_date2'] ?>"></td>
+                                        <td><input type="date" name="endDate2" value="<?php echo $sf10RemedialDateRow['end_date2'] ?>"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -197,6 +223,14 @@ if (isset($_POST['edit_sf10'])) {
         $sql = "UPDATE `sf10remedial` SET `subject_type`='$subjectType',`subject_title`='$subjectTitle',`old_grade`='$first',`new_grade`='$second',`final_grade`='$finalGrade',`semester`='$sem',`action`='$action' WHERE `id` = '$id'";
         $sqlResult = $conn->query($sql);
     }
+
+    $startDate1 = $_POST['startDate1'];
+    $endDate1 = $_POST['endDate1'];
+    $startDate2 = $_POST['startDate2'];
+    $endDate2 = $_POST['endDate2'];
+
+    $update = "UPDATE `sf10remedialdate` SET `start_date1`='$startDate1',`end_date1`='$endDate1',`start_date2`='$startDate2',`end_date2`='$endDate2' WHERE `student_name` = '$studentName'";
+    $conn->query($update);
 
     echo ("<script>location.href = 'student_table.php?msg=Information updated successfully!';</script>");
     exit();

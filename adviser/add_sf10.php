@@ -122,6 +122,27 @@ $studentRow = $studentResult->fetch_assoc();
                                     ?>
                                 </tbody>
                             </table>
+                            <table class="table table-sm table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Semester</td>
+                                        <td>Start of remedial</td>
+                                        <td>End of remedial</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="remedialSem1" value="1st" disabled></td>
+                                        <td><input type="date" name="startDate1"></td>
+                                        <td><input type="date" name="endDate1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="remedialSem2" value="2nd" disabled></td>
+                                        <td><input type="date" name="startDate2"></td>
+                                        <td><input type="date" name="endDate2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -187,8 +208,25 @@ if (isset($_POST['add_sf10'])) {
         $sql = "INSERT INTO `sf10remedial`(`student_name`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`) VALUES ('$studentName','$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action')";
         $sqlResult = $conn->query($sql);
     }
-    echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
-    exit();
+
+    $startDate1 = $_POST['startDate1'];
+    $endDate1 = $_POST['endDate1'];
+    $startDate2 = $_POST['startDate2'];
+    $endDate2 = $_POST['endDate2'];
+
+    $check = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
+    $checkResult = $conn->query($check);
+    $checkCount = $checkResult->num_rows;
+
+    if ($checkCount > 0) {
+        echo ("<script>location.href = 'student_table.php?errmsg=Duplication of entry!';</script>");
+        exit();
+    } else {
+        $insert = "INSERT INTO `sf10remedialdate`( `student_name`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES ('$studentName','$startDate1','$endDate1','$startDate2','$endDate2')";
+        $insertResult = $conn->query($insert);
+        echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
+        exit();
+    }
 }
 
 ?>

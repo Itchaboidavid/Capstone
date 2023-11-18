@@ -1,8 +1,8 @@
 <?php
 include("../config.php");
 session_start();
-$faculty = $_SESSION['name'];
-$section = "SELECT * FROM `section` WHERE `faculty` = '$faculty'";
+$sectionName = $_SESSION['section'];
+$section = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
 $sectionResult = $conn->query($section);
 $sectionRow = $sectionResult->fetch_assoc();
 $grade = $sectionRow['grade'];

@@ -105,10 +105,7 @@ if (isset($_POST['edit_bmi'])) {
 
     // Compute HFA
     $hfaInCm = $height * 100;
-
     $hfaZScore = computeHFAZScore($age, $hfaInCm, $sex);
-    $formattedHfaZScore = number_format($hfaZScore, 2);
-
 
     if ($hfaZScore < -2) {
         $hfaCategory = "Severely stunted";
@@ -120,7 +117,7 @@ if (isset($_POST['edit_bmi'])) {
         $hfaCategory = "Tall";
     };
 
-    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa`='$formattedHfaZScore',`hfa_category`='$hfaCategory' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Information updated successfully!';</script>");
     exit();

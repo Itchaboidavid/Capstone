@@ -74,7 +74,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $hfa = "SELECT * FROM `student` WHERE `hfa` != '' AND `section` = '$section'";
+                                $hfa = "SELECT * FROM `student` WHERE `hfa_category` != '' AND `section` = '$section'";
                                 $hfaResult = $conn->query($hfa);
                                 $hfaCount = $hfaResult->num_rows;
                                 ?>

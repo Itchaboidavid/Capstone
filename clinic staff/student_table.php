@@ -80,8 +80,7 @@ session_start();
                                     <th>Height<sup>2</sup> (m<sup>2</sup>)</th> -->
                                     <th>BMI<br>(kg/m<sup>2</sup>)</th>
                                     <th>BMI<br>Category</th>
-                                    <th>Height for Age <br>(HFA)</th>
-                                    <th>HFA<br>Category</th>
+                                    <th>HFA <br>(Height for age)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -104,7 +103,6 @@ session_start();
                                         <td><?php echo $studentRow["sex"] ?></td>
                                         <td><?php echo $studentRow["bmi"] ?></td>
                                         <td><?php echo $studentRow["bmi_category"] ?></td>
-                                        <td><?php echo $studentRow["hfa"] ?></td>
                                         <td><?php echo $studentRow["hfa_category"] ?></td>
                                         <td>
                                             <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
