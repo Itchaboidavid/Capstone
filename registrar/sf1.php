@@ -11,9 +11,41 @@ $dompdf = new Dompdf($option);
 
 $sections = "SELECT * FROM `section` ORDER BY `name` ASC";
 $sectionResult = $conn->query($sections);
-$sectionRow = mysqli_fetch_assoc($sectionResult);
+$sectionCount = $sectionResult->num_rows;
 $html = '';
+
+$firstPage = true;
+
 while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
+  // Add page break for all sections except the first one
+  if (!$firstPage) {
+    $html .= '<div style="page-break-before: always;"></div>';
+  } else {
+    $firstPage = false;
+  }
+
+  $sectionName = $sectionRow['name'];
+  $getFaculty = "SELECT * FROM `user` WHERE `section` = '$sectionName'";
+  $facultyResult = $conn->query($getFaculty);
+
+  if (!$facultyResult) {
+    die('Error fetching faculty data: ' . $conn->error);
+  }
+
+  $facultyRow = $facultyResult->fetch_assoc();
+
+  // Set default value
+  $facultyName = " ";
+
+  // Check if there is at least one row
+  if ($facultyResult->num_rows > 0) {
+    // Override with actual data
+    $facultyName = $facultyRow['name'];
+  }
+
+  // Now you can use $facultyName in your HTML
+
+
   $trackContent = ($sectionRow["track"] === "Academic") ? $sectionRow["track"] . " - " .  $sectionRow["strand"] : $sectionRow["track"];
   $tvl = ($sectionRow["track"] === "Academic") ? "" : $sectionRow["strand"];
   $html .= '
@@ -160,7 +192,8 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         </tr>
        ';
   //MALE TABLE
-  $maleStudents = "SELECT *  FROM student WHERE sex = 'M' ORDER BY name ASC";
+  $sectionName = $sectionRow['name'];
+  $maleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND `sex` = 'M' ORDER BY `name` ASC";
   $maleStudentResult = mysqli_query($conn, $maleStudents);
   $maleStudentCount = mysqli_num_rows($maleStudentResult);
   if ($maleStudentCount === 0) {
@@ -223,7 +256,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
               ';
   };
   //FEMALE TABLE
-  $femaleStudents = "SELECT *  FROM student WHERE sex = 'F' ORDER BY name ASC";
+  $femaleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND sex = 'F' ORDER BY name ASC";
   $femaleStudentResult = mysqli_query($conn, $femaleStudents);
   $femaleStudentCount = mysqli_num_rows($femaleStudentResult);
   if ($femaleStudentCount === 0) {
@@ -318,70 +351,65 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
  
  
  
-    </table>
-    <table style="margin-top: -100px; font-size: 5pt; margin-left: 480px; ">
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 22px; width: 41px; text-align: center;">REGISTERED</td>
-    <td style=" height: 22px; width: 65px; text-align: center;">Beginning of the <br> Semester </td>
-    <td style=" height: 22px; width:  47px; text-align: center;">End of the <br> Semester </td>
-  </tr>
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 18px; width: 39px; text-align: center;">MALE</td>
-    <td style=" height: 18px; width: 59px; text-align: center;">' . $maleStudentCount . '</td>
-    <td style=" height: 18px; width:  42px; text-align: center;">' . $maleStudentCount . '</td>
-  </tr>
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 18px; width: 39px; text-align: center;">FEMALE</td>
-    <td style=" height: 18px; width: 59px; text-align: center;">' . $femaleStudentCount . '</td>
-    <td style=" height: 18px; width:  42px; text-align: center;">' . $femaleStudentCount . '</td>
-  </tr>
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 18px; width: 39px; text-align: center;">TOTAL</td>
-    <td style=" height: 18px; width: 59px; text-align: center;">' . $totalCountOfStudents . '</td>
-    <td style=" height: 18px; width:  42px; text-align: center;">' . $totalCountOfStudents . '</td>
-  </tr>
- 
-  </table>
-  ';
-  // $sections = "SELECT * FROM `section` ORDER BY `name` ASC";
-  // $sectionResult = $conn->query($sections);
-  // $sectionRow = mysqli_fetch_assoc($sectionResult);
+     </table>
+     <table style="margin-top: -100px; font-size: 5pt; margin-left: 480px; ">
+   <tr style=" font-weight: bold;"> 
+     <td style=" height: 22px; width: 41px; text-align: center;">REGISTERED</td>
+     <td style=" height: 22px; width: 65px; text-align: center;">Beginning of the <br> Semester </td>
+     <td style=" height: 22px; width:  47px; text-align: center;">End of the <br> Semester </td>
+   </tr>
+   <tr style=" font-weight: bold;"> 
+     <td style=" height: 18px; width: 39px; text-align: center;">MALE</td>
+     <td style=" height: 18px; width: 59px; text-align: center;">' . $maleStudentCount . '</td>
+     <td style=" height: 18px; width:  42px; text-align: center;">' . $maleStudentCount . '</td>
+   </tr>
+   <tr style=" font-weight: bold;"> 
+     <td style=" height: 18px; width: 39px; text-align: center;">FEMALE</td>
+     <td style=" height: 18px; width: 59px; text-align: center;">' . $femaleStudentCount . '</td>
+     <td style=" height: 18px; width:  42px; text-align: center;">' . $femaleStudentCount . '</td>
+   </tr>
+   <tr style=" font-weight: bold;"> 
+     <td style=" height: 18px; width: 39px; text-align: center;">TOTAL</td>
+     <td style=" height: 18px; width: 59px; text-align: center;">' . $totalCountOfStudents . '</td>
+     <td style=" height: 18px; width:  42px; text-align: center;">' . $totalCountOfStudents . '</td>
+   </tr>
+   </table>
+   ';
 
   $html .= '
-  <table style="margin-top: -100px; font-size: 5pt; margin-left: 715px; border : 0px;">
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0;">Prepared by:</td>
-   </tr>
-  <tr style=" font-weight: bold;"> 
-    <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0; border-bottom: 1px solid black; text-align: center;">' . $sectionRow['faculty'] . ' </td>
-   </tr>
-  <tr style=" font-weight: bold;"> 
-  <td style=" height: 20px; width: 40px; text-align: center; vertical-align: top; border: 0px;"><br> (Signature of Adviser over Printed Name)  </td>
-  </tr>
-  </table>
- 
-  <table style="margin-top: 6px; font-size: 5pt; margin-left: 715px; border : 0px;">
-  <tr style=" font-weight: bold;"> 
-  <td style="  height: 20px; width: 205px; text-align: left; vertical-align: top; border: 0px;">Beginning of the Semester Date:</td>
-  <td style="  height: 20px; width: 150px; text-align: left; vertical-align: top; border: 0px; "> End of the Semester Date:</td>
-  </table>
- 
-  <table style="margin-top: -6px; font-size: 5pt; margin-left: 715px; border : 0px;">
-  <tr style=" border : 1px solid black;"> 
-  <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_date'] . ' 12:00 AM</td>
-  </table>
-  <table style="margin-top: -25px; font-size: 5pt; margin-left: 922px; border : 0px;">
-  </tr>
-  <tr style=" border : 1px solid black;"> 
-  <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_date'] . ' 12:00 AM</td>
-  </tr>
-   </table>
-  ';
+     <table style="margin-top: -100px; font-size: 5pt; margin-left: 715px; border : 0px;">
+     <tr style=" font-weight: bold;"> 
+       <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0;">Prepared by:</td>
+      </tr>
+     <tr style=" font-weight: bold;"> 
+       <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0; border-bottom: 1px solid black; text-align: center;">' . $facultyName . '</td>
+      </tr>
+     <tr style=" font-weight: bold;"> 
+     <td style=" height: 20px; width: 40px; text-align: center; vertical-align: top; border: 0px;"><br> (Signature of Adviser over Printed Name)  </td>
+     </tr>
+     </table>
+
+     <table style="margin-top: 6px; font-size: 5pt; margin-left: 715px; border : 0px;">
+     <tr style=" font-weight: bold;"> 
+     <td style="  height: 20px; width: 205px; text-align: left; vertical-align: top; border: 0px;">Beginning of the Semester Date:</td>
+     <td style="  height: 20px; width: 150px; text-align: left; vertical-align: top; border: 0px; "> End of the Semester Date:</td>
+     </table>
+
+     <table style="margin-top: -6px; font-size: 5pt; margin-left: 715px; border : 0px;">
+     <tr style=" border : 1px solid black;"> 
+     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_date'] . ' 12:00 AM</td>
+     </table>
+     <table style="margin-top: -25px; font-size: 5pt; margin-left: 922px; border : 0px;">
+     </tr>
+     <tr style=" border : 1px solid black;"> 
+     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_date'] . ' 12:00 AM</td>
+     </tr>
+      </table>
+     ';
+  $dompdf->loadHtml($html);
 }
-$dompdf->loadHtml($html);
+
 
 $dompdf->setPaper('A4', 'landscape');
-
 $dompdf->render();
-
 $dompdf->stream('my. pdf', array('Attachment' => 0));

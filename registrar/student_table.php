@@ -29,28 +29,7 @@ session_start();
                             <li class="breadcrumb-item active">Student table</li>
                         </ol>
                     </div>
-                    <!-- Add student -->
-                    <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3">
-                        Add
-                    </a>
                 </div>
-                <?php
-                if (isset($_GET['msg'])) {
-                    $msg = $_GET['msg'];
-                    echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
-                        . $msg .
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                             </div>';
-                }
-
-                if (isset($_GET['errmsg'])) {
-                    $errmsg = $_GET['errmsg'];
-                    echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
-                        . $errmsg .
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                             </div>';
-                }
-                ?>
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
@@ -73,24 +52,11 @@ session_start();
                                     <th>Age</th>
                                     <th>Address</th>
                                     <th>Grade & Section</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>LRN</th>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Birthday</th>
-                                    <th>Age</th>
-                                    <th>Address</th>
-                                    <th>Grade & Section</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` ORDER BY `section` ASC";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>
@@ -107,11 +73,6 @@ session_start();
                                             <?php echo $studentRow["province"] ?>
                                         </td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
-                                        <td>
-                                            <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </a>
-                                        </td>
                                     </tr>
                                 <?php
                                 endwhile;

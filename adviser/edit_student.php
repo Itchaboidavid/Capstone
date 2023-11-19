@@ -10,12 +10,12 @@ session_start();
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Add Student</title>
+    <title>Edit Student</title>
+
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="../index.js"></script>
-
     <script>
         function calculateAge() {
             // Get the selected birthdate from the input
@@ -57,179 +57,193 @@ session_start();
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="student_table.php">Student Table</a></li>
-                            <li class="breadcrumb-item active">Add Student</li>
+                            <li class="breadcrumb-item active">Edit Student</li>
                         </ol>
                     </div>
                 </div>
                 <form action="" method="POST" class="needs-validation" novalidate>
                     <div class="card mb-4">
+                        <?php
+                        $id = $_GET["id"];
+                        $student = "SELECT * FROM `student` WHERE `id` = '$id'";
+                        $studentResult = mysqli_query($conn, $student);
+                        $studentRow = mysqli_fetch_assoc($studentResult);
+                        ?>
                         <div class="card-header">
-                            <h4>Add Student</h4>
+                            <h4>Edit Student</h4>
                         </div>
                         <div class="card-body row g-1">
                             <div class="form-floating mb-3 col-2 d-inline-block">
-                                <input type="number" name="lrn" id="lrn" placeholder="lrn" class="form-control bg-body-tertiary" required />
+                                <input type="number" name="lrn" id="lrn" placeholder="lrn" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["lrn"] ?>" />
                                 <label for="lrn">LRN</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter LRN.</div>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="fname" id="fname" placeholder="fname" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="fname" id="fname" placeholder="fname" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["fname"] ?>" />
                                 <label for="fname">First name</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student first name.</div>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="mname" id="mname" placeholder="mname" class="form-control bg-body-tertiary" required />
-                                <label for="mname">Middle initial</label>
+                                <input type="text" name="mname" id="mname" placeholder="mname" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["mname"] ?>" />
+                                <label for="mname">Middle name</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter student middle initial.</div>
+                                <div class="invalid-feedback ps-1"> Please enter student middle name.</div>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="lname" id="lname" placeholder="lname" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="lname" id="lname" placeholder="lname" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["lname"] ?>" />
                                 <label for="lname">Last name</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student last name.</div>
                             </div>
                             <div class="form-floating mb-3 col-1 d-inline-block">
-                                <input type="text" name="suffix" id="suffix" placeholder="suffix" class="form-control bg-body-tertiary" maxlength="3" />
+                                <input type="text" name="suffix" id="suffix" placeholder="suffix" class="form-control bg-body-tertiary" maxlength="3" value="<?php echo $studentRow["suffix"] ?>" />
                                 <label for="suffix">Suffix</label>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <select class="form-select bg-body-tertiary" name="section" id="section">
-                                    <option value="" selected>Section</option>
-                                    <?php
-                                    $section = "SELECT * FROM `section`";
-                                    $sectionResult = mysqli_query($conn, $section);
-                                    while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
-                                    ?>
-                                        <option value="<?php echo $sectionRow["name"] ?>"><?php echo $sectionRow["name"] ?></option>
-                                    <?php }
-                                    ?>
-                                </select>
+                                <?php
+                                $faculty = $_SESSION['name'];
+                                $section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
+                                $sectionResult = $conn->query($section);
+                                $sectionRow = $sectionResult->fetch_assoc();
+                                ?>
+                                <input type="text" class="form-control bg-body-tertiary" name="section" id="section" value="<?php echo $sectionRow["section"] ?>" readonly>
                                 <label for="section">Section</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select section.</div>
                             </div>
-                            <div class="form-floating mb-3 col-2 pe-0 d-inline-block">
-                                <select class="form-select bg-body-tertiary" name="sex" id="sex">
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
+                            <?php
+                            $id = $_GET["id"];
+                            $select = "SELECT * FROM `student` WHERE `id` = '$id'";
+                            $result = mysqli_query($conn, $select);
+                            $studentRow = mysqli_fetch_assoc($result);
+                            ?>
+                            <div class="form-floating mb-3 col-2 d-inline-block">
+                                <select class="form-select" name="sex" id="sex">
+                                    <option value="M" <?php echo ($studentRow['sex'] == 'M') ? "selected" : ""; ?>>Male</option>
+                                    <option value="F" <?php echo ($studentRow['sex'] == 'F') ? "selected" : ""; ?>>Female</option>
                                 </select>
                                 <label for="sex">Sex</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select sex.</div>
+                                <div class="invalid-feedback ps-1"> Please select a sex.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-2">
-                                <input type="date" name="birth_date" id="birth_date" placeholder="birth_date" class="form-control bg-body-tertiary" required onchange="calculateAge()" />
+                                <input type="date" name="birth_date" id="birth_date" placeholder="birth_date" class="form-control bg-body-tertiary" required onchange="calculateAge()" value="<?php echo $studentRow["birth_date2"] ?>" />
                                 <label for="birth_date">Birthdate</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please choose a birth date.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-1 col d-inline-block">
-                                <input type="number" name="age" id="age" placeholder="age" class="form-control bg-body-tertiary" readonly />
+                                <input type="number" name="age" id="age" placeholder="age" class="form-control bg-body-tertiary" readonly value="<?php echo $studentRow["age"] ?>" />
                                 <label for="age">Age</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter age.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-4 col d-inline-block">
-                                <input type="text" name="ra" id="ra" placeholder="ra" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="ra" id="ra" placeholder="ra" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["ra"] ?>" />
                                 <label for="ra">Religious Affiliation</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a religious affiliation.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-4">
-                                <input type="text" name="province" id="province" placeholder="province" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="province" id="province" placeholder="province" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["province"] ?>" />
                                 <label for="province">Province</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a province.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-4 col d-inline-block">
-                                <input type="text" name="municipality" id="municipality" placeholder="municipality" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="municipality" id="municipality" placeholder="municipality" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["municipality"] ?>" />
                                 <label for="municipality">Municipality / City</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a municipality.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-4 col d-inline-block">
-                                <input type="text" name="barangay" id="barangay" placeholder="barangay" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="barangay" id="barangay" placeholder="barangay" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["barangay"] ?>" />
                                 <label for="barangay">Barangay</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a barangay.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-12">
-                                <input type="text" name="house_no" id="house_no" placeholder="house_no" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="house_no" id="house_no" placeholder="house_no" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["house_no"] ?>" />
                                 <label for="house_no">House No. / Street / Sitio / Purok </label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter house no.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-6">
-                                <input type="text" name="father" id="father" placeholder="father" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="father" id="father" placeholder="father" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["father"] ?>" />
                                 <label for="father">Father's name</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a father's name.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-6">
-                                <input type="text" name="mother" id="mother" placeholder="mother" class="form-control bg-body-tertiary" required />
+                                <input type="text" name="mother" id="mother" placeholder="mother" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["mother"] ?>" />
                                 <label for="mother">Mother's maiden name</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a mother's name.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-6 d-inline-block">
-                                <input type="text" name="guardian" id="guardian" placeholder="guardian" class="form-control bg-body-tertiary" />
+                                <input type="text" name="guardian" id="guardian" placeholder="guardian" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["guardian"] ?>" />
                                 <label for="guardian">Guardian's name</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please enter a guardian's name.</div>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="relationship" id="relationship" placeholder="relationship" class="form-control bg-body-tertiary" />
+                                <input type="text" name="relationship" id="relationship" placeholder="relationship" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["relationship"] ?>" />
                                 <label for="relationship">Relationship</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please enter a relationship.</div>
                             </div>
                             <div class="input-group mb-3 col" style="height: 58px;">
                                 <span class="input-group-text" id="basic-addon1" style="height: 58px;">+63</span>
                                 <div class="form-floating mb-3 col-4 d-inline-block">
-                                    <input type="text" name="contact" id="contact" placeholder="contact" class="form-control bg-body-tertiary" required maxlength="10" />
+                                    <input type="text" name="contact" id="contact" placeholder="contact" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["contact"] ?>" maxlength="10" />
                                     <label for="contact">Contact no.</label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter contact no.</div>
                                 </div>
                             </div>
-                            <div class="form-floating mb-3 col-3 pe-0 d-inline-block">
-                                <select class="form-select bg-body-tertiary" name="lm" id="lm">
-                                    <option value="Face to face">Face to face</option>
-                                    <option value="Online class">Online class</option>
+                            <div class="form-floating mb-3 col-3 d-inline-block">
+                                <select class="form-select" name="lm" id="lm">
+                                    <option value="Face to face" <?php echo ($studentRow['lm'] == 'Face to face') ? "selected" : ""; ?>>Face to face</option>
+                                    <option value="Online class" <?php echo ($studentRow['lm'] == 'Online class') ? "selected" : ""; ?>>Online class</option>
                                 </select>
                                 <label for="lm">Learning modality</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select learning modality.</div>
                             </div>
                             <div class="input-group mb-3 col" style="height: 58px;">
-                                <div class="form-floating mb-3 d-inline-block col">
-                                    <select class="form-select bg-body-tertiary" name="indicator" id="indicator">
-                                        <option value="" selected>Indicator</option>
-                                        <option value="T/O">T/O</option>
-                                        <option value="T/I">T/I</option>
-                                        <option value="CCT">CCT</option>
-                                        <option value="B/A">B/A</option>
-                                        <option value="LWE">LWE</option>
-                                        <option value="ACL">ACL</option>
+                                <div class="form-floating mb-3 col-4 d-inline-block">
+                                    <select class="form-select" name="indicator" id="indicator">
+                                        <option value="" <?php echo ($studentRow['indicator'] == '') ? "selected" : ""; ?>></option>
+                                        <option value="T/O" <?php echo ($studentRow['indicator'] == 'T/O') ? "selected" : ""; ?>>T/O</option>
+                                        <option value="T/I" <?php echo ($studentRow['indicator'] == 'T/I') ? "selected" : ""; ?>>T/I</option>
+                                        <option value="CCT" <?php echo ($studentRow['indicator'] == 'CCT') ? "selected" : ""; ?>>CCT</option>
+                                        <option value="B/A" <?php echo ($studentRow['indicator'] == 'B/A') ? "selected" : ""; ?>>B/A</option>
+                                        <option value="LWE" <?php echo ($studentRow['indicator'] == 'LWE') ? "selected" : ""; ?>>LWE</option>
+                                        <option value="ACL" <?php echo ($studentRow['indicator'] == 'ACL') ? "selected" : ""; ?>>ACL</option>
                                     </select>
                                     <label for="indicator">Indicator</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select indicator.</div>
                                 </div>
                                 <span class="input-group-text" style="height: 58px;">&</span>
-                                <div class="form-floating mb-3 col d-inline-block">
-                                    <input type="text" name="ri" id="ri" placeholder="ri" class="form-control bg-body-tertiary" />
+                                <div class="form-floating mb-3 col-2 d-inline-block">
+                                    <input type="text" name="ri" id="ri" placeholder="ri" class="form-control bg-body-tertiary" value="<?php echo $studentRow["ri"] ?>" />
                                     <label for="ri">Required Information</label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter required information.</div>
                                 </div>
-                                <div class="form-floating mb-3 col d-inline-block">
-                                    <input type="date" name="rid" id="rid" placeholder="rid" class="form-control bg-body-tertiary" />
-                                    <label for="rid">Date</label>
+                                <div class="form-floating mb-3 col-2 d-inline-block">
+                                    <input type="date" name="rid" id="rid" placeholder="rid" class="form-control bg-body-tertiary" value="<?php echo $studentRow["rid"] ?>" />
+                                    <label for="rid">Required Information Date</label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
                             </div>
                             <div class="card-footer pe-0">
                                 <div class="ms-auto" style="width: 150px;">
-                                    <button type="submit" class="btn btn-primary" name="add_student">Add</button>
+                                    <button type="submit" class="btn btn-primary" name="edit_student">Save</button>
                                     <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
                                 </div>
                             </div>
@@ -251,14 +265,14 @@ session_start();
 
 </html>
 <?php
-//ADD STUDENT
-if (isset($_POST["add_student"])) {
+//EDIT STUDENT
+if (isset($_POST['edit_student'])) {
     $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
     $suffix = mysqli_real_escape_string($conn, $_POST["suffix"]);
-    $name = $lname . ", " . $fname . " " . $suffix . " " . $mname;
+    $name = $lname . ", " . $fname . " " . $mname . " " . $suffix;
     $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
     $birth_date = mysqli_real_escape_string($conn, $_POST["birth_date"]);
     $birth_date2 = mysqli_real_escape_string($conn, $_POST["birth_date"]);
@@ -287,38 +301,28 @@ if (isset($_POST["add_student"])) {
     $guardian = mysqli_real_escape_string($conn, $_POST["guardian"]);
     $relationship = mysqli_real_escape_string($conn, $_POST["relationship"]);
     $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
-    $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
+    $contact = mysqli_real_escape_string($conn, $_POST["contact"]);
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
 
-    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section'";
-    $sectionNameResult = mysqli_query($conn, $sectionName);
-    $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
+    $select = "SELECT * FROM `section` WHERE `name` = '$section'";
+    $result = mysqli_query($conn, $select);
+    $row = mysqli_fetch_assoc($result);
 
-    $semester = $sectionNameRow["semester_name"];
-    $school_year = $sectionNameRow["start_year"] . " - " . $sectionNameRow["end_year"];
-    $track = $sectionNameRow["track"];
-    $strand = $sectionNameRow["strand"];
-    $grade = $sectionNameRow["grade"];
+    $semester = $row["semester_name"];
+    $school_year = $row["start_year"] . " - " . $row["end_year"];
+    $track = $row["track"];
+    $strand = $row["strand"];
+    $grade = $row["grade"];
 
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
     $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
 
-    $tudent = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-    $studentResult = mysqli_query($conn, $tudent);
-
-    if (mysqli_num_rows($studentResult) > 0) {
-        header("location:student_table.php?errmsg=The student already exist!");
-        exit();
-    } else {
-        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `semester`,`school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
-         VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$semester', '$school_year',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
-        mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
-        exit();
-    }
+    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`semester`='$semester',`school_year`='$school_year',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid' WHERE `id` = '$id'";
+    $result = mysqli_query($conn, $update);
+    echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
+    exit();
 }
 
 $conn->close();

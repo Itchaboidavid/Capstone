@@ -46,6 +46,10 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             <li class="breadcrumb-item active">Student table</li>
                         </ol>
                     </div>
+                    <!-- Add student -->
+                    <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3">
+                        Add
+                    </a>
                 </div>
                 <?php
                 if (isset($_GET['msg'])) {
@@ -128,6 +132,11 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="add_sf10.php?id=<?php echo $studentRow['id'] ?>">Add SF10 Remedial
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="edit_student.php?id=<?php echo $studentRow['id'] ?>">
+                                                            Edit Student
                                                         </a>
                                                     </li>
                                                     <li>
