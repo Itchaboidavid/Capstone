@@ -586,6 +586,7 @@ $studentRow = $studentResult->fetch_assoc();
 <?php
 if (isset($_POST['add_sf9'])) {
     $studentName = $studentRow['name'];
+    $sex = $studentRow['sex'];
 
     for ($i = 1; $i <= 10; $i++) {
         $sem1 = $_POST['sem1' . $i];
@@ -595,7 +596,7 @@ if (isset($_POST['add_sf9'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1')";
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1','$sex')";
         $sqlResult = $conn->query($sql);
     }
 
@@ -607,7 +608,7 @@ if (isset($_POST['add_sf9'])) {
         $second2 = (float)$_POST['second2' . $i];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2')";
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2','$sex')";
         $sqlResult = $conn->query($sql);
     }
 

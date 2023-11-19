@@ -168,29 +168,71 @@ $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+
+$completeMale1st = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st'
+) AS combined_result;
+";
+$completeMale1stResult = $conn->query($completeMale1st);
+$completeMale1stCount = $completeMale1stResult->num_rows;
+$pdf->Cell(17.16, 7, $completeMale1stCount, 1, 0, 'C', 0);
+
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+
+$completeFemale1st = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st'
+) AS combined_result;
+";
+$completeFemale1stResult = $conn->query($completeFemale1st);
+$completeFemale1stCount = $completeFemale1stResult->num_rows;
+$pdf->Cell(17.16, 7, $completeFemale1stCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $completeMale1stCount + $completeFemale1stCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Incomplete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$incompleteMale1st = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '1st'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '1st'
+) AS incombined_result;
+";
+$incompleteMale1stResult = $conn->query($incompleteMale1st);
+$incompleteMale1stCount = $incompleteMale1stResult->num_rows;
+$pdf->Cell(17.16, 7, $incompleteMale1stCount, 1, 0, 'C', 0);
+
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+
+$incompleteFemale1st = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '1st'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '1st'
+) AS combined_result;
+";
+$incompleteFemale1stResult = $conn->query($incompleteFemale1st);
+$incompleteFemale1stCount = $incompleteFemale1stResult->num_rows;
+$pdf->Cell(17.16, 7, $incompleteFemale1stCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale1stCount + $incompleteFemale1stCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Total', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale1stCount + $completeMale1stCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeFemale1stCount + $incompleteFemale1stCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$total1stSem = $incompleteMale1stCount + $completeMale1stCount + $completeFemale1stCount + $incompleteFemale1stCount;
+$pdf->Cell(17.16, 7, $total1stSem, 1, 1, 'C', 0);
 
 
 $pdf->Ln(5);
@@ -208,31 +250,72 @@ $pdf->Cell(-0.000001);
 $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
-$pdf->Cell(24.5, 7, 'Compleate', 1, 0, 'C', 0);
+$pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$completeMale2nd = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '2nd'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '2nd'
+) AS combined_result;
+";
+$completeMale2ndResult = $conn->query($completeMale2nd);
+$completeMale2ndCount = $completeMale2ndResult->num_rows;
+$pdf->Cell(17.16, 7, $completeMale2ndCount, 1, 0, 'C', 0);
+
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+
+$completeFemale2nd = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '2nd'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '2nd'
+) AS combined_result;
+";
+$completeFemale2ndResult = $conn->query($completeFemale2nd);
+$completeFemale2ndCount = $completeFemale2ndResult->num_rows;
+$pdf->Cell(17.16, 7, $completeFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $completeMale2ndCount + $completeFemale2ndCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Incomplete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$incompleteMale2nd = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd'
+) AS incombined_result;
+";
+$incompleteMale2ndResult = $conn->query($incompleteMale2nd);
+$incompleteMale2ndCount = $incompleteMale2ndResult->num_rows;
+$pdf->Cell(17.16, 7, $incompleteMale2ndCount, 1, 0, 'C', 0);
+
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+
+$incompleteFemale2nd = "SELECT DISTINCT student_name 
+FROM (
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd'
+    UNION
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd'
+) AS combined_result;
+";
+$incompleteFemale2ndResult = $conn->query($incompleteFemale2nd);
+$incompleteFemale2ndCount = $incompleteFemale2ndResult->num_rows;
+$pdf->Cell(17.16, 7, $incompleteFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale2ndCount + $incompleteFemale2ndCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Total', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale2ndCount + $completeMale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeFemale2ndCount + $incompleteFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$total2ndSem = $incompleteMale2ndCount + $completeMale2ndCount + $completeFemale2ndCount + $incompleteFemale2ndCount;
+$pdf->Cell(17.16, 7, $total2ndSem, 1, 1, 'C', 0);
 
 $pdf->Ln(5);
 $pdf->Cell(185.5);
@@ -252,7 +335,7 @@ $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, 'end of school year', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 $pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
@@ -299,11 +382,13 @@ $pdf->CellFitSpaceForce(77.5, 8, "of learners who completed/satisfied the requir
 
 /*--Male table--*/
 $nameOfSection = $sectionsf5Row["name"];
-$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' ORDER BY `name` ASC";
+$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection'";
 $resultMaleStudent = mysqli_query($conn, $maleStudent);
 $pdf->SetXY(10, 89.5);
 
 while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
+    $currentStudent = $rowMaleStudent["name"];
+
     $pdf->SetFont('Arial', 'I', 6);
     $pdf->SetLineWidth(0.5);
     $pdf->SetTopMargin(7);
@@ -312,9 +397,40 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowMaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowMaleStudent["name"], 1, 0, 'C', 0);
-    $pdf->Cell(37, 7, '', 1, 0, 'C', 0);
-    $pdf->Cell(33, 7, '', 1, 0, 'C', 0);
-    $pdf->Cell(30.5, 7, '', 1, 1, 'C', 0);
+    $backSubject = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent'";
+    $backSubjectResult = $conn->query($backSubject);
+
+    // Variable to store concatenated subject titles with line breaks
+    $allSubjectTitles = "";
+
+    // Check if there are rows in the result
+    if ($backSubjectResult->num_rows > 0) {
+        // Loop through each row
+        while ($backSubjectRow = $backSubjectResult->fetch_assoc()) {
+            // Concatenate subject titles with line breaks
+            $allSubjectTitles .= $backSubjectRow['subject_title'] . "\n";
+        }
+
+        // Trim the trailing newline character
+        $allSubjectTitles = rtrim($allSubjectTitles, "\n");
+
+        // Output a single cell with concatenated subject titles
+        $pdf->Cell(37, 7, $allSubjectTitles, 1, 0, 'C', 0);
+    } else {
+        // Output a cell with empty content if no rows are found
+        $pdf->Cell(37, 7, "", 1, 0, 'C', 0);
+    }
+
+    $status = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent' AND `action` = 'FAILED'";
+    $statusResult = $conn->query($status);
+    $statusCount = $statusResult->num_rows;
+    if ($statusCount > 0) {
+        $pdf->Cell(33, 7, 'FAILED', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'IRREGULAR', 1, 1, 'C', 0);
+    } else {
+        $pdf->Cell(33, 7, 'PASSED', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'REGULAR', 1, 1, 'C', 0);
+    }
 }
 //TOTAL MALE
 $totalMale = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' ORDER BY `name` ASC";
