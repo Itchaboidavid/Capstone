@@ -671,6 +671,8 @@ $studentName = $studentRow['name'];
 <?php
 if (isset($_POST['edit_sf9'])) {
     $studentName = $studentRow['name'];
+    $sex = $studentRow['sex'];
+    $section = $studentRow['section'];
 
     // Process form submission and update the database
     for ($i = 1; $i <= 10; $i++) {
@@ -684,7 +686,7 @@ if (isset($_POST['edit_sf9'])) {
         $finalGrade1 = ($first1 + $second1) / 2;
 
         // Update the database
-        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType1',`subject_title`='$subjectTitle1',`sem_grade1`='$first1',`sem_grade2`='$second1',`final_grade`='$finalGrade1',`semester`='$sem1' WHERE `id` = '$id'";
+        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType1',`subject_title`='$subjectTitle1',`sem_grade1`='$first1',`sem_grade2`='$second1',`final_grade`='$finalGrade1',`semester`='$sem1',`sex`='$sex',`section`='$section' WHERE `id` = '$id'";
         $sqlResult = $conn->query($sql);
     }
 

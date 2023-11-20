@@ -192,334 +192,337 @@ $studentRow = $studentResult->fetch_assoc();
                             <br>
                             <h4>REPORT ON LEARNER’S OBSERVED VALUES</h4>
                             <!-- OBSERVED VALUES -->
-                            <table class="table table-sm table-hover table-bordered">
-                                <thead>
-                                    <tr class="fw-bold text-center" style="font-size: 14px;">
-                                        <td>CORE VALUES</td>
-                                        <td>BEHAVIOR STATEMENT</td>
-                                        <td colspan="4">
-                                            QUARTER
-                                        </td>
-                                    </tr>
-                                    <tr class="fw-bold text-center" style="font-size: 14px;">
-                                        <td></td>
-                                        <td></td>
-                                        <td>Q1</td>
-                                        <td>Q2</td>
-                                        <td>Q3</td>
-                                        <td>Q4</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
-                                        <td>
-                                            Expresses ones spiritual belief’s
-                                            while respecting the spiritual
-                                            beliefs of other
-                                        </td>
-                                        <td>
-                                            <select name="mdq1" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq2" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq3" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq4" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Shows adherence to ethical
-                                            principles by uplholding truth.
-                                        </td>
-                                        <td>
-                                            <select name="mdq5" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq6" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq7" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mdq8" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <!--  -->
-                                    <tr>
-                                        <td rowspan="2" style="vertical-align:middle;">2. Makatao</td>
-                                        <td>
-                                            Is sensitive to individual, social
-                                            and cultural differences
-                                        </td>
-                                        <td>
-                                            <select name="mkq1" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq2" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq3" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq4" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Demonstrate contribution toward
-                                            solidarity
-                                        </td>
-                                        <td>
-                                            <select name="mkq5" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq6" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq7" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkq8" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <!--  -->
-                                    <tr>
-                                        <td rowspan="" style="vertical-align:middle;">3.Makakalikasan</td>
-                                        <td>
-                                            Cares for the environment and
-                                            utilizes resources wisely,
-                                            judiciously, and economically.
+                            <div class="d-flex justify-content-center align-items-center">
+                                <table class="table table-sm table-hover table-bordered">
+                                    <thead>
+                                        <tr class="fw-bold text-center" style="font-size: 14px;">
+                                            <td>CORE VALUES</td>
+                                            <td>BEHAVIOR STATEMENT</td>
+                                            <td colspan="4">
+                                                QUARTER
+                                            </td>
+                                        </tr>
+                                        <tr class="fw-bold text-center" style="font-size: 14px;">
+                                            <td></td>
+                                            <td></td>
+                                            <td>Q1</td>
+                                            <td>Q2</td>
+                                            <td>Q3</td>
+                                            <td>Q4</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
+                                            <td>
+                                                Expresses ones spiritual belief’s
+                                                while respecting the spiritual
+                                                beliefs of other
+                                            </td>
+                                            <td>
+                                                <select name="mdq1" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq2" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq3" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq4" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Shows adherence to ethical
+                                                principles by uplholding truth.
+                                            </td>
+                                            <td>
+                                                <select name="mdq5" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq6" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq7" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mdq8" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!--  -->
+                                        <tr>
+                                            <td rowspan="2" style="vertical-align:middle;">2. Makatao</td>
+                                            <td>
+                                                Is sensitive to individual, social
+                                                and cultural differences
+                                            </td>
+                                            <td>
+                                                <select name="mkq1" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq2" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq3" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq4" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Demonstrate contribution toward
+                                                solidarity
+                                            </td>
+                                            <td>
+                                                <select name="mkq5" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq6" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq7" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkq8" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!--  -->
+                                        <tr>
+                                            <td rowspan="" style="vertical-align:middle;">3.Makakalikasan</td>
+                                            <td>
+                                                Cares for the environment and
+                                                utilizes resources wisely,
+                                                judiciously, and economically.
 
-                                        </td>
-                                        <td>
-                                            <select name="mkkq1" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkkq2" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkkq3" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mkkq4" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <!--  -->
-                                    <tr>
-                                        <td rowspan="2" style="vertical-align:middle;">4.Makabansa</td>
-                                        <td>
-                                            Demonstrate pride in being a
-                                            Filipino, exercises the rights and
-                                            responsibilities of a
-                                            Filipio citizen.
-                                        </td>
-                                        <td>
-                                            <select name="mbq1" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq2" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq3" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq4" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Demonstrate appropriate behavior
-                                            in carrying out activities in the
-                                            school, community, and country.
-                                        </td>
-                                        <td>
-                                            <select name="mbq5" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq6" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq7" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="mbq8" id="" required>
-                                                <option value="" selected></option>
-                                                <option value="AO">AO</option>
-                                                <option value="SO">SO</option>
-                                                <option value="RO">RO</option>
-                                                <option value="NO">NO</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                            <td>
+                                                <select name="mkkq1" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkkq2" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkkq3" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mkkq4" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!--  -->
+                                        <tr>
+                                            <td rowspan="2" style="vertical-align:middle;">4.Makabansa</td>
+                                            <td>
+                                                Demonstrate pride in being a
+                                                Filipino, exercises the rights and
+                                                responsibilities of a
+                                                Filipio citizen.
+                                            </td>
+                                            <td>
+                                                <select name="mbq1" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq2" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq3" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq4" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Demonstrate appropriate behavior
+                                                in carrying out activities in the
+                                                school, community, and country.
+                                            </td>
+                                            <td>
+                                                <select name="mbq5" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq6" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq7" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="mbq8" id="" required>
+                                                    <option value="" selected></option>
+                                                    <option value="AO">AO</option>
+                                                    <option value="SO">SO</option>
+                                                    <option value="RO">RO</option>
+                                                    <option value="NO">NO</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <img src="../images/sf9ov.png" alt="sf9 OV table" class="ms-3">
+                            </div>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -587,6 +590,7 @@ $studentRow = $studentResult->fetch_assoc();
 if (isset($_POST['add_sf9'])) {
     $studentName = $studentRow['name'];
     $sex = $studentRow['sex'];
+    $section = $studentRow['section'];
 
     for ($i = 1; $i <= 10; $i++) {
         $sem1 = $_POST['sem1' . $i];
@@ -596,7 +600,7 @@ if (isset($_POST['add_sf9'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1','$sex')";
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`,`section`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1','$sex','$section')";
         $sqlResult = $conn->query($sql);
     }
 

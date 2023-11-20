@@ -210,6 +210,9 @@ $studentName = $studentRow['name'];
 </html>
 <?php
 if (isset($_POST['edit_sf10'])) {
+    $sex = $studentRow['sex'];
+    $section = $studentRow['section'];
+
     for ($i = 1; $i <= 5; $i++) {
         $id = $conn->real_escape_string($_POST['id' . $i]);
         $sem = $conn->real_escape_string($_POST['semester' . $i]);
@@ -220,7 +223,7 @@ if (isset($_POST['edit_sf10'])) {
         $finalGrade = ($first + $second) / 2;
         $action = $conn->real_escape_string($_POST['action' . $i]);
 
-        $sql = "UPDATE `sf10remedial` SET `subject_type`='$subjectType',`subject_title`='$subjectTitle',`old_grade`='$first',`new_grade`='$second',`final_grade`='$finalGrade',`semester`='$sem',`action`='$action' WHERE `id` = '$id'";
+        $sql = "UPDATE `sf10remedial` SET `subject_type`='$subjectType',`subject_title`='$subjectTitle',`old_grade`='$first',`new_grade`='$second',`final_grade`='$finalGrade',`semester`='$sem',`action`='$action',`sex`='$sex',`section`='$section'  WHERE `id` = '$id'";
         $sqlResult = $conn->query($sql);
     }
 

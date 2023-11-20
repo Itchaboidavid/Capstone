@@ -168,12 +168,12 @@ $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-
+$sectionName = $sectionRow['section'];
 $completeMale1st = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st'
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st'
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '1st' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $completeMale1stResult = $conn->query($completeMale1st);
@@ -184,9 +184,9 @@ $pdf->Cell(-0.000001);
 
 $completeFemale1st = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st'
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st'
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '1st' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $completeFemale1stResult = $conn->query($completeFemale1st);
@@ -200,9 +200,9 @@ $pdf->Cell(24.5, 7, 'Incomplete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 $incompleteMale1st = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '1st'
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND semester = '1st' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '1st'
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND semester = '1st' AND section = '$sectionName'
 ) AS incombined_result;
 ";
 $incompleteMale1stResult = $conn->query($incompleteMale1st);
@@ -213,9 +213,9 @@ $pdf->Cell(-0.000001);
 
 $incompleteFemale1st = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '1st'
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND semester = '1st' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '1st'
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND semester = '1st' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $incompleteFemale1stResult = $conn->query($incompleteFemale1st);
@@ -254,9 +254,9 @@ $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 $completeMale2nd = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '2nd'
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'M' AND semester = '2nd' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND `semester` = '2nd'
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'M' AND semester = '2nd' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $completeMale2ndResult = $conn->query($completeMale2nd);
@@ -267,9 +267,9 @@ $pdf->Cell(-0.000001);
 
 $completeFemale2nd = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '2nd'
+    SELECT student_name FROM sf9 WHERE final_grade >= 75 AND sex = 'F' AND semester = '2nd' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND `semester` = '2nd'
+    SELECT student_name FROM sf10remedial WHERE final_grade >= 75 AND sex = 'F' AND semester = '2nd' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $completeFemale2ndResult = $conn->query($completeFemale2nd);
@@ -283,9 +283,9 @@ $pdf->Cell(24.5, 7, 'Incomplete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 $incompleteMale2nd = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd'
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd'
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'M' AND `semester` = '2nd' AND section = '$sectionName'
 ) AS incombined_result;
 ";
 $incompleteMale2ndResult = $conn->query($incompleteMale2nd);
@@ -296,9 +296,9 @@ $pdf->Cell(-0.000001);
 
 $incompleteFemale2nd = "SELECT DISTINCT student_name 
 FROM (
-    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd'
+    SELECT student_name FROM sf9 WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd' AND section = '$sectionName'
     UNION
-    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd'
+    SELECT student_name FROM sf10remedial WHERE final_grade < 75 AND final_grade >= 1 AND sex = 'F' AND `semester` = '2nd' AND section = '$sectionName'
 ) AS combined_result;
 ";
 $incompleteFemale2ndResult = $conn->query($incompleteFemale2nd);

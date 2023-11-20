@@ -196,6 +196,7 @@ $studentRow = $studentResult->fetch_assoc();
 if (isset($_POST['add_sf10'])) {
     $studentName = $studentRow['name'];
     $sex = $studentRow['sex'];
+    $section = $studentRow['section'];
 
     for ($i = 1; $i <= 5; $i++) {
         $sem = $conn->real_escape_string($_POST['semester' . $i]);
@@ -206,7 +207,7 @@ if (isset($_POST['add_sf10'])) {
         $finalGrade = ($first + $second) / 2;
         $action = $conn->real_escape_string($_POST['action' . $i]);
 
-        $sql = "INSERT INTO `sf10remedial`(`student_name`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`) VALUES ('$studentName','$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex')";
+        $sql = "INSERT INTO `sf10remedial`(`student_name`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`, `section`) VALUES ('$studentName','$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex', '$section')";
         $sqlResult = $conn->query($sql);
     }
 
