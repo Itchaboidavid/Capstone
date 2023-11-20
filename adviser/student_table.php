@@ -150,12 +150,12 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="sf9back.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
+                                                        <a class="dropdown-item" href="sf9.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
                                                             Print SF9
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="sf9&10.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
+                                                        <a class="dropdown-item" href="sf10.php?id=<?php echo $studentRow['id'] ?>" target="_blank">
                                                             Print SF10
                                                         </a>
                                                     </li>

@@ -12,155 +12,155 @@ $pdf->setPrintFooter(false);
 // add a page
 $pdf->AddPage();
 
-$pdf->Image('sf9header.png', 131, 21, 133, 26);
-$pdf->Image('../images/sf_logo.gif', 190, 7, 14, 14);
+// $pdf->Image('sf9header.png', 131, 21, 133, 26);
+// $pdf->Image('../images/sf_logo.gif', 190, 7, 14, 14);
 
-$pdf->SetFont('helvetica', 'B', 11);
+// $pdf->SetFont('helvetica', 'B', 11);
 
-$pdf->SetXY(36, 10);
-$pdf->Cell(50, 4.5, 'REPORT ON ATTENDACE', 0, 0, 'L', 0);
+// $pdf->SetXY(36, 10);
+// $pdf->Cell(50, 4.5, 'REPORT ON ATTENDACE', 0, 0, 'L', 0);
 
-$pdf->SetFont('helvetica', 'B', 8.5);
-$pdf->SetXY(5, 21);
-$pdf->Cell(21, 4.5, '', 1, 0, 'C', 0);
-$pdf->Cell(8, 4.5, 'Aug', 1, 0, 'C', 0);
-$pdf->Cell(8, 4.5, 'Sept', 1, 0, 'C', 0);
-$pdf->Cell(8, 4.5, 'Oct', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 4.5, 'Nov', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 4.5, 'Dec', 1, 0, 'C', 0);
-$pdf->Cell(6.7, 4.5, 'Jan', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 4.5, 'Feb', 1, 0, 'C', 0);
-$pdf->Cell(7.4, 4.5, 'Mar', 1, 0, 'C', 0);
-$pdf->Cell(8, 4.5, 'Apr', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 4.5, 'May', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 4.5, 'Jun', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 4.5, 'Jul', 1, 0, 'C', 0);
-$pdf->Cell(9.1, 4.5, 'Total', 1, 1, 'C', 0);
+// $pdf->SetFont('helvetica', 'B', 8.5);
+// $pdf->SetXY(5, 21);
+// $pdf->Cell(21, 4.5, '', 1, 0, 'C', 0);
+// $pdf->Cell(8, 4.5, 'Aug', 1, 0, 'C', 0);
+// $pdf->Cell(8, 4.5, 'Sept', 1, 0, 'C', 0);
+// $pdf->Cell(8, 4.5, 'Oct', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 4.5, 'Nov', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 4.5, 'Dec', 1, 0, 'C', 0);
+// $pdf->Cell(6.7, 4.5, 'Jan', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 4.5, 'Feb', 1, 0, 'C', 0);
+// $pdf->Cell(7.4, 4.5, 'Mar', 1, 0, 'C', 0);
+// $pdf->Cell(8, 4.5, 'Apr', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 4.5, 'May', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 4.5, 'Jun', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 4.5, 'Jul', 1, 0, 'C', 0);
+// $pdf->Cell(9.1, 4.5, 'Total', 1, 1, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 10);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 10);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
 
-/*-1st row-*/
-$pdf->Cell(8, 8.5, '1', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '2', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '3', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '4', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '5', 1, 0, 'C', 0);
-$pdf->Cell(6.7, 8.5, '6', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '7', 1, 0, 'C', 0);
-$pdf->Cell(7.4, 8.5, '8', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '9', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '10', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '11', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '12', 1, 0, 'C', 0);
-$pdf->Cell(9.1, 8.5, '13', 1, 1, 'C', 0);
+// /*-1st row-*/
+// $pdf->Cell(8, 8.5, '1', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '2', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '3', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '4', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '5', 1, 0, 'C', 0);
+// $pdf->Cell(6.7, 8.5, '6', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '7', 1, 0, 'C', 0);
+// $pdf->Cell(7.4, 8.5, '8', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '9', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '10', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '11', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '12', 1, 0, 'C', 0);
+// $pdf->Cell(9.1, 8.5, '13', 1, 1, 'C', 0);
 
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
-/*-2nds row-*/
-$pdf->Cell(8, 8.5, '14', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '15', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '16', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '17', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '18', 1, 0, 'C', 0);
-$pdf->Cell(6.7, 8.5, '19', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '20', 1, 0, 'C', 0);
-$pdf->Cell(7.4, 8.5, '21', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '22', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '23', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '24', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '25', 1, 0, 'C', 0);
-$pdf->Cell(9.1, 8.5, '26', 1, 1, 'C', 0);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
+// /*-2nds row-*/
+// $pdf->Cell(8, 8.5, '14', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '15', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '16', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '17', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '18', 1, 0, 'C', 0);
+// $pdf->Cell(6.7, 8.5, '19', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '20', 1, 0, 'C', 0);
+// $pdf->Cell(7.4, 8.5, '21', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '22', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '23', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '24', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '25', 1, 0, 'C', 0);
+// $pdf->Cell(9.1, 8.5, '26', 1, 1, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 10);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 10);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, '', 1, 0, 'C', 0);
 
-/*-3rd row-*/
-$pdf->Cell(8, 8.5, '27', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '28', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '29', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '30', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '31', 1, 0, 'C', 0);
-$pdf->Cell(6.7, 8.5, '32', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '33', 1, 0, 'C', 0);
-$pdf->Cell(7.4, 8.5, '34', 1, 0, 'C', 0);
-$pdf->Cell(8, 8.5, '35', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '36', 1, 0, 'C', 0);
-$pdf->Cell(7.3, 8.5, '37', 1, 0, 'C', 0);
-$pdf->Cell(7.5, 8.5, '38', 1, 0, 'C', 0);
-$pdf->Cell(9.1, 8.5, '39', 1, 1, 'C', 0);
+// /*-3rd row-*/
+// $pdf->Cell(8, 8.5, '27', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '28', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '29', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '30', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '31', 1, 0, 'C', 0);
+// $pdf->Cell(6.7, 8.5, '32', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '33', 1, 0, 'C', 0);
+// $pdf->Cell(7.4, 8.5, '34', 1, 0, 'C', 0);
+// $pdf->Cell(8, 8.5, '35', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '36', 1, 0, 'C', 0);
+// $pdf->Cell(7.3, 8.5, '37', 1, 0, 'C', 0);
+// $pdf->Cell(7.5, 8.5, '38', 1, 0, 'C', 0);
+// $pdf->Cell(9.1, 8.5, '39', 1, 1, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 10);
-$pdf->ln(-27.5);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
-$pdf->ln(4);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
-$pdf->ln(4.5);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
-$pdf->ln(4);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
-$pdf->ln(4.5);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
-$pdf->ln(4);
-$pdf->SetX(5);
-$pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 10);
+// $pdf->ln(-27.5);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
+// $pdf->ln(4);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
+// $pdf->ln(4.5);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
+// $pdf->ln(4);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
+// $pdf->ln(4.5);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'No. of', '', 0, 'C', 0);
+// $pdf->ln(4);
+// $pdf->SetX(5);
+// $pdf->Cell(21, 8.5, 'school days', '', 0, 'C', 0);
 
-/*-LEARNER'S PROGRESS REPORT CARD*/
-$pdf->SetFont('helvetica', 'B', 11);
-$pdf->SetXY(188, 52);
-$pdf->Cell(20.5, 8.5, "LEARNER'S PROGRESS REPORT CARD", '', 1, 'C', 0);
+// /*-LEARNER'S PROGRESS REPORT CARD*/
+// $pdf->SetFont('helvetica', 'B', 11);
+// $pdf->SetXY(188, 52);
+// $pdf->Cell(20.5, 8.5, "LEARNER'S PROGRESS REPORT CARD", '', 1, 'C', 0);
 
-$pdf->ln(-2);
-$pdf->SetFont('helvetica', '', 9);
+// $pdf->ln(-2);
+// $pdf->SetFont('helvetica', '', 9);
 
 $id = $_GET["id"];
 $student = "SELECT * FROM `student` WHERE `id` = '$id'";
 $studentResult = mysqli_query($conn, $student);
 $studentRow = mysqli_fetch_assoc($studentResult);
 
-$pdf->SetX(131);
-$pdf->Cell(24.5, 7.5, 'Name:', '', 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetLineWidth(0.4);
-$pdf->Cell(109, 5, $studentRow["name"], 'B', 1, 'C', 0);
+// $pdf->SetX(131);
+// $pdf->Cell(24.5, 7.5, 'Name:', '', 0, 'L', 0);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->SetLineWidth(0.4);
+// $pdf->Cell(109, 5, $studentRow["name"], 'B', 1, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->SetX(131);
-$pdf->Cell(24.5, 7.5, 'Age:', '', 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetLineWidth(0.4);
-$pdf->Cell(35, 5, $studentRow["age"], 'B', 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->SetX(131);
+// $pdf->Cell(24.5, 7.5, 'Age:', '', 0, 'L', 0);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->SetLineWidth(0.4);
+// $pdf->Cell(35, 5, $studentRow["age"], 'B', 0, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(16, 7.5, 'Sex:', '', 0, 'L', 0);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', 'B', 9);
-if ($studentRow["sex"] == 'M') {
-    $pdf->Cell(58, 5, 'MALE', 'B', 1, 'C', 0);
-} else {
-    $pdf->Cell(58, 5, 'FEMALE', 'B', 1, 'C', 0);
-}
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->Cell(16, 7.5, 'Sex:', '', 0, 'L', 0);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', 'B', 9);
+// if ($studentRow["sex"] == 'M') {
+//     $pdf->Cell(58, 5, 'MALE', 'B', 1, 'C', 0);
+// } else {
+//     $pdf->Cell(58, 5, 'FEMALE', 'B', 1, 'C', 0);
+// }
 
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->SetX(131);
-$pdf->Cell(24.5, 7.5, 'Grade:', '', 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetLineWidth(0.4);
-$pdf->Cell(35, 5, $studentRow["grade"], 'B', 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->SetX(131);
+// $pdf->Cell(24.5, 7.5, 'Grade:', '', 0, 'L', 0);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->SetLineWidth(0.4);
+// $pdf->Cell(35, 5, $studentRow["grade"], 'B', 0, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(16, 7.5, 'Section:', '', 0, 'L', 0);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(58, 5, $studentRow["section"], 'B', 1, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->Cell(16, 7.5, 'Section:', '', 0, 'L', 0);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->Cell(58, 5, $studentRow["section"], 'B', 1, 'C', 0);
 
 $section_name = $studentRow["section"];
 $section = "SELECT * FROM `section` WHERE `name` = '$section_name'";
@@ -172,123 +172,123 @@ $adviser = "SELECT * FROM `user` WHERE `section` = '$adviserSection' AND `user_t
 $adviserResult = $conn->query($adviser);
 $adviserRow = $adviserResult->fetch_assoc();
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->SetX(131);
-$pdf->Cell(24.5, 7.5, 'School Year:', '', 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetLineWidth(0.4);
-$pdf->Cell(35, 5, $studentRow["school_year"], 'B', 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->SetX(131);
+// $pdf->Cell(24.5, 7.5, 'School Year:', '', 0, 'L', 0);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->SetLineWidth(0.4);
+// $pdf->Cell(35, 5, $studentRow["school_year"], 'B', 0, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(16, 7.5, 'LRN:', '', 0, 'L', 0);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(58, 5, $studentRow["lrn"], 'B', 1, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->Cell(16, 7.5, 'LRN:', '', 0, 'L', 0);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->Cell(58, 5, $studentRow["lrn"], 'B', 1, 'C', 0);
 
-$pdf->SetFont('helvetica', '', 9);
+// $pdf->SetFont('helvetica', '', 9);
 
-$pdf->SetX(131);
-$pdf->Cell(24.5, 7.5, 'Track/Strand:', '', 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetLineWidth(0.4);
-$pdf->Cell(109, 5, $studentRow["track"] . " track - " . $studentRow["strand"], 'B', 1, 'C', 0);
+// $pdf->SetX(131);
+// $pdf->Cell(24.5, 7.5, 'Track/Strand:', '', 0, 'L', 0);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->SetLineWidth(0.4);
+// $pdf->Cell(109, 5, $studentRow["track"] . " track - " . $studentRow["strand"], 'B', 1, 'C', 0);
 
-$pdf->SetLineWidth(0);
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->SetXY(53, 72.5);
-$pdf->Cell(20.5, 8.5, "PARENT/GUARDIAN'S SIGNATURE", '', 1, 'C', 0);
+// $pdf->SetLineWidth(0);
+// $pdf->SetFont('helvetica', 'B', 10);
+// $pdf->SetXY(53, 72.5);
+// $pdf->Cell(20.5, 8.5, "PARENT/GUARDIAN'S SIGNATURE", '', 1, 'C', 0);
 
-$pdf->SetXY(5, 83);
-$pdf->SetFont('helvetica', ' ', 10);
-$pdf->Cell(20.5, 10, '1st Quarter', '', 0, 'L', 0);
-$pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
-$pdf->SetXY(5, 93);
-$pdf->Cell(20.5, 10, '2nd Quarter', '', 0, 'L', 0);
-$pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
-$pdf->SetXY(5, 103);
-$pdf->Cell(20.5, 10, '3rd Quarter', '', 0, 'L', 0);
-$pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
-$pdf->SetXY(5, 113);
-$pdf->Cell(20.5, 10, '4th Quarter', '', 0, 'L', 0);
-$pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
+// $pdf->SetXY(5, 83);
+// $pdf->SetFont('helvetica', ' ', 10);
+// $pdf->Cell(20.5, 10, '1st Quarter', '', 0, 'L', 0);
+// $pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
+// $pdf->SetXY(5, 93);
+// $pdf->Cell(20.5, 10, '2nd Quarter', '', 0, 'L', 0);
+// $pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
+// $pdf->SetXY(5, 103);
+// $pdf->Cell(20.5, 10, '3rd Quarter', '', 0, 'L', 0);
+// $pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
+// $pdf->SetXY(5, 113);
+// $pdf->Cell(20.5, 10, '4th Quarter', '', 0, 'L', 0);
+// $pdf->Cell(101, 7, '', 'B', 0, 'C', 0);
 
-$pdf->SetXY(131, 87);
-$pdf->SetFont('helvetica', ' ', 9);
-$pdf->Cell(20.5, 10, 'Dear Parent,', '', 0, 'L', 0);
-$pdf->SetXY(144, 92);
-$pdf->Cell(20.5, 10, 'This Report  Card  shows  the ability and progress your child has made,', '', 1, 'L', 0);
-$pdf->SetXY(131, 97);
-$pdf->SetFont('helvetica', ' ', 9);
-$pdf->Cell(20.5, 10, 'in  the  different  learning  areas  as  well  as his/her  core  values.', '', 0, 'L', 0);
-$pdf->SetXY(144, 102);
-$pdf->Cell(20.5, 10, 'The school welcomes you should you desire to know more about', '', 0, 'L', 0);
-$pdf->SetXY(131, 107);
-$pdf->Cell(20.5, 10, "your child's progress.", '', 0, 'L', 0);
+// $pdf->SetXY(131, 87);
+// $pdf->SetFont('helvetica', ' ', 9);
+// $pdf->Cell(20.5, 10, 'Dear Parent,', '', 0, 'L', 0);
+// $pdf->SetXY(144, 92);
+// $pdf->Cell(20.5, 10, 'This Report  Card  shows  the ability and progress your child has made,', '', 1, 'L', 0);
+// $pdf->SetXY(131, 97);
+// $pdf->SetFont('helvetica', ' ', 9);
+// $pdf->Cell(20.5, 10, 'in  the  different  learning  areas  as  well  as his/her  core  values.', '', 0, 'L', 0);
+// $pdf->SetXY(144, 102);
+// $pdf->Cell(20.5, 10, 'The school welcomes you should you desire to know more about', '', 0, 'L', 0);
+// $pdf->SetXY(131, 107);
+// $pdf->Cell(20.5, 10, "your child's progress.", '', 0, 'L', 0);
 
-$pdf->SetXY(206, 116);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
+// $pdf->SetXY(206, 116);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' B', 9);
+// $pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
 
-$pdf->SetXY(206, 121);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' ', 9);
-$pdf->Cell(58, 6, 'Class Adviser', '', 0, 'C', 0);
+// $pdf->SetXY(206, 121);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' ', 9);
+// $pdf->Cell(58, 6, 'Class Adviser', '', 0, 'C', 0);
 
-$pdf->SetXY(131, 125);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, 'LORENA V. MIRANDA', 'B', 0, 'C', 0);
+// $pdf->SetXY(131, 125);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' B', 9);
+// $pdf->Cell(58, 6, 'LORENA V. MIRANDA', 'B', 0, 'C', 0);
 
-$pdf->SetXY(131, 130);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(58, 6, 'School Principal IV', '', 0, 'C', 0);
+// $pdf->SetXY(131, 130);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->Cell(58, 6, 'School Principal IV', '', 0, 'C', 0);
 
-$pdf->SetXY(171, 144);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(58, 6, 'Certificate of Transfer', '', 0, 'C', 0);
-$pdf->SetFont('helvetica', '', 9);
-$pdf->SetXY(131, 149);
-$pdf->Cell(36, 6, 'Admitted to Grade:', '', 0, 'L', 0);
-$pdf->Cell(23, 5, $studentRow["grade"], 'B', 0, 'C', 0);
-$pdf->Cell(16, 6, 'Section:', '', 0, 'C', 0);
-$pdf->Cell(58, 5, $studentRow["section"], 'B', 0, 'C', 0);
+// $pdf->SetXY(171, 144);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', 'B', 9);
+// $pdf->Cell(58, 6, 'Certificate of Transfer', '', 0, 'C', 0);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->SetXY(131, 149);
+// $pdf->Cell(36, 6, 'Admitted to Grade:', '', 0, 'L', 0);
+// $pdf->Cell(23, 5, $studentRow["grade"], 'B', 0, 'C', 0);
+// $pdf->Cell(16, 6, 'Section:', '', 0, 'C', 0);
+// $pdf->Cell(58, 5, $studentRow["section"], 'B', 0, 'C', 0);
 
-$pdf->SetXY(131, 154);
-$pdf->Cell(59, 6, 'Eligibility for Admission to Grade:', '', 0, 'L', 0);
-$pdf->Cell(74, 5, 'eligibility', 'B', 0, 'L', 0);
+// $pdf->SetXY(131, 154);
+// $pdf->Cell(59, 6, 'Eligibility for Admission to Grade:', '', 0, 'L', 0);
+// $pdf->Cell(74, 5, 'eligibility', 'B', 0, 'L', 0);
 
-$pdf->SetXY(206, 166);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
+// $pdf->SetXY(206, 166);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' B', 9);
+// $pdf->Cell(58, 6, $adviserRow["name"], 'B', 0, 'C', 0);
 
-$pdf->SetXY(206, 171);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' ', 9);
-$pdf->Cell(58, 6, 'Class Adviser', '', 0, 'C', 0);
+// $pdf->SetXY(206, 171);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' ', 9);
+// $pdf->Cell(58, 6, 'Class Adviser', '', 0, 'C', 0);
 
-$pdf->SetXY(131, 171);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' ', 9);
-$pdf->Cell(58, 6, 'Approved:', '', 0, 'L', 0);
+// $pdf->SetXY(131, 171);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' ', 9);
+// $pdf->Cell(58, 6, 'Approved:', '', 0, 'L', 0);
 
-$pdf->SetXY(131, 179);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', ' B', 9);
-$pdf->Cell(58, 6, 'LORENA V. MIRANDA', 'B', 0, 'C', 0);
+// $pdf->SetXY(131, 179);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', ' B', 9);
+// $pdf->Cell(58, 6, 'LORENA V. MIRANDA', 'B', 0, 'C', 0);
 
-$pdf->SetXY(131, 184);
-$pdf->SetLineWidth(0.4);
-$pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(58, 6, 'School Principal IV', '', 0, 'C', 0);
+// $pdf->SetXY(131, 184);
+// $pdf->SetLineWidth(0.4);
+// $pdf->SetFont('helvetica', '', 9);
+// $pdf->Cell(58, 6, 'School Principal IV', '', 0, 'C', 0);
 
 //SF 10
 
 // add a page
-$pdf->AddPage();
+// $pdf->AddPage();
 
 /*Header */
 $pdf->SetLineWidth(.3);

@@ -2,6 +2,7 @@
 //SF 9 BACK
 include("../config.php");
 require_once './vendor/autoload.php';
+session_start();
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -15,6 +16,296 @@ $select = "SELECT *  FROM `student` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
 $student = $row['name'];
+
+
+//SF9 FRONT
+$html = '
+
+<style>
+    table{
+        border-collapse: collapse; border: 1px solid black;
+    }
+
+    
+    *{
+        font-family: Arial, Helvetica, sans-serif;
+      }
+</style>
+
+<p style=" font-size: 13.5px;margin-left: 97px; margin-top: -7px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
+<div><p style=" font-size: 12px;margin-left: 452px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
+
+<table style="margin-left: -24px; margin-top: 19px; ">
+     <tr style="font-size: 8.5pt; text-align:center; ">
+        <td style="border-collapse: collapse; border: 1px solid black;Height:15px; "> </td>
+        <td style="  border: 1px solid black;" > Aug</td>
+        <td style="  border: 1px solid black;" > Sept</td>
+        <td style="  border: 1px solid black;" > Oct</td>
+        <td style="  border: 1px solid black;" > Nov</td>
+        <td style="  border: 1px solid black;" > Dec</td>
+        <td style="  border: 1px solid black;" > Jan</td>
+        <td style="  border: 1px solid black;" > Feb</td>
+        <td style="  border: 1px solid black;" > Mar</td>
+        <td style="  border: 1px solid black;" > Apr</td>
+        <td style="  border: 1px solid black;" > May</td>
+        <td style="  border: 1px solid black;" > Jun</td>
+        <td style="  border: 1px solid black;" > Jul</td>
+        <td style="  border: 1px solid black;"> Total</td>
+    </tr>   
+
+<tr style="font-size: 10pt; text-align:center;">
+    <td style="width: 79px; height:29px; border-collapse: collapse; border: 1px solid black;" "></td>
+    <td style="width: 27px;  border: 1px solid black; "> 1</td>
+    <td style="width: 28px;  border: 1px solid black; " > 2 </td>
+    <td style="width: 27px;  border: 1px solid black; " > 3 </td>
+    <td style="width: 23px;  border: 1px solid black; " > 4 </td>
+    <td style="width: 25px; border: 1px solid black; " > 5 </td>
+    <td style="width: 20px;  border: 1px solid black; " > 6 </td>
+    <td style="width: 26px;  border: 1px solid black; "> 7 </td>
+    <td style="width: 25px;  border: 1px solid black; "> 8 </td>
+    <td style="width: 25px;  border: 1px solid black; "> 9 </td>
+    <td style="width: 24px;  border: 1px solid black; " > 10 </td>
+    <td style="width: 23px;  border: 1px solid black; " > 11 </td>
+    <td style="width: 28px;  border: 1px solid black; " > 12 </td>
+    <td style="width: 29px;  border: 1px solid black; "> 13 </td>
+    </tr>
+
+    <tr style="font-size: 10pt; text-align:center;">
+    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>
+    <td style=" border: 1px solid black; width: 20px;"> 22</td>
+    <td style="border: 1px solid black;"> 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;"> 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;"> 22 </td>
+    </tr>
+
+    <tr style="font-size: 10pt; text-align:center;">
+    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>
+    <td style=" border: 1px solid black; width: 20px;"> 22</td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    <td style="border: 1px solid black;" > 22 </td>
+    </tr>
+
+</table>
+
+';
+
+
+$html .= '
+<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 450px;" >
+<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 678px;" >
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
+';
+
+$html .= '
+
+<table style="margin-left: -26px; border: 0px solid black; margin-top:90px;">
+    <tr>
+      <td colspan="2" style="border: 0px solid black; font-size: 13.5px; font-weight:bold;  width: 358px; padding-left: 95px; height:20px"> PARENT/GUARDIAN&rsquo;S SIGNATURE </td>
+    </tr>
+
+    <tr style=" border: 0px solid black;">
+      <td style=" vertical-align:bottom; height:34px;border: 0px solid black; font-size: 13.5px; width:80px;"> 1st Quarter</td>
+      <td style=" border-bottom: 1px solid black; width:365px;">  </td>
+    </tr>
+    <tr style=" border: 0px solid black;">
+    <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 2nd Quarter</td>
+    <td style=" border-bottom: 1px solid black; width:365px;">  </td>
+  </tr>
+  <tr style=" border: 0px solid black;">
+  <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 3rd Quarter</td>
+  <td style=" border-bottom: 1px solid black; width:365px;">  </td>
+</tr>
+<tr style=" border: 0px solid black;">
+<td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 4th Quarter</td>
+<td style=" border-bottom: 1px solid black; width:365px;">  </td>
+</tr>
+
+
+</table>
+';
+
+
+
+
+
+$html .= '<div>
+<table style="margin-left:452px; margin-top: -235px; border: no-border; ">
+      <tr>
+        <td colspan ="4" style=" Width:510px; text-align: center; font-weight:bold; font-size:14.5px; height:20px;"> LEARNER&rsquo;S PROGRESS REPORT CARD</td>
+
+      </tr>
+
+      <tr style="font-size: 12px;">
+      <td style="width:88px;">Name:</td>
+      <td colspan="3" style=" text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['name'] . '</td>
+      </tr>
+
+      <tr style="font-size: 12px;">
+      <td >Age:</td>
+      <td  style="width:132px;text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['age'] . '</td>
+      <td style="width:58px;">Sex:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $row['sex'] . '</td>
+      </tr>
+
+      <tr style="font-size: 12px;"> 
+      <td >Grade:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['grade'] . '</td>
+      <td >Section:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['section'] . '</td>
+      </tr>
+
+      <tr style="font-size: 12px;">
+      <td >School Year:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['school_year'] . '</td>
+      <td >LRN:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['lrn'] . '</td>
+      </tr>
+
+      <tr style="font-size: 12px;">
+      <td >Track/Strand:</td>
+      <td colspan="3"  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $row['track'] . " - " . $row['strand'] . '</td>
+      </tr>
+
+<tr>
+<td colspan="4" style="height: 17px;"> </td>
+</tr>
+      <tr >
+      <td colspan="4" style="font-size: 12.5px;" > Dear Parent,</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" > This report  card  shows  the ability and  progress your child has made</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px;" >in  the  different  learning  areas  as  well  as his/her  core  values.</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" >  The school welcomes you should you desire to know more about</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px;" >your child&rsquo;s progress.</td>
+      </tr>
+</table>
+</div>
+
+
+<div>
+<table style="margin-left:548px; margin-top: 0px; border: no-border; ">
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; width:220px;">Class Adviser</td>
+</tr>
+
+</table>
+</div>
+
+<div>
+<table style="margin-left:452px; margin-top: 2px; border: no-border; ">
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">LORENA V. MIRANDA</td>
+</tr>
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; width:220px; font-size: 12px;">School Principal IV</td>
+</tr>
+
+
+
+</table>
+</div>
+
+
+<div>
+<table style="margin-left:452px; margin-top: 36px; border: no-border; ">>
+
+<tr style="font-size: 12px;">
+<td colspan="4" style="text-align:center; font-weight:bold;">Certificate of Transfer</td>
+</tr>
+
+<tr style="font-size: 12px;">
+<td style="width:132px;">Admitted to Grade:</td>
+<td style=" width: 88px; text-align:center;  border-bottom:1px solid black;"> </td>
+<td style=" width: 58px; text-align:center;">Section:</td>
+<td style="  width: 219px; text-align:center;  border-bottom:1px solid black;"></td>
+</tr>
+
+
+<tr style="font-size: 12px;"> 
+<td colspan="2" ">Eligibility for Admission to Grade:</td>
+<td colspan="2" style="text-align:center; border-bottom:1px solid black; "></td>
+</tr>
+</table>
+</div>
+
+
+
+<div>
+<table style="margin-left:452px; margin-top: 33px; border: no-border; ">
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
+<td >Approved:</td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:95px;"></td>
+<td  style="text-align: center; width:220px;">Class Adviser</td>
+</tr>
+
+</table>
+</div>
+
+
+<div>
+<table style="margin-left:452px; margin-top: 17px; border: no-border; ">
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">LORENA V. MIRANDA</td>
+</tr>
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; width:222px; font-size: 12px;">School Principal IV</td>
+</tr>
+
+
+
+</table>
+</div>
+';
+$html .= '<div style="page-break-before: always;"></div>';
+
+//SF9 BACK
 //CORE SUBJECTS 1ST SEM
 $core = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '1st'";
 $coreResult = $conn->query($core);
@@ -57,7 +348,7 @@ $appliedCount2 = 0;
 $specializedCount2 = 0;
 
 
-$html =
+$html .=
     '
     <style>
           *{
@@ -190,7 +481,7 @@ $html .= '
 ';
 
 $html .= '
-    <div>
+    <div style="margin-top: 10px;">
     <table style="margin-left: -6px; font-size:8.2pt;">
     <tr>   
     <th colspan="4" style=" height:18px; border: 0px solid black;"></th>
@@ -340,7 +631,7 @@ $modalityResult = $conn->query($modality);
 $modalityRow = $modalityResult->fetch_assoc();
 
 $html .= '
-<table style="margin-left: -6px; text-align: left; font-size:8.2pt; ">
+<table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 10px;">
         <tr  style=" font-weight: bold; text-align: center;" >
         <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
         <td style="width: 44px; border: 1px solid black;">  Q1 </td>
