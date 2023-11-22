@@ -724,6 +724,7 @@ if (isset($_POST['submit'])) {
     $studentName = $studentRow['name'];
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
+    $lrn = $studentRow['lrn'];
 
     $completed = $conn->escape_string($_POST['completed']);
     $nc = $conn->escape_string($_POST['nc']);
@@ -735,7 +736,7 @@ if (isset($_POST['submit'])) {
     if ($sf5bCount > 0) {
         echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in SF5B!';</script>";
     } else {
-        $insertSF5B = "INSERT INTO `sf5b`(`student_name`, `completed`, `nc`, `section`, `sex`) VALUES ('$studentName','$completed','$nc','$section','$sex')";
+        $insertSF5B = "INSERT INTO `sf5b`(`lrn`, `student_name`, `completed`, `nc`, `section`, `sex`) VALUES ('$lrn','$studentName','$completed','$nc','$section','$sex')";
         $conn->query($insertSF5B);
     }
 

@@ -829,6 +829,7 @@ if (isset($_POST['submit'])) {
     $studentName = $studentRow['name'];
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
+    $lrn = $studentRow['lrn'];
 
     //SF5B
     $completed = $conn->escape_string($_POST['completed']);
