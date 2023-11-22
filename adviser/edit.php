@@ -70,6 +70,34 @@ $studentName = $studentRow['name'];
                     </div>
                     <form action="" method="POST" class="needs-validation">
                         <div class=" card-body">
+                            <h4 class="mb-3">School Form 5B</h4>
+                            <?php
+                            $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
+                            $sf5bResult = $conn->query($sf5b);
+                            $sf5bRow = $sf5bResult->fetch_assoc();
+                            ?>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="completed" id="completed" required>
+                                    <option selected value="<?php echo $sf5bRow['completed'] ?>"><?php echo $sf5bRow['completed'] ?></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <label for="completed">Completed SHS in 2 School Year</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="nc" id="nc">
+                                    <option selected value="<?php echo $sf5bRow['nc'] ?>"><?php echo $sf5bRow['nc'] ?></option>
+                                    <option value="NC I">NC I</option>
+                                    <option value="NC II">NC II</option>
+                                    <option value="NC III">NC III</option>
+                                </select>
+                                <label for="nc">National Certification Level Attained(only if applicable)</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                            </div>
+                            <hr>
                             <h4>School Form 9</h4>
                             <h5>REPORT OF LEARNING PROGRESS AND ACHIEVEMENT</h5>
                             <table class="table table-sm table-hover table-bordered">
@@ -802,6 +830,18 @@ if (isset($_POST['submit'])) {
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
 
+    //SF5B
+    $completed = $conn->escape_string($_POST['completed']);
+    $nc = $conn->escape_string($_POST['nc']);
+
+    $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
+    $sf5bResult = $conn->query($sf5b);
+    $sf5bCount = $sf5bResult->num_rows;
+
+    $updateSF5B = "UPDATE `sf5b` SET `completed`='$completed',`nc`='$nc' WHERE `student_name` = '$studentName'";
+    $conn->query($updateSF5B);
+
+    //SF9
     // Process form submission and update the database
     for ($i = 1; $i <= 10; $i++) {
         // Process form data and update the database
@@ -886,6 +926,7 @@ if (isset($_POST['submit'])) {
     $updateOV = "UPDATE `sf9_ov` SET `student_name`='$studentName',`mdq1`='$mdq1',`mdq2`='$mdq2',`mdq3`='$mdq3',`mdq4`='$mdq4',`mdq5`='$mdq5',`mdq6`='$mdq6',`mdq7`='$mdq7',`mdq8`='$mdq8',`mkq1`='$mkq1',`mkq2`='$mkq2',`mkq3`='$mkq3',`mkq4`='$mkq4',`mkq5`='$mkq5',`mkq6`='$mkq6',`mkq7`='$mkq7',`mkq8`='$mkq8',`mkkq1`='$mkkq1',`mkkq2`='$mkkq2',`mkkq3`='$mkkq3',`mkkq4`='$mkkq4',`mbq1`='$mbq1',`mbq2`='$mbq2',`mbq3`='$mbq3',`mbq4`='$mbq4',`mbq5`='$mbq5',`mbq6`='$mbq6',`mbq7`='$mbq7',`mbq8`='$mbq8' WHERE `student_name` = '$studentName'";
     $updateOVResult = $conn->query($updateOV);
 
+    //SF10
     for ($i = 1; $i <= 5; $i++) {
         $id = $conn->real_escape_string($_POST['id10' . $i]);
         $sem = $conn->real_escape_string($_POST['semester' . $i]);

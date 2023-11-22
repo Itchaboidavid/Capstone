@@ -69,7 +69,30 @@ $studentRow = $studentResult->fetch_assoc();
                     </div>
                     <form action="" method="POST" class="needs-validation">
                         <div class=" card-body">
-                            <h3 class="mb-3">School Form 9</h3>
+                            <h4 class="mb-3">School Form 5B</h4>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="completed" id="completed" required>
+                                    <option selected value=""></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <label for="completed">Completed SHS in 2 School Year</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="nc" id="nc">
+                                    <option selected value=""></option>
+                                    <option value="NC I">NC I</option>
+                                    <option value="NC II">NC II</option>
+                                    <option value="NC III">NC III</option>
+                                </select>
+                                <label for="nc">National Certification Level Attained(only if applicable)</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                            </div>
+                            <hr>
+                            <h4 class="mb-3">School Form 9</h4>
                             <h5>REPORT OF LEARNING PROGRESS AND ACHIEVEMENT</h5>
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
@@ -528,7 +551,7 @@ $studentRow = $studentResult->fetch_assoc();
                                 <img src="../images/sf9ov.png" alt="sf9 OV table" class="ms-3">
                             </div>
                             <hr>
-                            <h3 class="mb-3">School Form 10 Remedial</h3>
+                            <h4 class="mb-3">School Form 10 Remedial</h4>
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr class="fw-bold" style="font-size: 14px; text-align:center;">
@@ -701,6 +724,20 @@ if (isset($_POST['submit'])) {
     $studentName = $studentRow['name'];
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
+
+    $completed = $conn->escape_string($_POST['completed']);
+    $nc = $conn->escape_string($_POST['nc']);
+
+    $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
+    $sf5bResult = $conn->query($sf5b);
+    $sf5bCount = $sf5bResult->num_rows;
+
+    if ($sf5bCount > 0) {
+        echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in SF5B!';</script>";
+    } else {
+        $insertSF5B = "INSERT INTO `sf5b`(`student_name`, `completed`, `nc`, `section`, `sex`) VALUES ('$studentName','$completed','$nc','$section','$sex')";
+        $conn->query($insertSF5B);
+    }
 
     for ($i = 1; $i <= 10; $i++) {
         $sem1 = $_POST['sem1' . $i];
