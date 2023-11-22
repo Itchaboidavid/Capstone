@@ -333,31 +333,31 @@ $pdf->Cell(-0.000001);
 $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
-$pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
+$pdf->Cell(24.5, 7, 'Regular', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, 'end of school year', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeMale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $completeMale2ndCount + $completeFemale2ndCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
-$pdf->Cell(24.5, 7, 'Incomplete', 1, 0, 'C', 0);
+$pdf->Cell(24.5, 7, 'Irregular', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $incompleteMale2ndCount + $incompleteFemale2ndCount, 1, 1, 'C', 0);
 
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Total', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeMale2ndCount + $incompleteMale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 0, 'C', 0);
+$pdf->Cell(17.16, 7, $completeFemale2ndCount + $incompleteFemale2ndCount, 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$pdf->Cell(17.16, 7, '', 1, 1, 'C', 0);
+$pdf->Cell(17.16, 7, $total2ndSem, 1, 1, 'C', 0);
 
 
 
@@ -413,23 +413,23 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
 
         // Trim the trailing newline character
         $allSubjectTitles = rtrim($allSubjectTitles, "\n");
-
+        $pdf->SetFont('Arial', '', 3);
         // Output a single cell with concatenated subject titles
         $pdf->Cell(37, 7, $allSubjectTitles, 1, 0, 'C', 0);
     } else {
         // Output a cell with empty content if no rows are found
         $pdf->Cell(37, 7, "", 1, 0, 'C', 0);
     }
-
+    $pdf->SetFont('Arial', '', 6);
     $status = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent' AND `action` = 'FAILED'";
     $statusResult = $conn->query($status);
     $statusCount = $statusResult->num_rows;
     if ($statusCount > 0) {
-        $pdf->Cell(33, 7, 'FAILED', 1, 0, 'C', 0);
-        $pdf->Cell(30.5, 7, 'IRREGULAR', 1, 1, 'C', 0);
+        $pdf->Cell(33, 7, 'Incomplete', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'Irregular', 1, 1, 'C', 0);
     } else {
-        $pdf->Cell(33, 7, 'PASSED', 1, 0, 'C', 0);
-        $pdf->Cell(30.5, 7, 'REGULAR', 1, 1, 'C', 0);
+        $pdf->Cell(33, 7, 'Complete', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'Regular', 1, 1, 'C', 0);
     }
 }
 //TOTAL MALE
@@ -449,6 +449,8 @@ $pdf->Cell(30.5, 7, '', 1, 1, 'C', 0);
 $femaleStudent = "SELECT * FROM `student` WHERE `sex` = 'F' AND `section` = '$nameOfSection' ORDER BY `name` ASC";
 $resultFemaleStudent = mysqli_query($conn, $femaleStudent);
 while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
+    $currentStudent = $rowFemaleStudent["name"];
+
     $pdf->SetFont('Arial', 'I', 6);
     $pdf->SetLineWidth(0.5);
     $pdf->SetTopMargin(7);
@@ -457,9 +459,40 @@ while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowFemaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowFemaleStudent["name"], 1, 0, 'C', 0);
-    $pdf->Cell(37, 7, '', 1, 0, 'C', 0);
-    $pdf->Cell(33, 7, '', 1, 0, 'C', 0);
-    $pdf->Cell(30.5, 7, '', 1, 1, 'C', 0);
+    $backSubject = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent'";
+    $backSubjectResult = $conn->query($backSubject);
+
+    // Variable to store concatenated subject titles with line breaks
+    $allSubjectTitles = "";
+
+    // Check if there are rows in the result
+    if ($backSubjectResult->num_rows > 0) {
+        // Loop through each row
+        while ($backSubjectRow = $backSubjectResult->fetch_assoc()) {
+            // Concatenate subject titles with line breaks
+            $allSubjectTitles .= $backSubjectRow['subject_title'] . "\n";
+        }
+
+        // Trim the trailing newline character
+        $allSubjectTitles = rtrim($allSubjectTitles, "\n");
+
+        // Output a single cell with concatenated subject titles
+        $pdf->Cell(37, 7, $allSubjectTitles, 1, 0, 'C', 0);
+    } else {
+        // Output a cell with empty content if no rows are found
+        $pdf->Cell(37, 7, "", 1, 0, 'C', 0);
+    }
+
+    $status = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent' AND `action` = 'FAILED'";
+    $statusResult = $conn->query($status);
+    $statusCount = $statusResult->num_rows;
+    if ($statusCount > 0) {
+        $pdf->Cell(33, 7, 'Incomplete', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'Irregular', 1, 1, 'C', 0);
+    } else {
+        $pdf->Cell(33, 7, 'Complete', 1, 0, 'C', 0);
+        $pdf->Cell(30.5, 7, 'Regular', 1, 1, 'C', 0);
+    }
 }
 
 //TOTAL FEMALE

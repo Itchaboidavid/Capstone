@@ -62,7 +62,7 @@ session_start();
                     </div>
                 </div>
                 <form action="" method="POST" class="needs-validation" novalidate>
-                    <div class="card mb-4">
+                    <div class="card mb-5">
                         <div class="card-header">
                             <h4>Add Student</h4>
                         </div>
@@ -223,11 +223,12 @@ session_start();
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
                             </div>
-                            <div class="card-footer pe-0">
-                                <div class="ms-auto" style="width: 150px;">
-                                    <button type="submit" class="btn btn-primary" name="add_student">Add</button>
-                                    <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
-                                </div>
+                            <img src="../images/sf1RI.png" alt="sf 1 chart" class="" height="150px;" width="500px">
+                        </div>
+                        <div class="card-footer pe-0">
+                            <div class="ms-auto" style="width: 150px;">
+                                <button type="submit" class="btn btn-primary" name="add_student">Add</button>
+                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
                     </div>
