@@ -703,9 +703,9 @@ $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester
 $sf92Result = $conn->query($sf92);
 $sf92Count = $sf92Result->num_rows;
 $finalGrade2 = 0;
+$pdf->ln(0.7);
 /*2ND Semester Table*/
 if ($sf92Count == 0) {
-    $pdf->ln(0.7);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->SetX(11);
     $pdf->SetFillColor(0);
@@ -722,8 +722,6 @@ if ($sf92Count == 0) {
 } else {
     while ($sf92Row = $sf92Result->fetch_assoc()) {
         $finalGrade2 += (float) $sf92Row['final_grade'];
-        $pdf->ln(0.7);
-        $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->SetX(11);
         $pdf->SetFillColor(0);
         $pdf->SetFont('unicodehelvetin', '', 7);

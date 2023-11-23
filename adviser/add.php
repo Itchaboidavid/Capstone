@@ -760,7 +760,7 @@ if (isset($_POST['submit'])) {
         $second2 = (float)$_POST['second2' . $i];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2','$sex')";
+        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`,`section`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2','$sex','$section')";
         $sqlResult = $conn->query($sql);
     }
 
