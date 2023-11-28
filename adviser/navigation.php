@@ -41,6 +41,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Student table
                             </a>
+                            <a class="nav-link" href="sf2.php">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar"></i></i></div>
+                                Attendance
+                            </a>
                         </nav>
                     </div>
                 </div>

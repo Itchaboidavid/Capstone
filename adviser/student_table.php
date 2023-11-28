@@ -107,10 +107,10 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
                                         <?php
                                         $name = $studentRow['name'];
-                                        $checksf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$name'";
-                                        $checksf9Result = $conn->query($checksf9);
-                                        $checksf9Count = $checksf9Result->num_rows;
-                                        if ($checksf9Count > 0) {
+                                        $check = "SELECT * FROM `sf9` WHERE `student_name` = '$name'";
+                                        $checkResult = $conn->query($check);
+                                        $checkCount = $checkResult->num_rows;
+                                        if ($checkCount > 0) {
                                             echo '<td class="text-success">Done</td>';
                                         } else {
                                             echo '<td class="text-warning">Pending</td>';
