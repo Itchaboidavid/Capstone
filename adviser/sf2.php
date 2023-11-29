@@ -3,22 +3,32 @@ include("../config.php");
 session_start();
 
 if (isset($_POST['add_student'])) {
-    function getStudentInfo($conn, $studentId)
+    $currentMonth = date('m');
+    $currentYear = date('Y');
+
+    function getStudentInfo($conn, $studentId, $currentMonth)
     {
         $stmt = $conn->prepare("SELECT name, section, sex FROM student WHERE id = ?");
         $stmt->bind_param("i", $studentId);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_assoc();
+        // Add the month to the result array
+        $studentInfo = $result->fetch_assoc();
+        $studentInfo['month'] = $currentMonth;
+
+        return $studentInfo;
     }
 
     try {
         foreach ($_POST['attendance'] as $studentId => $attendanceData) {
             foreach ($attendanceData as $day => $status) {
+                $currentMonth = date('m'); // Add this line inside the loop
+                $originalState = $_POST['original_attendance'][$studentId][$day];
+
                 // Check if a record already exists in the database for the current student, day, and status
-                $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_status = ?");
-                $checkRecordStmt->bind_param("iss", $studentId, $day, $status);
+                $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_status = ? AND attendance_month = ?");
+                $checkRecordStmt->bind_param("isss", $studentId, $day, $status, $currentMonth);
                 $checkRecordStmt->execute();
                 $checkRecordStmt->store_result();
                 $checkRecordStmt->bind_result($recordCount);
@@ -26,9 +36,9 @@ if (isset($_POST['add_student'])) {
 
                 if ($recordCount == 0) {
                     // Record doesn't exist, insert a new one
-                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, day, attendance_status) VALUES (?, ?, ?, ?, ?, ?)");
-                    $studentInfo = getStudentInfo($conn, $studentId);
-                    $insertStmt->bind_param("isssss", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $day, $status);
+                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, day, attendance_status, attendance_month) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $studentInfo = getStudentInfo($conn, $studentId, $currentMonth); // Pass currentMonth to getStudentInfo
+                    $insertStmt->bind_param("isssssi", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $day, $status, $currentMonth);
                     $insertStmt->execute();
                 }
 
@@ -79,7 +89,7 @@ if (isset($_POST['add_student'])) {
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="student_table.php">Student Table</a></li>
-                            <li class="breadcrumb-item active">Add SF 2</li>
+                            <li class="breadcrumb-item active">School Form 2</li>
                         </ol>
                     </div>
                 </div>
@@ -102,8 +112,11 @@ if (isset($_POST['add_student'])) {
                     }
                     ?>
                     <div class="card mb-5">
-                        <div class="card-header">
-                            <h4>School Form 2</h4>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4>Monthly Attendance (SF 2)</h4>
+                            <a href="sf2PDF.php" style="border: none; background: transparent;" target="_blank">
+                                <i class="fa-solid fa-print"></i>
+                            </a>
                         </div>
                         <div class="card-body row g-1">
                             <?php
@@ -133,12 +146,12 @@ if (isset($_POST['add_student'])) {
                             }
 
                             // Create table header
-                            echo '<table class="table table-sm border table-striped">';
+                            echo '<table class="table table-sm border table-striped table-hover">';
                             echo '<tr>';
-                            echo '<td class="fw-bold">Month: ' . date('F', strtotime('2023-' . $currentMonth . '-01')) . '</td>';
+                            echo '<td class="fw-bold table-success">Month: ' . date('F', strtotime('2023-' . $currentMonth . '-01')) . '</td>';
                             echo '</tr>';
                             echo '<tr>';
-                            echo '<th rowspan="3" style="vertical-align:middle;">Student name</th><th rowspan="3" style="vertical-align:middle;">Gender</th>';
+                            echo '<th rowspan="3" style="vertical-align:middle;" class="table-success">Student name</th><th rowspan="3" style="vertical-align:middle;" class="table-success">Gender</th>';
                             echo '</tr>';
 
                             echo '<tr>';
@@ -148,7 +161,7 @@ if (isset($_POST['add_student'])) {
                                 if ($day == 'Sat' || $day == 'Sun') {
                                     continue;
                                 } else {
-                                    echo '<th style="text-align:center">' . $i . '</th>';
+                                    echo '<th style="text-align:center" class="table-success">' . $i . '</th>';
                                 }
                             }
                             echo '</tr>';
@@ -160,7 +173,7 @@ if (isset($_POST['add_student'])) {
                                 if ($day == 'Sat' || $day == 'Sun') {
                                     $weekdays++;
                                 } else {
-                                    echo '<th>' . $day . '</th>';
+                                    echo '<th class="table-primary">' . $day . '</th>';
                                 }
                             }
                             echo '</tr>';
@@ -177,15 +190,15 @@ if (isset($_POST['add_student'])) {
                                         continue;
                                     } else {
                                         // Check if a record exists in the database for the current student and day
-                                        $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ?");
-                                        $checkRecordStmt->bind_param("is", $student['id'], $i);
+                                        $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_month = ?");
+                                        $checkRecordStmt->bind_param("isi", $student['id'], $i, $currentMonth);
                                         $checkRecordStmt->execute();
                                         $checkRecordStmt->store_result();
                                         $checkRecordStmt->bind_result($recordCount);
                                         $checkRecordStmt->fetch();
 
                                         echo '<td style="text-align: center;">';
-                                        echo '<input type="checkbox" name="attendance[' . $student['id'] . '][' . $i . ']" ' . ($recordCount > 0 ? 'checked' : '') . '>';
+                                        echo '<input type="checkbox" name="attendance[' . $student['id'] . '][' . $i . ']" onchange="deleteAttendance(' . $student['id'] . ', ' . $i . ', ' . $currentMonth . ', this)" ' . ($recordCount > 0 ? 'checked' : '') . '>';
                                         echo '</td>';
 
                                         $checkRecordStmt->free_result();
@@ -211,6 +224,32 @@ if (isset($_POST['add_student'])) {
             </div>
         </main>
     </div>
+
+    <script>
+        function deleteAttendance(studentId, day, month, checkbox) {
+            if (checkbox.checked) {
+                // If the checkbox is checked, do nothing (no confirmation needed)
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this attendance record?")) {
+                // If the user cancels the confirmation, re-check the checkbox
+                checkbox.checked = true;
+                return;
+            }
+
+            // Perform AJAX request to delete the record
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Handle any response or update UI as needed
+                    console.log(this.responseText);
+                }
+            };
+            xhttp.open("GET", "delete_attendance.php?delete_attendance=true&student_id=" + studentId + "&day=" + day + "&month=" + month, true);
+            xhttp.send();
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
