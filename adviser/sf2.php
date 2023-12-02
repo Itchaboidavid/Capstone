@@ -24,7 +24,6 @@ if (isset($_POST['add_student'])) {
         foreach ($_POST['attendance'] as $studentId => $attendanceData) {
             foreach ($attendanceData as $day => $status) {
                 $currentMonth = date('m'); // Add this line inside the loop
-                $originalState = $_POST['original_attendance'][$studentId][$day];
 
                 // Check if a record already exists in the database for the current student, day, and status
                 $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_status = ? AND attendance_month = ?");
@@ -180,7 +179,10 @@ if (isset($_POST['add_student'])) {
 
                             while ($student = mysqli_fetch_assoc($students)) {
                                 echo '<tr>';
-                                echo '<td>' . $student['name'] . '</td>';
+                                echo '<td>' . $student['name'] . '<a href="add_remarks.php?id=' . $student['id'] . '"    
+                                        style="text-decoration: none; font-size: 10px; margin-left: 5px;"> <i class="fa-regular fa-pen-to-square"></i> </a>
+                                    </td>';
+
                                 echo '<td style="text-align:center;">' . $student['sex'] . '</td>';
 
                                 for ($i = 1; $i <= $daysInMonth; $i++) {
