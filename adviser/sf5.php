@@ -17,6 +17,10 @@ $sectionsf5 = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
 $sectionsf5Result = $conn->query($sectionsf5);
 $sectionsf5Row = $sectionsf5Result->fetch_assoc();
 
+$school = "SELECT * FROM `school` WHERE `id` = '1'";
+$schoolResult = $conn->query($school);
+$schoolRow = $schoolResult->fetch_assoc();
+
 $pdf->SetAutoPageBreak(true, 5);
 $pdf->Image('../images/circleLogosf5.jpg', 6, 3, 20, 21);
 $pdf->Image('../images/depedlogosf5.jpg', 239, 4, 31, 18);
@@ -33,21 +37,21 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Name', 0, 0, '', 0);
 $pdf->SetXY(36.5, 24.9);
 $pdf->SetLineWidth(0.3);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(55.5, 7, 'Tagaytay City National High ', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(55.5, 7, $schoolRow['school_name'], 1, 0, 'C', 0);
 
 $pdf->SetXY(21.5, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(36.5, 33.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(55.5, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(10.5, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
 $pdf->SetXY(36.5, 42.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(99, 7, $sectionsf5Row["track"], 1, 0, 'C', 0);
 } else {
@@ -59,29 +63,29 @@ $pdf->SetXY(100.2, 24.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School ID', 0, 0, '', 0);
 $pdf->SetXY(115.7, 24.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20, 7, '301216', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(20, 7, $schoolRow['school_id'], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(96.5, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(115.7, 33.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(20, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
 
 $pdf->SetXY(148.5, 24.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'District', 0, 0, '', 0);
 $pdf->SetXY(160.5, 24.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(20.5, 7, 'Tagaytay', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(20.5, 7, $schoolRow['school_district'], 1, 0, 'C', 0);
 
 $pdf->SetXY(141, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Grade level', 0, 0, '', 0);
 $pdf->SetXY(160.5, 33.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(20.5, 7, $sectionsf5Row["grade"], 1, 0, 'C', 0);
 
 
@@ -89,21 +93,21 @@ $pdf->SetXY(188, 24.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Divison', 0, 0, '', 0);
 $pdf->SetXY(200.5, 24.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(27.5, 7, 'Cavite', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(27.5, 7, $schoolRow['school_division'], 1, 0, 'C', 0);
 
 $pdf->SetXY(188.2, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Section', 0, 0, '', 0);
 $pdf->SetXY(200.5, 33.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(71, 7, $sectionsf5Row["name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(149, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Course (only for TVL)', 0, 0, '', 0);
 $pdf->SetXY(183.5, 42.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(88, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'C', 0);
 } else {
@@ -114,8 +118,8 @@ $pdf->SetXY(237, 24.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Region', 0, 0, '', 0);
 $pdf->SetXY(249, 24.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(22.5, 7, 'Region IV-A', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(22.5, 7, $schoolRow['school_region'], 1, 0, 'C', 0);
 
 $pdf->Ln(28);
 $pdf->Cell(-5);
@@ -532,7 +536,7 @@ $pdf->SetXY(194.8, 101);
 $pdf->Cell(77.5, 7, "PREPARED BY:", 0, 1);
 $pdf->SetFont('Arial', '', 8.5);
 $pdf->SetXY(195.8, 108);
-$pdf->Cell(76.5, 4, "", "B", 1, 'C', 0);
+$pdf->Cell(76.5, 4, $faculty, "B", 1, 'C', 0);
 
 $pdf->SetFont('Arial', 'I', 6);
 $pdf->Text(226.5, 115, "Class Adviser", "B", 1, 'C', 0);
@@ -545,7 +549,7 @@ $pdf->SetXY(194.8, 119);
 $pdf->Cell(77.5, 7, "CERTIFIED CORRECT & SUBMITTED BY:", 0, 1);
 $pdf->SetXY(195.8, 126.5);
 $pdf->SetFont('Arial', '', 8.5);
-$pdf->Cell(76.5, 4, "", "B", 1, 'C', 0);
+$pdf->Cell(76.5, 4, $schoolRow['school_head'], "B", 1, 'C', 0);
 
 
 
@@ -588,21 +592,21 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Name', 0, 0, '', 0);
 $pdf->SetXY(35.5, 25.9);
 $pdf->SetLineWidth(0.3);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(55, 7, 'Tagaytay City National High ', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(55, 7, $schoolRow['school_name'], 1, 0, 'C', 0);
 
 $pdf->SetXY(20.5, 34.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(35.5, 34.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(55, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(9.5, 43.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
 $pdf->SetXY(35.5, 43.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(98, 7, $sectionsf5Row["track"], 1, 0, 'C', 0);
 } else {
@@ -614,29 +618,29 @@ $pdf->SetXY(98.7, 25.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School ID', 0, 0, '', 0);
 $pdf->SetXY(114.2, 25.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(23.5, 7, '301216', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(23.5, 7, $schoolRow['school_id'], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(94, 34.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(114.2, 34.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(23.5, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
 
 $pdf->SetXY(147.5, 25.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'District', 0, 0, '', 0);
 $pdf->SetXY(159.5, 25.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(21, 7, 'Tagaytay', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(21, 7, $schoolRow['school_district'], 1, 0, 'C', 0);
 
 $pdf->SetXY(141, 34.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Grade level', 0, 0, '', 0);
 $pdf->SetXY(159.5, 34.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(21, 7, $sectionsf5Row["grade"], 1, 0, 'C', 0);
 
 
@@ -644,21 +648,21 @@ $pdf->SetXY(187, 25.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Divison', 0, 0, '', 0);
 $pdf->SetXY(199.5, 25.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(27.5, 7, 'Cavite', 1, 0, 'C', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(27.5, 7, $schoolRow['school_division'], 1, 0, 'C', 0);
 
 $pdf->SetXY(187.2, 34.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Section', 0, 0, '', 0);
 $pdf->SetXY(199.5, 34.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(71.5, 7, $sectionsf5Row["name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(148, 43.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Course (only for TVL)', 0, 0, '', 0);
 $pdf->SetXY(182.5, 43.5);
-$pdf->SetFont('Arial', 'B', 9);
+$pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
     $pdf->Cell(88.5, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'C', 0);
 } else {
@@ -669,8 +673,8 @@ $pdf->SetXY(235, 25.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Region', 0, 0, '', 0);
 $pdf->SetXY(247, 25.9);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(24, 7, 'Region IV-A', 1, 0, '', 0);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->Cell(24, 7, $schoolRow['school_region'], 1, 0, 'C', 0);
 
 $pdf->Ln(28);
 $pdf->Cell(-5);
@@ -953,7 +957,7 @@ $pdf->SetXY(194.8, 53);
 $pdf->Cell(77.5, 7, "PREPARED BY:", 0, 1);
 $pdf->SetFont('Arial', '', 8.5);
 $pdf->SetXY(195.8, 60);
-$pdf->Cell(76.5, 4, "(Name and Signature)", "B", 1, 'C', 0);
+$pdf->Cell(76.5, 4, $faculty, "B", 1, 'C', 0);
 
 
 $pdf->SetFont('Arial', 'I', 6);
@@ -970,7 +974,7 @@ $pdf->SetXY(194.8, 81);
 $pdf->Cell(77.5, 7, "CERTIFIED CORRECT & SUBMITTED BY:", 0, 1);
 $pdf->SetXY(195.8, 88.5);
 $pdf->SetFont('Arial', '', 8.5);
-$pdf->Cell(76.5, 4, "", "B", 1, 'C', 0);
+$pdf->Cell(76.5, 4, $schoolRow['school_head'], "B", 1, 'C', 0);
 
 
 $pdf->SetXY(194.8, 109);

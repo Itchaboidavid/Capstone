@@ -9,6 +9,10 @@ $pdf = new TCPDF('P', 'mm', 'LETTER');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
+$school = "SELECT * FROM school WHERE id = '1'";
+$schoolResult = $conn->query($school);
+$schoolRow = $schoolResult->fetch_assoc();
+
 $clinicSection = $_SESSION['section'];
 $sections = "SELECT * FROM `section` WHERE `name` = '$clinicSection'";
 $result = mysqli_query($conn, $sections);
@@ -32,21 +36,21 @@ while ($row = mysqli_fetch_assoc($result)) {
   /*-School Name'*/
   $pdf->SetFont('helvetica', '', 5);
   $pdf->SetXY(47.5, 20.2);
-  $pdf->Cell(39, 4.5, 'Tagaytay City National High School - Integrated ', 1, 0, 'C', 0);
+  $pdf->Cell(39, 4.5, $schoolRow['school_name'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
   $pdf->Text(19, 27, 'School ID');
   /*-School ID'*/
   $pdf->SetFont('helvetica', '', 6);
   $pdf->SetXY(29.5, 26.3);
-  $pdf->Cell(18, 4.5, '301216', 1, 0, 'C', 0);
+  $pdf->Cell(18, 4.5, $schoolRow['school_id'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
   $pdf->Text(90, 21, 'District');
   /*-District*/
   $pdf->SetFont('helvetica', '', 6);
   $pdf->SetXY(98, 20.2);
-  $pdf->Cell(23.5, 4.5, 'Tagaytay City', 1, 0, 'C', 0);
+  $pdf->Cell(23.5, 4.5, $schoolRow['school_district'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
   $pdf->Text(51.5, 27, 'Grade');
@@ -67,7 +71,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   /*-Division*/
   $pdf->SetFont('helvetica', '', 6);
   $pdf->SetXY(138, 20.2);
-  $pdf->Cell(28, 4.5, 'Cavite', 1, 0, 'C', 0);
+  $pdf->Cell(28, 4.5, $schoolRow['school_division'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
   $pdf->Text(124.2, 27, 'Track/Strand');
@@ -81,7 +85,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   /*-Region*/
   $pdf->SetFont('helvetica', '', 6);
   $pdf->SetXY(183, 20.2);
-  $pdf->Cell(26, 4.5, 'Region IV-A', 1, 0, 'C', 0);
+  $pdf->Cell(26, 4.5, $schoolRow['school_region'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
   $pdf->Text(170, 27, 'School Year');
@@ -205,8 +209,8 @@ while ($row = mysqli_fetch_assoc($result)) {
       <td style="width:8%; nobr=true; text-align:center;">' . $emp['height2'] . '</td>
       <td style="width:5.84%; nobr=true; text-align:center;">' . $emp["bmi"] . '</td>
       <td style="width:7.78%; nobr=true; text-align:center;">' . $emp["bmi_category"] . '</td>
-      <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa'] . '</td>
-      <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+      <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+      <td style="width:12.6%;  nobr=true; text-align:center;"></td>
       </tr>';
     }
   }
@@ -274,8 +278,8 @@ td {
           <td style="width:8%; nobr=true; text-align:center;">' . $empf['height2'] . '</td>
           <td style="width:5.84%; nobr=true; text-align:center;">' . $empf["bmi"] . '</td>
           <td style="width:7.78%; nobr=true; text-align:center;">' . $empf["bmi_category"] . '</td>
-          <td style="width:8.25%; nobr=true; text-align:center;">' . $empf['hfa'] . '</td>
-          <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+          <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
+          <td style="width:12.6%;  nobr=true; text-align:center;"></td>
     </tr>';
     }
   }
@@ -512,7 +516,7 @@ td {
   $pdf->Setx(9);
   $pdf->Cell(32, 3.2, $formattedDate, 'B', 0, 'C', 0);
   $pdf->Cell(7, 3.2, '', 0, 0, 'C', 0);
-  $pdf->Cell(39, 3.2, $_SESSION['name'], 'B', 0, 'C', 0);
+  $pdf->Cell(39, 3.2, '', 'B', 0, 'C', 0);
   $pdf->Cell(11.5, 3.2, '', 0, 0, 'C', 0);
   $pdf->Cell(39.5, 3.2, '', 'B', 0, 'C', 0);
   $pdf->Cell(12, 3.2, '', 0, 0, 'C', 0);

@@ -16,6 +16,13 @@ session_start();
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="../index.js"></script>
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -63,26 +70,44 @@ session_start();
                             <div class="form-floating mb-3">
                                 <input type="text" name="school_name" id="school_name" placeholder="school_name" class="form-control bg-body-tertiary" required value="<?php echo $row['school_name'] ?>" />
                                 <label for="school_name">School Name</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school name.</div>
                             </div>
                             <div class="form-floating mb-3 ">
                                 <input type="number" name="school_id" id="school_id" placeholder="school_id" class="form-control bg-body-tertiary" required value="<?php echo $row['school_id'] ?>" />
                                 <label for=" school_id">School ID</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school ID.</div>
                             </div>
                             <div class="form-floating mb-3 ">
                                 <input type="text" name="school_district" id="school_district" placeholder="school_district" class="form-control bg-body-tertiary" required value="<?php echo $row['school_district'] ?>" />
                                 <label for="school_district">School District</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school district.</div>
                             </div>
                             <div class="form-floating mb-3 ">
                                 <input type="text" name="school_division" id="school_division" placeholder="school_division" class="form-control bg-body-tertiary" required value="<?php echo $row['school_division'] ?>" />
                                 <label for="school_division">School Division</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school division.</div>
                             </div>
                             <div class="form-floating mb-3 ">
                                 <input type="text" name="school_region" id="school_region" placeholder="school_region" class="form-control bg-body-tertiary" required value="<?php echo $row['school_region'] ?>" />
                                 <label for="school_region">School Region</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school region.</div>
                             </div>
-                            <div class="form-floating mb ">
+                            <div class="form-floating mb-3 ">
                                 <input type="text" name="school_head" id="school_head" placeholder="school_head" class="form-control bg-body-tertiary" required value="<?php echo $row['school_head'] ?>" />
                                 <label for="school_head">School Head</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school head.</div>
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <input type="text" name="schoolhead_designation" id="schoolhead_designation" placeholder="schoolhead_designation" class="form-control bg-body-tertiary" required value="<?php echo $row['schoolhead_designation'] ?>" />
+                                <label for="schoolhead_designation">School Head Designation</label>
+                                <div class="valid-feedback bg-body-tertiary">Great!</div>
+                                <div class="invalid-feedback bg-body-tertiary"> Please enter a school head designation.</div>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -113,8 +138,9 @@ if (isset($_POST['submit'])) {
     $school_division = $conn->escape_string($_POST['school_division']);
     $school_region = $conn->escape_string($_POST['school_region']);
     $school_head = $conn->escape_string($_POST['school_head']);
+    $schoolhead_designation = $conn->escape_string($_POST['schoolhead_designation']);
 
-    $update = "UPDATE `school` SET `school_name`='$school_name',`school_id`='$school_id',`school_district`='$school_district',`school_division`='$school_division',`school_region`='$school_region',`school_head`='$school_head' WHERE `id` = '1'";
+    $update = "UPDATE `school` SET `school_name`='$school_name',`school_id`='$school_id',`school_district`='$school_district',`school_division`='$school_division',`school_region`='$school_region',`school_head`='$school_head',`schoolhead_designation`='$schoolhead_designation' WHERE `id` = '1'";
 
     if ($conn->query($update)) {
         echo ("<script>location.href = 'school_settings.php?msg=Information updated successfully!';</script>");
@@ -124,4 +150,5 @@ if (isset($_POST['submit'])) {
         exit();
     }
 }
+
 $conn->close();

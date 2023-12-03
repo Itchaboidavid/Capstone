@@ -39,7 +39,6 @@ session_start();
                         <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
                             <i class="fa-solid fa-print"></i>
                         </a>
-
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">

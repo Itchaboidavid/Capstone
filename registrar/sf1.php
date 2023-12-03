@@ -14,6 +14,10 @@ $sectionResult = $conn->query($sections);
 $sectionCount = $sectionResult->num_rows;
 $html = '';
 
+$school = "SELECT * FROM school WHERE id = '1'";
+$schoolResult = $conn->query($school);
+$schoolRow = $schoolResult->fetch_assoc();
+
 $firstPage = true;
 
 while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
@@ -64,7 +68,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-43px; margin-left: 78px; " > School Name </p> 
        </div>
        <div >
-        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -47px; margin-left: 127px; border: 1px solid black;" >Tagaytay National High School - Integrated</p> 
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -47px; margin-left: 127px; border: 1px solid black;" >' . $schoolRow['school_name'] . '</p> 
        </div>
        <div class="Semester">
        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -21px; margin-left: 86px; " > Semester </p> 
@@ -77,7 +81,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 345px; " > School ID </p> 
       </div>
       <div >
-        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 389px; border: 1px solid black;" >301216</p> 
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 389px; border: 1px solid black;" >' . $schoolRow['school_id']  . '</p> 
       </div>
       <div class="School Year">
       <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 345px; " > School Year </p> 
@@ -89,7 +93,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 492px; " > District </p> 
       </div>
       <div >
-        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 138px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 517px; border: 1px solid black;" >Tagaytay City</p> 
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 138px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 517px; border: 1px solid black;" >' . $schoolRow['school_district'] . '</p> 
       </div>
       <div  class="Grade Level">
       <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 496px; " >Grade Level</p> 
@@ -101,7 +105,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 690px; " > Division </p> 
       </div>
       <div >
-        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 128px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 720px; border: 1px solid black;" >Cavite</p> 
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 128px; text-align:center; font-size: 6pt; margin-top: -49px; margin-left: 720px; border: 1px solid black;" >' . $schoolRow['school_division'] . '</p> 
       </div>
       <div  class="Track and Strand">
       <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -18px; margin-left: 692px; " >Track and Strand</p> 
@@ -113,7 +117,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-48px; margin-left: 866px; " > Region </p> 
       </div>
       <div >
-        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 113px; text-align:center; font-size: 6pt; margin-top: -53px; margin-left:892px; border: 1px solid black;" >Region IV-A</p> 
+        <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 113px; text-align:center; font-size: 6pt; margin-top: -53px; margin-left:892px; border: 1px solid black;" >' . $schoolRow['school_region'] . '</p> 
       </div>
       <table style="border: 0px;">
       <div class="Section">
@@ -408,7 +412,6 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
      ';
   $dompdf->loadHtml($html);
 }
-
 
 $dompdf->setPaper('A4', 'landscape');
 $dompdf->render();

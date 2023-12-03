@@ -15,6 +15,7 @@ session_start();
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -27,7 +28,7 @@ session_start();
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Students</h3>
@@ -41,12 +42,12 @@ session_start();
                                 <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="user_table.php">View Details</a>
+                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-header">
                                 <h3 style="text-shadow: 1px 1px 3px black;">Sections</h3>
@@ -60,45 +61,7 @@ session_start();
                                 <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="section_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-success text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Strands</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $strand = "SELECT * FROM `strand`";
-                                $strandResult = $conn->query($strand);
-                                $strandCount = $strandResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $strandCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="strand_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-danger text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Subjects</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $subject = "SELECT * FROM `subject`";
-                                $subjectResult = $conn->query($subject);
-                                $subjectCount = $subjectResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $subjectCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="subject_table.php">View Details</a>
+                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -109,19 +72,23 @@ session_start();
                     <div class="col-xl-6">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fa-solid fa-chart-simple me-1"></i>
-                                Subject Chart
+                                <i class="fa-solid fa-chart-pie"></i>
+                                Student Chart
                             </div>
-                            <div class="card-body"><canvas id="subjectChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body">
+                                <div id="studentChart" style="width:100%; height:250px;"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fa-solid fa-chart-pie me-1"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Section Chart
                             </div>
-                            <div class="card-body"><canvas id="sectionChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body">
+                                <div id="sectionChart" style="width:100%; height:250px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,70 +113,63 @@ session_start();
 </html>
 
 <?php
-//SECTION CHART
-$sectionG11 = "SELECT * FROM `section` WHERE `grade` = '11'";
-$resultG11 = mysqli_query($conn, $sectionG11);
+//STUDENT CHART
+$g11 = "SELECT * FROM `student` WHERE `grade` = '11'";
+$resultG11 = mysqli_query($conn, $g11);
 $rowG11 = mysqli_num_rows($resultG11);
 
-$sectionG12 = "SELECT * FROM `section` WHERE `grade` = '12'";
-$resultG12 = mysqli_query($conn, $sectionG12);
+$g12 = "SELECT * FROM `student` WHERE `grade` = '12'";
+$resultG12 = mysqli_query($conn, $g12);
 $rowG12 = mysqli_num_rows($resultG12);
 
-//SUBJECT CHART
-$subjectG11 = "SELECT * FROM `subject` WHERE `grade` = '11'";
-$subjectResultG11 = mysqli_query($conn, $subjectG11);
-$subjectRowG11 = mysqli_num_rows($subjectResultG11);
+//SECTION CHART
+$g112 = "SELECT * FROM `section` WHERE `grade` = '11'";
+$resultG112 = mysqli_query($conn, $g11);
+$rowG112 = mysqli_num_rows($resultG112);
 
-$subjectG12 = "SELECT * FROM `subject` WHERE `grade` = '12'";
-$subjectResultG12 = mysqli_query($conn, $subjectG12);
-$subjectRowG12 = mysqli_num_rows($subjectResultG12);
+$g122 = "SELECT * FROM `section` WHERE `grade` = '12'";
+$resultG122 = mysqli_query($conn, $g12);
+$rowG122 = mysqli_num_rows($resultG122);
 ?>
 <script>
-    //SECTION CHART
-    var xValues = ["Grade 11", "Grade 12"];
-    var yValues = [<?php echo $rowG11 ?>, <?php echo $rowG12 ?>];
-    var barColors = ["#003049", "#d62828"];
-    const sectionChart = new Chart("sectionChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            legend: {
-                display: true,
-            },
-            title: {
-                display: true,
-                text: "Section Chart"
-            }
-        }
+    google.charts.load('current', {
+        'packages': ['corechart']
     });
+    google.charts.setOnLoadCallback(drawChart);
 
-    //SUBJECT CHART
-    var xValues = ["Grade 11", "Grade 12"];
-    var yValues = [<?php echo $subjectRowG11 ?>, <?php echo $subjectRowG12 ?>];
-    var barColors = ["#003049", "#d62828"];
-    const subjectChart = new Chart("subjectChart", {
-        type: "doughnut",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            legend: {
-                display: true,
-            },
-            title: {
-                display: true,
-                text: "Subject Chart"
-            }
-        }
-    });
+    function drawChart() {
+        studentChart();
+        sectionChart();
+    };
+
+    function studentChart() {
+        const data = google.visualization.arrayToDataTable([
+            ['Contry', 'Mhl'],
+            ['G11', <?php echo $rowG11 ?>],
+            ['G12', <?php echo $rowG12 ?>],
+        ]);
+
+        const options = {
+            title: 'Student Chart',
+            is3D: true
+        };
+
+        const chart = new google.visualization.PieChart(document.getElementById('studentChart'));
+        chart.draw(data, options);
+    };
+
+    function sectionChart() {
+        const data = google.visualization.arrayToDataTable([
+            ['Contry', 'Mhl'],
+            ['G11', <?php echo $rowG112 ?>],
+            ['G12', <?php echo $rowG122 ?>],
+        ]);
+
+        const options = {
+            title: 'Section Chart'
+        };
+
+        const chart = new google.visualization.BarChart(document.getElementById('sectionChart'));
+        chart.draw(data, options);
+    };
 </script>

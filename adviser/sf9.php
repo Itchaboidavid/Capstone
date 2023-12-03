@@ -17,6 +17,9 @@ $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
 $student = $row['name'];
 
+$school = "SELECT * FROM school WHERE id = '1'";
+$schoolResult = $conn->query($school);
+$schoolRow = $schoolResult->fetch_assoc();
 
 //SF9 FRONT
 $html = '
@@ -230,7 +233,7 @@ $html .= '<div>
 <table style="margin-left:452px; margin-top: 2px; border: no-border; ">
 <tr style="font-size: 12px;">
 
-<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">LORENA V. MIRANDA</td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
 </tr>
 <tr style="font-size: 12px;">
 
@@ -290,7 +293,7 @@ $html .= '<div>
 <table style="margin-left:452px; margin-top: 17px; border: no-border; ">
 <tr style="font-size: 12px;">
 
-<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">LORENA V. MIRANDA</td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
 </tr>
 <tr style="font-size: 12px;">
 
