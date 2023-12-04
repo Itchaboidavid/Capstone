@@ -53,70 +53,112 @@ table{
         <td style="  border: 1px solid black;" > Jun</td>
         <td style="  border: 1px solid black;" > Jul</td>
         <td style="  border: 1px solid black;"> Total</td>
-    </tr>   
-
-<tr style="font-size: 10pt; text-align:center;">
-    <td style="width: 79px; height:29px; border-collapse: collapse; border: 1px solid black;" "></td>
-    <td style="width: 27px;  border: 1px solid black; "> 1</td>
-    <td style="width: 28px;  border: 1px solid black; " > 2 </td>
-    <td style="width: 27px;  border: 1px solid black; " > 3 </td>
-    <td style="width: 23px;  border: 1px solid black; " > 4 </td>
-    <td style="width: 25px; border: 1px solid black; " > 5 </td>
-    <td style="width: 20px;  border: 1px solid black; " > 6 </td>
-    <td style="width: 26px;  border: 1px solid black; "> 7 </td>
-    <td style="width: 25px;  border: 1px solid black; "> 8 </td>
-    <td style="width: 25px;  border: 1px solid black; "> 9 </td>
-    <td style="width: 24px;  border: 1px solid black; " > 10 </td>
-    <td style="width: 23px;  border: 1px solid black; " > 11 </td>
-    <td style="width: 28px;  border: 1px solid black; " > 12 </td>
-    <td style="width: 29px;  border: 1px solid black; "> 13 </td>
     </tr>
-
     <tr style="font-size: 10pt; text-align:center;">
-    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>
-    <td style=" border: 1px solid black; width: 20px;"> 22</td>
-    <td style="border: 1px solid black;"> 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;"> 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;"> 22 </td>
-    </tr>
+    <td style="width: 79px; height:29px; border-collapse: collapse; border: 1px solid black;" "></td>';
 
+// Get current year
+$currentYear = date('Y');
+
+// Initialize an array to store weekday counts for each month
+$weekdayCounts = array();
+
+// Initialize total weekdays count
+$totalWeekdays = 0;
+
+// Start the loop from August (month 8) and continue through the next 12 months
+for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+    // If the current month is greater than 12, subtract 12 to get the next year
+    $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+
+    // Determine the number of days in the current month
+    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
+
+    // Calculate weekdays and weekend days
+    $weekdays = 0;
+    $weekendDays = 0;
+
+    for ($i = 1; $i <= $daysInMonth; $i++) {
+        $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+
+        if ($day == 'Sat' || $day == 'Sun') {
+            $weekendDays++;
+        } else {
+            $weekdays++;
+        }
+    }
+
+    // Store the weekday count in the array
+    $weekdayCounts[$adjustedMonth] = $weekdays;
+
+    // Accumulate total weekdays count
+    $totalWeekdays += $weekdays;
+
+    // Append HTML for the current month to the $html variable
+    $html .= '
+        <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
+}
+
+// Now you can use the $html variable as needed.
+$html .= '
+        <td style="width: 27px;  border: 1px solid black;">' . $totalWeekdays . '</td>
+    </tr>';
+
+
+$html .= '
     <tr style="font-size: 10pt; text-align:center;">
-    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>
-    <td style=" border: 1px solid black; width: 20px;"> 22</td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    <td style="border: 1px solid black;" > 22 </td>
-    </tr>
+    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>';
 
+$totalPresent = 0;
+
+for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+    // If the current month is greater than 12, subtract 12 to get the next year
+    $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+
+    $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+    $presentResult = $conn->query($present);
+    $presentCount = $presentResult->num_rows;
+    $totalPresent += $presentCount;
+
+    $html .= '<td style=" border: 1px solid black; width: 20px;">' . $presentCount . '</td>';
+}
+
+$html .= '
+    <td style="border: 1px solid black;">' . $totalPresent . '</td>
+    </tr>';
+
+$html .= '
+    <tr style="font-size: 10pt; text-align:center;">
+    <td style=" border: 1px solid black; width: 60px; height:29px;"></td>';
+
+$totalAbsent = 0;
+
+for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+    // If the current month is greater than 12, subtract 12 to get the next year
+    $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+
+    $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+    $presentResult = $conn->query($present);
+    $presentCount = $presentResult->num_rows;
+
+    $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+    $html .= '
+        <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
+    $totalAbsent += $absentMonth;
+}
+
+$html .= '
+    <td style="border: 1px solid black;" >' . $totalAbsent . '</td>
+    </tr>
 </table>
-
 ';
-
 
 $html .= '
 <img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 450px;" >
 <img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 678px;" >
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
-<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
-<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> days absent</p></div>
 ';
 
 $html .= '
@@ -287,7 +329,6 @@ $html .= '<div>
 
 </table>
 </div>
-
 
 <div>
 <table style="margin-left:452px; margin-top: 17px; border: no-border; ">

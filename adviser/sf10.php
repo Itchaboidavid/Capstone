@@ -4,7 +4,7 @@ session_start();
 require_once('../TCPDF/tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF('L', 'mm', 'LETTER');
+$pdf = new TCPDF('P', 'mm', 'LETTER');
 // set document information
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
