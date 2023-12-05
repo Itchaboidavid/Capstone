@@ -49,39 +49,20 @@ session_start();
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">BMI</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $bmi = "SELECT * FROM `student` WHERE `bmi_category` != '' AND `section` = '$section'";
-                                $bmiResult = $conn->query($bmi);
-                                $bmiCount = $bmiResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $bmiCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
                         <div class="card bg-success text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">HFA</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Yearly Attendance</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $hfa = "SELECT * FROM `student` WHERE `hfa_category` != '' AND `section` = '$section'";
-                                $hfaResult = $conn->query($hfa);
-                                $hfaCount = $hfaResult->num_rows;
+                                $attendance = "SELECT * FROM sf2";
+                                $attendanceResult = $conn->query($attendance);
+                                $attendanceCount = $attendanceResult->num_rows;
                                 ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $hfaCount ?></span>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $attendanceCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                <a class="small text-white stretched-link" href="sf2.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -96,7 +77,7 @@ session_start();
                                 Gender Chart
                             </div>
                             <div class="card-body">
-                                <div id="genderChart" style="width:100%; height:250px;"></div>
+                                <div id="genderChart" style="width:100%; height:300px;"></div>
                             </div>
                         </div>
                     </div>
@@ -104,10 +85,10 @@ session_start();
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-bar"></i>
-                                HFA Chart
+                                S.Y Attendance Chart
                             </div>
                             <div class="card-body">
-                                <div id="hfaChart" style="width:100%; height:250px;"></div>
+                                <div id="attendanceChart" style="width:100%; height:300px;"></div>
                             </div>
                         </div>
                     </div>
@@ -137,22 +118,53 @@ $femaleResult = $conn->query($female);
 $femaleCount = $femaleResult->num_rows;
 
 //HFA CHART
-$severelyStunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Severly stunted'";
-$severelyStuntedResult = mysqli_query($conn, $severelyStunted);
-$severelyStuntedCount = mysqli_num_rows($severelyStuntedResult);
+$january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
+$januaryResult = $conn->query($january);
+$januaryCount = $januaryResult->num_rows;
 
-$stunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Stunted'";
-$stuntedResult = mysqli_query($conn, $stunted);
-$stuntedCount = mysqli_num_rows($stuntedResult);
+$february = "SELECT * FROM sf2 WHERE attendance_month = '2' AND student_section = '$section'";
+$februaryResult = $conn->query($february);
+$februaryCount = $februaryResult->num_rows;
 
-$normalHeight = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Normal'";
-$normalHeightResult = mysqli_query($conn, $normalHeight);
-$normalHeightCount = mysqli_num_rows($normalHeightResult);
+$march = "SELECT * FROM sf2 WHERE attendance_month = '3' AND student_section = '$section'";
+$marchResult = $conn->query($march);
+$marchCount = $marchResult->num_rows;
 
-$tall = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Tall'";
-$tallResult = mysqli_query($conn, $tall);
-$tallCount = mysqli_num_rows($tallResult);
+$april = "SELECT * FROM sf2 WHERE attendance_month = '4' AND student_section = '$section'";
+$aprilResult = $conn->query($april);
+$aprilCount = $aprilResult->num_rows;
 
+$may = "SELECT * FROM sf2 WHERE attendance_month = '5' AND student_section = '$section'";
+$mayResult = $conn->query($may);
+$mayCount = $mayResult->num_rows;
+
+$june = "SELECT * FROM sf2 WHERE attendance_month = '6' AND student_section = '$section'";
+$juneResult = $conn->query($june);
+$juneCount = $juneResult->num_rows;
+
+$july = "SELECT * FROM sf2 WHERE attendance_month = '7' AND student_section = '$section'";
+$julyResult = $conn->query($july);
+$julyCount = $julyResult->num_rows;
+
+$august = "SELECT * FROM sf2 WHERE attendance_month = '8' AND student_section = '$section'";
+$augustResult = $conn->query($august);
+$augustCount = $augustResult->num_rows;
+
+$september = "SELECT * FROM sf2 WHERE attendance_month = '9' AND student_section = '$section'";
+$septemberResult = $conn->query($september);
+$septemberCount = $septemberResult->num_rows;
+
+$october = "SELECT * FROM sf2 WHERE attendance_month = '10' AND student_section = '$section'";
+$octoberResult = $conn->query($october);
+$octoberCount = $octoberResult->num_rows;
+
+$november = "SELECT * FROM sf2 WHERE attendance_month = '11' AND student_section = '$section'";
+$novemberResult = $conn->query($november);
+$novemberCount = $novemberResult->num_rows;
+
+$december = "SELECT * FROM sf2 WHERE attendance_month = '12' AND student_section = '$section'";
+$decemberResult = $conn->query($december);
+$decemberCount = $decemberResult->num_rows;
 ?>
 <script>
     google.charts.load('current', {
@@ -162,7 +174,7 @@ $tallCount = mysqli_num_rows($tallResult);
 
     function drawChart() {
         genderChart();
-        hfaChart();
+        attendanceChart();
     };
 
     function genderChart() {
@@ -181,20 +193,28 @@ $tallCount = mysqli_num_rows($tallResult);
         chart.draw(data, options);
     };
 
-    function hfaChart() {
+    function attendanceChart() {
         const data = google.visualization.arrayToDataTable([
             ['Contry', 'Mhl'],
-            ['Severly Stunted', <?php echo $severelyStuntedCount ?>],
-            ['Stunted', <?php echo $stuntedCount ?>],
-            ['Normal', <?php echo $normalHeightCount ?>],
-            ['Tall', <?php echo $tallCount ?>],
+            ['January', <?php echo $januaryCount ?>],
+            ['February', <?php echo $februaryCount ?>],
+            ['March', <?php echo $marchCount ?>],
+            ['April', <?php echo $aprilCount ?>],
+            ['May', <?php echo $mayCount ?>],
+            ['June', <?php echo $juneCount ?>],
+            ['July', <?php echo $julyCount ?>],
+            ['August', <?php echo $augustCount ?>],
+            ['September', <?php echo $septemberCount ?>],
+            ['October', <?php echo $octoberCount ?>],
+            ['November', <?php echo $novemberCount ?>],
+            ['December', <?php echo $decemberCount ?>],
         ]);
 
         const options = {
             title: 'HFA Chart'
         };
 
-        const chart = new google.visualization.BarChart(document.getElementById('hfaChart'));
+        const chart = new google.visualization.BarChart(document.getElementById('attendanceChart'));
         chart.draw(data, options);
     };
 </script>

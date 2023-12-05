@@ -120,7 +120,11 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
     $presentCount = $presentResult->num_rows;
     $totalPresent += $presentCount;
 
-    $html .= '<td style=" border: 1px solid black; width: 20px;">' . $presentCount . '</td>';
+    if ($presentCount > 0) {
+        $html .= '<td style=" border: 1px solid black; width: 20px;">' . $presentCount . '</td>';
+    } else {
+        $html .= '<td style=" border: 1px solid black; width: 20px;"></td>';
+    }
 }
 
 $html .= '
@@ -141,10 +145,15 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
     $presentResult = $conn->query($present);
     $presentCount = $presentResult->num_rows;
 
-    $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
-    $html .= '
+    if ($presentCount > 0) {
+        $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+        $html .= '
         <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
-    $totalAbsent += $absentMonth;
+        $totalAbsent += $absentMonth;
+    } else {
+        $html .= '
+        <td style=" border: 1px solid black; width: 20px;"></td>';
+    }
 }
 
 $html .= '
