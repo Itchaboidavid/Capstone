@@ -89,7 +89,7 @@ if (isset($_POST["login"])) {
       if ($row_login["user_type"] == "system admin") {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "adviser") {
+      } elseif ($row_login["user_type"] == "class adviser") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
@@ -99,11 +99,7 @@ if (isset($_POST["login"])) {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["fname"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "human resources") {
-        $_SESSION["id"] = $row_login["id"];
-        $_SESSION["name"] = $row_login["name"];
-        $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "clinic staff") {
+      } elseif ($row_login["user_type"] == "clinic teacher") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];

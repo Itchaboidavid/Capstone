@@ -111,20 +111,11 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Strand</th>
                                     <th>Track</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Strand</th>
-                                    <th>Track</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $strand = "SELECT * FROM `strand`";
@@ -133,7 +124,6 @@ session_start();
                                     if ($strandRow['name'] != "All") :
                                 ?>
                                         <tr>
-                                            <td><?php echo $strandRow["id"] ?></td>
                                             <td><?php echo $strandRow["name"] ?></td>
                                             <td><?php echo $strandRow["track"] ?></td>
                                             <td>

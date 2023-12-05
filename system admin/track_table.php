@@ -93,18 +93,10 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Track</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Track</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $track = "SELECT * FROM `track`";
@@ -113,7 +105,6 @@ session_start();
                                     if ($trackRow['name'] != "All") :
                                 ?>
                                         <tr>
-                                            <td><?php echo $trackRow["id"] ?></td>
                                             <td><?php echo $trackRow["name"] ?></td>
                                             <td>
                                                 <a href="edit_track.php?id=<?php echo $trackRow['id'] ?>" style="border: none; background: transparent;">

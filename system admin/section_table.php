@@ -184,33 +184,33 @@ session_start();
                             <thead>
                                 <tr>
                                     <th>Section</th>
-                                    <th>Track</th>
                                     <th>Strand</th>
+                                    <th>Class Adviser</th>
                                     <th>Grade</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Section</th>
-                                    <th>Track</th>
-                                    <th>Strand</th>
-                                    <th>Grade</th>
-                                    <th>Semester</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $section = "SELECT * FROM `section`";
                                 $sectionResult = $conn->query($section);
                                 while ($sectionRow = $sectionResult->fetch_assoc()) :
+                                    $sectionName = $sectionRow['name'];
                                 ?>
                                     <tr>
                                         <td><?php echo $sectionRow["name"] ?></td>
-                                        <td><?php echo $sectionRow["track"] ?></td>
                                         <td><?php echo $sectionRow["strand"] ?></td>
+                                        <?php
+                                        $adviser = "SELECT * FROM user WHERE section = '$sectionName'";
+                                        $adviserResult = $conn->query($adviser);
+                                        $adviserRow = $adviserResult->fetch_assoc();
+                                        if ($adviserResult->num_rows > 0) {
+                                            echo "<td>" . $adviserRow['name'] . "</td>";
+                                        } else {
+                                            echo "<td></td>";
+                                        }
+                                        ?>
                                         <td><?php echo $sectionRow["grade"] ?></td>
                                         <td><?php echo $sectionRow["semester"] ?></td>
                                         <td>

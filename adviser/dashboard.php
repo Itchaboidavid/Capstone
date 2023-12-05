@@ -49,9 +49,9 @@ session_start();
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
-                        <div class="card bg-success text-white mb-4">
+                        <div class="card bg-warning text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Yearly Attendance</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Attendance</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
@@ -70,7 +70,7 @@ session_start();
                 </div>
                 <!-- CHARTS -->
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-pie"></i>
@@ -81,7 +81,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-8">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-bar"></i>

@@ -72,9 +72,8 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
-                                                <option value="adviser">Adviser</option>
-                                                <option value="clinic staff">Clinic staff</option>
-                                                <option value="human resources">Human Resources</option>
+                                                <option value="class adviser">Class Adviser</option>
+                                                <option value="clinic teacher">Clinic Teacher</option>
                                                 <option value="registrar">Registrar</option>
                                             </select>
                                             <label for="user_type">User type</label>
@@ -145,21 +144,11 @@ session_start();
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>User type</th>
-                                    <th>Status</th>
                                     <th>Section</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>User type</th>
-                                    <th>Status</th>
-                                    <th>Section</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $user = "SELECT * FROM `user`";

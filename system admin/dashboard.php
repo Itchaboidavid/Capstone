@@ -15,6 +15,7 @@ session_start();
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -109,28 +110,34 @@ session_start();
                     <div class="col-xl-6">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fa-solid fa-chart-simple me-1"></i>
+                                <i class="fa-solid fa-chart-pie"></i>
                                 Subject Chart
                             </div>
-                            <div class="card-body"><canvas id="subjectChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body">
+                                <div id="subjectChart" style="width:100%; height:300px;"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fa-solid fa-chart-pie me-1"></i>
+                                <i class="fa-solid fa-chart-pie"></i>
                                 Section Chart
                             </div>
-                            <div class="card-body"><canvas id="sectionChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body">
+                                <div id="sectionChart" style="width:100%; height:300px;"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fa-solid fa-chart-simple me-1"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Faculty Chart
                             </div>
-                            <div class="card-body"><canvas id="facultyChart" width="100%" height="40"></canvas></div>
+                            <div class="card-body">
+                                <div id="facultyChart" style="width:100%; height:300px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,75 +203,61 @@ $subjectResultG12 = mysqli_query($conn, $subjectG12);
 $subjectRowG12 = mysqli_num_rows($subjectResultG12);
 ?>
 <script>
-    //USER CHART
-    var xValues = ["Adviser", "Registrar", "HR", "Clinic"];
-    var yValues = [<?php echo $adviserCount ?>, <?php echo $registrarCount ?>, <?php echo $hrCount ?>, <?php echo $clinicCount ?>];
-    var barColors = ["#003049", "#d62828", "#f77f00", "#5f0f40"];
-    const facultyChart = new Chart("facultyChart", {
-        type: "bar",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            legend: {
-                display: false,
-            },
-            title: {
-                display: true,
-                text: "Faculty Chart"
-            }
-        }
+    google.charts.load('current', {
+        'packages': ['corechart']
     });
+    google.charts.setOnLoadCallback(drawChart);
 
-    //SECTION CHART
-    var xValues = ["Grade 11", "Grade 12"];
-    var yValues = [<?php echo $rowG11 ?>, <?php echo $rowG12 ?>];
-    var barColors = ["#003049", "#d62828"];
-    const sectionChart = new Chart("sectionChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            legend: {
-                display: true,
-            },
-            title: {
-                display: true,
-                text: "Section Chart"
-            }
-        }
-    });
+    function drawChart() {
+        subjectChart();
+        sectionChart();
+        facultyChart()
+    };
 
-    //SUBJECT CHART
-    var xValues = ["Grade 11", "Grade 12"];
-    var yValues = [<?php echo $subjectRowG11 ?>, <?php echo $subjectRowG12 ?>];
-    var barColors = ["#003049", "#d62828"];
-    const subjectChart = new Chart("subjectChart", {
-        type: "doughnut",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            legend: {
-                display: true,
-            },
-            title: {
-                display: true,
-                text: "Subject Chart"
-            }
-        }
-    });
+    function subjectChart() {
+        const data = google.visualization.arrayToDataTable([
+            ['Contry', 'Mhl'],
+            ['G11', <?php echo $subjectRowG11 ?>],
+            ['G12', <?php echo $subjectRowG12 ?>],
+        ]);
+
+        const options = {
+            title: 'Subject Chart',
+            is3D: true
+        };
+
+        const chart = new google.visualization.PieChart(document.getElementById('subjectChart'));
+        chart.draw(data, options);
+    };
+
+    function sectionChart() {
+        const data = google.visualization.arrayToDataTable([
+            ['Contry', 'Mhl'],
+            ['G11', <?php echo $rowG11 ?>],
+            ['G12', <?php echo $rowG12 ?>],
+        ]);
+
+        const options = {
+            title: 'Section Chart'
+        };
+
+        const chart = new google.visualization.PieChart(document.getElementById('sectionChart'));
+        chart.draw(data, options);
+    };
+
+    function facultyChart() {
+        const data = google.visualization.arrayToDataTable([
+            ['Contry', 'Mhl'],
+            ['Class Adviser', <?php echo $adviserCount ?>],
+            ['Clinic Teacher', <?php echo $clinicCount ?>],
+            ['Registrar', <?php echo $registrarCount ?>],
+        ]);
+
+        const options = {
+            title: 'User Chart'
+        };
+
+        const chart = new google.visualization.BarChart(document.getElementById('facultyChart'));
+        chart.draw(data, options);
+    };
 </script>

@@ -110,18 +110,10 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Semester</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $semester = "SELECT * FROM `semester` ORDER BY `name`";
@@ -129,7 +121,6 @@ session_start();
                                 while ($semesterRow = $semesterResult->fetch_assoc()) :
                                 ?>
                                     <tr>
-                                        <td><?php echo $semesterRow["id"] ?></td>
                                         <td><?php echo $semesterRow["output"] ?></td>
                                         <td>
                                             <a href="edit_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent;">
