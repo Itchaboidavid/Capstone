@@ -23,22 +23,6 @@ session_start();
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
-        // $(document).ready(function() {
-        //     $("#track2").change(function() {
-        //         var track_name = $(this).val();
-        //         $.ajax({
-        //             url: "dropdown.php",
-        //             method: "POST",
-        //             data: {
-        //                 trackName: track_name
-        //             },
-        //             success: function(data) {
-        //                 $("#strand2").html(data);
-        //             }
-        //         })
-        //     })
-        // })
-
         $(document).ready(function() {
             // When the filterSemester dropdown changes
             $("#filterSemester").change(function() {
@@ -70,8 +54,8 @@ session_start();
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
-                        Add
+                    <button type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
+                        Add section
                     </button>
 
                     <!-- Modal -->
@@ -166,7 +150,7 @@ session_start();
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-table me-1"></i>
-                            Subject table
+                            Section table
                         </div>
                         <select class="form-select" id="filterSemester" style="max-width: 180px;">
                             <option value="all">All Semester</option>
@@ -201,16 +185,7 @@ session_start();
                                     <tr>
                                         <td><?php echo $sectionRow["name"] ?></td>
                                         <td><?php echo $sectionRow["strand"] ?></td>
-                                        <?php
-                                        $adviser = "SELECT * FROM user WHERE section = '$sectionName'";
-                                        $adviserResult = $conn->query($adviser);
-                                        $adviserRow = $adviserResult->fetch_assoc();
-                                        if ($adviserResult->num_rows > 0) {
-                                            echo "<td>" . $adviserRow['name'] . "</td>";
-                                        } else {
-                                            echo "<td></td>";
-                                        }
-                                        ?>
+                                        <td><?php echo $sectionRow["adviser"] ?></td>
                                         <td><?php echo $sectionRow["grade"] ?></td>
                                         <td><?php echo $sectionRow["semester"] ?></td>
                                         <td>
@@ -267,7 +242,7 @@ if (isset($_POST["add_section"])) {
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
-        header("location:section_table.php?errmsg=The section name already exist!");
+        header("location:section_table.php?errmsg=The section already exist!");
         exit();
     } else {
         $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `faculty`, `semester`, `semester_name`, `start_year`, `end_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$semester', '$semester_name', '$start_year', '$end_year')";

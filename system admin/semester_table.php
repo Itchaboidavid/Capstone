@@ -38,7 +38,7 @@ session_start();
                     </div>
                     <!-- Button trigger modal -->
                     <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
-                        Add
+                        Add semester
                     </button>
 
                     <!-- Modal -->
@@ -46,7 +46,7 @@ session_start();
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add strand</h1>
+                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add semester</h1>
                                     <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="" method="POST" class="needs-validation" novalidate>
@@ -56,7 +56,6 @@ session_start();
                                                 <option value="" selected>Semester</option>
                                                 <option value="1st">1st</option>
                                                 <option value="2nd">2nd</option>
-                                                <option value="3rd">3rd</option>
                                             </select>
                                             <label for="name">Semester</label>
                                             <div class="valid-feedback ps-1">Great!</div>

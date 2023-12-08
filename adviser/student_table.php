@@ -2,11 +2,7 @@
 include("../config.php");
 session_start();
 
-$faculty = $_SESSION['name'];
-$section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
-$sectionResult = $conn->query($section);
-$sectionRow = $sectionResult->fetch_assoc();
-$sectionName = $sectionRow['section'];
+$sectionName = $_SESSION['section'];
 
 $studentSection = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
 $studentSectionResult = $conn->query($studentSection);
@@ -47,8 +43,8 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                         </ol>
                     </div>
                     <!-- Add student -->
-                    <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3">
-                        Add
+                    <a href="add_student.php" type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3">
+                        Add student
                     </a>
                 </div>
                 <?php
@@ -72,7 +68,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-table me-1"></i>
-                            <?php echo $sectionName . " - " . $studentSectionRow['grade'] ?>
+                            <?php echo $sectionName ?>
                         </div>
                         <a href="sf5.php" style="border: none; background: transparent;" target="_blank">
                             <i class="fa-solid fa-print"></i>

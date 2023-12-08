@@ -28,34 +28,63 @@ session_start();
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Students</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $section = $_SESSION['section'];
-                                $students = "SELECT * FROM `student` WHERE `section` = '$section'";
-                                $studentsResult = $conn->query($students);
-                                $studentsCount = $studentsResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    <?php
+                    $id = $_SESSION['id'];
+                    $advised = "SELECT * FROM user WHERE id = '$id'";
+                    $advisedResult = $conn->query($advised);
+                    $advisedRow = $advisedResult->fetch_assoc();
+
+                    if ($advisedRow['section'] != "") {
+                    ?>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card bg-primary text-white mb-4">
+                                <div class="card-header">
+                                    <h3 style="text-shadow: 1px 1px 3px black;"><?php echo $advisedRow['section'] ?></h3>
+                                </div>
+                                <div class="card-body text-center p-0">
+                                    <?php
+                                    $section = $advisedRow['section'];
+                                    $students = "SELECT * FROM `student` WHERE `section` = '$section'";
+                                    $studentsResult = $conn->query($students);
+                                    $studentsCount = $studentsResult->num_rows;
+                                    ?>
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php
+                    } else { ?>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card bg-primary text-white mb-4">
+                                <div class="card-header">
+                                    <h3 style="text-shadow: 1px 1px 3px black;">No Class Advisory</h3>
+                                </div>
+                                <div class="card-body text-center p-0">
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;">0</span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div class="col-xl-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Attendance</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Monthly Attendance</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $attendance = "SELECT * FROM sf2";
+                                $currentMonth = date('m');
+                                $section = $_SESSION['section'];
+                                $attendance = "SELECT * FROM sf2 WHERE `student_section` = '$section' AND attendance_month = '$currentMonth'";
                                 $attendanceResult = $conn->query($attendance);
                                 $attendanceCount = $attendanceResult->num_rows;
                                 ?>
@@ -70,7 +99,7 @@ session_start();
                 </div>
                 <!-- CHARTS -->
                 <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-xl-5">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-pie"></i>
@@ -81,7 +110,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-8">
+                    <div class="col-xl-7">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-bar"></i>
@@ -108,63 +137,85 @@ session_start();
 </html>
 
 <?php
-//GENDER CHART
-$male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M'";
-$maleResult = $conn->query($male);
-$maleCount = $maleResult->num_rows;
+$section = $advisedRow['section'];
+$students = "SELECT * FROM `student` WHERE `section` = '$section'";
+$studentsResult = $conn->query($students);
+$studentsCount = $studentsResult->num_rows;
 
-$female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F'";
-$femaleResult = $conn->query($female);
-$femaleCount = $femaleResult->num_rows;
+if ($studentsCount > 0) {
+    //GENDER CHART
+    $male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M'";
+    $maleResult = $conn->query($male);
+    $maleCount = $maleResult->num_rows;
 
-//HFA CHART
-$january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
-$januaryResult = $conn->query($january);
-$januaryCount = $januaryResult->num_rows;
+    $female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F'";
+    $femaleResult = $conn->query($female);
+    $femaleCount = $femaleResult->num_rows;
 
-$february = "SELECT * FROM sf2 WHERE attendance_month = '2' AND student_section = '$section'";
-$februaryResult = $conn->query($february);
-$februaryCount = $februaryResult->num_rows;
+    //HFA CHART
+    $january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
+    $januaryResult = $conn->query($january);
+    $januaryCount = $januaryResult->num_rows;
 
-$march = "SELECT * FROM sf2 WHERE attendance_month = '3' AND student_section = '$section'";
-$marchResult = $conn->query($march);
-$marchCount = $marchResult->num_rows;
+    $february = "SELECT * FROM sf2 WHERE attendance_month = '2' AND student_section = '$section'";
+    $februaryResult = $conn->query($february);
+    $februaryCount = $februaryResult->num_rows;
 
-$april = "SELECT * FROM sf2 WHERE attendance_month = '4' AND student_section = '$section'";
-$aprilResult = $conn->query($april);
-$aprilCount = $aprilResult->num_rows;
+    $march = "SELECT * FROM sf2 WHERE attendance_month = '3' AND student_section = '$section'";
+    $marchResult = $conn->query($march);
+    $marchCount = $marchResult->num_rows;
 
-$may = "SELECT * FROM sf2 WHERE attendance_month = '5' AND student_section = '$section'";
-$mayResult = $conn->query($may);
-$mayCount = $mayResult->num_rows;
+    $april = "SELECT * FROM sf2 WHERE attendance_month = '4' AND student_section = '$section'";
+    $aprilResult = $conn->query($april);
+    $aprilCount = $aprilResult->num_rows;
 
-$june = "SELECT * FROM sf2 WHERE attendance_month = '6' AND student_section = '$section'";
-$juneResult = $conn->query($june);
-$juneCount = $juneResult->num_rows;
+    $may = "SELECT * FROM sf2 WHERE attendance_month = '5' AND student_section = '$section'";
+    $mayResult = $conn->query($may);
+    $mayCount = $mayResult->num_rows;
 
-$july = "SELECT * FROM sf2 WHERE attendance_month = '7' AND student_section = '$section'";
-$julyResult = $conn->query($july);
-$julyCount = $julyResult->num_rows;
+    $june = "SELECT * FROM sf2 WHERE attendance_month = '6' AND student_section = '$section'";
+    $juneResult = $conn->query($june);
+    $juneCount = $juneResult->num_rows;
 
-$august = "SELECT * FROM sf2 WHERE attendance_month = '8' AND student_section = '$section'";
-$augustResult = $conn->query($august);
-$augustCount = $augustResult->num_rows;
+    $july = "SELECT * FROM sf2 WHERE attendance_month = '7' AND student_section = '$section'";
+    $julyResult = $conn->query($july);
+    $julyCount = $julyResult->num_rows;
 
-$september = "SELECT * FROM sf2 WHERE attendance_month = '9' AND student_section = '$section'";
-$septemberResult = $conn->query($september);
-$septemberCount = $septemberResult->num_rows;
+    $august = "SELECT * FROM sf2 WHERE attendance_month = '8' AND student_section = '$section'";
+    $augustResult = $conn->query($august);
+    $augustCount = $augustResult->num_rows;
 
-$october = "SELECT * FROM sf2 WHERE attendance_month = '10' AND student_section = '$section'";
-$octoberResult = $conn->query($october);
-$octoberCount = $octoberResult->num_rows;
+    $september = "SELECT * FROM sf2 WHERE attendance_month = '9' AND student_section = '$section'";
+    $septemberResult = $conn->query($september);
+    $septemberCount = $septemberResult->num_rows;
 
-$november = "SELECT * FROM sf2 WHERE attendance_month = '11' AND student_section = '$section'";
-$novemberResult = $conn->query($november);
-$novemberCount = $novemberResult->num_rows;
+    $october = "SELECT * FROM sf2 WHERE attendance_month = '10' AND student_section = '$section'";
+    $octoberResult = $conn->query($october);
+    $octoberCount = $octoberResult->num_rows;
 
-$december = "SELECT * FROM sf2 WHERE attendance_month = '12' AND student_section = '$section'";
-$decemberResult = $conn->query($december);
-$decemberCount = $decemberResult->num_rows;
+    $november = "SELECT * FROM sf2 WHERE attendance_month = '11' AND student_section = '$section'";
+    $novemberResult = $conn->query($november);
+    $novemberCount = $novemberResult->num_rows;
+
+    $december = "SELECT * FROM sf2 WHERE attendance_month = '12' AND student_section = '$section'";
+    $decemberResult = $conn->query($december);
+    $decemberCount = $decemberResult->num_rows;
+} else {
+    $maleCount = 0;
+    $femaleCount = 0;
+    $januaryCount = 0;
+    $februaryCount = 0;
+    $marchCount = 0;
+    $aprilCount = 0;
+    $mayCount = 0;
+    $juneCount = 0;
+    $julyCount = 0;
+    $augustCount = 0;
+    $septemberCount = 0;
+    $octoberCount = 0;
+    $novemberCount = 0;
+    $decemberCount = 0;
+}
 ?>
 <script>
     google.charts.load('current', {

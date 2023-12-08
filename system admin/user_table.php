@@ -30,15 +30,15 @@ session_start();
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center mt-0">
                     <div>
-                        <h1 class="mt-4">Faculty</h1>
+                        <h1 class="mt-4">User</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Faculty table</li>
+                            <li class="breadcrumb-item active">User table</li>
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
-                        Add
+                    <button type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
+                        Add user
                     </button>
 
                     <!-- Modal -->
@@ -46,7 +46,7 @@ session_start();
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class=" modal-title fs-5" id="userModalLabel">Add faculty</h1>
+                                    <h1 class=" modal-title fs-5" id="userModalLabel">Add user</h1>
                                     <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="" method="POST" class="needs-validation" novalidate>
@@ -72,7 +72,7 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
-                                                <option value="class adviser">Class Adviser</option>
+                                                <option value="adviser">Class Adviser</option>
                                                 <option value="clinic teacher">Clinic Teacher</option>
                                                 <option value="registrar">Registrar</option>
                                             </select>
@@ -80,16 +80,10 @@ session_start();
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select type of user.</div>
                                         </div>
-                                        <div class="form-floating mb-3">
+
+                                        <div class="form-floating mb-3" id="sectionDropdown" style="display: none;">
                                             <select class="form-select bg-body-tertiary" name="section" id="section">
                                                 <option value="" selected>Section</option>
-                                                <?php
-                                                $section = "SELECT * FROM `section`";
-                                                $sectionResult = $conn->query($section);
-                                                while ($sectionRow = $sectionResult->fetch_assoc()) {
-                                                    echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
-                                                }
-                                                ?>
                                             </select>
                                             <label for="section">Section</label>
                                             <div class="valid-feedback ps-1">Great!</div>
@@ -160,7 +154,13 @@ session_start();
                                             <td><?php echo $userRow["id"] ?></td>
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
-                                            <td><?php echo $userRow["section"] ?></td>
+                                            <?php
+                                            if ($userRow['user_type'] == 'registrar') {
+                                                echo '<td>Non-Teaching</td>';
+                                            } else {
+                                                echo '<td>' . $userRow["section"] . '</td>';
+                                            }
+                                            ?>
                                             <td>
                                                 <?php if ($userRow["status"] == "active") {
                                                     echo '<span class="text-success">' . $userRow["status"] . "</span>";
@@ -186,6 +186,38 @@ session_start();
         </main>
     </div>
     </div>
+    <script>
+        document.getElementById('user_type').addEventListener('change', function() {
+            var sectionDropdown = document.getElementById('sectionDropdown');
+            var selectedUserType = this.value;
+
+            // Show or hide section dropdown based on user type
+            if (selectedUserType === 'adviser' || selectedUserType === 'clinic teacher') {
+                sectionDropdown.style.display = 'block';
+                updateSectionOptions(selectedUserType);
+            } else {
+                sectionDropdown.style.display = 'none';
+            }
+        });
+
+        function updateSectionOptions(userType) {
+            var sectionDropdown = document.getElementById('section');
+
+            // Fetch sections based on user type using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update section options based on the response
+                    sectionDropdown.innerHTML = xhr.responseText;
+                }
+            };
+
+            // Adjust the URL based on your actual file structure
+            var url = 'get_sections.php?user_type=' + encodeURIComponent(userType);
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="../index.js"></script>

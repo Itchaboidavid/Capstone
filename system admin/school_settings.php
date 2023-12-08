@@ -68,31 +68,31 @@ session_start();
                         </div>
                         <div class="card-body">
                             <div class="form-floating mb-3">
-                                <input type="text" name="school_name" id="school_name" placeholder="school_name" class="form-control bg-body-tertiary" required value="<?php echo $row['school_name'] ?>" />
+                                <input type="text" name="school_name" id="school_name" placeholder="school_name" class="form-control bg-body-tertiary" required disabled value="<?php echo $row['school_name'] ?>" />
                                 <label for="school_name">School Name</label>
                                 <div class="valid-feedback bg-body-tertiary">Great!</div>
                                 <div class="invalid-feedback bg-body-tertiary"> Please enter a school name.</div>
                             </div>
                             <div class="form-floating mb-3 ">
-                                <input type="number" name="school_id" id="school_id" placeholder="school_id" class="form-control bg-body-tertiary" required value="<?php echo $row['school_id'] ?>" />
+                                <input type="number" name="school_id" id="school_id" placeholder="school_id" class="form-control bg-body-tertiary" required disabled value="<?php echo $row['school_id'] ?>" />
                                 <label for=" school_id">School ID</label>
                                 <div class="valid-feedback bg-body-tertiary">Great!</div>
                                 <div class="invalid-feedback bg-body-tertiary"> Please enter a school ID.</div>
                             </div>
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="school_district" id="school_district" placeholder="school_district" class="form-control bg-body-tertiary" required value="<?php echo $row['school_district'] ?>" />
+                                <input type="text" name="school_district" id="school_district" placeholder="school_district" class="form-control bg-body-tertiary" required disabled value="<?php echo $row['school_district'] ?>" />
                                 <label for="school_district">School District</label>
                                 <div class="valid-feedback bg-body-tertiary">Great!</div>
                                 <div class="invalid-feedback bg-body-tertiary"> Please enter a school district.</div>
                             </div>
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="school_division" id="school_division" placeholder="school_division" class="form-control bg-body-tertiary" required value="<?php echo $row['school_division'] ?>" />
+                                <input type="text" name="school_division" id="school_division" placeholder="school_division" class="form-control bg-body-tertiary" required disabled value="<?php echo $row['school_division'] ?>" />
                                 <label for="school_division">School Division</label>
                                 <div class="valid-feedback bg-body-tertiary">Great!</div>
                                 <div class="invalid-feedback bg-body-tertiary"> Please enter a school division.</div>
                             </div>
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="school_region" id="school_region" placeholder="school_region" class="form-control bg-body-tertiary" required value="<?php echo $row['school_region'] ?>" />
+                                <input type="text" name="school_region" id="school_region" placeholder="school_region" class="form-control bg-body-tertiary" required disabled value="<?php echo $row['school_region'] ?>" />
                                 <label for="school_region">School Region</label>
                                 <div class="valid-feedback bg-body-tertiary">Great!</div>
                                 <div class="invalid-feedback bg-body-tertiary"> Please enter a school region.</div>
@@ -132,15 +132,15 @@ session_start();
 </html>
 <?php
 if (isset($_POST['submit'])) {
-    $school_name = $conn->escape_string($_POST['school_name']);
-    $school_id = $conn->escape_string($_POST['school_id']);
-    $school_district = $conn->escape_string($_POST['school_district']);
-    $school_division = $conn->escape_string($_POST['school_division']);
-    $school_region = $conn->escape_string($_POST['school_region']);
+    // $school_name = $conn->escape_string($_POST['school_name']);
+    // $school_id = $conn->escape_string($_POST['school_id']);
+    // $school_district = $conn->escape_string($_POST['school_district']);
+    // $school_division = $conn->escape_string($_POST['school_division']);
+    // $school_region = $conn->escape_string($_POST['school_region']);
     $school_head = $conn->escape_string($_POST['school_head']);
     $schoolhead_designation = $conn->escape_string($_POST['schoolhead_designation']);
 
-    $update = "UPDATE `school` SET `school_name`='$school_name',`school_id`='$school_id',`school_district`='$school_district',`school_division`='$school_division',`school_region`='$school_region',`school_head`='$school_head',`schoolhead_designation`='$schoolhead_designation' WHERE `id` = '1'";
+    $update = "UPDATE `school` SET `school_head`='$school_head',`schoolhead_designation`='$schoolhead_designation' WHERE `id` = '1'";
 
     if ($conn->query($update)) {
         echo ("<script>location.href = 'school_settings.php?msg=Information updated successfully!';</script>");

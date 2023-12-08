@@ -23,22 +23,6 @@ session_start();
         window.history.replaceState({}, document.title, url);
     </script>
     <script>
-        // $(document).ready(function() {
-        //     $("#track2").change(function() {
-        //         var track_name = $(this).val();
-        //         $.ajax({
-        //             url: "dropdown.php",
-        //             method: "POST",
-        //             data: {
-        //                 trackName: track_name
-        //             },
-        //             success: function(data) {
-        //                 $("#strand2").html(data);
-        //             }
-        //         })
-        //     })
-        // })
-
         $(document).ready(function() {
             // When the filterSemester dropdown changes
             $("#filterSemester").change(function() {
@@ -70,8 +54,8 @@ session_start();
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
-                        Add
+                    <button type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
+                        Add subject
                     </button>
 
                     <!-- Modal -->

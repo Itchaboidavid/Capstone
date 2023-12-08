@@ -89,7 +89,7 @@ if (isset($_POST["login"])) {
       if ($row_login["user_type"] == "system admin") {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "class adviser") {
+      } elseif ($row_login["user_type"] == "adviser") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
