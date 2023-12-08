@@ -148,7 +148,13 @@ if (isset($_POST['add_student'])) {
 
                     <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4>School Start</h4>
+                            <h4>School Start and End for the month:
+                                <?php
+                                $currentMonth = date('m');
+                                $currentYear = date('Y');
+                                echo date('F', strtotime('2023-' . $currentMonth . '-01'));
+                                ?>
+                            </h4>
                         </div>
                         <div class="card-body row g-1">
                             <?php
