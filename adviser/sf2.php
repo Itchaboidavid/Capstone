@@ -164,8 +164,15 @@ if (isset($_POST['add_student'])) {
                             $checkResult = $conn->query($check);
                             $checkRow = $checkResult->fetch_assoc();
                             ?>
-                            <input type="number" name="start_date" id="start_date" placeholder="start date" value="<?php echo $checkRow['start_date'] ?>" min="1" max="31">
-                            <input type="number" name="end_date" id="end_date" placeholder="end date" value="<?php echo $checkRow['end_date'] ?>" min="1" max="31">
+                            <div class="form-floating">
+                                <input type="number" name="start_date" class="form-control" id="start_date" placeholder="start date" value="<?php echo $checkRow['start_date'] ?>" min="1" max="31">
+                                <label for="start_date">Start date</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" name="end_date" class="form-control" id="end_date" placeholder="end date" value="<?php echo $checkRow['end_date'] ?>" min="1" max="31">
+                                <label for="end_date">End date</label>
+                            </div>
+
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
