@@ -319,7 +319,7 @@ if (isset($_POST['edit_student'])) {
     $semResult = $conn->query($sem);
     $semRow = $semResult->fetch_assoc();
 
-    $semester = $semRow["semester_name"];
+    $semester = $semRow["name"];
     $school_year = $semRow["start_year"] . " - " . $semRow["end_year"];
 
 

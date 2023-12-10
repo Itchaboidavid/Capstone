@@ -35,7 +35,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $faculty = "SELECT * FROM `user`";
+                                $faculty = "SELECT * FROM `user` WHERE user_type != 'system admin'";
                                 $facultyResult = $conn->query($faculty);
                                 $facultyCount = $facultyResult->num_rows;
                                 ?>

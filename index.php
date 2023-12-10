@@ -36,7 +36,7 @@ session_start();
                              </div>';
         }
         ?>
-        <form action="index.php" method="POST" class="needs-validation" novalidate>
+        <form action="" method="POST" class="needs-validation" novalidate>
           <div class="mb-4 form-floating mt-3">
             <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required />
             <label for="username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
@@ -84,42 +84,64 @@ if (isset($_POST["login"])) {
   $select_user = "SELECT * FROM `user` WHERE `username` = '$username' AND `password` = '$password'";
   $result_user = mysqli_query($conn, $select_user);
   if (mysqli_num_rows($result_user) > 0) {
-    $row_login = mysqli_fetch_array($result_user);
-    if ($row_login["status"] == "active") {
+    $row_login = mysqli_fetch_assoc($result_user);
+    if ($row_login["status"] == "Active") {
+      $_SESSION['user_logged_in'] = true;
       if ($row_login["user_type"] == "system admin") {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "adviser") {
+        header("location: system admin/dashboard.php");
+      } elseif ($row_login["user_type"] == "Adviser") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         $_SESSION["section"] = $row_login["section"];
-      } elseif ($row_login["user_type"] == "registrar") {
+        header("location: adviser/dashboard.php");
+      } elseif ($row_login["user_type"] == "Registrar") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
-        $_SESSION["fname"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
-      } elseif ($row_login["user_type"] == "clinic teacher") {
+        header("location:registrar/dashboard.php");
+      } elseif ($row_login["user_type"] == "Clinic teacher") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         $_SESSION["section"] = $row_login["section"];
+        header("location:clinic teacher/dashboard.php");
       }
-    } elseif ($row_login["status"] == "disabled") {
+    } else {
       header("location:index.php?errmsg=Your account is disabled.");
+      header("Cache-Control: no-cache, no-store, must-revalidate");
+      header("Pragma: no-cache");
+      header("Expires: 0");
     }
   } else {
     echo '<script>alert("Wrong username/password");</script>';
+    header("Cache-Control: no-cache, no-store, must-revalidate");
+    header("Pragma: no-cache");
+    header("Expires: 0");
   }
 }
 
-if (isset($_SESSION["user_type"])) {
-  header("location:" . $_SESSION["user_type"]  . "/dashboard.php");
+if (isset($_SESSION['user_logged_in'])) {
+  if ($_SESSION['user_type'] == 'system admin') {
+    header("location:system admin/dashboard.php");
+  } elseif ($_SESSION['user_type'] == 'Adviser') {
+    header("location: adviser/dashboard.php");
+  } elseif ($_SESSION['user_type'] == 'Registrar') {
+    header("location: registrar/dashboard.php");
+  } elseif ($_SESSION['user_type'] == 'Clinic teacher') {
+    header("location: clinic teacher/dashboard.php");
+  }
+  exit();
 }
-
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
 
 $conn->close();
 ?>
+<script>
+  // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+  const url = new URL(window.location.href);
+  url.searchParams.delete('msg');
+  url.searchParams.delete('errmsg');
+  window.history.replaceState({}, document.title, url);
+</script>

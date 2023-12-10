@@ -69,32 +69,6 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a name.</div>
                             </div>
-                            <div class="form-floating mb-3 ">
-                                <select class="form-select bg-body-tertiary" name="track" id="track1">
-                                    <option value="<?php echo $sectionRow["track"] ?>" selected><?php echo $sectionRow["track"] ?></option>
-                                    <?php
-                                    $select = "SELECT * FROM track ORDER BY `name` ASC";
-                                    $result = mysqli_query($conn, $select);
-                                    while ($sectionRowTrack = mysqli_fetch_assoc($result)) {
-                                        if ($sectionRowTrack["name"] != "All") {
-                                    ?>
-                                            <option value="<?php echo $sectionRowTrack["name"] ?>"><?php echo $sectionRowTrack["name"] ?></option>
-                                    <?php }
-                                    }
-                                    ?>
-                                </select>
-                                <label for="track1">Track</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select track.</div>
-                            </div>
-                            <div class="form-floating mb-3 ">
-                                <select class="form-select bg-body-tertiary" name="strand" id="strand1">
-                                    <option value="<?php echo $sectionRow["strand"] ?>" selected><?php echo $sectionRow["strand"] ?></option>
-                                </select>
-                                <label for="strand1">Strand</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select strand.</div>
-                            </div>
                             <div class="form-floating mb-3">
                                 <?php
                                 $id = $_GET["id"];
@@ -106,15 +80,51 @@ session_start();
                                     <option value="11" <?php echo ($sectionRow['grade'] == '11') ? "selected" : ""; ?>>11</option>
                                     <option value="12" <?php echo ($sectionRow['grade'] == '12') ? "selected" : ""; ?>>12</option>
                                 </select>
-                                <label for="grade">grade</label>
+                                <label for="grade">Grade level</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select the grade.</div>
                             </div>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="strand" id="strand" required>
+                                    <option value="<?php echo $sectionRow["strand"] ?>" selected><?php echo $sectionRow["strand"] ?></option>
+                                    <?php
+                                    $selected = $sectionRow["strand"];
+                                    $strand = "SELECT * FROM `strand` WHERE name != '$selected'";
+                                    $strandResult = $conn->query($strand);
+                                    while ($strandRow = $strandResult->fetch_assoc()) :
+                                        if ($strandRow['name'] != 'All') :
+                                    ?>
+                                            <option value="<?php echo $strandRow['name'] ?>"><?php echo $strandRow['name'] ?></option>
+                                    <?php
+                                        endif;
+                                    endwhile;
+                                    ?>
+                                </select>
+                                <label for="strand">Strand</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select strand.</div>
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <select class="form-select bg-body-tertiary" name="faculty" id="faculty" placeholder="faculty" required>
+                                    <option value="<?php echo $sectionRow["adviser"] ?>" selected><?php echo $sectionRow["adviser"] ?></option>
+                                    <?php
+                                    $select = "SELECT * FROM `user` WHERE user_type = 'adviser' AND section = ''";
+                                    $result = mysqli_query($conn, $select);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                                    <?php }
+                                    ?>
+                                </select>
+                                <label for="faculty">Class Adviser</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
+                            </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="semester" id="semester">
-                                    <option value="<?php echo $sectionRow["semester"] ?>" selected><?php echo $sectionRow["semester"] ?></option>
+                                    <option value="<?php echo $sectionRow["semester_id"] ?>" selected><?php echo $sectionRow["semester"] ?></option>
                                     <?php
-                                    $select = "SELECT * FROM `semester` ORDER BY output ASC";
+                                    $select = "SELECT * FROM `semester` WHERE is_archived = 0 ORDER BY name ASC";
                                     $result = mysqli_query($conn, $select);
                                     while ($semesterRow = mysqli_fetch_assoc($result)) {
                                         if ($sectionRow['semester'] != $semesterRow['output']) {
@@ -126,7 +136,7 @@ session_start();
                                     }
                                     ?>
                                 </select>
-                                <label for="semester">semester</label>
+                                <label for="semester">Semester</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a semester.</div>
                             </div>
@@ -176,6 +186,9 @@ if (isset($_POST['edit_section'])) {
     $end_year = $row_semester["end_year"];
     $start_date = $row_semester["start_date"];
     $end_date = $row_semester["end_date"];
+
+    $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
+    $conn->query($update);
 
     $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser`='$faculty',`semester_id`='$semester_id',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
     $result = mysqli_query($conn, $update);

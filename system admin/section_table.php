@@ -107,7 +107,7 @@ session_start();
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
                                                 <option value="" selected>Semester</option>
                                                 <?php
-                                                $select = "SELECT * FROM `semester` ORDER BY output ASC";
+                                                $select = "SELECT * FROM `semester` WHERE is_archived = 0 ORDER BY name ASC";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
@@ -228,6 +228,9 @@ if (isset($_POST["add_section"])) {
     $end_year = $row_semester["end_year"];
     $start_date = $row_semester["start_date"];
     $end_date = $row_semester["end_date"];
+
+    $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
+    $conn->query($update);
 
     $select = "SELECT * FROM `section` WHERE `name` = '$name'";
     $result = mysqli_query($conn, $select);

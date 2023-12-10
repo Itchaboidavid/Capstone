@@ -64,10 +64,9 @@ session_start();
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
-                                    <option value="adviser" <?php echo ($userRow['user_type'] == 'adviser') ? "selected" : ""; ?>>Adviser</option>
-                                    <option value="clinic" <?php echo ($userRow['user_type'] == 'clinic staff') ? "selected" : ""; ?>>Clinic staff</option>
-                                    <option value="human resources" <?php echo ($userRow['user_type'] == 'human resources') ? "selected" : ""; ?>>Human Resources</option>
-                                    <option value="registrar" <?php echo ($userRow['user_type'] == 'registrar') ? "selected" : ""; ?>>Registrar</option>
+                                    <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Adviser</option>
+                                    <option value="Clinic staff" <?php echo ($userRow['user_type'] == 'Clinic staff') ? "selected" : ""; ?>>Clinic staff</option>
+                                    <option value="Registrar" <?php echo ($userRow['user_type'] == 'Registrar') ? "selected" : ""; ?>>Registrar</option>
                                 </select>
                                 <label for="user_type">User type</label>
                                 <div class="valid-feedback ps-1">Great!</div>
@@ -76,13 +75,13 @@ session_start();
                             <div class="form-floating mb-3">
                                 <?php
                                 // Determine whether to show the section dropdown
-                                $showSectionDropdown = ($userRow['user_type'] === 'adviser' || $userRow['user_type'] === 'clinic teacher');
+                                $showSectionDropdown = ($userRow['user_type'] === 'Adviser' || $userRow['user_type'] === 'Clinic teacher');
                                 ?>
                                 <select class="form-select bg-body-tertiary" name="section" id="section" <?php echo ($showSectionDropdown ? '' : 'style="display: none;"'); ?>>
                                     <option value="<?php echo $userRow['section'] ?>"><?php echo $userRow['section'] ?></option>
                                     <?php
                                     if ($showSectionDropdown) {
-                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'adviser' OR user_type = 'clinic teacher')";
+                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'Adviser' OR user_type = 'Clinic teacher')";
                                         $sectionResult = $conn->query($section);
                                         while ($sectionRow = $sectionResult->fetch_assoc()) {
                                             echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
@@ -96,8 +95,8 @@ session_start();
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="status" id="status" required>
-                                    <option value="active" class="text-success" <?php echo ($userRow['status'] == 'active') ? "selected" : ""; ?>>active</option>
-                                    <option value="disabled" class="text-danger" <?php echo ($userRow['status'] == 'disabled') ? "selected" : ""; ?>>disabled</option>
+                                    <option value="Active" class="text-success" <?php echo ($userRow['status'] == 'Active') ? "selected" : ""; ?>>Active</option>
+                                    <option value="Disabled" class="text-danger" <?php echo ($userRow['status'] == 'Disabled') ? "selected" : ""; ?>>Disabled</option>
                                 </select>
                                 <label for="status">Status</label>
                                 <div class="valid-feedback ps-1">Great!</div>

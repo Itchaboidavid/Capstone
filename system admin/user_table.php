@@ -72,9 +72,9 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
-                                                <option value="adviser">Class Adviser</option>
-                                                <option value="clinic teacher">Clinic Teacher</option>
-                                                <option value="registrar">Registrar</option>
+                                                <option value="Adviser">Class Adviser</option>
+                                                <option value="Clinic teacher">Clinic Teacher</option>
+                                                <option value="Registrar">Registrar</option>
                                             </select>
                                             <label for="user_type">User type</label>
                                             <div class="valid-feedback ps-1">Great!</div>
@@ -91,8 +91,8 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                                 <option value="" selected>Status</option>
-                                                <option value="active" class="text-success">Active</option>
-                                                <option value="disabled" class="text-danger">Disabled</option>
+                                                <option value="Active" class="text-success">Active</option>
+                                                <option value="Disabled" class="text-danger">Disabled</option>
                                             </select>
                                             <label for="status">Status</label>
                                             <div class="valid-feedback ps-1">Great!</div>
@@ -143,7 +143,7 @@ session_start();
                             </thead>
                             <tbody>
                                 <?php
-                                $user = "SELECT * FROM `user`";
+                                $user = "SELECT * FROM `user` ORDER BY name ASC";
                                 $userResult = $conn->query($user);
                                 while ($userRow = $userResult->fetch_assoc()) :
                                     if ($userRow['name'] != "system admin") :
@@ -152,16 +152,16 @@ session_start();
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
                                             <?php
-                                            if ($userRow['user_type'] == 'registrar') {
+                                            if ($userRow['user_type'] == 'Registrar') {
                                                 echo '<td>Non-Teaching</td>';
                                             } else {
                                                 echo '<td>' . $userRow["section"] . '</td>';
                                             }
                                             ?>
                                             <td>
-                                                <?php if ($userRow["status"] == "active") {
+                                                <?php if ($userRow["status"] == "Active") {
                                                     echo '<span class="text-success">' . $userRow["status"] . "</span>";
-                                                } elseif ($userRow["status"] == "disabled") {
+                                                } elseif ($userRow["status"] == "Disabled") {
                                                     echo '<span class="text-danger">' . $userRow["status"] . "</span>";
                                                 } ?>
                                             </td>

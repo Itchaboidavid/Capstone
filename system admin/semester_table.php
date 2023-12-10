@@ -136,7 +136,7 @@ session_start();
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                             <a href="archive_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
-                                                <i class="fa-solid fa-box-archive"></i>
+                                                <i class="fa-regular fa-folder-open"></i>
                                             </a>
 
                                         </td>

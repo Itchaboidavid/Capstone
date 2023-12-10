@@ -24,6 +24,6 @@ $conn->query($activeStudents);
 $activeSections = "UPDATE section SET is_archived = 0 WHERE semester_id = '$id'";
 $conn->query($activeSections);
 
-echo ("<script>location.href = 'semester_table.php?msg=Semester archived successfully!';</script>");
+echo ("<script>location.href = 'semester_table.php?msg=Archived successfully!';</script>");
 exit();
 $conn->close();

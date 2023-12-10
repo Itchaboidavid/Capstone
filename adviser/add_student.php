@@ -301,7 +301,7 @@ if (isset($_POST["add_student"])) {
     $semResult = $conn->query($sem);
     $semRow = $semResult->fetch_assoc();
 
-    $semester = $semRow["semester_name"];
+    $semester = $semRow["name"];
     $school_year = $semRow["start_year"] . " - " . $semRow["end_year"];
 
 
@@ -320,7 +320,7 @@ if (isset($_POST["add_student"])) {
          VALUES 
          ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$semester_id', '$semester', '$school_year',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
         mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
+        echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
         exit();
     }
 }

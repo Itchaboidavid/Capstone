@@ -113,14 +113,8 @@ session_start();
                                         <div class="form-floating">
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
                                                 <option value="" selected>Semester</option>
-                                                <?php
-                                                $select = "SELECT DISTINCT name FROM `semester`";
-                                                $result = mysqli_query($conn, $select);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
-                                                <?php }
-                                                ?>
+                                                <option value="1st">1st</option>
+                                                <option value="2nd">2nd</option>
                                             </select>
                                             <label for=" semester">Semester</label>
                                             <div class="valid-feedback ps-1">Great!</div>
