@@ -39,16 +39,32 @@ session_start();
                         <div class="col-xl-4 col-md-6">
                             <div class="card bg-primary text-white mb-4">
                                 <div class="card-header">
-                                    <h3 style="text-shadow: 1px 1px 3px black;"><?php echo $advisedRow['section'] ?></h3>
+                                    <h4 style="text-shadow: 1px 1px 3px black;">
+                                        <?php
+                                        $sectionName = $advisedRow['section'];
+                                        $section = "SELECT * FROM section WHERE name = '$sectionName'";
+                                        $sectionResult = $conn->query($section);
+                                        $sectionRow = $sectionResult->fetch_assoc();
+
+                                        echo $sectionRow['name'] . " - " . $sectionRow['grade'];
+                                        ?>
+                                    </h4>
                                 </div>
-                                <div class="card-body text-center p-0">
-                                    <?php
-                                    $section = $advisedRow['section'];
-                                    $students = "SELECT * FROM `student` WHERE `section` = '$section'";
-                                    $studentsResult = $conn->query($students);
-                                    $studentsCount = $studentsResult->num_rows;
-                                    ?>
-                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
+                                <div class="card-body">
+                                    <span style="text-shadow: 1px 1px 3px black;" class="fs-6">
+                                        <?php
+                                        $lalaki = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'M'";
+                                        $lalakiResult = $conn->query($lalaki);
+                                        $lalakiCount = $lalakiResult->num_rows;
+
+                                        $babae = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'F'";
+                                        $babaeResult = $conn->query($babae);
+                                        $babaeCount = $babaeResult->num_rows;
+                                        echo 'Male : ' . $lalakiCount . '<br>';
+                                        echo 'Female : ' . $babaeCount . '<br>';
+                                        echo 'Total students : ' . $lalakiCount + $babaeCount;
+                                        ?>
+                                    </span>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link" href="student_table.php">View Details</a>
@@ -61,10 +77,10 @@ session_start();
                         <div class="col-xl-4 col-md-6">
                             <div class="card bg-primary text-white mb-4">
                                 <div class="card-header">
-                                    <h3 style="text-shadow: 1px 1px 3px black;">No Class Advisory</h3>
+                                    <h4 style="text-shadow: 1px 1px 3px black;">No Class Advisory</h4>
                                 </div>
                                 <div class="card-body text-center p-0">
-                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;">0</span>
+                                    <span class="fs-6" style="text-shadow: 1px 1px 3px black;">0</span>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link" href="student_table.php">View Details</a>
@@ -76,11 +92,11 @@ session_start();
                     }
                     ?>
                     <div class="col-xl-4 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
+                        <div class="card bg-success text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Monthly Attendance</h3>
+                                <h4 style="text-shadow: 1px 1px 3px black;"><?php echo $currentMonth = date('F'); ?> Attendance</h4>
                             </div>
-                            <div class="card-body text-center p-0">
+                            <div class="card-body">
                                 <?php
                                 $currentMonth = date('m');
                                 $section = $_SESSION['section'];
@@ -88,7 +104,7 @@ session_start();
                                 $attendanceResult = $conn->query($attendance);
                                 $attendanceCount = $attendanceResult->num_rows;
                                 ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $attendanceCount ?></span>
+                                <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Total attendance for this month : <?php echo $attendanceCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="sf2.php">View Details</a>

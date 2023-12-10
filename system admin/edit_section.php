@@ -114,13 +114,13 @@ session_start();
                                 <select class="form-select bg-body-tertiary" name="semester" id="semester">
                                     <option value="<?php echo $sectionRow["semester"] ?>" selected><?php echo $sectionRow["semester"] ?></option>
                                     <?php
-                                    $select = "SELECT * FROM `semester`";
+                                    $select = "SELECT * FROM `semester` ORDER BY output ASC";
                                     $result = mysqli_query($conn, $select);
                                     while ($semesterRow = mysqli_fetch_assoc($result)) {
                                         if ($sectionRow['semester'] != $semesterRow['output']) {
 
                                     ?>
-                                            <option value="<?php echo $semesterRow["output"] ?>"><?php echo $semesterRow["output"] ?></option>
+                                            <option value="<?php echo $semesterRow["id"] ?>"><?php echo $semesterRow["output"] ?></option>
                                     <?php
                                         }
                                     }
@@ -156,20 +156,28 @@ session_start();
 //EDIT STRAND
 if (isset($_POST['edit_section'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
-    $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
-    $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
+    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
+    $forTrackResult = $conn->query($forTrack);
+    $forTrackRow = $forTrackResult->fetch_assoc();
+    $track = $forTrackRow['track'];
+    $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
+    $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
+    $semester_id = mysqli_real_escape_string($conn, $_POST["semester"]);
+
+    $select_semester = "SELECT * FROM `semester` WHERE `id` = '$semester_id'";
     $result_semester = mysqli_query($conn, $select_semester);
     $row_semester = mysqli_fetch_assoc($result_semester);
 
+    $semester = $row_semester['output'];
     $semester_name = $row_semester["name"];
     $start_year = $row_semester["start_year"];
     $end_year = $row_semester["end_year"];
+    $start_date = $row_semester["start_date"];
+    $end_date = $row_semester["end_date"];
 
-    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
+    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser`='$faculty',`semester_id`='$semester_id',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
     $result = mysqli_query($conn, $update);
 
     if ($result) {

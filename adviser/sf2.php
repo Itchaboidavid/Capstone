@@ -41,16 +41,17 @@ if (isset($_POST['add_student'])) {
     $currentMonth = date('m');
     $currentYear = date('Y');
 
-    function getStudentInfo($conn, $studentId, $currentMonth)
+    function getStudentInfo($conn, $studentId, $currentMonth, $currentYear)
     {
         $stmt = $conn->prepare("SELECT name, section, sex FROM student WHERE id = ?");
         $stmt->bind_param("i", $studentId);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Add the month to the result array
+        // Add the month and year to the result array
         $studentInfo = $result->fetch_assoc();
         $studentInfo['month'] = $currentMonth;
+        $studentInfo['year'] = $currentYear;
 
         return $studentInfo;
     }
@@ -58,11 +59,12 @@ if (isset($_POST['add_student'])) {
     try {
         foreach ($_POST['attendance'] as $studentId => $attendanceData) {
             foreach ($attendanceData as $day => $status) {
-                $currentMonth = date('m'); // Add this line inside the loop
+                $currentMonth = date('m');
+                $currentYear = date('Y');
 
                 // Check if a record already exists in the database for the current student, day, and status
-                $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_status = ? AND attendance_month = ?");
-                $checkRecordStmt->bind_param("isss", $studentId, $day, $status, $currentMonth);
+                $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_status = ? AND attendance_month = ? AND attendance_year = ?");
+                $checkRecordStmt->bind_param("issss", $studentId, $day, $status, $currentMonth, $currentYear);
                 $checkRecordStmt->execute();
                 $checkRecordStmt->store_result();
                 $checkRecordStmt->bind_result($recordCount);
@@ -70,9 +72,9 @@ if (isset($_POST['add_student'])) {
 
                 if ($recordCount == 0) {
                     // Record doesn't exist, insert a new one
-                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, day, attendance_status, attendance_month) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                    $studentInfo = getStudentInfo($conn, $studentId, $currentMonth); // Pass currentMonth to getStudentInfo
-                    $insertStmt->bind_param("isssssi", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $day, $status, $currentMonth);
+                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, day, attendance_status, attendance_month, attendance_year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $studentInfo = getStudentInfo($conn, $studentId, $currentMonth, $currentYear);
+                    $insertStmt->bind_param("isssssii", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $day, $status, $currentMonth, $currentYear);
                     $insertStmt->execute();
                 }
 

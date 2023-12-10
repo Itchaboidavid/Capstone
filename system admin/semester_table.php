@@ -110,6 +110,7 @@ session_start();
                             <thead>
                                 <tr>
                                     <th>Semester</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -122,9 +123,22 @@ session_start();
                                     <tr>
                                         <td><?php echo $semesterRow["output"] ?></td>
                                         <td>
-                                            <a href="edit_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent;">
+                                            <?php
+                                            if ($semesterRow["is_archived"] == 0) {
+                                                echo '<span class="text-success">Active</span>';
+                                            } else {
+                                                echo '<span class="text-danger">Archived</span>';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="edit_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" class="me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
+                                            <a href="archive_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                <i class="fa-solid fa-box-archive"></i>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 <?php
@@ -149,7 +163,7 @@ session_start();
 </html>
 
 <?php
-if (isset($_POST["edit_semester"])) {
+if (isset($_POST["add_semester"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
 
     $defaultStartDate = mysqli_real_escape_string($conn, $_POST["start_date"]);

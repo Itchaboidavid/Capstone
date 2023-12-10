@@ -74,13 +74,19 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select type of user.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="section" id="section">
+                                <?php
+                                // Determine whether to show the section dropdown
+                                $showSectionDropdown = ($userRow['user_type'] === 'adviser' || $userRow['user_type'] === 'clinic teacher');
+                                ?>
+                                <select class="form-select bg-body-tertiary" name="section" id="section" <?php echo ($showSectionDropdown ? '' : 'style="display: none;"'); ?>>
                                     <option value="<?php echo $userRow['section'] ?>"><?php echo $userRow['section'] ?></option>
                                     <?php
-                                    $section = "SELECT * FROM `section`";
-                                    $sectionResult = $conn->query($section);
-                                    while ($sectionRow = $sectionResult->fetch_assoc()) {
-                                        echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
+                                    if ($showSectionDropdown) {
+                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'adviser' OR user_type = 'clinic teacher')";
+                                        $sectionResult = $conn->query($section);
+                                        while ($sectionRow = $sectionResult->fetch_assoc()) {
+                                            echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
+                                        }
                                     }
                                     ?>
                                 </select>
@@ -109,6 +115,17 @@ session_start();
         </main>
     </div>
 
+    <script>
+        // Add JavaScript to toggle the visibility of the section dropdown
+        document.addEventListener("DOMContentLoaded", function() {
+            var userType = "<?php echo $userRow['user_type']; ?>";
+            var sectionDropdown = document.getElementById("section");
+
+            if (userType !== 'adviser' && userType !== 'clinic teacher') {
+                sectionDropdown.style.display = 'none';
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

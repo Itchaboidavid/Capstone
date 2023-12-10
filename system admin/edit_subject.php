@@ -122,11 +122,11 @@ session_start();
                                 <select class="form-select bg-body-tertiary" name="semester" id="semester">
                                     <option value="<?php echo $subjectRow["semester"] ?>" selected><?php echo $subjectRow["semester"] ?></option>
                                     <?php
-                                    $select = "SELECT * FROM `semester`";
+                                    $select = "SELECT DISTINCT name FROM `semester`";
                                     $result = mysqli_query($conn, $select);
                                     while ($subjectRow = mysqli_fetch_assoc($result)) {
                                     ?>
-                                        <option value="<?php echo $subjectRow["output"] ?>"><?php echo $subjectRow["output"] ?></option>
+                                        <option value="<?php echo $subjectRow["name"] ?>"><?php echo $subjectRow["name"] ?></option>
                                     <?php  }
                                     ?>
                                 </select>
@@ -166,15 +166,7 @@ if (isset($_POST['edit_subject'])) {
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
-    $result_semester = mysqli_query($conn, $select_semester);
-    $row_semester = mysqli_fetch_assoc($result_semester);
-
-    $semester_name = $row_semester["name"];
-    $start_year = $row_semester["start_year"];
-    $end_year = $row_semester["end_year"];
-
-    $update = "UPDATE `subject` SET `name`='$name', `subject_type`='$subject_type', `track`='$track', `strand`='$strand', `grade`='$grade', `semester`='$semester', `semester_name`='$semester_name', `start_year`='$start_year', `end_year`='$end_year' WHERE id = $id";
+    $update = "UPDATE `subject` SET `name`='$name', `subject_type`='$subject_type', `track`='$track', `strand`='$strand', `grade`='$grade', `semester`='$semester' WHERE id = $id";
 
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'subject_table.php?msg=Record updated successfully!';</script>");

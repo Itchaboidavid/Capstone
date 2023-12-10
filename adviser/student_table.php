@@ -90,7 +90,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>

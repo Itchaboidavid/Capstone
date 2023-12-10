@@ -291,11 +291,18 @@ if (isset($_POST["add_student"])) {
     $sectionNameResult = mysqli_query($conn, $sectionName);
     $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
 
-    $semester = $sectionNameRow["semester_name"];
-    $school_year = $sectionNameRow["start_year"] . " - " . $sectionNameRow["end_year"];
     $track = $sectionNameRow["track"];
     $strand = $sectionNameRow["strand"];
     $grade = $sectionNameRow["grade"];
+
+    $semester_id = $sectionNameRow['semester_id'];
+
+    $sem = "SELECT * FROM semester WHERE id = '$semester_id'";
+    $semResult = $conn->query($sem);
+    $semRow = $semResult->fetch_assoc();
+
+    $semester = $semRow["semester_name"];
+    $school_year = $semRow["start_year"] . " - " . $semRow["end_year"];
 
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
@@ -309,9 +316,9 @@ if (isset($_POST["add_student"])) {
         header("location:student_table.php?errmsg=The student already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `semester`,`school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
+        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `semester_id`, `semester`,`school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
          VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$semester', '$school_year',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
+         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$semester_id', '$semester', '$school_year',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
         exit();

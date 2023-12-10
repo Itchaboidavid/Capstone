@@ -22,22 +22,6 @@ session_start();
         window.history.replaceState({}, document.title, url);
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // When the filterSemester dropdown changes
-            $("#filterSemester").change(function() {
-                var selectedSemester = $(this).val();
-                $("#datatablesSimple tbody tr").each(function() {
-                    var semester = $(this).find("td:eq(4)").text(); // Assuming semester is in the 6th column
-                    if (selectedSemester === "all" || selectedSemester === semester) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-        });
-    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -104,14 +88,30 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select strand.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
-                                                <option value="" selected>Semester</option>
+                                            <select class="form-select bg-body-tertiary" name="faculty" id="faculty" placeholder="faculty" required>
+                                                <option value="" selected>Class Adviser</option>
                                                 <?php
-                                                $select = "SELECT * FROM `semester`";
+                                                $select = "SELECT * FROM `user` WHERE user_type = 'adviser' AND section = ''";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option value="<?php echo $row["output"] ?>"><?php echo $row["output"] ?></option>
+                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                            <label for="faculty">Class Adviser</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
+                                        </div>
+                                        <div class="form-floating mb-3 ">
+                                            <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
+                                                <option value="" selected>Semester</option>
+                                                <?php
+                                                $select = "SELECT * FROM `semester` ORDER BY output ASC";
+                                                $result = mysqli_query($conn, $select);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                    <option value="<?php echo $row["id"] ?>"><?php echo $row["output"] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -152,16 +152,6 @@ session_start();
                             <i class="fas fa-table me-1"></i>
                             Section table
                         </div>
-                        <select class="form-select" id="filterSemester" style="max-width: 180px;">
-                            <option value="all">All Semester</option>
-                            <?php
-                            $selectSemester = "SELECT DISTINCT `semester` FROM `section` ORDER BY `semester` ASC";
-                            $semesterResult = $conn->query($selectSemester);
-                            while ($row = $semesterResult->fetch_assoc()) {
-                                echo '<option value="' . $row["semester"] . '">' . $row["semester"] . '</option>';
-                            }
-                            ?>
-                        </select>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -177,7 +167,7 @@ session_start();
                             </thead>
                             <tbody>
                                 <?php
-                                $section = "SELECT * FROM `section`";
+                                $section = "SELECT * FROM `section` WHERE is_archived = 0";
                                 $sectionResult = $conn->query($section);
                                 while ($sectionRow = $sectionResult->fetch_assoc()) :
                                     $sectionName = $sectionRow['name'];
@@ -226,12 +216,13 @@ if (isset($_POST["add_section"])) {
     $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
-    $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+    $semester_id = mysqli_real_escape_string($conn, $_POST["semester"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
+    $select_semester = "SELECT * FROM `semester` WHERE `id` = '$semester_id'";
     $result_semester = mysqli_query($conn, $select_semester);
     $row_semester = mysqli_fetch_assoc($result_semester);
 
+    $semester = $row_semester['output'];
     $semester_name = $row_semester["name"];
     $start_year = $row_semester["start_year"];
     $end_year = $row_semester["end_year"];
@@ -245,7 +236,7 @@ if (isset($_POST["add_section"])) {
         header("location:section_table.php?errmsg=The section already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `faculty`, `semester`, `semester_name`, `start_year`, `end_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$semester', '$semester_name', '$start_year', '$end_year')";
+        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser`, `semester_id`, `semester`, `semester_name`, `start_year`, `end_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$semester_id', '$semester', '$semester_name', '$start_year', '$end_year')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'section_table.php?msg=Section added successfully!';</script>");
         exit();

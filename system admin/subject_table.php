@@ -114,11 +114,11 @@ session_start();
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
                                                 <option value="" selected>Semester</option>
                                                 <?php
-                                                $select = "SELECT * FROM `semester`";
+                                                $select = "SELECT DISTINCT name FROM `semester`";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option value="<?php echo $row["output"] ?>"><?php echo $row["output"] ?></option>
+                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -159,7 +159,7 @@ session_start();
                             <i class="fas fa-table me-1"></i>
                             Subject table
                         </div>
-                        <select class="form-select" id="filterSemester" style="max-width: 180px;">
+                        <!-- <select class="form-select" id="filterSemester" style="max-width: 180px;">
                             <option value="all">All Semester</option>
                             <?php
                             $selectSemester = "SELECT DISTINCT `semester` FROM `subject` ORDER BY `semester` ASC";
@@ -168,7 +168,7 @@ session_start();
                                 echo '<option value="' . $row["semester"] . '">' . $row["semester"] . '</option>';
                             }
                             ?>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -183,17 +183,6 @@ session_start();
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Subject</th>
-                                    <th>Track</th>
-                                    <th>Strand</th>
-                                    <th>Grade</th>
-                                    <th>Semester</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <?php
                                 $subject = "SELECT * FROM `subject`";
@@ -249,14 +238,6 @@ if (isset($_POST["add_subject"])) {
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `output` = '$semester'";
-    $result_semester = $conn->query($select_semester);
-    $row_semester = $result_semester->fetch_assoc();
-
-    $semester_name = $row_semester["name"];
-    $start_year = $row_semester["start_year"];
-    $end_year = $row_semester["end_year"];
-
     $subject = "SELECT * FROM `subject` WHERE `name` = '$name' AND `grade` = '$grade'";
     $subjectResult = $conn->query($subject);
 
@@ -264,7 +245,7 @@ if (isset($_POST["add_subject"])) {
         header("location:subject_table.php?errmsg=The subject/subject code already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`,`semester_name`,`start_year`,`end_year`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester','$semester_name','$start_year','$end_year')";
+        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'subject_table.php?msg=Subject added successfully!';</script>");
         exit();

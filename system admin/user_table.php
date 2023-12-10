@@ -80,15 +80,14 @@ session_start();
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select type of user.</div>
                                         </div>
-
-                                        <div class="form-floating mb-3" id="sectionDropdown" style="display: none;">
+                                        <!-- <div class="form-floating mb-3" id="sectionDropdown" style="display: none;">
                                             <select class="form-select bg-body-tertiary" name="section" id="section">
                                                 <option value="" selected>Section</option>
                                             </select>
                                             <label for="section">Section</label>
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select a section.</div>
-                                        </div>
+                                        </div> -->
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                                 <option value="" selected>Status</option>
@@ -135,7 +134,6 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Section</th>
@@ -151,7 +149,6 @@ session_start();
                                     if ($userRow['name'] != "system admin") :
                                 ?>
                                         <tr>
-                                            <td><?php echo $userRow["id"] ?></td>
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
                                             <?php
@@ -186,7 +183,7 @@ session_start();
         </main>
     </div>
     </div>
-    <script>
+    <!-- <script>
         document.getElementById('user_type').addEventListener('change', function() {
             var sectionDropdown = document.getElementById('sectionDropdown');
             var selectedUserType = this.value;
@@ -217,7 +214,7 @@ session_start();
             xhr.open('GET', url, true);
             xhr.send();
         }
-    </script>
+    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="../index.js"></script>
