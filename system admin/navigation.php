@@ -67,19 +67,35 @@
                             </a>
                         </nav>
                     </div>
-                    <!-- SEMESTER -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#semesterCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                    <!-- SUBJECT -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#subjectCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
-                            <i class="fa-solid fa-inbox"></i>
+                            <i class="fas fa-book-open"></i>
                         </div>
-                        Semester
+                        Subject
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="semesterCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="subjectCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="semester_table.php">
+                            <a class="nav-link" href="subject_table.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Semester table
+                                Subject table
+                            </a>
+                        </nav>
+                    </div>
+                    <!-- SCHOOL YEAR -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#schoolyearCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                        School Year
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="schoolyearCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="sy_table.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                S.Y table
                             </a>
                         </nav>
                     </div>
@@ -96,22 +112,6 @@
                             <a class="nav-link" href="section_table.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Section table
-                            </a>
-                        </nav>
-                    </div>
-                    <!-- SUBJECT -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#subjectCollapse" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        Subject
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="subjectCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="subject_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Subject table
                             </a>
                         </nav>
                     </div>

@@ -121,24 +121,24 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="semester" id="semester">
-                                    <option value="<?php echo $sectionRow["semester_id"] ?>" selected><?php echo $sectionRow["semester"] ?></option>
+                                <select class="form-select bg-body-tertiary" name="sy" id="sy">
+                                    <option value="<?php echo $sectionRow["school_year_id"] ?>" selected><?php echo $sectionRow["school_year"] ?></option>
                                     <?php
-                                    $select = "SELECT * FROM `semester` WHERE is_archived = 0 ORDER BY name ASC";
+                                    $select = "SELECT * FROM `school_year` WHERE is_archived = 0 ORDER BY start_year, end_year ASC";
                                     $result = mysqli_query($conn, $select);
-                                    while ($semesterRow = mysqli_fetch_assoc($result)) {
-                                        if ($sectionRow['semester'] != $semesterRow['output']) {
+                                    while ($syRow = mysqli_fetch_assoc($result)) {
+                                        if ($sectionRow['school_year'] != $syRow['sy']) {
 
                                     ?>
-                                            <option value="<?php echo $semesterRow["id"] ?>"><?php echo $semesterRow["output"] ?></option>
+                                            <option value="<?php echo $syRow["id"] ?>"><?php echo $syRow["sy"] ?></option>
                                     <?php
                                         }
                                     }
                                     ?>
                                 </select>
-                                <label for="semester">Semester</label>
+                                <label for="sy">School year</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select a semester.</div>
+                                <div class="invalid-feedback ps-1"> Please select a school year.</div>
                             </div>
                         </div>
                         <div class="card-footer pe-0">
@@ -168,29 +168,28 @@ if (isset($_POST['edit_section'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
 
+    //To get track
     $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
     $forTrackResult = $conn->query($forTrack);
     $forTrackRow = $forTrackResult->fetch_assoc();
     $track = $forTrackRow['track'];
+
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
-    $semester_id = mysqli_real_escape_string($conn, $_POST["semester"]);
+    $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `id` = '$semester_id'";
-    $result_semester = mysqli_query($conn, $select_semester);
-    $row_semester = mysqli_fetch_assoc($result_semester);
+    //To get school year
+    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
+    $schoolYearResult = $conn->query($schoolYear);
+    $schoolYearRow = $schoolYearResult->fetch_assoc();
 
-    $semester = $row_semester['output'];
-    $semester_name = $row_semester["name"];
-    $start_year = $row_semester["start_year"];
-    $end_year = $row_semester["end_year"];
-    $start_date = $row_semester["start_date"];
-    $end_date = $row_semester["end_date"];
+    //School year
+    $sy = $schoolYearRow['sy'];
 
     $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
     $conn->query($update);
 
-    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser`='$faculty',`semester_id`='$semester_id',`semester`='$semester',`semester_name`='$semester_name',`start_year`='$start_year',`end_year`='$end_year' WHERE id = $id";
+    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser`='$faculty',`school_year_id`='$sy_id',`school_year`='$sy' WHERE id = $id";
     $result = mysqli_query($conn, $update);
 
     if ($result) {

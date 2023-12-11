@@ -295,30 +295,29 @@ if (isset($_POST["add_student"])) {
     $strand = $sectionNameRow["strand"];
     $grade = $sectionNameRow["grade"];
 
-    $semester_id = $sectionNameRow['semester_id'];
+    $sy_id = $sectionNameRow['school_year_id'];
 
-    $sem = "SELECT * FROM semester WHERE id = '$semester_id'";
-    $semResult = $conn->query($sem);
-    $semRow = $semResult->fetch_assoc();
-
-    $semester = $semRow["name"];
-    $school_year = $semRow["start_year"] . " - " . $semRow["end_year"];
-
+    //To get school year
+    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
+    $schoolYearResult = $conn->query($schoolYear);
+    $schoolYearRow = $schoolYearResult->fetch_assoc();
+    //School year
+    $sy = $schoolYearRow['sy'];
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
     $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
 
-    $tudent = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-    $studentResult = mysqli_query($conn, $tudent);
+    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
+    $studentResult = mysqli_query($conn, $student);
 
     if (mysqli_num_rows($studentResult) > 0) {
         header("location:student_table.php?errmsg=The student already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `semester_id`, `semester`,`school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
+        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
          VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$semester_id', '$semester', '$school_year',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
+         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$sy_id', '$sy',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
         exit();

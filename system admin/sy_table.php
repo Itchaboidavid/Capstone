@@ -10,7 +10,7 @@ session_start();
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Semester</title>
+    <title>School year</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -30,52 +30,42 @@ session_start();
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center mt-0">
                     <div>
-                        <h1 class="mt-4">Semester</h1>
+                        <h1 class="mt-4">School year</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Semester table</li>
+                            <li class="breadcrumb-item active">School year table</li>
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#trackModal">
-                        Add semester
+                    <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#syModal">
+                        Add school year
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="trackModal" tabindex="-1" aria-labelledby="trackModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="syModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add semester</h1>
+                                    <h1 class=" modal-title fs-5" id="trackModalLabel">Add School Year</h1>
                                     <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="" method="POST" class="needs-validation" novalidate>
                                     <div class="modal-body">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select bg-body-tertiary" name="name" id="name" placeholder="name" required>
-                                                <option value="" selected>Semester</option>
-                                                <option value="1st">1st</option>
-                                                <option value="2nd">2nd</option>
-                                            </select>
-                                            <label for="name">Semester</label>
+                                            <input type="text" name="start_year" id="start_year" placeholder="start_year" class="form-control bg-body-tertiary" required minlength="4" maxlength="4" />
+                                            <label for="start_year">Start of school year</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter semester.</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a year.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="date" name="start_date" id="start_date" placeholder="start_date" class="form-control bg-body-tertiary" required />
-                                            <label for="start_date">Start of semester</label>
+                                            <input type="text" name="end_year" id="end_year" placeholder="end_year" class="form-control bg-body-tertiary" required minlength="4" maxlength="4" />
+                                            <label for="end_year">End of school year</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter a date.</div>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="date" name="end_date" id="end_date" placeholder="end_date" class="form-control bg-body-tertiary" required />
-                                            <label for="end_date">End of semester</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please enter a date.</div>
+                                            <div class="invalid-feedback ps-1"> Please enter a year.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" name="add_semester">Add</button>
+                                        <button type="submit" class="btn btn-primary" name="add_sy">Add</button>
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </form>
@@ -103,28 +93,28 @@ session_start();
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Semester table
+                        School year table
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>Semester</th>
+                                    <th>School year</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $semester = "SELECT * FROM `semester` ORDER BY `name`";
-                                $semesterResult = $conn->query($semester);
-                                while ($semesterRow = $semesterResult->fetch_assoc()) :
+                                $schoolyear = "SELECT * FROM `school_year` ORDER BY `start_year`";
+                                $schoolyearResult = $conn->query($schoolyear);
+                                while ($schoolyearRow = $schoolyearResult->fetch_assoc()) :
                                 ?>
                                     <tr>
-                                        <td><?php echo $semesterRow["output"] ?></td>
+                                        <td><?php echo $schoolyearRow["sy"] ?></td>
                                         <td>
                                             <?php
-                                            if ($semesterRow["is_archived"] == 0) {
+                                            if ($schoolyearRow["is_archived"] == 0) {
                                                 echo '<span class="text-success">Active</span>';
                                             } else {
                                                 echo '<span class="text-danger">Archived</span>';
@@ -132,10 +122,10 @@ session_start();
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="edit_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" class="me-1">
+                                            <a href="edit_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" class="me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-                                            <a href="archive_semester.php?id=<?php echo $semesterRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                            <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
                                                 <i class="fa-regular fa-folder-open"></i>
                                             </a>
 
@@ -163,38 +153,21 @@ session_start();
 </html>
 
 <?php
-if (isset($_POST["add_semester"])) {
-    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+if (isset($_POST["add_sy"])) {
+    $start_year = $conn->real_escape_string($_POST['start_year']);
+    $end_year = $conn->real_escape_string($_POST['end_year']);
+    $sy = $start_year . " - " . $end_year;
 
-    $defaultStartDate = mysqli_real_escape_string($conn, $_POST["start_date"]);
-    $defaultEndDate = mysqli_real_escape_string($conn, $_POST["end_date"]);
-    $dateStringStart = mysqli_real_escape_string($conn, $_POST["start_date"]);
-    // Creating a DateTime object from the date string
-    $dateStart = new DateTime($dateStringStart);
-    // Formatting the date to mm/dd/yy format
-    $formattedStartDate = $dateStart->format('m/d/y');
-    // Extracting the year from the DateTime object
-    $start_year = $dateStart->format('Y');
-
-    $dateStringEnd = mysqli_real_escape_string($conn, $_POST["end_date"]);
-    // Creating a DateTime object from the date string
-    $dateEnd = new DateTime($dateStringEnd);
-    // Formatting the date to mm/dd/yy format
-    $formattedEndDate = $dateEnd->format('m/d/y');
-    // Extracting the year from the DateTime object
-    $end_year = $dateEnd->format('Y');
-    $output = $name . " (" . $start_year . " - " . $end_year . ")";
-
-    $select = "SELECT * FROM `semester` WHERE `output` = '$output'";
+    $select = "SELECT * FROM `school_year` WHERE `sy` = '$sy'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
-        echo ("<script>location.href = 'semester_table.php?errmsg=The semester already exist!';</script>");
+        echo ("<script>location.href = 'sy_table.php?errmsg=The school year already exist!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `semester` (`name`,`start_year`,`end_year`,`output`,`start_date`,`end_date`,`default_start`,`default_end`) VALUES ('$name','$start_year','$end_year','$output','$formattedStartDate','$formattedEndDate','$defaultStartDate','$defaultEndDate')";
+        $insert = "INSERT INTO `school_year`(`start_year`, `end_year`, `sy`) VALUES ('$start_year','$end_year','$sy')";
         mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'semester_table.php?msg=Semester successfully added!';</script>");
+        echo ("<script>location.href = 'sy_table.php?msg=Semester successfully added!';</script>");
         exit();
     }
 }

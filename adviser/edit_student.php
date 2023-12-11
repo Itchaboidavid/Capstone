@@ -313,22 +313,20 @@ if (isset($_POST['edit_student'])) {
     $strand = $row["strand"];
     $grade = $row["grade"];
 
-    $semester_id = $row['semester_id'];
+    $sy_id = $row['school_year_id'];
 
-    $sem = "SELECT * FROM semester WHERE id = '$semester_id'";
-    $semResult = $conn->query($sem);
-    $semRow = $semResult->fetch_assoc();
-
-    $semester = $semRow["name"];
-    $school_year = $semRow["start_year"] . " - " . $semRow["end_year"];
-
-
+    //To get school year
+    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
+    $schoolYearResult = $conn->query($schoolYear);
+    $schoolYearRow = $schoolYearResult->fetch_assoc();
+    //School year
+    $sy = $schoolYearRow['sy'];
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
     $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
 
-    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`semester_id`='$semester_id',`semester`='$semester',`school_year`='$school_year',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$sy_id',`school_year`='$sy',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid' WHERE `id` = '$id'";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
     exit();

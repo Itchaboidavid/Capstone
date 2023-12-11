@@ -38,12 +38,11 @@ session_start();
                         </ol>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#userModal">
+                    <button type="button" style="align-self: end;" class="btn btn-sm btn-success px-3 py-1 mb-3" data-bs-toggle="modal" data-bs-target="#sectionModal">
                         Add section
                     </button>
-
                     <!-- Modal -->
-                    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="sectionModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -72,7 +71,7 @@ session_start();
                                             <select class="form-select bg-body-tertiary" name="strand" id="strand" required>
                                                 <option value="" selected disabled>Strand</option>
                                                 <?php
-                                                $strand = "SELECT * FROM `strand`";
+                                                $strand = "SELECT * FROM `strand` ORDER BY name ASC";
                                                 $strandResult = $conn->query($strand);
                                                 while ($strandRow = $strandResult->fetch_assoc()) :
                                                     if ($strandRow['name'] != 'All') :
@@ -104,20 +103,20 @@ session_start();
                                             <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
                                         </div>
                                         <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
-                                                <option value="" selected>Semester</option>
+                                            <select class="form-select bg-body-tertiary" name="sy" id="sy" placeholder="sy" required>
+                                                <option value="" selected>School year</option>
                                                 <?php
-                                                $select = "SELECT * FROM `semester` WHERE is_archived = 0 ORDER BY name ASC";
+                                                $select = "SELECT * FROM `school_year` WHERE is_archived = 0 ORDER BY `start_year`, end_year ASC";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option value="<?php echo $row["id"] ?>"><?php echo $row["output"] ?></option>
+                                                    <option value="<?php echo $row["id"] ?>"><?php echo $row["sy"] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>
-                                            <label for=" semester">Semester</label>
+                                            <label for="sy">School year</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select a semester.</div>
+                                            <div class="invalid-feedback ps-1"> Please select a school year.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -161,7 +160,7 @@ session_start();
                                     <th>Strand</th>
                                     <th>Class Adviser</th>
                                     <th>Grade</th>
-                                    <th>Semester</th>
+                                    <th>School year</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -170,14 +169,13 @@ session_start();
                                 $section = "SELECT * FROM `section` WHERE is_archived = 0";
                                 $sectionResult = $conn->query($section);
                                 while ($sectionRow = $sectionResult->fetch_assoc()) :
-                                    $sectionName = $sectionRow['name'];
                                 ?>
                                     <tr>
                                         <td><?php echo $sectionRow["name"] ?></td>
                                         <td><?php echo $sectionRow["strand"] ?></td>
                                         <td><?php echo $sectionRow["adviser"] ?></td>
                                         <td><?php echo $sectionRow["grade"] ?></td>
-                                        <td><?php echo $sectionRow["semester"] ?></td>
+                                        <td><?php echo $sectionRow["school_year"] ?></td>
                                         <td>
                                             <a href="edit_section.php?id=<?php echo $sectionRow['id'] ?>" style="border: none; background: transparent;">
                                                 <i class="fa-regular fa-pen-to-square"></i>
@@ -210,24 +208,23 @@ if (isset($_POST["add_section"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
 
+    //To get track
     $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
     $forTrackResult = $conn->query($forTrack);
     $forTrackRow = $forTrackResult->fetch_assoc();
     $track = $forTrackRow['track'];
+
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
-    $semester_id = mysqli_real_escape_string($conn, $_POST["semester"]);
+    $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
 
-    $select_semester = "SELECT * FROM `semester` WHERE `id` = '$semester_id'";
-    $result_semester = mysqli_query($conn, $select_semester);
-    $row_semester = mysqli_fetch_assoc($result_semester);
+    //To get school year
+    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
+    $schoolYearResult = $conn->query($schoolYear);
+    $schoolYearRow = $schoolYearResult->fetch_assoc();
 
-    $semester = $row_semester['output'];
-    $semester_name = $row_semester["name"];
-    $start_year = $row_semester["start_year"];
-    $end_year = $row_semester["end_year"];
-    $start_date = $row_semester["start_date"];
-    $end_date = $row_semester["end_date"];
+    //School year
+    $sy = $schoolYearRow['sy'];
 
     $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
     $conn->query($update);
@@ -239,7 +236,7 @@ if (isset($_POST["add_section"])) {
         header("location:section_table.php?errmsg=The section already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser`, `semester_id`, `semester`, `semester_name`, `start_year`, `end_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$semester_id', '$semester', '$semester_name', '$start_year', '$end_year')";
+        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser`, `school_year_id`, `school_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$sy_id', '$sy')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'section_table.php?msg=Section added successfully!';</script>");
         exit();
