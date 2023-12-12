@@ -45,16 +45,14 @@ $assign = "SELECT * FROM user WHERE user_type = 'Adviser' AND section = ''";
 $assignResult = $conn->query($assign);
 while ($assignRow = $assignResult->fetch_assoc()) {
     $userID = $assignRow['id'];
-    $section = "SELECT * FROM section WHERE adviser_id = '$userID'";
+    $section = "SELECT * FROM section WHERE adviser_id = '$userID' AND is_archived = 0";
     $sectionResult = $conn->query($section);
     if ($sectionResult->num_rows > 0) {
         $sectionRow = $sectionResult->fetch_assoc();
         $sectionName = $sectionRow['name'];
 
-        if ($sectionRow['is_archived'] == 0) {
-            $remove = "UPDATE user SET section = '$sectionName' WHERE id = '$userID'";
-            $conn->query($remove);
-        }
+        $assignSection = "UPDATE user SET section = '$sectionName' WHERE id = '$userID'";
+        $conn->query($assignSection);
     }
 }
 
