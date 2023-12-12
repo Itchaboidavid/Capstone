@@ -134,6 +134,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Section</th>
@@ -145,10 +146,12 @@ session_start();
                                 <?php
                                 $user = "SELECT * FROM `user` ORDER BY name ASC";
                                 $userResult = $conn->query($user);
+                                $userCount = 1;
                                 while ($userRow = $userResult->fetch_assoc()) :
                                     if ($userRow['name'] != "system admin") :
                                 ?>
                                         <tr>
+                                            <td><?php echo $userCount; ?></td>
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
                                             <?php
@@ -172,6 +175,7 @@ session_start();
                                             </td>
                                         </tr>
                                 <?php
+                                        $userCount++;
                                     endif;
                                 endwhile;
                                 ?>
@@ -189,7 +193,7 @@ session_start();
             var selectedUserType = this.value;
 
             // Show or hide section dropdown based on user type
-            if (selectedUserType === 'adviser' || selectedUserType === 'clinic teacher') {
+            if (selectedUserType === 'Clinic teacher') {
                 sectionDropdown.style.display = 'block';
                 updateSectionOptions(selectedUserType);
             } else {

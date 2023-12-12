@@ -42,7 +42,7 @@ session_start();
                                     <h4 style="text-shadow: 1px 1px 3px black;">
                                         <?php
                                         $sectionName = $advisedRow['section'];
-                                        $section = "SELECT * FROM section WHERE name = '$sectionName'";
+                                        $section = "SELECT * FROM section WHERE name = '$sectionName' AND is_archived = 0";
                                         $sectionResult = $conn->query($section);
                                         $sectionRow = $sectionResult->fetch_assoc();
 
@@ -53,11 +53,11 @@ session_start();
                                 <div class="card-body">
                                     <span style="text-shadow: 1px 1px 3px black;" class="fs-6">
                                         <?php
-                                        $lalaki = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'M'";
+                                        $lalaki = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'M' AND is_archived = 0";
                                         $lalakiResult = $conn->query($lalaki);
                                         $lalakiCount = $lalakiResult->num_rows;
 
-                                        $babae = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'F'";
+                                        $babae = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'F' AND is_archived = 0";
                                         $babaeResult = $conn->query($babae);
                                         $babaeCount = $babaeResult->num_rows;
                                         echo 'Male : ' . $lalakiCount . '<br>';
@@ -160,11 +160,11 @@ $studentsCount = $studentsResult->num_rows;
 
 if ($studentsCount > 0) {
     //GENDER CHART
-    $male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M'";
+    $male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND is_archived = 0";
     $maleResult = $conn->query($male);
     $maleCount = $maleResult->num_rows;
 
-    $female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F'";
+    $female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND is_archived = 0";
     $femaleResult = $conn->query($female);
     $femaleCount = $femaleResult->num_rows;
 

@@ -99,6 +99,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>School year</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -108,9 +109,11 @@ session_start();
                                 <?php
                                 $schoolyear = "SELECT * FROM `school_year` ORDER BY `start_year`";
                                 $schoolyearResult = $conn->query($schoolyear);
+                                $schoolyearCount = 1;
                                 while ($schoolyearRow = $schoolyearResult->fetch_assoc()) :
                                 ?>
                                     <tr>
+                                        <td><?php echo $schoolyearCount ?></td>
                                         <td><?php echo $schoolyearRow["sy"] ?></td>
                                         <td>
                                             <?php
@@ -132,6 +135,7 @@ session_start();
                                         </td>
                                     </tr>
                                 <?php
+                                    $schoolyearCount++;
                                 endwhile;
                                 ?>
                             </tbody>

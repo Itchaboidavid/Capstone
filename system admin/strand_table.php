@@ -111,6 +111,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Strand</th>
                                     <th>Track</th>
                                     <th>Action</th>
@@ -120,10 +121,12 @@ session_start();
                                 <?php
                                 $strand = "SELECT * FROM `strand`";
                                 $strandResult = $conn->query($strand);
+                                $strandCount = 1;
                                 while ($strandRow = $strandResult->fetch_assoc()) :
                                     if ($strandRow['name'] != "All") :
                                 ?>
                                         <tr>
+                                            <td><?php echo $strandCount ?></td>
                                             <td><?php echo $strandRow["name"] ?></td>
                                             <td><?php echo $strandRow["track"] ?></td>
                                             <td>
@@ -133,6 +136,7 @@ session_start();
                                             </td>
                                         </tr>
                                 <?php
+                                        $strandCount++;
                                     endif;
                                 endwhile;
                                 ?>

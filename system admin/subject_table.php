@@ -168,7 +168,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th></th>
                                     <th>Subject</th>
                                     <th>Track</th>
                                     <th>Strand</th>
@@ -181,11 +181,12 @@ session_start();
                                 <?php
                                 $subject = "SELECT * FROM `subject`";
                                 $subjectResult = $conn->query($subject);
+                                $subjectCount = 1;
                                 while ($subjectRow = $subjectResult->fetch_assoc()) :
                                     if ($subjectRow['name'] != "All") :
                                 ?>
                                         <tr>
-                                            <td><?php echo $subjectRow["id"] ?></td>
+                                            <td><?php echo $subjectCount ?></td>
                                             <td><?php echo $subjectRow["name"] ?></td>
                                             <td><?php echo $subjectRow["track"] ?></td>
                                             <td><?php echo $subjectRow["strand"] ?></td>
@@ -198,6 +199,7 @@ session_start();
                                             </td>
                                         </tr>
                                 <?php
+                                        $subjectCount++;
                                     endif;
                                 endwhile;
                                 ?>

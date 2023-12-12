@@ -93,6 +93,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Track</th>
                                     <th>Action</th>
                                 </tr>
@@ -101,10 +102,12 @@ session_start();
                                 <?php
                                 $track = "SELECT * FROM `track`";
                                 $trackResult = $conn->query($track);
+                                $trackCount = 1;
                                 while ($trackRow = $trackResult->fetch_assoc()) :
                                     if ($trackRow['name'] != "All") :
                                 ?>
                                         <tr>
+                                            <td><?php echo $trackCount ?></td>
                                             <td><?php echo $trackRow["name"] ?></td>
                                             <td>
                                                 <a href="edit_track.php?id=<?php echo $trackRow['id'] ?>" style="border: none; background: transparent;">
@@ -113,6 +116,7 @@ session_start();
                                             </td>
                                         </tr>
                                 <?php
+                                        $trackCount++;
                                     endif;
                                 endwhile;
                                 ?>

@@ -28,57 +28,77 @@ session_start();
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Students</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $section = $_SESSION['section'];
-                                $students = "SELECT * FROM `student` WHERE `section` = '$section'";
-                                $studentsResult = $conn->query($students);
-                                $studentsCount = $studentsResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    <?php
+                    $id = $_SESSION['id'];
+                    $advised = "SELECT * FROM user WHERE id = '$id'";
+                    $advisedResult = $conn->query($advised);
+                    $advisedRow = $advisedResult->fetch_assoc();
+
+                    if ($advisedRow['section'] != "") {
+
+                    ?>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card bg-primary text-white mb-4">
+                                <div class="card-header">
+                                    <h4 style="text-shadow: 1px 1px 3px black;">
+                                        <?php
+                                        $sectionName = $advisedRow['section'];
+                                        $section = "SELECT * FROM section WHERE name = '$sectionName' AND is_archived = 0";
+                                        $sectionResult = $conn->query($section);
+                                        $sectionRow = $sectionResult->fetch_assoc();
+
+                                        echo $sectionRow['name'] . " - " . $sectionRow['grade'];
+                                        ?>
+                                    </h4>
+                                </div>
+                                <div class="card-body text-center p-0">
+                                    <?php
+                                    $students = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0";
+                                    $studentsResult = $conn->query($students);
+                                    $studentsCount = $studentsResult->num_rows;
+                                    ?>
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } else { ?>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card bg-primary text-white mb-4">
+                                <div class="card-header">
+                                    <h4 style="text-shadow: 1px 1px 3px black;">No Class Handle</h4>
+                                </div>
+                                <div class="card-body text-center p-0">
+                                    <?php
+                                    $section = $_SESSION['section'];
+                                    $students = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0";
+                                    $studentsResult = $conn->query($students);
+                                    $studentsCount = $studentsResult->num_rows;
+                                    ?>
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
+                                </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                     <div class="col-xl-4 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">BMI</h3>
+                                <h4 style="text-shadow: 1px 1px 3px black;">BMI & HFA</h4>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $bmi = "SELECT * FROM `student` WHERE `bmi_category` != '' AND `section` = '$section'";
+                                $bmi = "SELECT * FROM `student` WHERE `bmi_category` != '' AND `hfa_category` != '' AND `section` = '$section' AND is_archived = 0";
                                 $bmiResult = $conn->query($bmi);
                                 $bmiCount = $bmiResult->num_rows;
                                 ?>
                                 <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $bmiCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <div class="card bg-success text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">HFA</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $hfa = "SELECT * FROM `student` WHERE `hfa_category` != '' AND `section` = '$section'";
-                                $hfaResult = $conn->query($hfa);
-                                $hfaCount = $hfaResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $hfaCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="student_table.php">View Details</a>
@@ -135,40 +155,40 @@ session_start();
 
 <?php
 //BMI CHART
-$severe = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Severly wasted'";
+$severe = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Severly wasted' AND is_archived = 0";
 $severeResult = mysqli_query($conn, $severe);
 $severeCount = mysqli_num_rows($severeResult);
 
-$wasted = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Wasted'";
+$wasted = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Wasted' AND is_archived = 0";
 $wastedResult = mysqli_query($conn, $wasted);
 $wastedCount = mysqli_num_rows($wastedResult);
 
-$normal = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Normal'";
+$normal = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Normal' AND is_archived = 0";
 $normalResult = mysqli_query($conn, $normal);
 $normalCount = mysqli_num_rows($normalResult);
 
-$overweight = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Overweight'";
+$overweight = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'Overweight' AND is_archived = 0";
 $overweightResult = mysqli_query($conn, $overweight);
 $overweightCount = mysqli_num_rows($overweightResult);
 
-$obese = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'obese'";
+$obese = "SELECT * FROM `student` WHERE `section` = '$section' AND `bmi_category` = 'obese' AND is_archived = 0";
 $obeseResult = mysqli_query($conn, $obese);
 $obeseCount = mysqli_num_rows($obeseResult);
 
 //HFA CHART
-$severelyStunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Severly stunted'";
+$severelyStunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Severly stunted' AND is_archived = 0";
 $severelyStuntedResult = mysqli_query($conn, $severelyStunted);
 $severelyStuntedCount = mysqli_num_rows($severelyStuntedResult);
 
-$stunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Stunted'";
+$stunted = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Stunted' AND is_archived = 0";
 $stuntedResult = mysqli_query($conn, $stunted);
 $stuntedCount = mysqli_num_rows($stuntedResult);
 
-$normalHeight = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Normal'";
+$normalHeight = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Normal' AND is_archived = 0";
 $normalHeightResult = mysqli_query($conn, $normalHeight);
 $normalHeightCount = mysqli_num_rows($normalHeightResult);
 
-$tall = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Tall'";
+$tall = "SELECT * FROM `student` WHERE `section` = '$section' AND `hfa_category` = 'Tall' AND is_archived = 0";
 $tallResult = mysqli_query($conn, $tall);
 $tallCount = mysqli_num_rows($tallResult);
 

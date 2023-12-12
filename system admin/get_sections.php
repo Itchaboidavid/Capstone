@@ -5,11 +5,8 @@ session_start();
 if (isset($_GET['user_type'])) {
     $userType = $_GET['user_type'];
 
-    // Adjust the section query based on the user type
-    if ($userType === 'adviser') {
-        $sectionQuery = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'adviser')";
-    } elseif ($userType === 'clinic teacher') {
-        $sectionQuery = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'clinic teacher')";
+    if ($userType === 'Clinic teacher') {
+        $sectionQuery = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'Clinic teacher')";
     } else {
         $sectionQuery = "SELECT * FROM `section`";
     }

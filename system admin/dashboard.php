@@ -54,7 +54,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $section = "SELECT * FROM `section`";
+                                $section = "SELECT * FROM `section` WHERE is_archived = 0";
                                 $sectionResult = $conn->query($section);
                                 $sectionCount = $sectionResult->num_rows;
                                 ?>
@@ -185,11 +185,11 @@ $clinicCount = mysqli_num_rows($clinicResult);
 
 
 //SECTION CHART
-$sectionG11 = "SELECT * FROM `section` WHERE `grade` = '11'";
+$sectionG11 = "SELECT * FROM `section` WHERE `grade` = '11' AND is_archived = 0";
 $resultG11 = mysqli_query($conn, $sectionG11);
 $rowG11 = mysqli_num_rows($resultG11);
 
-$sectionG12 = "SELECT * FROM `section` WHERE `grade` = '12'";
+$sectionG12 = "SELECT * FROM `section` WHERE `grade` = '12' AND is_archived = 0";
 $resultG12 = mysqli_query($conn, $sectionG12);
 $rowG12 = mysqli_num_rows($resultG12);
 

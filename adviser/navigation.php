@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #023047;">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php">
         <?php
@@ -29,7 +29,7 @@
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #023047;">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class=" sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sb-sidenav-footer" style="background: #003568;">
+            <div class="sb-sidenav-footer" style="background: #343a40;">
                 <div class="small">Logged in as:</div>
                 <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
             </div>

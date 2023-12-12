@@ -65,23 +65,31 @@ session_start();
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                     <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Adviser</option>
-                                    <option value="Clinic staff" <?php echo ($userRow['user_type'] == 'Clinic staff') ? "selected" : ""; ?>>Clinic staff</option>
+                                    <option value="Clinic teacher" <?php echo ($userRow['user_type'] == 'Clinic teacher') ? "selected" : ""; ?>>Clinic teacher</option>
                                     <option value="Registrar" <?php echo ($userRow['user_type'] == 'Registrar') ? "selected" : ""; ?>>Registrar</option>
                                 </select>
                                 <label for="user_type">User type</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select type of user.</div>
                             </div>
+                            <div class="form-floating mb-3" id="sectionDropdown" style="display: none;">
+                                <select class="form-select bg-body-tertiary" name="section" id="section">
+                                    <option value="" selected>Section</option>
+                                </select>
+                                <label for="section">Section</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a section.</div>
+                            </div>
                             <div class="form-floating mb-3">
                                 <?php
                                 // Determine whether to show the section dropdown
-                                $showSectionDropdown = ($userRow['user_type'] === 'Adviser' || $userRow['user_type'] === 'Clinic teacher');
+                                $showSectionDropdown = ($userRow['user_type'] === 'Clinic teacher');
                                 ?>
                                 <select class="form-select bg-body-tertiary" name="section" id="section" <?php echo ($showSectionDropdown ? '' : 'style="display: none;"'); ?>>
                                     <option value="<?php echo $userRow['section'] ?>"><?php echo $userRow['section'] ?></option>
                                     <?php
                                     if ($showSectionDropdown) {
-                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'Adviser' OR user_type = 'Clinic teacher')";
+                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'Clinic teacher')";
                                         $sectionResult = $conn->query($section);
                                         while ($sectionRow = $sectionResult->fetch_assoc()) {
                                             echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
@@ -113,17 +121,37 @@ session_start();
             </div>
         </main>
     </div>
-
     <script>
-        // Add JavaScript to toggle the visibility of the section dropdown
-        document.addEventListener("DOMContentLoaded", function() {
-            var userType = "<?php echo $userRow['user_type']; ?>";
-            var sectionDropdown = document.getElementById("section");
+        document.getElementById('user_type').addEventListener('change', function() {
+            var sectionDropdown = document.getElementById('sectionDropdown');
+            var selectedUserType = this.value;
 
-            if (userType !== 'adviser' && userType !== 'clinic teacher') {
+            // Show or hide section dropdown based on user type
+            if (selectedUserType === 'Clinic teacher') {
+                sectionDropdown.style.display = 'block';
+                updateSectionOptions(selectedUserType);
+            } else {
                 sectionDropdown.style.display = 'none';
             }
         });
+
+        function updateSectionOptions(userType) {
+            var sectionDropdown = document.getElementById('section');
+
+            // Fetch sections based on user type using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update section options based on the response
+                    sectionDropdown.innerHTML = xhr.responseText;
+                }
+            };
+
+            // Adjust the URL based on your actual file structure
+            var url = 'get_sections.php?user_type=' + encodeURIComponent(userType);
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>

@@ -2,41 +2,6 @@
 include("../config.php");
 session_start();
 
-// Display existing values in the input fields if records exist
-$start_date_value = isset($existingStartDate) ? $existingStartDate : '';
-$end_date_value = isset($existingEndDate) ? $existingEndDate : '';
-
-if (isset($_POST['schoolStart'])) {
-    $currentMonth = date('m');
-    $currentYear = date('Y');
-
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-
-    // Check if a record already exists for the current month and year
-    $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM schoolstart WHERE month = ? AND year = ?");
-    $checkRecordStmt->bind_param("ss", $currentMonth, $currentYear);
-    $checkRecordStmt->execute();
-    $checkRecordStmt->store_result();
-    $checkRecordStmt->bind_result($recordCount);
-    $checkRecordStmt->fetch();
-
-    if ($recordCount > 0) {
-        // Record already exists, update the values
-        $updateStmt = $conn->prepare("UPDATE schoolstart SET start_date = ?, end_date = ? WHERE month = ? AND year = ?");
-        $updateStmt->bind_param("ssss", $start_date, $end_date, $currentMonth, $currentYear);
-        $updateStmt->execute();
-    } else {
-        // Record doesn't exist, insert a new one
-        $insertStmt = $conn->prepare("INSERT INTO `schoolstart`(`month`, `year`, `start_date`, `end_date`) VALUES (?, ?, ?, ?)");
-        $insertStmt->bind_param("ssss", $currentMonth, $currentYear, $start_date, $end_date);
-        $insertStmt->execute();
-    }
-
-    $checkRecordStmt->free_result();  // Free the result set
-    $checkRecordStmt->close();
-}
-
 if (isset($_POST['add_student'])) {
     $currentMonth = date('m');
     $currentYear = date('Y');
@@ -129,61 +94,6 @@ if (isset($_POST['add_student'])) {
                         </ol>
                     </div>
                 </div>
-                <form action="" method="POST" class="w-50">
-                    <?php
-                    if (isset($_GET['msg'])) {
-                        $msg = $_GET['msg'];
-                        echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
-                            . $msg .
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                             </div>';
-                    }
-
-                    if (isset($_GET['errmsg'])) {
-                        $errmsg = $_GET['errmsg'];
-                        echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
-                            . $errmsg .
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                             </div>';
-                    }
-                    ?>
-
-                    <div class="card mb-5">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4>School Start and End for the month:
-                                <?php
-                                $currentMonth = date('m');
-                                $currentYear = date('Y');
-                                echo date('F', strtotime('2023-' . $currentMonth . '-01'));
-                                ?>
-                            </h4>
-                        </div>
-                        <div class="card-body row g-1">
-                            <?php
-                            $currentMonth = date('m');
-                            $currentYear = date('Y');
-                            $check = "SELECT * FROM schoolstart WHERE month = '$currentMonth' AND year = '$currentYear'";
-                            $checkResult = $conn->query($check);
-                            $checkRow = $checkResult->fetch_assoc();
-                            ?>
-                            <div class="form-floating">
-                                <input type="number" name="start_date" class="form-control" id="start_date" placeholder="start date" value="<?php echo $checkRow['start_date'] ?>" min="1" max="31">
-                                <label for="start_date">Start date</label>
-                            </div>
-                            <div class="form-floating">
-                                <input type="number" name="end_date" class="form-control" id="end_date" placeholder="end date" value="<?php echo $checkRow['end_date'] ?>" min="1" max="31">
-                                <label for="end_date">End date</label>
-                            </div>
-
-                        </div>
-                        <div class="card-footer pe-0">
-                            <div class="ms-auto" style="width: 150px;">
-                                <button type="submit" class="btn btn-primary" name="schoolStart">Save</button>
-                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
                 <form action="" method="POST" class="needs-validation" novalidate>
                     <?php
                     if (isset($_GET['msg'])) {

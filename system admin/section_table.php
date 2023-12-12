@@ -156,6 +156,7 @@ session_start();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Section</th>
                                     <th>Strand</th>
                                     <th>Class Adviser</th>
@@ -168,9 +169,11 @@ session_start();
                                 <?php
                                 $section = "SELECT * FROM `section` WHERE is_archived = 0";
                                 $sectionResult = $conn->query($section);
+                                $sectionCount = 1;
                                 while ($sectionRow = $sectionResult->fetch_assoc()) :
                                 ?>
                                     <tr>
+                                        <td><?php echo $sectionCount ?></td>
                                         <td><?php echo $sectionRow["name"] ?></td>
                                         <td><?php echo $sectionRow["strand"] ?></td>
                                         <td><?php echo $sectionRow["adviser"] ?></td>
@@ -183,6 +186,7 @@ session_start();
                                         </td>
                                     </tr>
                                 <?php
+                                    $sectionCount++;
                                 endwhile;
                                 ?>
                             </tbody>
