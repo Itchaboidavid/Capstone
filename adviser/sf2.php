@@ -8,7 +8,7 @@ if (isset($_POST['add_student'])) {
 
     function getStudentInfo($conn, $studentId, $currentMonth, $currentYear)
     {
-        $stmt = $conn->prepare("SELECT name, section, sex FROM student WHERE id = ?");
+        $stmt = $conn->prepare("SELECT name, section, sex FROM student WHERE id = ? AND is_archived = 0");
         $stmt->bind_param("i", $studentId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -124,7 +124,7 @@ if (isset($_POST['add_student'])) {
                             <?php
                             $section = $_SESSION['section'];
                             // Get student information
-                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section'");
+                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0");
 
                             // Get current month and year
                             $currentMonth = date('m');
@@ -214,12 +214,9 @@ if (isset($_POST['add_student'])) {
                                         $checkRecordStmt->close();
                                     }
                                 }
-
                                 echo '</tr>';
                             }
-
                             echo '</table>';
-
                             ?>
                         </div>
                         <div class="card-footer pe-0">

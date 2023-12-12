@@ -22,8 +22,8 @@ $section = "SELECT * FROM `section` WHERE `name` = '$section_name'";
 $sectionResult = mysqli_query($conn, $section);
 $sectionRow = mysqli_fetch_assoc($sectionResult);
 
-$adviserSection = $sectionRow['name'];
-$adviser = "SELECT * FROM `user` WHERE `section` = '$adviserSection' AND `user_type` = 'adviser'";
+$adviserSection = $_SESSION['name'];
+$adviser = "SELECT * FROM `user` WHERE `section` = '$adviserSection' AND `user_type` = 'Adviser'";
 $adviserResult = $conn->query($adviser);
 $adviserRow = $adviserResult->fetch_assoc();
 
@@ -200,7 +200,8 @@ $pdf->Cell(65, 4, 'Prepared by:', 0, 0, 'L');
 $pdf->Cell(87, 4, 'Certified True and Correct:', 0, 0, 'L');
 $pdf->Cell(18, 4, 'Date Checked (MM/DD/YYYY):', 0, 1, 'L');
 $pdf->Cell(18, 4, '', 0, 1, 'L');
-$pdf->Cell(63, 4, $adviserRow['name'], 'B', 0, 'C');
+
+$pdf->Cell(63, 4, $_SESSION['name'], 'B', 0, 'C');
 $pdf->Cell(13, 4, '', 0, 0, 'L');
 $pdf->Cell(65, 4, $schoolRow['school_head'] . ', ' . $schoolRow['schoolhead_designation'], 'B', 0, 'C');
 $pdf->Cell(12, 4, '', 0, 0, 'L');
@@ -216,13 +217,20 @@ $pdf->Cell(18, 0.001, '', 0, 1, 'L');
 $remedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
 $remedialDateResult = $conn->query($remedialDate);
 $remedialDateRow = $remedialDateResult->fetch_assoc();
-$firstSem = $remedialDateRow['start_date1'];
-$convertedFirstSem = strtotime($firstSem);
-$firstSemDate = date("m/d/Y", $convertedFirstSem);
 
-$firstSemEnd = $remedialDateRow['end_date1'];
-$convertedFirstSemEnd = strtotime($firstSemEnd);
-$firstSemDateEnd = date("m/d/Y", $convertedFirstSemEnd);
+if ($remedialDateResult->num_rows > 0) {
+    $firstSem = $remedialDateRow['start_date1'];
+    $convertedFirstSem = strtotime($firstSem);
+    $firstSemDate = date("m/d/Y", $convertedFirstSem);
+
+    $firstSemEnd = $remedialDateRow['end_date1'];
+    $convertedFirstSemEnd = strtotime($firstSemEnd);
+    $firstSemDateEnd = date("m/d/Y", $convertedFirstSemEnd);
+} else {
+    $firstSemDate = "";
+    $firstSemDateEnd = "";
+}
+
 $pdf->Cell(57.5, 4, 'REMEDIAL CLASSES  Conducted from (MM/DD/YYYY):', 0, 0, 'L');
 $pdf->Cell(13.5, 4, $firstSemDate, 'B', 0, 'C');
 $pdf->Cell(17.5, 4, '(MM/DD/YYYY):', 0, 0, 'L');
@@ -329,6 +337,45 @@ if ($sf10Count === 0) {
     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
 } else {
     while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
         $pdf->SetFont('unicodehelvetin', '', 7);
@@ -357,7 +404,7 @@ $pdf->Cell(12, 2, '', 0, 1, 'L');
 $pdf->SetFont('unicodehelvetin', '', 7);
 $pdf->SetX(10);
 $pdf->Cell(35, 3.5, ' Name of the Teacher/Adviser:', 0, 0, 'L', 0);
-$pdf->Cell(103, 3.5, $adviserRow['name'], 'B', 0, 'L', 0);
+$pdf->Cell(103, 3.5, $_SESSION['name'], 'B', 0, 'L', 0);
 $pdf->Cell(3, 2, '', 0, 0, 'L');
 $pdf->Cell(11, 4.25, 'Signature:', 0, 0, 'L', 0);
 $pdf->Cell(42.5, 4.25, '', 'B', 1, 'C', 0);
@@ -509,7 +556,7 @@ $pdf->Cell(65, 4, 'Prepared by:', 0, 0, 'L');
 $pdf->Cell(87, 4, 'Certified True and Correct:', 0, 0, 'L');
 $pdf->Cell(18, 4, 'Date Checked (MM/DD/YYYY):', 0, 1, 'L');
 $pdf->Cell(18, 4, '', 0, 1, 'L');
-$pdf->Cell(63, 4, $adviserRow['name'], 'B', 0, 'C');
+$pdf->Cell(63, 4, $_SESSION['name'], 'B', 0, 'C');
 $pdf->Cell(13, 4, '', 0, 0, 'L');
 $pdf->Cell(65, 4, $schoolRow['school_head'] . ', ' . $schoolRow['schoolhead_designation'], 'B', 0, 'C');
 $pdf->Cell(12, 4, '', 0, 0, 'L');
@@ -522,13 +569,20 @@ $pdf->Cell(65, 4, 'Signature of Authorized Person over Printed Name, Designation
 $pdf->ln(-2);
 $pdf->SetFont('helveticanarrowb', '', 7);
 $pdf->Cell(18, 0.001, '', 0, 1, 'L');
-$secondSem = $remedialDateRow['start_date2'];
-$convertedSecondSem = strtotime($secondSem);
-$secondSemDate = date("m/d/Y", $convertedSecondSem);
 
-$secondSemEnd = $remedialDateRow['end_date2'];
-$convertedSecondSemEnd = strtotime($secondSemEnd);
-$secondSemDateEnd = date("m/d/Y", $convertedSecondSemEnd);
+if ($remedialDateResult->num_rows > 0) {
+    $secondSem = $remedialDateRow['start_date2'];
+    $convertedSecondSem = strtotime($secondSem);
+    $secondSemDate = date("m/d/Y", $convertedSecondSem);
+
+    $secondSemEnd = $remedialDateRow['end_date2'];
+    $convertedSecondSemEnd = strtotime($secondSemEnd);
+    $secondSemDateEnd = date("m/d/Y", $convertedSecondSemEnd);
+} else {
+    $secondSemDate = "";
+    $secondSemDateEnd = "";
+}
+
 $pdf->Cell(57.5, 4, 'REMEDIAL CLASSES  Conducted from (MM/DD/YYYY):', 0, 0, 'L');
 $pdf->Cell(13.5, 4, $secondSemDate, 'B', 0, 'C');
 $pdf->Cell(17.5, 4, '(MM/DD/YYYY):', 0, 0, 'L');
@@ -634,6 +688,45 @@ if ($sf10Count2 === 0) {
     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
 } else {
     while ($sf10RowRemedial2 = $sf10ResultRemedial2->fetch_assoc()) {
         $pdf->SetFont('unicodehelvetin', '', 7);
@@ -662,7 +755,7 @@ $pdf->Cell(12, 2, '', 0, 1, 'L');
 $pdf->SetFont('unicodehelvetin', '', 7);
 $pdf->SetX(10);
 $pdf->Cell(35, 4.25, ' Name of the Teacher/Adviser:', 0, 0, 'L', 0);
-$pdf->Cell(103, 3.5, $adviserRow['name'], 'B', 0, 'L', 0);
+$pdf->Cell(103, 3.5, $_SESSION['name'], 'B', 0, 'L', 0);
 $pdf->Cell(3, 2, '', 0, 0, 'L');
 $pdf->Cell(11, 4.25, 'Signature:', 0, 0, 'L', 0);
 $pdf->Cell(42.5, 3.5, '', 'B', 1, 'C', 0);

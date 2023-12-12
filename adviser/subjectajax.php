@@ -2,7 +2,7 @@
 include("../config.php");
 session_start();
 $sectionName = $_SESSION['section'];
-$section = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0";
 $sectionResult = $conn->query($section);
 $sectionRow = $sectionResult->fetch_assoc();
 $grade = $sectionRow['grade'];
@@ -11,7 +11,7 @@ $output = '';
 $subjectType = $_POST['subjectType'];
 $semester = $_POST['semester'];
 
-$select = "SELECT * FROM `subject` WHERE `subject_type` = '$subjectType' AND `semester_name` = '$semester' AND `grade` = '$grade' AND(`strand` = '$strand' OR `strand` = 'All')";
+$select = "SELECT * FROM `subject` WHERE `subject_type` = '$subjectType' AND `semester` = '$semester' AND `grade` = '$grade' AND(`strand` = '$strand' OR `strand` = 'All')";
 $result = mysqli_query($conn, $select);
 
 while ($row = mysqli_fetch_assoc($result)) {

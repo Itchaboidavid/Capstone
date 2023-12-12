@@ -94,7 +94,7 @@ session_start();
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                                                    <option value="<?php echo $row["id"] ?>"><?php echo $row["name"] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -219,7 +219,16 @@ if (isset($_POST["add_section"])) {
     $track = $forTrackRow['track'];
 
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
-    $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
+    //Adviser ID
+    $facultyID = mysqli_real_escape_string($conn, $_POST["faculty"]);
+    $faculty = "SELECT * FROM user WHERE id = '$facultyID'";
+    $facultyResult = $conn->query($faculty);
+    $facultyRow = $facultyResult->fetch_assoc();
+
+    //Adviser name
+    $facultyName = $facultyRow['name'];
+
+    //School year ID
     $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
 
     //To get school year
@@ -230,7 +239,7 @@ if (isset($_POST["add_section"])) {
     //School year
     $sy = $schoolYearRow['sy'];
 
-    $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
+    $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
     $conn->query($update);
 
     $select = "SELECT * FROM `section` WHERE `name` = '$name'";
@@ -240,7 +249,7 @@ if (isset($_POST["add_section"])) {
         header("location:section_table.php?errmsg=The section already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser`, `school_year_id`, `school_year`) VALUES ('$name','$track','$strand', '$grade', '$faculty', '$sy_id', '$sy')";
+        $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser_id`, `adviser`, `school_year_id`, `school_year`) VALUES ('$name','$track','$strand', '$grade', '$facultyID', '$facultyName', '$sy_id', '$sy')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'section_table.php?msg=Section added successfully!';</script>");
         exit();

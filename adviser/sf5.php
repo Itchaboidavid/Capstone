@@ -7,13 +7,9 @@ $pdf = new PDF_MC_TABLE();
 $pdf->AddPage('L', 'A4');
 $pdf->SetMargins(10, 0, 5);
 
-$faculty = $_SESSION["name"];
-$section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
-$sectionResult = $conn->query($section);
-$sectionRow = $sectionResult->fetch_assoc();
-$sectionName = $sectionRow['section'];
+$id = $_SESSION['id'];
 
-$sectionsf5 = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$sectionsf5 = "SELECT * FROM `section` WHERE `adviser_id` = '$id'";
 $sectionsf5Result = $conn->query($sectionsf5);
 $sectionsf5Row = $sectionsf5Result->fetch_assoc();
 
@@ -45,8 +41,12 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(36.5, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(55.5, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
-
+$currentMonth = date('m');
+if ($currentMonth >= 8) {
+    $pdf->Cell(55.5, 7, '1st', 1, 0, 'C', 0);
+} else {
+    $pdf->Cell(55.5, 7, '2nd', 1, 0, 'C', 0);
+}
 $pdf->SetXY(10.5, 42.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
@@ -72,7 +72,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(115.7, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(20, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
+$pdf->Cell(20, 7, $sectionsf5Row['school_year'], 1, 0, 'C', 0);
 
 $pdf->SetXY(148.5, 24.9);
 $pdf->SetFont('Arial', '', 9);
@@ -172,7 +172,7 @@ $pdf->Cell(17.16, 7, 'Total', 1, 1, 'C', 0);
 $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
-$sectionName = $sectionRow['section'];
+$sectionName = $sectionsf5Row['name'];
 $completeMale1st = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '1st'";
 $completeMale1stResult = $conn->query($completeMale1st);
 $completeMale1stCount = $completeMale1stResult->num_rows;
@@ -238,7 +238,6 @@ $pdf->Cell(185.5);
 $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 
-$sectionName = $sectionRow['section'];
 $completeMale2nd = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '2nd'";
 $completeMale2ndResult = $conn->query($completeMale2nd);
 $completeMale2ndCount = $completeMale2ndResult->num_rows;
@@ -536,6 +535,7 @@ $pdf->SetXY(194.8, 101);
 $pdf->Cell(77.5, 7, "PREPARED BY:", 0, 1);
 $pdf->SetFont('Arial', '', 8.5);
 $pdf->SetXY(195.8, 108);
+$faculty = $_SESSION['name'];
 $pdf->Cell(76.5, 4, $faculty, "B", 1, 'C', 0);
 
 $pdf->SetFont('Arial', 'I', 6);
@@ -600,7 +600,13 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Semester', 0, 0, '', 0);
 $pdf->SetXY(35.5, 34.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(55, 7, $sectionsf5Row["semester_name"], 1, 0, 'C', 0);
+$currentMonth = date('m');
+if ($currentMonth >= 8) {
+    $pdf->Cell(55, 7, '1st', 1, 0, 'C', 0);
+} else {
+    $pdf->Cell(55, 7, '2nd', 1, 0, 'C', 0);;
+}
+
 
 $pdf->SetXY(9.5, 43.5);
 $pdf->SetFont('Arial', '', 9);
@@ -627,7 +633,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(114.2, 34.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(23.5, 7, $sectionsf5Row["start_year"] . " - " . $sectionsf5Row["end_year"], 1, 0, 'C', 0);
+$pdf->Cell(23.5, 7, $sectionsf5Row['school_year'], 1, 0, 'C', 0);
 
 $pdf->SetXY(147.5, 25.9);
 $pdf->SetFont('Arial', '', 9);

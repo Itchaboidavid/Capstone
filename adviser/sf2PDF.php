@@ -13,7 +13,7 @@ $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
 $sectionName = $_SESSION['section'];
-$section = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0";
 $sectionResult = $conn->query($section);
 $sectionRow = $sectionResult->fetch_assoc();
 
@@ -24,7 +24,6 @@ $calendar = new Calendar($today, new CalendarDate());
 $calendar->setMonthYear($today->getYear(), $today->getMonthNumber());
 
 $calendar->create();
-
 
 $currentMonth = date('m');
 
@@ -40,7 +39,7 @@ $school = "SELECT * FROM `school` WHERE `id` = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName'ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 while ($row = mysqli_fetch_assoc($result)) {
   $html =
@@ -81,10 +80,16 @@ while ($row = mysqli_fetch_assoc($result)) {
      </div>
       <div >
       <table style= " margin-top: -27px; margin-left: 68px;"   >
-       <tr>
-        <td style="  Height: 15px; width: 133px; text-align:center; font-size: 6.5pt;  border: 1.5px solid black;" >' . $sectionRow['semester_name'] . '</td>
+       <tr>';
+  if ($currentMonth >= 8) {
+    $sem = "1st";
+  } else {
+    $sem = "2nd";
+  }
+  $html .= '
+        <td style="  Height: 15px; width: 133px; text-align:center; font-size: 6.5pt;  border: 1.5px solid black;" >' . $sem . '</td>
         <td style="  PADDING-left: 7px; Height: 15px; width: 64px; text-align:center; font-size: 7.7pt;  " >School Year</td> 
-        <td style="  padding-right: px; Height: 15px; width: 89px; text-align:center; font-size: 7pt;  border: 1.5px solid black;" >' . $sectionRow['start_year'] . ' - ' . $sectionRow['end_year'] . '</td> 
+        <td style="  padding-right: px; Height: 15px; width: 89px; text-align:center; font-size: 7pt;  border: 1.5px solid black;" >' . $sectionRow['school_year'] . '</td> 
         <td style="  overflow: hidden; padding-bottom: 2px; Height: 15px; width: 53px; text-align:right; font-size: 7.7pt; " ></td> 
         <td style="  Height: 15px; width: 61px; text-align:center; font-size: 7pt;  border: 1.5px solid black;" >Grade ' . $sectionRow['grade'] . '</td> 
         <td style="  padding-right: 5px; Height: 15px; width: 88px; text-align:right; font-size: 7.7pt; " >Track and Strand   </td> 

@@ -1,6 +1,6 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #023047;">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php">
+    <a class=" navbar-brand ps-3 text-uppercase" href="dashboard.php">
         <?php
         if ($_SESSION['user_type'] == 'adviser') {
             echo "ClASS ADVISER";
@@ -29,7 +29,7 @@
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #023047;">
             <div class=" sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
@@ -55,9 +55,23 @@
                             </a>
                         </nav>
                     </div>
+                    <!-- Archived Classes -->
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#archivedClasses">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-box-archive"></i></div>
+                        Archived Classes
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="archivedClasses" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link" href="archived_classes.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Archived table
+                            </a>
+                        </nav>
+                    </div> -->
                 </div>
             </div>
-            <div class="sb-sidenav-footer" style="background: #343a40;">
+            <div class="sb-sidenav-footer" style="background: #003566;">
                 <div class="small">Logged in as:</div>
                 <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
             </div>

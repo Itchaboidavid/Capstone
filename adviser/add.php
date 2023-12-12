@@ -3,7 +3,7 @@ include("../config.php");
 session_start();
 
 $id = $_GET["id"];
-$student = "SELECT * FROM `student` WHERE `id` = '$id'";
+$student = "SELECT * FROM `student` WHERE `id` = '$id' AND is_archived = 0";
 $studentResult = $conn->query($student);
 $studentRow = $studentResult->fetch_assoc();
 ?>

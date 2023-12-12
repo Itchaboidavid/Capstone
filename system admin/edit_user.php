@@ -80,7 +80,7 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a section.</div>
                             </div>
-                            <div class="form-floating mb-3">
+                            <!-- <div class="form-floating mb-3">
                                 <?php
                                 // Determine whether to show the section dropdown
                                 $showSectionDropdown = ($userRow['user_type'] === 'Clinic teacher');
@@ -100,7 +100,7 @@ session_start();
                                 <label for="section">Section</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a section.</div>
-                            </div>
+                            </div> -->
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                     <option value="Active" class="text-success" <?php echo ($userRow['status'] == 'Active') ? "selected" : ""; ?>>Active</option>

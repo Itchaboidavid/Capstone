@@ -91,6 +91,7 @@ session_start();
                     <?php
                     }
                     ?>
+                    <!-- Monthly Attendance -->
                     <div class="col-xl-4 col-md-6">
                         <div class="card bg-success text-white mb-4">
                             <div class="card-header">
@@ -108,6 +109,26 @@ session_start();
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="sf2.php">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Archived Classes -->
+                    <div class="col-xl-4 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-header">
+                                <h4 style="text-shadow: 1px 1px 3px black;">Archived Classes</h4>
+                            </div>
+                            <div class="card-body">
+                                <?php
+                                $archivedClasses = "SELECT * FROM section WHERE adviser_id = '$id' AND is_archived = 1";
+                                $archivedClassesResult = $conn->query($archivedClasses);
+                                $archivedClassesCount = $archivedClassesResult->num_rows;
+                                ?>
+                                <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Archived classes : <?php echo $archivedClassesCount ?></span>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="archived_classes.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>

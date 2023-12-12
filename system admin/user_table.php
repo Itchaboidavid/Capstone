@@ -157,6 +157,8 @@ session_start();
                                             <?php
                                             if ($userRow['user_type'] == 'Registrar') {
                                                 echo '<td>Non-Teaching</td>';
+                                            } elseif ($userRow['user_type'] == 'Clinic teacher') {
+                                                echo '<td>Non-Advisory</td>';
                                             } else {
                                                 echo '<td>' . $userRow["section"] . '</td>';
                                             }

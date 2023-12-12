@@ -91,7 +91,7 @@ session_start();
                                     <tr>
                                         <td>Status:</td>
                                         <?php
-                                        if ($facultyRow['status'] === "active") {
+                                        if ($facultyRow['status'] === "Active") {
                                             echo '<td class="text-success">' . $facultyRow['status'] . '</td>';
                                         } else {
                                             echo '<td class="text-danger">' . $facultyRow['status'] . '</td>';

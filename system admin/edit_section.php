@@ -106,13 +106,13 @@ session_start();
                             </div>
                             <div class="form-floating mb-3 ">
                                 <select class="form-select bg-body-tertiary" name="faculty" id="faculty" placeholder="faculty" required>
-                                    <option value="<?php echo $sectionRow["adviser"] ?>" selected><?php echo $sectionRow["adviser"] ?></option>
+                                    <option value="<?php echo $sectionRow["adviser_id"] ?>" selected><?php echo $sectionRow["adviser"] ?></option>
                                     <?php
                                     $select = "SELECT * FROM `user` WHERE user_type = 'adviser' AND section = ''";
                                     $result = mysqli_query($conn, $select);
                                     while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
-                                        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                                        <option value="<?php echo $row["id"] ?>"><?php echo $row["name"] ?></option>
                                     <?php }
                                     ?>
                                 </select>
@@ -175,7 +175,17 @@ if (isset($_POST['edit_section'])) {
     $track = $forTrackRow['track'];
 
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
-    $faculty = mysqli_real_escape_string($conn, $_POST["faculty"]);
+
+    //Adviser ID
+    $facultyID = mysqli_real_escape_string($conn, $_POST["faculty"]);
+    $faculty = "SELECT * FROM user WHERE id = '$facultyID'";
+    $facultyResult = $conn->query($faculty);
+    $facultyRow = $facultyResult->fetch_assoc();
+
+    //Adviser name
+    $facultyName = $facultyRow['name'];
+
+    //School year ID
     $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
 
     //To get school year
@@ -186,11 +196,11 @@ if (isset($_POST['edit_section'])) {
     //School year
     $sy = $schoolYearRow['sy'];
 
-    $update = "UPDATE user SET section = '$name' WHERE name = '$faculty' AND user_type = 'Adviser'";
+    $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
     $conn->query($update);
 
-    $update = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser`='$faculty',`school_year_id`='$sy_id',`school_year`='$sy' WHERE id = $id";
-    $result = mysqli_query($conn, $update);
+    $update2 = "UPDATE `section` SET `name`='$name',`track`='$track',`strand`='$strand',`grade`='$grade',`adviser_id`='$facultyID',`adviser`='$facultyName',`school_year_id`='$sy_id',`school_year`='$sy' WHERE id = $id";
+    $result = mysqli_query($conn, $update2);
 
     if ($result) {
         echo ("<script>location.href = 'section_table.php?msg=Section updated successfully!';</script>");
