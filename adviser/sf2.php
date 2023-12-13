@@ -124,7 +124,7 @@ if (isset($_POST['add_student'])) {
                             <?php
                             $section = $_SESSION['section'];
                             // Get student information
-                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0");
+                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0 ORDER BY `sex`, `name` ASC");
 
                             // Get current month and year
                             $currentMonth = date('m');

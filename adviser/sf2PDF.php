@@ -188,7 +188,7 @@ $html .= '
 
 ';
 
-$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName'ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 $maleCount = 1;
 $totalAbsentMale = 0;
@@ -199,7 +199,7 @@ foreach ($result as $emp) {
   $currentYear = date('Y');
 
   $studentName = $emp['name'];
-  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth'";
+  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND attendance_year = '$currentYear'";
   $sf2Result = $conn->query($sf2);
   $sf2Count = $sf2Result->num_rows;
 
@@ -207,11 +207,18 @@ foreach ($result as $emp) {
 
   $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 
+  $schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth' AND `year` = '$currentYear'";
+  $schoolDaysResult = $conn->query($schoolDays);
+  $schoolDaysRow = $schoolDaysResult->fetch_assoc();
+
+  $startDate = $schoolDaysRow['start_date'];
+  $endDate = $schoolDaysRow['end_date'];
+
   // Calculate weekdays and weekend days
   $weekdays = 0;
   $weekendDays = 0;
 
-  for ($i = 1; $i <= $daysInMonth; $i++) {
+  for ($i = $startDate; $i <= $endDate; $i++) {
     $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
 
     if ($day == 'Sat' || $day == 'Sun') {
@@ -230,7 +237,7 @@ foreach ($result as $emp) {
       <td style=" height: 22px; border-right: 2px solid black; border-bottom: 1px solid black;  font-size:7pt;  width:20px;  text-align: center;  vertical-align: middle; " >' . $maleCount . '</td>
       <td style=" border-right: 2px solid black; border-bottom: 1px solid black; font-size:7pt;   vertical-align: middle; ">' . $emp['name'] . '</td>';
 
-  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth'";
+  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $presentResult = $conn->query($present);
   $presentDays = [];
 
@@ -245,12 +252,16 @@ foreach ($result as $emp) {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+        } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
+          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
         } else {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;">X</td>';
         }
       } else {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
+          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+        } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
         } else {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;">X</td>';
@@ -291,7 +302,7 @@ foreach ($calendar->getWeeks() as $week) {
     $dayNumber = $day['dayNumber'];
 
     // Query to get the count of students present on the current day
-    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND day = '$dayNumber' AND sex = 'M'";
+    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
     $presentResult = $conn->query($presentQuery);
     $presentCount = $presentResult->fetch_assoc()['count'];
 
@@ -317,7 +328,7 @@ $html .= '
 </tr>
   ';
 
-$select = "SELECT *  FROM student WHERE sex = 'F' AND section = '$sectionName'ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'F' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 $femaleCount = 1;
 $totalAbsentFemale = 0;
@@ -328,7 +339,7 @@ foreach ($result as $emp) {
   $currentYear = date('Y');
 
   $studentName = $emp['name'];
-  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth'";
+  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $sf2Result = $conn->query($sf2);
   $sf2Count = $sf2Result->num_rows;
   $totalPresentFemale += $sf2Count;
@@ -339,7 +350,7 @@ foreach ($result as $emp) {
   $weekdays = 0;
   $weekendDays = 0;
 
-  for ($i = 1; $i <= $daysInMonth; $i++) {
+  for ($i = $startDate; $i <= $endDate; $i++) {
     $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
 
     if ($day == 'Sat' || $day == 'Sun') {
@@ -357,7 +368,7 @@ foreach ($result as $emp) {
       <td style=" height: 22px; border-right: 2px solid black; border-bottom: 1px solid black;  font-size:7pt;  width:20px;  text-align: center;  vertical-align: middle; " >' . $femaleCount . '</td>
       <td style=" border-right: 2px solid black; border-bottom: 1px solid black; font-size:7pt;   vertical-align: middle; ">' . $emp['name'] . '</td>';
 
-  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth'";
+  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $presentResult = $conn->query($present);
   $presentDays = [];
 
@@ -372,12 +383,16 @@ foreach ($result as $emp) {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+        } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
+          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
         } else {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;">X</td>';
         }
       } else {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
+          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+        } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
         } else {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;">X</td>';
@@ -409,7 +424,7 @@ foreach ($calendar->getWeeks() as $week) {
     $dayNumber = $day['dayNumber'];
 
     // Query to get the count of students present on the current day
-    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND day = '$dayNumber' AND sex = 'F'";
+    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
     $presentResult = $conn->query($presentQuery);
     $presentCount = $presentResult->fetch_assoc()['count'];
 
@@ -449,12 +464,12 @@ foreach ($calendar->getWeeks() as $week) {
     $dayNumber = $day['dayNumber'];
 
     // Query to get the count of male students present on the current day
-    $malePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND day = '$dayNumber' AND sex = 'M'";
+    $malePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
     $malePresentResult = $conn->query($malePresentQuery);
     $malePresentCount = $malePresentResult->fetch_assoc()['count'];
 
     // Query to get the count of female students present on the current day
-    $femalePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND day = '$dayNumber' AND sex = 'F'";
+    $femalePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
     $femalePresentResult = $conn->query($femalePresentQuery);
     $femalePresentCount = $femalePresentResult->fetch_assoc()['count'];
 

@@ -80,8 +80,8 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please enter student first name.</div>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="mname" id="mname" placeholder="mname" class="form-control bg-body-tertiary" required />
-                                <label for="mname">Middle initial</label>
+                                <input type="text" name="mname" id="mname" placeholder="mname" class="form-control bg-body-tertiary" />
+                                <label for="mname">Middle name <sup class="text-primary">(optional)</sup></label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student middle initial.</div>
                             </div>
@@ -93,7 +93,7 @@ session_start();
                             </div>
                             <div class="form-floating mb-3 col-1 d-inline-block">
                                 <input type="text" name="suffix" id="suffix" placeholder="suffix" class="form-control bg-body-tertiary" maxlength="3" />
-                                <label for="suffix">Suffix</label>
+                                <label for="suffix">Suffix <br><sup class="text-primary">(optional)</sup></label>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
                                 <?php
@@ -207,18 +207,18 @@ session_start();
                                         <option value="LWE">LWE</option>
                                         <option value="ACL">ACL</option>
                                     </select>
-                                    <label for="indicator">Indicator</label>
+                                    <label for="indicator">Indicator<sup class="text-primary">(optional)</sup></label>
                                 </div>
                                 <span class="input-group-text" style="height: 58px;">&</span>
                                 <div class="form-floating mb-3 col d-inline-block">
                                     <input type="text" name="ri" id="ri" placeholder="ri" class="form-control bg-body-tertiary" />
-                                    <label for="ri">Required Information</label>
+                                    <label for="ri">Required Information<sup class="text-primary">(optional)</sup></label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter required information.</div>
                                 </div>
                                 <div class="form-floating mb-3 col d-inline-block">
                                     <input type="date" name="rid" id="rid" placeholder="rid" class="form-control bg-body-tertiary" />
-                                    <label for="rid">Date</label>
+                                    <label for="rid">Date<sup class="text-primary">(optional)</sup></label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
@@ -228,7 +228,7 @@ session_start();
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
                                 <button type="submit" class="btn btn-primary" name="add_student">Add</button>
-                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
+                                <a href="student_table.php" type="button" class="btntext-primary">Close</a>
                             </div>
                         </div>
                     </div>

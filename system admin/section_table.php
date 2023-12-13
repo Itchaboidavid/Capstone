@@ -242,7 +242,7 @@ if (isset($_POST["add_section"])) {
     $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
     $conn->query($update);
 
-    $select = "SELECT * FROM `section` WHERE `name` = '$name'";
+    $select = "SELECT * FROM `section` WHERE `name` = '$name' AND is_archived = 0";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {

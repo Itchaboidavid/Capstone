@@ -25,11 +25,19 @@ if (isset($_POST['schoolStart'])) {
         $updateStmt = $conn->prepare("UPDATE schoolstart SET start_date = ?, end_date = ? WHERE month = ? AND year = ?");
         $updateStmt->bind_param("ssss", $start_date, $end_date, $currentMonth, $currentYear);
         $updateStmt->execute();
+
+        // Redirect after successful submission
+        header("Location: school_settings.php?msg2=School days updated successfully!");
+        exit();
     } else {
         // Record doesn't exist, insert a new one
         $insertStmt = $conn->prepare("INSERT INTO `schoolstart`(`month`, `year`, `start_date`, `end_date`) VALUES (?, ?, ?, ?)");
         $insertStmt->bind_param("ssss", $currentMonth, $currentYear, $start_date, $end_date);
         $insertStmt->execute();
+
+        // Redirect after successful submission
+        header("Location: school_settings.php?msg2=School days updated successfully!");
+        exit();
     }
 
     $checkRecordStmt->free_result();  // Free the result set
@@ -76,8 +84,8 @@ if (isset($_POST['schoolStart'])) {
                 <!-- SCHOOL DAYS -->
                 <form action="" method="POST" class="w-50">
                     <?php
-                    if (isset($_GET['msg'])) {
-                        $msg = $_GET['msg'];
+                    if (isset($_GET['msg2'])) {
+                        $msg = $_GET['msg2'];
                         echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
                             . $msg .
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -85,7 +93,7 @@ if (isset($_POST['schoolStart'])) {
                     }
 
                     if (isset($_GET['errmsg'])) {
-                        $errmsg = $_GET['errmsg'];
+                        $errmsg = $_GET['errmsg2'];
                         echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
                             . $errmsg .
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -13,8 +13,7 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$clinicSection = $_SESSION['section'];
-$sections = "SELECT * FROM `section` WHERE `name` = '$clinicSection'";
+$sections = "SELECT * FROM `section` WHERE is_archived = 0";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page
@@ -92,7 +91,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   /*-School Year*/
   $pdf->SetFont('helvetica', '', 6);
   $pdf->SetXY(183, 26.3);
-  $pdf->Cell(26, 4.5, $row["start_year"] . " - " . $row["end_year"], 1, 1, 'C', 0);
+  $pdf->Cell(26, 4.5, $row['school_year'], 1, 1, 'C', 0);
 
   $pdf->ln(1);
   /*-TABLE HEADER-*/

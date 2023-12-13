@@ -145,7 +145,7 @@ $studentName = $studentRow['name'];
 
                                         echo '<td><input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade2'] . '" /></td>';
 
-                                        echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData[$i]['final_grade'] . '" /></td>';
+                                        echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]['final_grade'] . '" /></td>';
 
                                         echo '</tr>';
                                     }
@@ -158,39 +158,41 @@ $studentName = $studentRow['name'];
                                     <?php
                                     $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd'";
                                     $sf92Result = $conn->query($sf92);
-                                    $x = 1;
+                                    if ($sf92Result->num_rows > 0) {
+                                        $x = 1;
 
-                                    $fetchedData2 = [];
-                                    while ($sf92Row = $sf92Result->fetch_assoc()) {
-                                        $fetchedData2[$x] = $sf92Row;
-                                        $x++;
-                                    }
-                                    for ($x = 1; $x <= 10; $x++) {
-                                        echo '<tr>';
+                                        $fetchedData2 = [];
+                                        while ($sf92Row = $sf92Result->fetch_assoc()) {
+                                            $fetchedData2[$x] = $sf92Row;
+                                            $x++;
+                                        }
+                                        for ($x = 1; $x <= 10; $x++) {
+                                            echo '<tr>';
 
-                                        // Display form fields with fetched data
-                                        echo '<td>
+                                            // Display form fields with fetched data
+                                            echo '<td>
                                             <input type="hidden" name="id2' . $x . '" value="' . $fetchedData2[$x]['id'] . '" />
                                             <input type="text" name="sem2' . $x . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="2nd" readonly />
                                             </td>';
-                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $x . '">';
-                                        echo '<option value="' . $fetchedData2[$x]['subject_type'] . '" selected>' . $fetchedData2[$x]['subject_type'] . '</option>';
-                                        echo '<option value="Core">Core</option>';
-                                        echo '<option value="Applied">Applied</option>';
-                                        echo '<option value="Specialized">Specialized</option>';
-                                        echo '</select></td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $x . '">';
+                                            echo '<option value="' . $fetchedData2[$x]['subject_type'] . '" selected>' . $fetchedData2[$x]['subject_type'] . '</option>';
+                                            echo '<option value="Core">Core</option>';
+                                            echo '<option value="Applied">Applied</option>';
+                                            echo '<option value="Specialized">Specialized</option>';
+                                            echo '</select></td>';
 
-                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $x . '">';
-                                        echo '<option value="' . $fetchedData2[$x]['subject_title'] . '" selected>' . $fetchedData2[$x]['subject_title'] . '</option>';
-                                        echo '</select></td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $x . '">';
+                                            echo '<option value="' . $fetchedData2[$x]['subject_title'] . '" selected>' . $fetchedData2[$x]['subject_title'] . '</option>';
+                                            echo '</select></td>';
 
-                                        echo '<td><input type="number" name="first2' . $x . '" id="first2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade1'] . '"/></td>';
+                                            echo '<td><input type="number" name="first2' . $x . '" id="first2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade1'] . '"/></td>';
 
-                                        echo '<td><input type="number" name="second2' . $x . '" id="second2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade2'] . '" /></td>';
+                                            echo '<td><input type="number" name="second2' . $x . '" id="second2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" value="' . $fetchedData2[$x]['sem_grade2'] . '" /></td>';
 
-                                        echo '<td><input type="text" name="final_grade2' . $x . '" id="final_grade2' . $x . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData2[$x]['final_grade'] . '" /></td>';
+                                            echo '<td><input type="text" name="final_grade2' . $x . '" id="final_grade2' . $x . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData2[$x]['final_grade'] . '" /></td>';
 
-                                        echo '</tr>';
+                                            echo '</tr>';
+                                        }
                                     }
 
                                     ?>
@@ -697,7 +699,7 @@ $studentName = $studentRow['name'];
                                                     <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["new_grade"] . '"/>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled value="' . $fetchedData[$i]["final_grade"] . '" />
+                                                    <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["final_grade"] . '" />
                                                 </td>
                                                 <td>
                                                     <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["action"] . '" />
@@ -723,12 +725,12 @@ $studentName = $studentRow['name'];
                                     $sf10RemedialDateRow = $sf10RemedialDateResult->fetch_assoc()
                                     ?>
                                     <tr>
-                                        <td><input type="text" name="remedialSem1" value="1st" disabled></td>
+                                        <td><input type="text" name="remedialSem1" value="1st" readonly></td>
                                         <td><input type="date" name="startDate1" value="<?php echo $sf10RemedialDateRow['start_date1'] ?>"></td>
                                         <td><input type="date" name="endDate1" value="<?php echo $sf10RemedialDateRow['end_date1'] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="remedialSem2" value="2nd" disabled></td>
+                                        <td><input type="text" name="remedialSem2" value="2nd" readonly></td>
                                         <td><input type="date" name="startDate2" value="<?php echo $sf10RemedialDateRow['start_date2'] ?>"></td>
                                         <td><input type="date" name="endDate2" value="<?php echo $sf10RemedialDateRow['end_date2'] ?>"></td>
                                     </tr>
@@ -854,9 +856,11 @@ if (isset($_POST['submit'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        // Update the database
-        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType1',`subject_title`='$subjectTitle1',`sem_grade1`='$first1',`sem_grade2`='$second1',`final_grade`='$finalGrade1',`semester`='$sem1',`sex`='$sex',`section`='$section' WHERE `id` = '$id'";
-        $sqlResult = $conn->query($sql);
+        // Update the database using prepared statement
+        $stmt = $conn->prepare("UPDATE `sf9` SET `student_name`=?, `subject_type`=?, `subject_title`=?, `sem_grade1`=?, `sem_grade2`=?, `final_grade`=?, `semester`=?, `sex`=?, `section`=? WHERE `id` = ?");
+        $stmt->bind_param("sssssssssi", $studentName, $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section, $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
     // Process form submission and update the database
@@ -870,11 +874,12 @@ if (isset($_POST['submit'])) {
         $second2 = (float)$_POST['second2' . $x];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        // Update the database
-        $sql = "UPDATE `sf9` SET `student_name`='$studentName',`subject_type`='$subjectType2',`subject_title`='$subjectTitle2',`sem_grade1`='$first2',`sem_grade2`='$second2',`final_grade`='$finalGrade2',`semester`='$sem2' WHERE `id` = '$id2'";
-        $sqlResult = $conn->query($sql);
+        // Update the database using prepared statement
+        $stmt = $conn->prepare("UPDATE `sf9` SET `student_name`=?, `subject_type`=?, `subject_title`=?, `sem_grade1`=?, `sem_grade2`=?, `final_grade`=?, `semester`=? WHERE `id` = ?");
+        $stmt->bind_param("sssssssi", $studentName, $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $id2);
+        $stmt->execute();
+        $stmt->close();
     }
-
 
     $blendedQ1 = isset($_POST['blended_q1']) ? 1 : 0;
     $blendedQ2 = isset($_POST['blended_q2']) ? 1 : 0;

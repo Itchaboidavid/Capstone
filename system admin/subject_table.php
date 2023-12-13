@@ -1,6 +1,32 @@
 <?php
 include("../config.php");
 session_start();
+
+if (isset($_POST["add_subject"])) {
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type"]);
+    $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
+
+    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
+    $forTrackResult = $conn->query($forTrack);
+    $forTrackRow = $forTrackResult->fetch_assoc();
+    $track = $forTrackRow['track'];
+    $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
+    $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+
+    $subject = "SELECT * FROM `subject` WHERE name = '$name'";
+    $subjectResult = $conn->query($subject);
+
+    if (mysqli_num_rows($subjectResult) > 0) {
+        header("location:subject_table.php?errmsg=The subject/subject code already exist!");
+        exit();
+    } else {
+        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester')";
+        mysqli_query($conn, $insert);
+        echo ("<script>location.href = 'subject_table.php?msg=Subject added successfully!';</script>");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -170,7 +196,7 @@ session_start();
                                 <tr>
                                     <th></th>
                                     <th>Subject</th>
-                                    <th>Track</th>
+                                    <th>Subject type</th>
                                     <th>Strand</th>
                                     <th>Grade</th>
                                     <th>Semester</th>
@@ -179,7 +205,7 @@ session_start();
                             </thead>
                             <tbody>
                                 <?php
-                                $subject = "SELECT * FROM `subject`";
+                                $subject = "SELECT * FROM `subject` ORDER BY subject_type ASC";
                                 $subjectResult = $conn->query($subject);
                                 $subjectCount = 1;
                                 while ($subjectRow = $subjectResult->fetch_assoc()) :
@@ -188,7 +214,7 @@ session_start();
                                         <tr>
                                             <td><?php echo $subjectCount ?></td>
                                             <td><?php echo $subjectRow["name"] ?></td>
-                                            <td><?php echo $subjectRow["track"] ?></td>
+                                            <td><?php echo $subjectRow["subject_type"] ?></td>
                                             <td><?php echo $subjectRow["strand"] ?></td>
                                             <td><?php echo $subjectRow["grade"] ?></td>
                                             <td><?php echo $subjectRow["semester"] ?></td>
@@ -220,32 +246,6 @@ session_start();
 </body>
 
 </html>
-
 <?php
-if (isset($_POST["add_subject"])) {
-    $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type"]);
-    $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
-
-    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
-    $forTrackResult = $conn->query($forTrack);
-    $forTrackRow = $forTrackResult->fetch_assoc();
-    $track = $forTrackRow['track'];
-    $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
-    $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
-
-    $subject = "SELECT * FROM `subject` WHERE `name` = '$name' AND `grade` = '$grade'";
-    $subjectResult = $conn->query($subject);
-
-    if (mysqli_num_rows($subjectResult) > 0) {
-        header("location:subject_table.php?errmsg=The subject/subject code already exist!");
-        exit();
-    } else {
-        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester')";
-        mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'subject_table.php?msg=Subject added successfully!';</script>");
-        exit();
-    }
-}
 $conn->close();
 ?>

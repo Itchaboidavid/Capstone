@@ -86,16 +86,13 @@ session_start();
                             </thead>
                             <tbody>
                                 <?php
-                                $clinicSection = $_SESSION['section'];
-                                $student = "SELECT * FROM `student` WHERE `section` = '$clinicSection'";
+                                $student = "SELECT * FROM `student` WHERE is_archived = 0";
                                 $studentResult = $conn->query($student);
+                                $studentCount = 1;
                                 while ($studentRow = $studentResult->fetch_assoc()) :
-                                    $studentName = $studentRow['name'];
-                                    $sf8 = "SELECT * FROM `sf8` WHERE `name` = '$studentName'";
-                                    $sf8Result = $conn->query($sf8);
                                 ?>
                                     <tr>
-                                        <td><?php echo $studentRow["id"] ?></td>
+                                        <td><?php echo $studentCount ?></td>
                                         <td><?php echo $studentRow["section"] ?></td>
                                         <td><?php echo $studentRow["lrn"] ?></td>
                                         <td><?php echo $studentRow["name"] ?></td>
@@ -114,6 +111,7 @@ session_start();
                                         </td>
                                     </tr>
                                 <?php
+                                    $studentCount++;
                                 endwhile;
                                 ?>
                             </tbody>
@@ -133,47 +131,3 @@ session_start();
 </body>
 
 </html>
-
-<?php
-if (isset($_POST["add_bmi"])) {
-    $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
-    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-    $studentResult = $conn->query($student);
-    $studentRow = $studentResult->fetch_assoc();
-    $name = $studentRow['name'];
-    $birth_date = $studentRow['birth_date'];
-    $age = $studentRow['age'];
-    $section = $studentRow['section'];
-    $sex = $studentRow['sex'];
-    $weight = floatval($_POST["weight"]);
-    $height = floatval($_POST["height"]);
-    $height2 = $height * $height;
-    $bmi = $weight / $height2;
-
-    if ($bmi <= 16.5) {
-        $bmi_category = "Severly wasted";
-    } elseif ($bmi < 18.5) {
-        $bmi_category = "Wasted";
-    } elseif ($bmi <= 24.9) {
-        $bmi_category = "Normal";
-    } elseif ($bmi <= 29.9) {
-        $bmi_category = "Overweight";
-    } elseif ($bmi >= 30.0) {
-        $bmi_category = "Obese";
-    };
-
-    $select = "SELECT * FROM `sf8` WHERE `lrn` = '$lrn'";
-    $result = $conn->query($select);
-
-    if (mysqli_num_rows($result) > 0) {
-        echo ("<script>location.href = 'student_table.php?errmsg=The student already exist!';</script>");
-        exit();
-    } else {
-        $insert = "INSERT INTO `sf8`(`lrn`, `name`, `birth_date`, `age`, `weight`, `height`, `height2`, `bmi`, `bmi_category`, `hfa`, `section`, `sex`) VALUES ('$lrn','$name','$birth_date','$age','$weight','$height','$height2','$bmi','$bmi_category','$hfa','$section','$sex')";
-        mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'student_table.php?msg=Student successfully added!';</script>");
-        exit();
-    }
-}
-$conn->close();
-?>

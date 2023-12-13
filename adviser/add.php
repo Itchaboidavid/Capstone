@@ -124,7 +124,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">
-                                                <option value="" selected disabled>--Subject title--</option>
+                                                <option value="" selected>--Subject title--</option>
                                             </select>
                                         </td>
                                         <td>
@@ -134,7 +134,7 @@ $studentRow = $studentResult->fetch_assoc();
                                             <input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" />
                                         </td>
                                         <td>
-                                            <input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                            <input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly />
                                         </td>
                                     </tr>
                                         ';
@@ -154,14 +154,14 @@ $studentRow = $studentResult->fetch_assoc();
                                         <td>
                                             <select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $i . '">
                                                 <option value="" selected>--Subject type--</option>
-                                                <option value="Core">Core</option>  
+                                                <option value="Core">Core</option>
                                                 <option value="Applied">Applied</option>
                                                 <option value="Specialized">Specialized</option>
                                             </select>
                                         </td>
                                         <td>
                                             <select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $i . '">
-                                                <option value="" selected disabled>--Subject title--</option>
+                                                <option value="" selected>--Subject title--</option>
                                             </select>
                                         </td>
                                         <td>
@@ -171,7 +171,7 @@ $studentRow = $studentResult->fetch_assoc();
                                             <input type="number" name="second2' . $i . '" id="second2' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $i . ')" step="0.01" max="100" />
                                         </td>
                                         <td>
-                                            <input type="text" name="final_grade2' . $i . '" id="final_grade2' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                            <input type="text" name="final_grade2' . $i . '" id="final_grade2' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly />
                                         </td>
                                     </tr>
                                         ';
@@ -587,7 +587,7 @@ $studentRow = $studentResult->fetch_assoc();
                                         </td>
                                         <td>
                                             <select class="form-select-sm bg-body-tertiary w-100" name="subject_title' . $i . '">
-                                                <option value="" selected disabled>Subject title</option>
+                                                <option value="" selected readonly>Subject title</option>
                                             </select>
                                         </td>
                                         <td>
@@ -597,7 +597,7 @@ $studentRow = $studentResult->fetch_assoc();
                                             <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" />
                                         </td>
                                         <td>
-                                            <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" disabled />
+                                            <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly />
                                         </td>
                                         <td>
                                             <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly />
@@ -618,12 +618,12 @@ $studentRow = $studentResult->fetch_assoc();
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" name="remedialSem1" value="1st" disabled></td>
+                                        <td><input type="text" name="remedialSem1" value="1st" readonly></td>
                                         <td><input type="date" name="startDate1"></td>
                                         <td><input type="date" name="endDate1"></td>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="remedialSem2" value="2nd" disabled></td>
+                                        <td><input type="text" name="remedialSem2" value="2nd" readonly></td>
                                         <td><input type="date" name="startDate2"></td>
                                         <td><input type="date" name="endDate2"></td>
                                     </tr>
@@ -748,8 +748,10 @@ if (isset($_POST['submit'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`,`section`) VALUES ('$studentName','$subjectType1','$subjectTitle1','$first1','$second1','$finalGrade1','$sem1','$sex','$section')";
-        $sqlResult = $conn->query($sql);
+        $stmt = $conn->prepare("INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $studentName, $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section);
+        $stmt->execute();
+        $stmt->close();
     }
 
     for ($i = 1; $i <= 10; $i++) {
@@ -760,8 +762,10 @@ if (isset($_POST['submit'])) {
         $second2 = (float)$_POST['second2' . $i];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        $sql = "INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`,`section`) VALUES ('$studentName','$subjectType2','$subjectTitle2','$first2','$second2','$finalGrade2','$sem2','$sex','$section')";
-        $sqlResult = $conn->query($sql);
+        $stmt2 = $conn->prepare("INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt2->bind_param("sssssssss", $studentName, $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $sex, $section);
+        $stmt2->execute();
+        $stmt2->close();
     }
 
     $blendedQ1 = isset($_POST['blended_q1']) ? 1 : 0;

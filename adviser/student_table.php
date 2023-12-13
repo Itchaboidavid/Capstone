@@ -78,6 +78,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>LRN</th>
                                     <th>Name</th>
                                     <th>Sex</th>
@@ -92,9 +93,11 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                 <?php
                                 $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
+                                $studentCount = 1;
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>
                                     <tr>
+                                        <td><?php echo $studentCount ?></td>
                                         <td><?php echo $studentRow["lrn"] ?></td>
                                         <td><?php echo $studentRow["name"] ?></td>
                                         <td><?php echo $studentRow["sex"] ?></td>
@@ -149,6 +152,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         </td>
                                     </tr>
                                 <?php
+                                    $studentCount++;
                                 endwhile;
                                 ?>
                             </tbody>
