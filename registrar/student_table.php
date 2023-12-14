@@ -30,56 +30,63 @@ session_start();
                         </ol>
                     </div>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-table me-1"></i>
-                            Student table
+                <?php
+                $section = "SELECT * FROM section WHERE is_archived = 0";
+                $sectionResult = $conn->query($section);
+                while ($sectionRow = $sectionResult->fetch_assoc()) {
+                    $sectionName = $sectionRow['name'];
+                ?>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-table me-1"></i>
+                                <?php echo $sectionName ?>
+                            </div>
+                            <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
+                                <i class="fa-solid fa-print"></i>
+                            </a>
                         </div>
-                        <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
-                            <i class="fa-solid fa-print"></i>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <table id="datatablesSimple">
-                            <thead>
-                                <tr>
-                                    <th>LRN</th>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Birthday</th>
-                                    <th>Age</th>
-                                    <th>Address</th>
-                                    <th>Grade & Section</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $student = "SELECT * FROM `student` ORDER BY `section` ASC";
-                                $studentResult = $conn->query($student);
-                                while ($studentRow = $studentResult->fetch_assoc()) :
-                                ?>
+                        <div class="card-body">
+                            <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $studentRow["lrn"] ?></td>
-                                        <td><?php echo $studentRow["name"] ?></td>
-                                        <td><?php echo $studentRow["sex"] ?></td>
-                                        <td><?php echo $studentRow["birth_date"] ?></td>
-                                        <td><?php echo $studentRow["age"] ?></td>
-                                        <td>
-                                            <?php echo $studentRow["house_no"] ?>,
-                                            <?php echo $studentRow["barangay"] ?>,
-                                            <?php echo $studentRow["municipality"] ?>,
-                                            <?php echo $studentRow["province"] ?>
-                                        </td>
-                                        <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                        <th>LRN</th>
+                                        <th>Name</th>
+                                        <th>Sex</th>
+                                        <th>Birthday</th>
+                                        <th>Age</th>
+                                        <th>Address</th>
+                                        <th>Grade & Section</th>
                                     </tr>
-                                <?php
-                                endwhile;
-                                ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $student = "SELECT * FROM `student` WHERE is_archived = 0 AND section = '$sectionName' ORDER BY `sex`, `name` ASC";
+                                    $studentResult = $conn->query($student);
+                                    while ($studentRow = $studentResult->fetch_assoc()) :
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $studentRow["lrn"] ?></td>
+                                            <td><?php echo $studentRow["name"] ?></td>
+                                            <td><?php echo $studentRow["sex"] ?></td>
+                                            <td><?php echo $studentRow["birth_date"] ?></td>
+                                            <td><?php echo $studentRow["age"] ?></td>
+                                            <td>
+                                                <?php echo $studentRow["house_no"] ?>,
+                                                <?php echo $studentRow["barangay"] ?>,
+                                                <?php echo $studentRow["municipality"] ?>,
+                                                <?php echo $studentRow["province"] ?>
+                                            </td>
+                                            <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                        </tr>
+                                    <?php
+                                    endwhile;
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </main>
     </div>

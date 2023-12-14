@@ -49,9 +49,13 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             <i class="fas fa-table me-1"></i>
                             <?php echo $sectionName ?>
                         </div>
-                        <a href="sf5.php" style="border: none; background: transparent;" target="_blank">
+                        <button href="#" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" style="border: none; background: transparent;" target="_blank">
                             <i class="fa-solid fa-print"></i>
-                        </a>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="sf5archived.php" target="_blank">School Form 5</a></li>
+                            <li><a class="dropdown-item" href="sf2PDFarchived.php" target="_blank">School Form 2</a></li>
+                        </ul>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -85,12 +89,12 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-item">
-                                                    <a href="sf9.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
+                                                    <a href="sf9archived.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
                                                         Print SF 9
                                                     </a>
                                                 </li>
                                                 <li class="dropdown-item">
-                                                    <a href="sf10.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
+                                                    <a href="sf10archived.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
                                                         Print SF 10
                                                     </a>
                                                 </li>

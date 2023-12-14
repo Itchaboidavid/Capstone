@@ -12,7 +12,7 @@ $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
 $id = $_GET['id'];
-$select = "SELECT *  FROM `student` WHERE `id` = '$id' AND is_archived = 0";
+$select = "SELECT *  FROM `student` WHERE `id` = '$id' AND is_archived = 1";
 $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
 $student = $row['name'];

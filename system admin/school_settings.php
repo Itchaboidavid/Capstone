@@ -132,7 +132,7 @@ if (isset($_POST['schoolStart'])) {
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
                                 <button type="submit" class="btn btn-primary" name="schoolStart">Save</button>
-                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
+                                <a href="dashboard.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
                     </div>

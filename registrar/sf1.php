@@ -9,7 +9,7 @@ $option = new Options();
 $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
-$sections = "SELECT * FROM `section` ORDER BY `name` ASC";
+$sections = "SELECT * FROM `section` WHERE is_archived = 0 ORDER BY `name` ASC";
 $sectionResult = $conn->query($sections);
 $sectionCount = $sectionResult->num_rows;
 $html = '';
@@ -29,25 +29,6 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
   }
 
   $sectionName = $sectionRow['name'];
-  $getFaculty = "SELECT * FROM `user` WHERE `section` = '$sectionName'";
-  $facultyResult = $conn->query($getFaculty);
-
-  if (!$facultyResult) {
-    die('Error fetching faculty data: ' . $conn->error);
-  }
-
-  $facultyRow = $facultyResult->fetch_assoc();
-
-  // Set default value
-  $facultyName = " ";
-
-  // Check if there is at least one row
-  if ($facultyResult->num_rows > 0) {
-    // Override with actual data
-    $facultyName = $facultyRow['name'];
-  }
-
-  // Now you can use $facultyName in your HTML
 
 
   $trackContent = ($sectionRow["track"] === "Academic") ? $sectionRow["track"] . " - " .  $sectionRow["strand"] : $sectionRow["track"];
@@ -73,8 +54,16 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
        <div class="Semester">
        <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -21px; margin-left: 86px; " > Semester </p> 
       </div>
-      <div >
-       <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -25px; margin-left: 127px; border: 1px solid black;" >' . $sectionRow['semester_name'] . '</p> 
+      <div >';
+  $currentMonth = date('m');
+  if ($currentMonth < 8) {
+    $semester = '2nd';
+  } else {
+    $semester = '1st';
+  }
+
+  $html .= '
+       <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 188px; text-align:center; font-size: 6pt; margin-top: -25px; margin-left: 127px; border: 1px solid black;" >' . $semester . '</p> 
       </div>
 
       <div class="School ID">
@@ -87,7 +76,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
       <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top: -23px; margin-left: 345px; " > School Year </p> 
      </div>
      <div >
-      <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -27px; margin-left: 389px; border: 1px solid black;" >' . $sectionRow['start_year'] . ' - ' . $sectionRow['end_year'] . '</p> 
+      <p style=" padding-top:3px; padding-bottom:2px; Height: 12px; width: 83px; text-align:center; font-size: 6pt; margin-top: -27px; margin-left: 389px; border: 1px solid black;" >' . $sectionRow['school_year'] . '</p> 
      </div>
       <div class="District">
         <p style=" Height: 12px; width: 150px; font-size: 6pt; margin-top:-45px; margin-left: 492px; " > District </p> 
@@ -197,7 +186,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
        ';
   //MALE TABLE
   $sectionName = $sectionRow['name'];
-  $maleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND `sex` = 'M' ORDER BY `name` ASC";
+  $maleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND `sex` = 'M' AND is_archived = 0 ORDER BY `name` ASC";
   $maleStudentResult = mysqli_query($conn, $maleStudents);
   $maleStudentCount = mysqli_num_rows($maleStudentResult);
   if ($maleStudentCount === 0) {
@@ -260,7 +249,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
               ';
   };
   //FEMALE TABLE
-  $femaleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND sex = 'F' ORDER BY name ASC";
+  $femaleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND sex = 'F' AND is_archived = 0 ORDER BY name ASC";
   $femaleStudentResult = mysqli_query($conn, $femaleStudents);
   $femaleStudentCount = mysqli_num_rows($femaleStudentResult);
   if ($femaleStudentCount === 0) {
@@ -386,7 +375,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
        <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0;">Prepared by:</td>
       </tr>
      <tr style=" font-weight: bold;"> 
-       <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0; border-bottom: 1px solid black; text-align: center;">' . $facultyName . '</td>
+       <td style=" height: 10px; width: 325px; text-align: top; vertical-align: top; border : 0; border-bottom: 1px solid black; text-align: center;">' . $sectionRow['adviser'] . '</td>
       </tr>
      <tr style=" font-weight: bold;"> 
      <td style=" height: 20px; width: 40px; text-align: center; vertical-align: top; border: 0px;"><br> (Signature of Adviser over Printed Name)  </td>
@@ -401,12 +390,12 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
 
      <table style="margin-top: -6px; font-size: 5pt; margin-left: 715px; border : 0px;">
      <tr style=" border : 1px solid black;"> 
-     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['start_date'] . ' 12:00 AM</td>
+     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;"> 12:00 AM</td>
      </table>
      <table style="margin-top: -25px; font-size: 5pt; margin-left: 922px; border : 0px;">
      </tr>
      <tr style=" border : 1px solid black;"> 
-     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;">' . $sectionRow['end_date'] . ' 12:00 AM</td>
+     <td style=" height: 18px; width: 105px; text-align: left;  border: 0px;"> 12:00 AM</td>
      </tr>
       </table>
      ';

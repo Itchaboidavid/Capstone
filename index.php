@@ -96,6 +96,7 @@ if (isset($_POST["login"])) {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         $_SESSION["section"] = $row_login["section"];
+        $_SESSION["password"] = $row_login["password2"];
         header("location: adviser/dashboard.php");
       } elseif ($row_login["user_type"] == "Registrar") {
         $_SESSION["id"] = $row_login["id"];

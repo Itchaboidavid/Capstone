@@ -1,6 +1,82 @@
 <?php
 include("../config.php");
 session_start();
+
+//ADD STUDENT
+if (isset($_POST["add_student"])) {
+    $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
+    $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
+    $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
+    $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
+    $suffix = mysqli_real_escape_string($conn, $_POST["suffix"]);
+    $name = $lname . ", " . $fname . " " . $suffix . " " . $mname;
+    $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
+    $birth_date = mysqli_real_escape_string($conn, $_POST["birth_date"]);
+    $birth_date2 = mysqli_real_escape_string($conn, $_POST["birth_date"]);
+    $date = new DateTime($birth_date);
+    $formattedBirthDate = $date->format("m-d-Y");
+
+    //calculate age
+    $dob = new DateTime($birth_date);
+    $now = new DateTime();
+    $diff = $now->diff($dob);
+    $age = $diff->y;
+    //
+
+    $birthdayDate = date("m-d", strtotime($birth_date));
+    if ($birthdayDate <= "10-30") {
+        $age--;
+    }
+
+    $ra = mysqli_real_escape_string($conn, $_POST["ra"]);
+    $house_no = mysqli_real_escape_string($conn, $_POST["house_no"]);
+    $barangay = mysqli_real_escape_string($conn, $_POST["barangay"]);
+    $municipality = mysqli_real_escape_string($conn, $_POST["municipality"]);
+    $province = mysqli_real_escape_string($conn, $_POST["province"]);
+    $father = mysqli_real_escape_string($conn, $_POST["father"]);
+    $mother = mysqli_real_escape_string($conn, $_POST["mother"]);
+    $guardian = mysqli_real_escape_string($conn, $_POST["guardian"]);
+    $relationship = mysqli_real_escape_string($conn, $_POST["relationship"]);
+    $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
+    $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
+    $section = mysqli_real_escape_string($conn, $_POST["section"]);
+
+    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section'";
+    $sectionNameResult = mysqli_query($conn, $sectionName);
+    $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
+
+    $track = $sectionNameRow["track"];
+    $strand = $sectionNameRow["strand"];
+    $grade = $sectionNameRow["grade"];
+
+    $sy_id = $sectionNameRow['school_year_id'];
+
+    //To get school year
+    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
+    $schoolYearResult = $conn->query($schoolYear);
+    $schoolYearRow = $schoolYearResult->fetch_assoc();
+    //School year
+    $sy = $schoolYearRow['sy'];
+
+    $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
+    $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
+    $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
+
+    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
+    $studentResult = mysqli_query($conn, $student);
+
+    if (mysqli_num_rows($studentResult) > 0) {
+        header("location:student_table.php?errmsg=The student already exist!");
+        exit();
+    } else {
+        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
+         VALUES 
+         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$sy_id', '$sy',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
+        mysqli_query($conn, $insert);
+        echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +137,7 @@ session_start();
                         </ol>
                     </div>
                 </div>
-                <form action="" method="POST" class="needs-validation" novalidate>
+                <form action="" method="POST">
                     <div class="card mb-5">
                         <div class="card-header">
                             <h4>Add Student</h4>
@@ -227,8 +303,8 @@ session_start();
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
-                                <button type="submit" class="btn btn-primary" name="add_student">Add</button>
-                                <a href="student_table.php" type="button" class="btntext-primary">Close</a>
+                                <input type="submit" value="Add" name="add_student" class="btn btn-primary">
+                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
                     </div>
@@ -248,80 +324,5 @@ session_start();
 
 </html>
 <?php
-//ADD STUDENT
-if (isset($_POST["add_student"])) {
-    $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
-    $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
-    $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
-    $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
-    $suffix = mysqli_real_escape_string($conn, $_POST["suffix"]);
-    $name = $lname . ", " . $fname . " " . $suffix . " " . $mname;
-    $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
-    $birth_date = mysqli_real_escape_string($conn, $_POST["birth_date"]);
-    $birth_date2 = mysqli_real_escape_string($conn, $_POST["birth_date"]);
-    $date = new DateTime($birth_date);
-    $formattedBirthDate = $date->format("m-d-Y");
-
-    //calculate age
-    $dob = new DateTime($birth_date);
-    $now = new DateTime();
-    $diff = $now->diff($dob);
-    $age = $diff->y;
-    //
-
-    $birthdayDate = date("m-d", strtotime($birth_date));
-    if ($birthdayDate <= "10-30") {
-        $age--;
-    }
-
-    $ra = mysqli_real_escape_string($conn, $_POST["ra"]);
-    $house_no = mysqli_real_escape_string($conn, $_POST["house_no"]);
-    $barangay = mysqli_real_escape_string($conn, $_POST["barangay"]);
-    $municipality = mysqli_real_escape_string($conn, $_POST["municipality"]);
-    $province = mysqli_real_escape_string($conn, $_POST["province"]);
-    $father = mysqli_real_escape_string($conn, $_POST["father"]);
-    $mother = mysqli_real_escape_string($conn, $_POST["mother"]);
-    $guardian = mysqli_real_escape_string($conn, $_POST["guardian"]);
-    $relationship = mysqli_real_escape_string($conn, $_POST["relationship"]);
-    $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
-    $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
-    $section = mysqli_real_escape_string($conn, $_POST["section"]);
-
-    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section'";
-    $sectionNameResult = mysqli_query($conn, $sectionName);
-    $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
-
-    $track = $sectionNameRow["track"];
-    $strand = $sectionNameRow["strand"];
-    $grade = $sectionNameRow["grade"];
-
-    $sy_id = $sectionNameRow['school_year_id'];
-
-    //To get school year
-    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
-    $schoolYearResult = $conn->query($schoolYear);
-    $schoolYearRow = $schoolYearResult->fetch_assoc();
-    //School year
-    $sy = $schoolYearRow['sy'];
-
-    $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
-    $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
-    $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
-
-    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-    $studentResult = mysqli_query($conn, $student);
-
-    if (mysqli_num_rows($studentResult) > 0) {
-        header("location:student_table.php?errmsg=The student already exist!");
-        exit();
-    } else {
-        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
-         VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$sy_id', '$sy',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
-        mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
-        exit();
-    }
-}
 
 $conn->close();

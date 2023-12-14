@@ -128,7 +128,7 @@ session_start();
                                 <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Archived classes : <?php echo $archivedClassesCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="archived_classes.php">View Details</a>
+                                <a class="small text-white stretched-link" href="javascript:void(0);" onclick="confirmPassword()">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -164,6 +164,21 @@ session_start();
     </div>
     </div>
 
+    <?php
+    $password = $_SESSION['password'];
+    ?>
+    <script>
+        function confirmPassword() {
+            var password = prompt("Please enter your password:", "");
+
+            // You should replace 'your_actual_password' with the actual password for verification
+            if (password === '<?php echo $password; ?>') {
+                window.location.href = 'archived_classes.php';
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -189,7 +204,7 @@ if ($studentsCount > 0) {
     $femaleResult = $conn->query($female);
     $femaleCount = $femaleResult->num_rows;
 
-    //HFA CHART
+    //ATTENDANCE CHART
     $january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
     $januaryResult = $conn->query($january);
     $januaryCount = $januaryResult->num_rows;
@@ -299,7 +314,7 @@ if ($studentsCount > 0) {
         ]);
 
         const options = {
-            title: 'HFA Chart'
+            title: 'Attendance Chart'
         };
 
         const chart = new google.visualization.BarChart(document.getElementById('attendanceChart'));

@@ -70,9 +70,14 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             <i class="fas fa-table me-1"></i>
                             <?php echo $sectionName ?>
                         </div>
-                        <a href="sf5.php" style="border: none; background: transparent;" target="_blank">
+                        <button href="#" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" style="border: none; background: transparent;" target="_blank">
                             <i class="fa-solid fa-print"></i>
-                        </a>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="sf5.php" target="_blank">School Form 5</a></li>
+                            <!-- <li><a class="dropdown-item" href="sf9all.php" target="_blank">School Form 9 of all students</a></li>
+                            <li><a class="dropdown-item" href="sf10all.php" target="_blank">School Form 10 of all students</a></li> -->
+                        </ul>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
