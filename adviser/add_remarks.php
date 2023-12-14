@@ -2,11 +2,13 @@
 include("../config.php");
 session_start();
 
+$currentMonth = date('m');
+$currentYear = date('Y');
 $id = $_GET['id'];
 $student = "SELECT * FROM `student` WHERE `id` = '$id'";
 $studentResult = $conn->query($student);
 $studentRow = $studentResult->fetch_assoc();
-
+$sex = $studentRow['sex'];
 // Fetch existing remarks if they exist
 $existingRemarks = "";
 $check2 = "SELECT * FROM sf2remarks WHERE student_id = '$id'";
@@ -25,7 +27,7 @@ if (isset($_POST['add_remarks'])) {
     $studentSection = $studentRow['section'];
 
     // Check if a record already exists for the student
-    $check = "SELECT * FROM sf2remarks WHERE student_id = '$id'";
+    $check = "SELECT * FROM sf2remarks WHERE student_id = '$id' AND month = '$currentMonth' AND year = '$currentYear'";
     $checkResult = $conn->query($check);
     $checkCount = $checkResult->num_rows;
 
@@ -42,7 +44,7 @@ if (isset($_POST['add_remarks'])) {
         }
     } else {
         // If no record exists, insert a new record
-        $insert = "INSERT INTO `sf2remarks`(`student_id`, `student_name`, `section`, `remarks`) VALUES ('$id','$studentName','$studentSection','$remarks')";
+        $insert = "INSERT INTO `sf2remarks`(`student_id`, `student_name`, `section`, `sex`, `remarks`, `month`, `year`) VALUES ('$id','$studentName','$studentSection','$sex','$remarks','$currentMonth','$currentYear')";
         $insertResult = $conn->query($insert);
         if ($insertResult) {
             header("location:sf2.php?msg=Remarks added successfully!");

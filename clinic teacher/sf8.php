@@ -180,6 +180,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $select_male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' ORDER BY `name` ASC";
   $result_select_male = mysqli_query($conn, $select_male);
   $select_male_count = $result_select_male->num_rows;
+  $maleCount = 1;
   if ($select_male_count == 0) {
     $html .= '<tr >
     <td style="width:2.44%; nobr=true; text-align:center;"></td>
@@ -198,7 +199,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   } else {
     foreach ($result_select_male as $emp) {
       $html .= '<tr >
-      <td style="width:2.44%; nobr=true; text-align:center;">' . $emp["id"] . '</td>
+      <td style="width:2.44%; nobr=true; text-align:center;">' . $maleCount . '</td>
       <td style="width:7.5%; nobr=true; text-align:center;">' . $emp['lrn'] . '</td>
       <td style="width:20.15%; nobr=true; text-align:center;">' . $emp['name'] . '</td>
       <td style="width:7.52%; nobr=true; text-align:center;">' . $emp['birth_date'] . '</td>
@@ -211,6 +212,7 @@ while ($row = mysqli_fetch_assoc($result)) {
       <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
       <td style="width:12.6%;  nobr=true; text-align:center;"></td>
       </tr>';
+      $maleCount++;
     }
   }
 
@@ -249,6 +251,7 @@ td {
   $html = '<table>';
   $select_female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' ORDER BY `name` ASC";
   $result_select_female = mysqli_query($conn, $select_female);
+  $femaleCount = 1;
   if ($result_select_female->num_rows == 0) {
     $html .= '<tr>
         <td style="width:2.44%; nobr=true; text-align:center;"></td>
@@ -267,7 +270,7 @@ td {
   } else {
     foreach ($result_select_female as $empf) {
       $html .= '<tr>
-          <td style="width:2.44%; nobr=true; text-align:center;">' . $empf["id"] . '</td>
+          <td style="width:2.44%; nobr=true; text-align:center;">' . $femaleCount . '</td>
           <td style="width:7.5%; nobr=true; text-align:center;">' . $empf['lrn'] . '</td>
           <td style="width:20.15%; nobr=true; text-align:center;">' . $empf['name'] . '</td>
           <td style="width:7.52%; nobr=true; text-align:center;">' . $empf['birth_date'] . '</td>
@@ -278,8 +281,9 @@ td {
           <td style="width:5.84%; nobr=true; text-align:center;">' . $empf["bmi"] . '</td>
           <td style="width:7.78%; nobr=true; text-align:center;">' . $empf["bmi_category"] . '</td>
           <td style="width:8.25%; nobr=true; text-align:center;">' . $emp['hfa_category'] . '</td>
-          <td style="width:12.6%;  nobr=true; text-align:center;"></td>
+          <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['sf8_remarks'] . '</td>
     </tr>';
+      $femaleCount++;
     }
   }
 

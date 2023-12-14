@@ -56,6 +56,10 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter student's height.</div>
                             </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="sf8_remarks" id="sf8_remarks" placeholder="sf8_remarks" class="form-control bg-body-tertiary" />
+                                <label for="sf8_remarks">Remarks <sup class="text-primary">(optional)</sup></label>
+                            </div>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -84,6 +88,7 @@ include("functions.php");
 if (isset($_POST['add_bmi'])) {
     $weight = floatval($_POST["weight"]);
     $height = floatval($_POST["height"]);
+    $sf8_remarks = $conn->real_escape_string($_POST['sf8_remarks']);
     $age = intval($studentRow['age']);
     $sex = $studentRow['sex'];
 
@@ -119,7 +124,7 @@ if (isset($_POST['add_bmi'])) {
         $hfaCategory = "Tall";
     };
 
-    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory',`sf8_remarks`='$sf8_remarks' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
     exit();

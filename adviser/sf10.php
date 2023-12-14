@@ -147,6 +147,249 @@ if ($sf9Count === 0) {
     $pdf->SetFont('unicodehelvetin', '', 7.4);
     $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
     $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf9Count === 1) {
+    while ($sf9Row = $sf9Result->fetch_assoc()) {
+        $finalGrade += (float) $sf9Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf9Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf9Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf9Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf9Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf9Count === 2) {
+    while ($sf9Row = $sf9Result->fetch_assoc()) {
+        $finalGrade += (float) $sf9Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf9Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf9Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf9Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf9Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf9Count === 3) {
+    while ($sf9Row = $sf9Result->fetch_assoc()) {
+        $finalGrade += (float) $sf9Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf9Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf9Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf9Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf9Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf9Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
 } else {
     while ($sf9Row = $sf9Result->fetch_assoc()) {
         $finalGrade += (float) $sf9Row['final_grade'];
@@ -376,7 +619,7 @@ if ($sf10Count === 0) {
     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
-} else {
+} elseif ($sf10Count === 1) {
     while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
         $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->SetX(11);
@@ -392,6 +635,117 @@ if ($sf10Count === 0) {
         $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
     }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+} elseif ($sf10Count === 2) {
+    while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf10RowRemedial['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf10RowRemedial['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial['old_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial['new_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf10RowRemedial['final_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(15.8, 5, $sf10RowRemedial['action'], 1, 0, 'C', 0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+} elseif ($sf10Count === 3) {
+    while ($sf10RowRemedial = $sf10ResultRemedial->fetch_assoc()) {
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf10RowRemedial['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf10RowRemedial['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial['old_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial['new_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf10RowRemedial['final_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(15.8, 5, $sf10RowRemedial['action'], 1, 0, 'C', 0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+} else {
 }
 
 $pdf->SetFillColor(0);
@@ -493,7 +847,7 @@ $sf92Count = $sf92Result->num_rows;
 $finalGrade2 = 0;
 $pdf->ln(0.7);
 /*2ND Semester Table*/
-if ($sf92Count == 0) {
+if ($sf92Count === 0) {
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->SetX(11);
     $pdf->SetFillColor(0);
@@ -507,9 +861,259 @@ if ($sf92Count == 0) {
     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf92Count === 1) {
+    while ($sf92Row = $sf92Result->fetch_assoc()) {
+        $finalGrade2 += (float) $sf92Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf92Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf92Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf92Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf92Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf92Count === 2) {
+    while ($sf92Row = $sf92Result->fetch_assoc()) {
+        $finalGrade2 += (float) $sf92Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf92Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf92Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf92Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf92Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
+} elseif ($sf92Count === 3) {
+    while ($sf92Row = $sf92Result->fetch_assoc()) {
+        $finalGrade2 += (float) $sf92Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf92Row['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf92Row['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade1'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf92Row['sem_grade2'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf92Row['final_grade'], 1, 0, 'C', 0);
+        if ($sf92Row['final_grade'] >= 75) {
+            $pdf->Cell(15.8, 5, 'PASSED', 1, 0, 'C', 0);
+        } else {
+            $pdf->Cell(15.8, 5, 'FAILED', 1, 0, 'C', 0);
+        }
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+        $pdf->SetFillColor(0);
+        $pdf->SetX(11);
+        $pdf->SetFont('unicodehelvetin', '', 7.4);
+        $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+        $pdf->SetFillColor(192);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    $pdf->SetFillColor(0);
+    $pdf->SetX(11);
+    $pdf->SetFont('unicodehelvetin', '', 7.4);
+    $pdf->Cell(.2, 4, '', 1, 0, 'C', 1);
+    $pdf->SetFillColor(192);
 } else {
     while ($sf92Row = $sf92Result->fetch_assoc()) {
         $finalGrade2 += (float) $sf92Row['final_grade'];
+        /*1st Semester Table*/
+        $pdf->SetFont('unicodehelvetin', '', 7);
         $pdf->SetX(11);
         $pdf->SetFillColor(0);
         $pdf->SetFont('unicodehelvetin', '', 7);
@@ -727,6 +1331,120 @@ if ($sf10Count2 === 0) {
     $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
     $pdf->SetFont('unicodehelvetin', '', 7);
     $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+} elseif ($sf10Count2 = 1) {
+    while ($sf10RowRemedial2 = $sf10ResultRemedial2->fetch_assoc()) {
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf10RowRemedial2['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf10RowRemedial2['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['old_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['new_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf10RowRemedial2['final_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(15.8, 5, $sf10RowRemedial2['action'], 1, 0, 'C', 0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+} elseif ($sf10Count2 = 2) {
+    while ($sf10RowRemedial2 = $sf10ResultRemedial2->fetch_assoc()) {
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf10RowRemedial2['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf10RowRemedial2['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['old_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['new_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf10RowRemedial2['final_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(15.8, 5, $sf10RowRemedial2['action'], 1, 0, 'C', 0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
+} elseif ($sf10Count2 = 3) {
+    while ($sf10RowRemedial2 = $sf10ResultRemedial2->fetch_assoc()) {
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->SetX(11);
+        $pdf->SetFillColor(0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+        $pdf->Cell(30, 5, $sf10RowRemedial2['subject_type'], 1, 0, 'C', 0);
+        $pdf->Cell(105.8, 5, $sf10RowRemedial2['subject_title'], 1, 0, 'L', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['old_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(12.75, 5, $sf10RowRemedial2['new_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(16, 5, $sf10RowRemedial2['final_grade'], 1, 0, 'C', 0);
+        $pdf->Cell(15.8, 5, $sf10RowRemedial2['action'], 1, 0, 'C', 0);
+        $pdf->SetFont('unicodehelvetin', '', 7);
+        $pdf->Cell(.2, 5, '', 1, 1, 'C', 1);
+    }
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->SetX(11);
+    $pdf->SetFillColor(0);
+    $pdf->SetFont('unicodehelvetin', '', 7);
+    $pdf->Cell(.2, 5, '', 1, 0, 'C', 1);
+    $pdf->Cell(30, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(105.8, 5, '', 1, 0, 'L', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(12.75, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(16, 5, '', 1, 0, 'C', 0);
+    $pdf->Cell(15.8, 5, '', 1, 0, 'C', 0);
 } else {
     while ($sf10RowRemedial2 = $sf10ResultRemedial2->fetch_assoc()) {
         $pdf->SetFont('unicodehelvetin', '', 7);

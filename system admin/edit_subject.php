@@ -80,24 +80,18 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select subject type.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="track" id="track3">
-                                    <option value="<?php echo $subjectRow["track"] ?>" selected><?php echo $subjectRow["track"] ?></option>
-                                    <?php
-                                    $select = "SELECT * FROM track";
-                                    $result = mysqli_query($conn, $select);
-                                    while ($subjectRowTrack = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                        <option value="<?php echo $subjectRowTrack["name"] ?>"><?php echo $subjectRowTrack["name"] ?></option>
-                                    <?php }
-                                    ?>
-                                </select>
-                                <label for="track">Track</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select track.</div>
-                            </div>
-                            <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="strand" id="strand3">
                                     <option value="<?php echo $subjectRow["strand"] ?>" selected><?php echo $subjectRow["strand"] ?></option>
+                                    <?php
+                                    $currentStrand = $subjectRow['strand'];
+                                    $sql = "SELECT * FROM strand WHERE name != '$currentStrand'";
+                                    $sqlResult = $conn->query($sql);
+                                    while ($sqlRow = $sqlResult->fetch_assoc()) {
+                                        if ($sqlRow['name'] != 'All') { ?>
+                                            <option value="<?php echo $sqlRow['name'] ?>"><?php echo $sqlRow['name'] ?></option>
+                                    <?php }
+                                    }
+                                    ?>
                                 </select>
                                 <label for="strand">Strand</label>
                                 <div class="valid-feedback ps-1">Great!</div>
@@ -161,10 +155,15 @@ session_start();
 if (isset($_POST['edit_subject'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $subject_type = mysqli_real_escape_string($conn, $_POST["subject_type"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
     $strand = mysqli_real_escape_string($conn, $_POST["strand"]);
+
+    $forTrack = "SELECT * FROM `strand` WHERE `name` = '$strand'";
+    $forTrackResult = $conn->query($forTrack);
+    $forTrackRow = $forTrackResult->fetch_assoc();
+    $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+
 
     $update = "UPDATE `subject` SET `name`='$name', `subject_type`='$subject_type', `track`='$track', `strand`='$strand', `grade`='$grade', `semester`='$semester' WHERE id = $id";
 

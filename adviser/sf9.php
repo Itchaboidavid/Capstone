@@ -21,6 +21,15 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
+$currentMonth1 = date('m');
+$currentYear = date('Y');
+$schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth1' AND `year` = '$currentYear'";
+$schoolDaysResult = $conn->query($schoolDays);
+$schoolDaysRow = $schoolDaysResult->fetch_assoc();
+
+$startDate = $schoolDaysRow['start_date'];
+$endDate = $schoolDaysRow['end_date'];
+
 //SF9 FRONT
 $html = '
 
@@ -35,7 +44,7 @@ table{
 </style>
 
 <p style=" font-size: 13.5px;margin-left: 97px; margin-top: -7px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
-<div><p style=" font-size: 12px;margin-left: 452px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
+<div><p style=" font-size: 12px;margin-left: 480px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
 
 <table style="margin-left: -24px; margin-top: 19px; ">
      <tr style="font-size: 8.5pt; text-align:center; ">
@@ -78,7 +87,7 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
     $weekdays = 0;
     $weekendDays = 0;
 
-    for ($i = 1; $i <= $daysInMonth; $i++) {
+    for ($i = $startDate; $i <= $endDate; $i++) {
         $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
 
         if ($day == 'Sat' || $day == 'Sun') {
@@ -163,7 +172,7 @@ $html .= '
 ';
 
 $html .= '
-<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 450px;" >
+<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 480px;" >
 <img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 678px;" >
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
@@ -203,7 +212,7 @@ $html .= '
 
 
 $html .= '<div>
-<table style="margin-left:452px; margin-top: -235px; border: no-border; ">
+<table style="margin-left:480px; margin-top: -235px; border: no-border; ">
       <tr>
         <td colspan ="4" style=" Width:510px; text-align: center; font-weight:bold; font-size:14.5px; height:20px;"> LEARNER&rsquo;S PROGRESS REPORT CARD</td>
 
@@ -281,7 +290,7 @@ $html .= '<div>
 </div>
 
 <div>
-<table style="margin-left:452px; margin-top: 2px; border: no-border; ">
+<table style="margin-left:480px; margin-top: 2px; border: no-border; ">
 <tr style="font-size: 12px;">
 
 <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
@@ -298,7 +307,7 @@ $html .= '<div>
 
 
 <div>
-<table style="margin-left:452px; margin-top: 36px; border: no-border; ">>
+<table style="margin-left:480px; margin-top: 36px; border: no-border; ">>
 
 <tr style="font-size: 12px;">
 <td colspan="4" style="text-align:center; font-weight:bold;">Certificate of Transfer</td>
@@ -322,7 +331,7 @@ $html .= '<div>
 
 
 <div>
-<table style="margin-left:452px; margin-top: 33px; border: no-border; ">
+<table style="margin-left:480px; margin-top: 33px; border: no-border; ">
 <tr style="font-size: 12px;">
 <td ></td>
 <td  style="width:130px;text-align: center; font-weight:bold; "></td>
@@ -340,7 +349,7 @@ $html .= '<div>
 </div>
 
 <div>
-<table style="margin-left:452px; margin-top: 17px; border: no-border; ">
+<table style="margin-left:480px; margin-top: 17px; border: no-border; ">
 <tr style="font-size: 12px;">
 
 <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>

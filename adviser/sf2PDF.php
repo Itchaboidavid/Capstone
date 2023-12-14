@@ -26,6 +26,7 @@ $calendar->setMonthYear($today->getYear(), $today->getMonthNumber());
 $calendar->create();
 
 $currentMonth = date('m');
+$currentYear = date('Y');
 
 if ($sectionRow['track'] == 'Technical-Vocational-Livelihood') {
   $track = $sectionRow['track'];
@@ -193,12 +194,20 @@ $result = mysqli_query($conn, $select);
 $maleCount = 1;
 $totalAbsentMale = 0;
 $totalPresentMale = 0;
+
+$male5Days = 0;
+$female5Days = 0;
+
 foreach ($result as $emp) {
   // Get current month and year
   $currentMonth = date('m');
   $currentYear = date('Y');
 
   $studentName = $emp['name'];
+  $studentSex = $emp['sex'];
+  $consecutiveAbsences = 0; // Counter for consecutive absences
+  $isConsecutive = false;
+
   $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND attendance_year = '$currentYear'";
   $sf2Result = $conn->query($sf2);
   $sf2Count = $sf2Result->num_rows;
@@ -251,20 +260,49 @@ foreach ($result as $emp) {
       if (date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $dayNumber)) === 'Fri') {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
+          $consecutiveAbsences = 0;
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
         } else {
+          $consecutiveAbsences++;
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;">X</td>';
+
+          // Check for 5 consecutive absences
+          if ($consecutiveAbsences == 5) {
+            // Increment counters based on student's sex
+            if ($studentSex === 'Male') {
+              $male5Days++;
+            } elseif ($studentSex === 'Female') {
+              $female5Days++;
+            }
+
+            // Reset the counter after detecting 5 consecutive absences
+            $consecutiveAbsences = 0;
+          }
         }
       } else {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
+          $consecutiveAbsences = 0;
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
         } else {
+          $consecutiveAbsences++;
           $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;">X</td>';
+          // Check for 5 consecutive absences
+          if ($consecutiveAbsences == 5) {
+            // Increment counters based on student's sex
+            if ($studentSex === 'Male') {
+              $male5Days++;
+            } elseif ($studentSex === 'Female') {
+              $female5Days++;
+            }
+
+            // Reset the counter after detecting 5 consecutive absences
+            $consecutiveAbsences = 0;
+          }
         }
       }
     }
@@ -484,10 +522,12 @@ foreach ($calendar->getWeeks() as $week) {
   }
 }
 
+$totalAbsent = $totalAbsentMale + $totalAbsentFemale;
+$totalPresent = $totalPresentMale + $totalPresentFemale;
 
 $html .= '
-      <td style=" font-size: 5pt;  vertical-align: middle; text-align : center; border-right: 2px solid black; border-bottom: 2px solid black;">' . $totalAbsentMale + $totalAbsentFemale . '</td>
-      <td style= " font-size: 5pt; vertical-align: middle; text-align : center; border-right: 2px solid black; border-bottom: 2px solid black;">' . $totalPresentMale + $totalPresentFemale . '</td>
+      <td style=" font-size: 5pt;  vertical-align: middle; text-align : center; border-right: 2px solid black; border-bottom: 2px solid black;">' . $totalAbsent . '</td>
+      <td style= " font-size: 5pt; vertical-align: middle; text-align : center; border-right: 2px solid black; border-bottom: 2px solid black;">' . $totalPresent . '</td>
       <td style= " font-size: 5pt; vertical-align: middle; text-align : center; border-right: 2px solid black; border-bottom: 2px solid black;"></td>
   </tr>
 </table>
@@ -503,7 +543,7 @@ $html .= '
       <td rowspan ="2" style= "width:153px; font-size: 4.9pt;  font-weight:bold; border-left: 1.3px solid black;  border-right: 1.3px solid black;" >1.CODES FOR CHECKING ATTENDANCE</td>
       <td rowspan ="5" style= "width: 93px;  font-weight:bold; font-size: 4.9pt; " ></td>
       <td rowspan ="1" style= "width:67px;  font-weight:bold;   border-right: 2px solid black; font-size: 5.5pt;" >Month</td>
-      <td rowspan ="3" style= "width:80px; font-size: 5.5pt; font-weight:bold; text-align:center; border-right: 2px solid black; border-bottom: 2px solid black;">22 </td>
+      <td rowspan ="3" style= "width:80px; font-size: 5.5pt; font-weight:bold; text-align:center; border-right: 2px solid black; border-bottom: 2px solid black;">' . $weekdays . '</td>
       <td  rowspan ="2" colspan ="3"  style= "text-align:center; height:10px; font-weight:bold; border-right: 2px solid black; border-bottom: 2px solid black;" >Summary </td>
   
     </tr>
@@ -512,7 +552,7 @@ $html .= '
     
     <tr>
     <td colspan="3" style= "text-align:center;  font-size: 5.5pt; width:287.7px;">  </td> 
-      <td rowspan ="2" style= "vertical-align:top;  font-weight:bold;  border-right: 2px solid black; border-bottom: 2px solid black; font-size: 5.5pt">   May</td> 
+      <td rowspan ="2" style= "vertical-align:top;  font-weight:bold;  border-right: 2px solid black; border-bottom: 2px solid black; font-size: 5.5pt">' . date('F') . '</td> 
   
     </tr>
   
@@ -529,20 +569,49 @@ $html .= '
     <tr style= " font-size: 6pt;">
       <td colspan="3" style="text-align:center;"></td>
       <td style=" border-right: 1.3px solid black; border-left: 1.3px solid black;"></td>
-      <td colspan="2" style= "  border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height: 13px;"  >* Enrolment as of (1st Friday of August)</td>
-      <td style= "Text-align:center; border: 1.3px solid black;"> 12</td>
-      <td style= "Text-align:center; border: 1.3px solid black;"> 24</td>
-      <td style= "Text-align:center; border: 1.3px solid black;"> 36</td>
+      <td colspan="2" style= "  border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height: 13px;"  >* Enrolment as of (1st Friday of August)</td>';
+
+if ($currentMonth < 8) {
+  $currentYear--;
+}
+
+// Find the first Friday of August
+$firstFridayOfAugust = date('d', strtotime("first friday of August $currentYear"));
+
+// Your SQL query to select male students with attendance on the first Friday of August
+$totalMaleAugust = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'M'";
+$totalMaleAugustResult = $conn->query($totalMaleAugust);
+$totalMaleAugustCount = $totalMaleAugustResult->num_rows;
+
+$totalFemaleAugust = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'F'";
+$totalFemaleAugustResult = $conn->query($totalFemaleAugust);
+$totalFemaleAugustCount = $totalFemaleAugustResult->num_rows;
+$totalAugust = $totalMaleAugustCount + $totalFemaleAugustCount;
+
+$html .= '
+      <td style= "Text-align:center; border: 1.3px solid black;">' . $totalMaleAugustCount . '</td>
+      <td style= "Text-align:center; border: 1.3px solid black;">' . $totalFemaleAugustCount . '</td>
+      <td style= "Text-align:center; border: 1.3px solid black;">' . $totalAugust . '</td>
     </tr>
   
     <tr style= " ">
       <td colspan="3"> </td>
       <td style= " font-size:  5pt;  width:153px;  font-weight:bold; border-left: 1.3px solid black;  border-right: 1.3px solid black;" >2.REASON/CAUSES FOR NLPA</td>
       <td></td>
-      <td colspan="1" ></td>
-      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;"> 12</td>
-      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;"> 24</td>
-      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;"> 36</td>
+      <td colspan="1" ></td>';
+
+$lateEnrolleesMale = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'M'";
+$lateEnrolleesMaleResult = $conn->query($lateEnrolleesMale);
+$lateEnrolleesMaleCount = $lateEnrolleesMaleResult->num_rows;
+
+$lateEnrolleesFemale = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'F'";
+$lateEnrolleesFemaleResult = $conn->query($lateEnrolleesFemale);
+$lateEnrolleesFemaleCount = $lateEnrolleesFemaleResult->num_rows;
+
+$html .= '
+      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;">' . $lateEnrolleesMaleCount . '</td>
+      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;">' . $lateEnrolleesFemaleCount . '</td>
+      <td rowspan="4" style= "Text-align:center; font-size: 6pt; border: 1.3px solid black;">' . $lateEnrolleesMaleCount + $lateEnrolleesFemaleCount . '</td>
     </tr>
   
   <tr style= " ">
@@ -571,27 +640,42 @@ $html .= '
   <td rowspan="4"style= " font-size:  4.7pt;  border-left: 1.3px solid black;  border-right: 1.3px solid black;" >a.1. Had to take care of siblings </br> a.2. Early marriage/pregnancy </br> a.3. Parents attitude toward schooling </br> a.4. Family problems</br>  <span style="font-weight:bold;">b. Individual-Related Factors</span> </td>
   <td></td>
   <td colspan="2" rowspan="1"style="font-style: italic; border-bottom: 1.3px solid black;"> (beyond cut-off) </td>
-  </tr>
-  
+  </tr>';
+
+$totalMale = $totalMaleAugustCount + $lateEnrolleesMaleCount;
+$totalFemale = $totalFemaleAugustCount + $lateEnrolleesFemaleCount;
+$total = $totalMale + $totalFemale;
+
+$html .= '
   <tr style= " ">
   <td style="text-align:center; font-size: 5.5pt;">Number of School Days in reporting month</td>
   <td style= " font-size: 5.5pt;"></td>
   <td style= " font-size: 5.5pt;"></td>
   <td colspan="2" style="font-weight:bold; border-bottom: 1.3px solid black; font-size:3.9pt; font-style: italic; border-right: 1.3px solid black;">end of the month</td>
-  <td style="border-bottom: 1.3px solid black;border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >100</td>
-  <td style="border-bottom: 1.3px solid black;border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  </tr>
-  
+  <td style="border-bottom: 1.3px solid black;border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >' . $totalMale . '</td>
+  <td style="border-bottom: 1.3px solid black;border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $totalFemale . '</td>
+  <td style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $total . '</td>
+  </tr>';
+if ($totalMale != 0 && $totalFemale != 0 && $total != 0) {
+  $percentMale = ($totalMale / $totalMaleAugustCount) * 100;
+  $percentFemale = ($totalFemale / $totalFemaleAugustCount) * 100;
+  $percentTotal = ($total / $totalAugust) * 100;
+} else {
+  $percentMale = 0;
+  $percentFemale = 0;
+  $percentTotal = 0;
+}
+
+$html .= '
   <tr style= " ">
   <td rowspan="2" style="padding-left: 25px; font-size: 5.5pt;">C.Percentage of Attendance for the month =  </td>
   <td style="text-align:center;  border-bottom:1px solid black; font-size: 5.5pt; ">Average daily attendance</td>
   <td style= " font-size: 5.5pt;"> </td>
   <td></td>
   <td colspan="2" style=" border-right: 1.3px solid black; font-style: italic; ">Percentage of enrolment as of</td>
-  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >100</td>
+  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $percentMale . '</td>
+  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $percentFemale . '</td>
+  <td rowspan = "3" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >' . $percentTotal . '</td>
   </tr>
   
   <tr style= " ">
@@ -623,10 +707,33 @@ $html .= '
   consecutive days and/or those at risk of dropping out.
   </td>
   <td>  </td>
-  <td rowspan="2" colspan="2" style=" font-size:5pt;font-style: italic; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> Average Daily Attendance</td>
-  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >100</td>
+  <td>  </td>
+  <td rowspan="2" colspan="2" style=" font-size:5pt;font-style: italic; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> Average Daily Attendance</td>';
+if ($totalPresentMale != 0 && $totalAbsentMale != 0) {
+  $averageAttendanceMale = $totalPresentMale / $totalAbsentMale;
+  $averageAttendanceMale = number_format($averageAttendanceMale, 2); // Format to 2 decimal places
+} else {
+  $averageAttendanceMale = 0;
+}
+
+if ($totalPresentFemale != 0 && $totalAbsentFemale != 0) {
+  $averageAttendanceFemale = $totalPresentFemale / $totalAbsentFemale;
+  $averageAttendanceFemale = number_format($averageAttendanceFemale, 2); // Format to 2 decimal places
+} else {
+  $averageAttendanceFemale = 0;
+}
+
+if ($totalAbsent != 0 && $totalPresent != 0) {
+  $averageTotal = $totalAbsent / $totalPresent;
+  $averageTotal = number_format($averageTotal, 2); // Format to 2 decimal places
+} else {
+  $averageTotal = 0;
+}
+
+$html .= '
+  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $averageAttendanceMale . '</td>
+  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $averageAttendanceFemale . '</td>
+  <td rowspan="2" style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >' . $averageTotal . '</td>
   </tr>
    
   <tr>
@@ -634,18 +741,44 @@ $html .= '
   
   <tr>
   <td> </td>
-  <td colspan ="2" style=" font-size:5pt; font-style: italic;   border-bottom: 1.3px solid black; border-right: 1.3px solid black;" > Percentage of Attendance for the month </td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >100</td>
+  <td>  </td>
+  <td colspan ="2" style=" font-size:5pt; font-style: italic;   border-bottom: 1.3px solid black; border-right: 1.3px solid black;" > Percentage of Attendance for the month </td>';
+
+if ($totalMale != 0 && $averageAttendanceMale != 0) {
+  $monthPercentMale = $totalMale / $averageAttendanceMale;
+} else {
+  $monthPercentMale = 0;
+}
+
+if ($totalFemale != 0 && $averageAttendanceFemale != 0) {
+  $monthPercentFemale = $totalFemale / $averageAttendanceFemale;
+} else {
+  $monthPercentFemale = 0;
+}
+
+if ($total != 0 && $averageTotal != 0) {
+  $monthPercent = $total / $averageTotal;
+} else {
+  $monthPercent = 0;
+}
+
+
+$html .= '
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $monthPercentMale . '</td>
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $monthPercentFemale . '</td>
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >' . $monthPercent . '</td>
   </tr>
   
   <tr>
   <td> </td>
-  <td colspan ="2" style=" font-size:5pt; font-style: italic;   border-bottom: 1.3px solid black; border-right: 1.3px solid black;" >Number of student absent for 5 consecutive days</td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">100</td>
-  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >100</td>
+  <td>  </td>
+  <td colspan ="2" style=" font-size:5pt; font-style: italic;   border-bottom: 1.3px solid black; border-right: 1.3px solid black;" >Number of student absent for 5 consecutive days</td>';
+
+$total5Days = $male5Days + $female5Days;
+$html .= '
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $male5Days . '</td>
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;">' . $female5Days . '</td>
+  <td  style="border-bottom: 1.3px solid black; border-right: 1.3px solid black; Text-align:center; font-size: 6pt;" >' . $total5Days . '</td>
   </tr>
   
   <tr>
@@ -668,10 +801,20 @@ $html .= '
   <tr>
   <td colspan ="3" ></td>
   <td rowspan="3"style="border-left: 1.3px solid black;  " ></td>
-  <td   rowspan="3" colspan ="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:5px;">NLPA</td>
-  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P3</td>
-  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P3</td>
-  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P5</td>
+  <td   rowspan="3" colspan ="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:5px;">NLPA</td>';
+
+$maleNLPA = "SELECT * FROM sf2remarks WHERE remarks = 'NLPA' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'M'";
+$maleNLPAResult = $conn->query($maleNLPA);
+$maleNLPACount = $maleNLPAResult->num_rows;
+
+$femaleNLPA = "SELECT * FROM sf2remarks WHERE remarks = 'NLPA' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'F'";
+$femaleNLPAResult = $conn->query($femaleNLPA);
+$femaleNLPACount = $femaleNLPAResult->num_rows;
+
+$html .= '
+  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleNLPACount . '</td>
+  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $femaleNLPACount . '</td>
+  <td rowspan="3" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleNLPACount + $femaleNLPACount . '</td>
   </tr>
   
   <tr>
@@ -692,10 +835,20 @@ $html .= '
   <td colspan ="3" > </td>
   <td rowspan="2" style="VERTICAL-ALIGN:BOTTOM; border-left: 1.3px solid black;  border-right: 1.3px solid black;" > d. Geograpical/Environmental</br></td>
   <td rowspan="2" > </td>
-  <td rowspan="2" colspan="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px;" >Transferred Out </td>
-  <td rowspan="2" style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">3b </td>
-  <td rowspan="2" style="text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >3c </td>
-  <td rowspan="2" style="text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >3c </td>
+  <td rowspan="2" colspan="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px;" >Transferred Out </td>';
+
+$maleTO = "SELECT * FROM sf2remarks WHERE remarks = 'Transferred out' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'M'";
+$maleTOResult = $conn->query($maleTO);
+$maleTOCount = $maleTOResult->num_rows;
+
+$femaleTO = "SELECT * FROM sf2remarks WHERE remarks = 'Transferred out' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'F'";
+$femaleTOResult = $conn->query($femaleTO);
+$femaleTOCount = $femaleTOResult->num_rows;
+
+$html .= '
+  <td rowspan="2" style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleTOCount . '</td>
+  <td rowspan="2" style="text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $femaleTOCount . '</td>
+  <td rowspan="2" style="text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $maleTOCount + $femaleTOCount . '</td>
   </tr>
   
   <tr>
@@ -710,10 +863,20 @@ $html .= '
   d.2. Armed conflict (incl. Tribal wars and clanfeuds) </br>
   d.3. Clamities/Disaster
   <td></td>
-  <td rowspan="1" colspan="2" style=" padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px; " >Transferred In </td>
-  <td rowspan="1" style=" text-align:center;border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">3b </td>
-  <td rowspan="1" style=" text-align:center;border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >3c </td>
-  <td rowspan="1" style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >3c </td>
+  <td rowspan="1" colspan="2" style=" padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px; " >Transferred In </td>';
+
+$maleTI = "SELECT * FROM sf2remarks WHERE remarks = 'Transferred in' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'M'";
+$maleTIResult = $conn->query($maleTI);
+$maleTICount = $maleTIResult->num_rows;
+
+$femaleTI = "SELECT * FROM sf2remarks WHERE remarks = 'Transferred in' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'F'";
+$femaleTIResult = $conn->query($femaleTI);
+$femaleTICount = $femaleTIResult->num_rows;
+
+$html .= '
+  <td rowspan="1" style=" text-align:center;border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleTICount . '</td>
+  <td rowspan="1" style=" text-align:center;border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $femaleTICount . '</td>
+  <td rowspan="1" style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $maleTICount + $femaleTICount . '</td>
   </td>
   
   </tr>
@@ -722,10 +885,20 @@ $html .= '
   <td rowspan="1"colspan ="3" > </td>
   <td style=" text-align:center; border-left: 1.3px solid black;  border-right: 1.3px solid black;" ></td>
   <td ></td>
-  <td colspan="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height: 10px;" >Shifted Out</td>
-  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >33</td>
-  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >33</td>
-  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >33</td>
+  <td colspan="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height: 10px;" >Shifted Out</td>';
+
+$maleSO = "SELECT * FROM sf2remarks WHERE remarks = 'Shifted out' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'M'";
+$maleSOResult = $conn->query($maleSO);
+$maleSOCount = $maleSOResult->num_rows;
+
+$femaleSO = "SELECT * FROM sf2remarks WHERE remarks = 'Shifted out' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'F'";
+$femaleSOResult = $conn->query($femaleSO);
+$femaleSOCount = $femaleSOResult->num_rows;
+
+$html .= '
+  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $maleSOCount . '</td>
+  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $femaleSOCount . '</td>
+  <td style=" text-align:center; border-bottom: 1.3px solid black;  border-right: 1.3px solid black;" >' . $maleSOCount + $femaleSOCount . '</td>
   </tr>
   
   
@@ -734,10 +907,20 @@ $html .= '
     <td colspan ="3" ></td>
     <td rowspan="4" style=" border-left: 1.3px solid black;  border-right: 1.3px solid black; " > </br> e.Financial-Related </br> </br> e.1. Child labor, work</td>
     <td  rowspan="4" ></td>
-    <td   rowspan="4" colspan ="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px;">Shifted In </td>
-    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P3</td>
-    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P3</td>
-    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;"> P5</td>
+    <td   rowspan="4" colspan ="2" style="padding-left: 10px; border-bottom: 1.3px solid black;  border-right: 1.3px solid black; height:35px;">Shifted In </td>';
+
+$maleSI = "SELECT * FROM sf2remarks WHERE remarks = 'Shifted in' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'M'";
+$maleSIResult = $conn->query($maleSI);
+$maleSICount = $maleSIResult->num_rows;
+
+$femaleSI = "SELECT * FROM sf2remarks WHERE remarks = 'Shifted in' AND month = '$currentMonth' AND year = '$currentYear' AND sex = 'F'";
+$femaleSIResult = $conn->query($femaleSI);
+$femaleSICount = $femaleSOResult->num_rows;
+
+$html .= '
+    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleSICount . '</td>
+    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $femaleSICount . '</td>
+    <td rowspan="4" style="text-align:center;    border-bottom: 1.3px solid black;  border-right: 1.3px solid black;">' . $maleSICount + $femaleSICount . '</td>
   </tr>
   
   <tr>

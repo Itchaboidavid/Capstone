@@ -54,70 +54,74 @@ session_start();
                              </div>';
                 }
                 ?>
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-table me-1"></i>
-                            Student table
-                        </div>
-                        <a href="sf8.php" style="border: none; background: transparent;" target="_blank">
-                            <i class="fa-solid fa-print"></i>
-                        </a>
+                <?php
+                $sql = "SELECT * FROM section WHERE is_archived = 0";
+                $result = $conn->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    $sectionName = $row['name'];
+                ?>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-table me-1"></i>
+                                <?php echo $sectionName ?>
+                            </div>
+                            <a href="sf8.php" style="border: none; background: transparent;" target="_blank">
+                                <i class="fa-solid fa-print"></i>
+                            </a>
 
-                    </div>
-                    <div class="card-body">
-                        <table id="datatablesSimple">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Section</th>
-                                    <th>LRN</th>
-                                    <th>Name</th>
-                                    <th>Age</th>
-                                    <th>Sex</th>
-                                    <!-- <th>Weight (kg)</th>
-                                    <th>Height (m)</th>
-                                    <th>Height<sup>2</sup> (m<sup>2</sup>)</th> -->
-                                    <th>BMI<br>(kg/m<sup>2</sup>)</th>
-                                    <th>BMI<br>Category</th>
-                                    <th>HFA <br>(Height for age)</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $student = "SELECT * FROM `student` WHERE is_archived = 0";
-                                $studentResult = $conn->query($student);
-                                $studentCount = 1;
-                                while ($studentRow = $studentResult->fetch_assoc()) :
-                                ?>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $studentCount ?></td>
-                                        <td><?php echo $studentRow["section"] ?></td>
-                                        <td><?php echo $studentRow["lrn"] ?></td>
-                                        <td><?php echo $studentRow["name"] ?></td>
-                                        <td><?php echo $studentRow["age"] ?></td>
-                                        <td><?php echo $studentRow["sex"] ?></td>
-                                        <td><?php echo $studentRow["bmi"] ?></td>
-                                        <td><?php echo $studentRow["bmi_category"] ?></td>
-                                        <td><?php echo $studentRow["hfa_category"] ?></td>
-                                        <td>
-                                            <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </a>
-                                            <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Section</th>
+                                        <th>LRN</th>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Sex</th>
+                                        <th>BMI<br>(kg/m<sup>2</sup>)</th>
+                                        <th>BMI<br>Category</th>
+                                        <th>HFA <br>(Height for age)</th>
+                                        <th>Action</th>
                                     </tr>
-                                <?php
-                                    $studentCount++;
-                                endwhile;
-                                ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $student = "SELECT * FROM `student` WHERE is_archived = 0 AND section = '$sectionName'";
+                                    $studentResult = $conn->query($student);
+                                    $studentCount = 1;
+                                    while ($studentRow = $studentResult->fetch_assoc()) :
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $studentCount ?></td>
+                                            <td><?php echo $studentRow["section"] ?></td>
+                                            <td><?php echo $studentRow["lrn"] ?></td>
+                                            <td><?php echo $studentRow["name"] ?></td>
+                                            <td><?php echo $studentRow["age"] ?></td>
+                                            <td><?php echo $studentRow["sex"] ?></td>
+                                            <td><?php echo $studentRow["bmi"] ?></td>
+                                            <td><?php echo $studentRow["bmi_category"] ?></td>
+                                            <td><?php echo $studentRow["hfa_category"] ?></td>
+                                            <td>
+                                                <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </a>
+                                                <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $studentCount++;
+                                    endwhile;
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </main>
     </div>
