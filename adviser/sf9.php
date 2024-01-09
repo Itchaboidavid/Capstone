@@ -21,14 +21,14 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$currentMonth1 = date('m');
-$currentYear = date('Y');
-$schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth1' AND `year` = '$currentYear'";
-$schoolDaysResult = $conn->query($schoolDays);
-$schoolDaysRow = $schoolDaysResult->fetch_assoc();
+// $currentMonth1 = date('m');
+// $currentYear = date('Y');
+// $schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth1' AND `year` = '$currentYear'";
+// $schoolDaysResult = $conn->query($schoolDays);
+// $schoolDaysRow = $schoolDaysResult->fetch_assoc();
 
-$startDate = $schoolDaysRow['start_date'];
-$endDate = $schoolDaysRow['end_date'];
+// $startDate = $schoolDaysRow['start_date'];
+// $endDate = $schoolDaysRow['end_date'];
 
 //SF9 FRONT
 $html = '
@@ -66,11 +66,9 @@ table{
     <tr style="font-size: 10pt; text-align:center;">
     <td style="width: 79px; height:29px; border-collapse: collapse; border: 1px solid black;" "></td>';
 
-// Get current year
-$currentYear = date('Y');
-
 // Initialize an array to store weekday counts for each month
 $weekdayCounts = array();
+$currentYear = date('Y');
 
 // Initialize total weekdays count
 $totalWeekdays = 0;
@@ -80,20 +78,56 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
     // If the current month is greater than 12, subtract 12 to get the next year
     $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
 
-    // Determine the number of days in the current month
-    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
+    if ($adjustedMonth >= 8) {
+        $currentYear = date('Y');
+        $currentYear--;
+        $month = "SELECT * FROM schoolstart WHERE `month` = $adjustedMonth AND `year` = $currentYear";
+        $monthResult = $conn->query($month);
+    } else {
+        $currentYear = date('Y');
+        $month = "SELECT * FROM schoolstart WHERE `month` = $adjustedMonth AND `year` = $currentYear";
+        $monthResult = $conn->query($month);
+    }
 
-    // Calculate weekdays and weekend days
-    $weekdays = 0;
-    $weekendDays = 0;
 
-    for ($i = $startDate; $i <= $endDate; $i++) {
-        $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+    if ($monthResult->num_rows > 0) {
+        $monthRow = $monthResult->fetch_assoc();
+        $startDate = $monthRow['start_date'];
+        $endDate = $monthRow['end_date'];
+        // Determine the number of days in the current month
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
 
-        if ($day == 'Sat' || $day == 'Sun') {
-            $weekendDays++;
-        } else {
-            $weekdays++;
+        // Calculate weekdays and weekend days
+        $weekdays = 0;
+        $weekendDays = 0;
+
+        for ($i = $startDate; $i <= $endDate; $i++) {
+            $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+
+            if ($day == 'Sat' || $day == 'Sun') {
+                $weekendDays++;
+            } else {
+                $weekdays++;
+            }
+        }
+    } else {
+        $startDate = 0;
+        $endDate = -1;
+        // Determine the number of days in the current month
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
+
+        // Calculate weekdays and weekend days
+        $weekdays = 0;
+        $weekendDays = 0;
+
+        for ($i = $startDate; $i <= $endDate; $i++) {
+            $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+
+            if ($day == 'Sat' || $day == 'Sun') {
+                $weekendDays++;
+            } else {
+                $weekdays++;
+            }
         }
     }
 
@@ -105,7 +139,7 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
 
     // Append HTML for the current month to the $html variable
     $html .= '
-        <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
+     <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
 }
 
 // Now you can use the $html variable as needed.

@@ -54,7 +54,6 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="sf5archived.php" target="_blank">School Form 5</a></li>
-                            <li><a class="dropdown-item" href="sf2PDFarchived.php" target="_blank">School Form 2</a></li>
                         </ul>
                     </div>
                     <div class="card-body">

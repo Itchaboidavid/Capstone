@@ -117,9 +117,9 @@ $obeseResult = mysqli_query($conn, $obese);
 $obeseCount = mysqli_num_rows($obeseResult);
 
 //HFA CHART
-$severelyStunted = "SELECT * FROM `student` WHERE `hfa_category` = 'Severly stunted' AND is_archived = 0";
-$severelyStuntedResult = mysqli_query($conn, $severelyStunted);
-$severelyStuntedCount = mysqli_num_rows($severelyStuntedResult);
+$severelyStunted = "SELECT * FROM student WHERE hfa_category = 'Severely stunted' AND is_archived = 0";
+$severelyStuntedResult = $conn->query($severelyStunted);
+$severelyStuntedCount = $severelyStuntedResult->num_rows;
 
 $stunted = "SELECT * FROM `student` WHERE `hfa_category` = 'Stunted' AND is_archived = 0";
 $stuntedResult = mysqli_query($conn, $stunted);
