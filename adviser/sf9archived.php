@@ -173,7 +173,7 @@ $html .= '
 
 $html .= '
 <img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 480px;" >
-<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 678px;" >
+<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 715px;" >
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> days absent</p></div>

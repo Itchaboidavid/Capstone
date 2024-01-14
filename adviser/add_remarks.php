@@ -127,13 +127,14 @@ if (isset($_POST['add_remarks'])) {
                             <div class="card-footer pe-0">
                                 <div class="ms-auto" style="width: 150px;">
                                     <button type="submit" class="btn btn-primary" name="add_remarks">Save</button>
-                                    <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
+                                    <a href="sf2.php" type="button" class="btn btn-danger">Close</a>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <aside class="col-4">
-                        <img src="../images/sf2remarks.png" alt="sf 2 remarks" style="width: 250px;">
+                    <aside class="col-4 pb-3">
+                        <img src="../images/sf2remarks1.png" alt="sf 2 remarks" style="width: 250px;">
+
                     </aside>
                 </div>
             </div>

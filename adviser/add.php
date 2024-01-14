@@ -100,8 +100,8 @@ $studentRow = $studentResult->fetch_assoc();
                                         <td style="width: 100px;">Semester</td>
                                         <td style="width: 150px;">Subject Type</td>
                                         <td>Subject Title</td>
-                                        <td style="width: 100px;">Quarter Grade</td>
-                                        <td style="width: 100px;">Quarter Grade</td>
+                                        <td style="width: 100px;">1st Quarter Grade</td>
+                                        <td style="width: 100px;">2nd Quarter Grade</td>
                                         <td style="width: 130px;">Sem Final Grade</td>
                                     </tr>
                                 </thead>
@@ -142,6 +142,16 @@ $studentRow = $studentResult->fetch_assoc();
                                     ?>
                                     <tr>
                                         <td colspan="6" class="fw-bold text-center">2nd Semester</td>
+                                        <thead>
+                                            <tr class="fw-bold" style="font-size: 14px;">
+                                                <td style="width: 100px;">Semester</td>
+                                                <td style="width: 150px;">Subject Type</td>
+                                                <td>Subject Title</td>
+                                                <td style="width: 100px;">3rd Quarter Grade</td>
+                                                <td style="width: 100px;">4th Quarter Grade</td>
+                                                <td style="width: 130px;">Sem Final Grade</td>
+                                            </tr>
+                                        </thead>
                                     </tr>
                                     <?php
                                     for ($i = 1; $i <= 10; $i++) {

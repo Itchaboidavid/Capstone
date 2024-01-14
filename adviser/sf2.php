@@ -77,6 +77,18 @@ if (isset($_POST['add_student'])) {
         url.searchParams.delete('errmsg');
         window.history.replaceState({}, document.title, url);
     </script>
+    <script>
+        function checkAllCheckboxes(masterCheckbox) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"][name^="attendance"]');
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = masterCheckbox.checked;
+            });
+        }
+
+        // Existing deleteAttendance function...
+    </script>
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -150,6 +162,13 @@ if (isset($_POST['add_student'])) {
                             echo '<table class="table table-sm border table-striped table-hover">';
                             echo '<tr>';
                             echo '<td class="fw-bold table-success">Month: ' . date('F', strtotime('2023-' . $currentMonth . '-01')) . '</td>';
+                            echo '<td colspan="2">                            
+                                    <div>
+                                        <!-- Add this checkbox at the beginning of the table -->
+                                        <label for="checkAll" class="fw-bold">Check all</label>
+                                        <input type="checkbox" id="checkAll" onchange="checkAllCheckboxes(this)" class="ms-1">
+                                    </div>
+                                 </td>';
                             echo '</tr>';
                             echo '<tr>';
                             echo '<th rowspan="3" style="vertical-align:middle;" class="table-success">Student name</th><th rowspan="3" style="vertical-align:middle;" class="table-success">Gender</th>';

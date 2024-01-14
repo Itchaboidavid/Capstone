@@ -104,13 +104,12 @@ session_start();
                                         </div>
                                         <div class="form-floating mb-3 ">
                                             <select class="form-select bg-body-tertiary" name="sy" id="sy" placeholder="sy" required>
-                                                <option value="" selected>School year</option>
                                                 <?php
                                                 $select = "SELECT * FROM `school_year` WHERE is_archived = 0 ORDER BY `start_year`, end_year ASC";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option value="<?php echo $row["id"] ?>"><?php echo $row["sy"] ?></option>
+                                                    <option value="<?php echo $row["id"] ?>" selected><?php echo $row["sy"] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>

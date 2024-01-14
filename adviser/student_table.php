@@ -89,14 +89,20 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                     <th>Sex</th>
                                     <th>Birthday</th>
                                     <th>Age</th>
-                                    <th>Grade & Section</th>
-                                    <th>Status</th>
+                                    <th>Grade & <br>Section</th>
+                                    <th>School Form <br>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 ORDER BY `name` ASC";
+                                $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                                $syResult = $conn->query($sy);
+                                $syRow = $syResult->fetch_assoc();
+
+                                $syID = $syRow['id'];
+
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 AND school_year_id = '$syID' ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
                                 $studentCount = 1;
                                 while ($studentRow = $studentResult->fetch_assoc()) :

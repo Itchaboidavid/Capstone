@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #023047;">
+<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
     <a class=" navbar-brand ps-3 text-uppercase" href="dashboard.php">
         <?php
@@ -29,15 +29,13 @@
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #023047;">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #001233;">
             <div class=" sb-sidenav-menu">
-                <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
+                <div class="nav mt-3">
                     <a class="nav-link" href="dashboard.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <div class="sb-sidenav-menu-heading">Sub</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                         Students
@@ -55,23 +53,9 @@
                             </a>
                         </nav>
                     </div>
-                    <!-- Archived Classes -->
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#archivedClasses">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-box-archive"></i></div>
-                        Archived Classes
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="archivedClasses" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link" href="archived_classes.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Archived table
-                            </a>
-                        </nav>
-                    </div> -->
                 </div>
             </div>
-            <div class="sb-sidenav-footer" style="background: #003566;">
+            <div class="sb-sidenav-footer" style="background: #03045e;">
                 <div class="small">Logged in as:</div>
                 <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
             </div>

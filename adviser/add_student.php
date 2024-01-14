@@ -137,7 +137,7 @@ if (isset($_POST["add_student"])) {
                         </ol>
                     </div>
                 </div>
-                <form action="" method="POST">
+                <form action="" method="POST" class="needs-validation" novalidate>
                     <div class="card mb-5">
                         <div class="card-header">
                             <h4>Add Student</h4>
@@ -312,7 +312,7 @@ if (isset($_POST["add_student"])) {
             </div>
         </main>
     </div>
-
+    <script src="../index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

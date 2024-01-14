@@ -9,7 +9,13 @@ $pdf->SetMargins(10, 0, 5);
 
 $id = $_SESSION['id'];
 
-$sectionsf5 = "SELECT * FROM `section` WHERE `adviser_id` = '$id'";
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+
+$syID = $syRow['id'];
+
+$sectionsf5 = "SELECT * FROM `section` WHERE `adviser_id` = '$id' AND school_year_id = '$syID'";
 $sectionsf5Result = $conn->query($sectionsf5);
 $sectionsf5Row = $sectionsf5Result->fetch_assoc();
 
@@ -365,9 +371,10 @@ $pdf->SetXY(194.8, 194);
 $pdf->CellFitSpaceForce(77.5, 8, "of learners who completed/satisfied the requirements in all", 0, 1);
 
 
+
 //MALE TABLE
 $nameOfSection = $sectionsf5Row["name"];
-$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection'";
+$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' AND is_archived = 0 AND school_year_id = '$syID'";
 $resultMaleStudent = mysqli_query($conn, $maleStudent);
 $pdf->SetXY(10, 89.5);
 $countsf5A = 1;

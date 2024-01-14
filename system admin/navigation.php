@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #023047;">
+<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
     <!-- Sidebar Toggle-->
@@ -10,7 +10,6 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="account.php">Account</a></li>
-                    <li><a class="dropdown-item" href="school_settings.php">School settings</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
@@ -22,15 +21,13 @@
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #023047;">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: #001233;">
             <div class=" sb-sidenav-menu">
-                <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
+                <div class="nav mt-3">
                     <a class="nav-link" href="dashboard.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <div class="sb-sidenav-menu-heading">Sub</div>
                     <!-- FACULTY -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#facultyCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
@@ -94,7 +91,7 @@
                     <div class="collapse" id="schoolyearCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="sy_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar"></i></div>
                                 S.Y table
                             </a>
                         </nav>
@@ -115,9 +112,16 @@
                             </a>
                         </nav>
                     </div>
+                    <!-- School Settings -->
+                    <a class="nav-link collapsed" href="school_settings.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        School Settings
+                    </a>
                 </div>
             </div>
-            <div class="sb-sidenav-footer" style="background: #003566;">
+            <div class="sb-sidenav-footer" style="background: #03045e;">
                 <div class="small">Logged in as:</div>
                 <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
             </div>

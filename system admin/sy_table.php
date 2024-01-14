@@ -128,10 +128,17 @@ session_start();
                                             <a href="edit_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" class="me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-                                            <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
-                                                <i class="fa-regular fa-folder-open"></i>
+                                            <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year?');">
+                                                <?php
+                                                if ($schoolyearRow["is_archived"] == 0) { ?>
+                                                    <i class="fa-solid fa-toggle-on"></i>
+                                                <?php } else { ?>
+                                                    <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year?');">
+                                                        <i class="fa-solid fa-toggle-off"></i>
+                                                    </a>
+                                                <?php }
+                                                ?>
                                             </a>
-
                                         </td>
                                     </tr>
                                 <?php

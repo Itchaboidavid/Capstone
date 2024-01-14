@@ -138,7 +138,7 @@ session_start();
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Section</th>
-                                    <th>Status</th>
+                                    <th>Account <br>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
