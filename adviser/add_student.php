@@ -4,6 +4,12 @@ session_start();
 
 //ADD STUDENT
 if (isset($_POST["add_student"])) {
+    $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+    $syResult = $conn->query($sy);
+    $syRow = $syResult->fetch_assoc();
+    $school_year_id = $syRow['id'];
+    $syName = $syRow['sy'];
+
     $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
@@ -41,22 +47,13 @@ if (isset($_POST["add_student"])) {
     $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
 
-    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section'";
+    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id'";
     $sectionNameResult = mysqli_query($conn, $sectionName);
     $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
 
     $track = $sectionNameRow["track"];
     $strand = $sectionNameRow["strand"];
     $grade = $sectionNameRow["grade"];
-
-    $sy_id = $sectionNameRow['school_year_id'];
-
-    //To get school year
-    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
-    $schoolYearResult = $conn->query($schoolYear);
-    $schoolYearRow = $schoolYearResult->fetch_assoc();
-    //School year
-    $sy = $schoolYearRow['sy'];
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
@@ -71,7 +68,7 @@ if (isset($_POST["add_student"])) {
     } else {
         $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`)
          VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$sy_id', '$sy',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
+         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$school_year_id', '$syName',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
         exit();

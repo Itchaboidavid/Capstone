@@ -34,6 +34,11 @@ session_start();
                     $advisedResult = $conn->query($advised);
                     $advisedRow = $advisedResult->fetch_assoc();
 
+                    $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                    $syResult = $conn->query($sy);
+                    $syRow = $syResult->fetch_assoc();
+                    $school_year_id = $syRow['id'];
+
                     if ($advisedRow['section'] != "") {
                     ?>
                         <div class="col-xl-4 col-md-6">
@@ -42,7 +47,7 @@ session_start();
                                     <h4 style="text-shadow: 1px 1px 3px black;">
                                         <?php
                                         $sectionName = $advisedRow['section'];
-                                        $section = "SELECT * FROM section WHERE name = '$sectionName' AND is_archived = 0";
+                                        $section = "SELECT * FROM section WHERE name = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
                                         $sectionResult = $conn->query($section);
                                         $sectionRow = $sectionResult->fetch_assoc();
 
@@ -53,11 +58,11 @@ session_start();
                                 <div class="card-body">
                                     <span style="text-shadow: 1px 1px 3px black;" class="fs-6">
                                         <?php
-                                        $lalaki = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'M' AND is_archived = 0";
+                                        $lalaki = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'M' AND is_archived = 0 AND school_year_id = $school_year_id";
                                         $lalakiResult = $conn->query($lalaki);
                                         $lalakiCount = $lalakiResult->num_rows;
 
-                                        $babae = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'F' AND is_archived = 0";
+                                        $babae = "SELECT * FROM student WHERE section = '$sectionName' AND sex = 'F' AND is_archived = 0 AND school_year_id = $school_year_id";
                                         $babaeResult = $conn->query($babae);
                                         $babaeCount = $babaeResult->num_rows;
                                         echo 'Male : ' . $lalakiCount . '<br>';
@@ -101,7 +106,7 @@ session_start();
                                 <?php
                                 $currentMonth = date('m');
                                 $section = $_SESSION['section'];
-                                $attendance = "SELECT * FROM sf2 WHERE `student_section` = '$section' AND attendance_month = '$currentMonth'";
+                                $attendance = "SELECT * FROM sf2 WHERE `student_section` = '$section' AND attendance_month = '$currentMonth' AND school_year_id = $school_year_id";
                                 $attendanceResult = $conn->query($attendance);
                                 $attendanceCount = $attendanceResult->num_rows;
                                 ?>
@@ -190,7 +195,7 @@ session_start();
 
 <?php
 $section = $advisedRow['section'];
-$students = "SELECT * FROM `student` WHERE `section` = '$section'";
+$students = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND school_year_id = $school_year_id";
 $studentsResult = $conn->query($students);
 $studentsCount = $studentsResult->num_rows;
 

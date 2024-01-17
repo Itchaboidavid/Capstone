@@ -3,8 +3,12 @@ include("../config.php");
 session_start();
 
 $sectionName = $_SESSION['section'];
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
 
-$studentSection = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$studentSection = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $studentSectionResult = $conn->query($studentSection);
 $studentSectionRow = $studentSectionResult->fetch_assoc();
 ?>
@@ -96,13 +100,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             </thead>
                             <tbody>
                                 <?php
-                                $sy = "SELECT * FROM school_year WHERE is_archived = 0";
-                                $syResult = $conn->query($sy);
-                                $syRow = $syResult->fetch_assoc();
-
-                                $syID = $syRow['id'];
-
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 AND school_year_id = '$syID' ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
                                 $studentCount = 1;
                                 while ($studentRow = $studentResult->fetch_assoc()) :

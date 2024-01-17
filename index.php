@@ -73,7 +73,6 @@ if (isset($_SESSION['user_logged_in'])) {
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="index.css">
   <title>LOGIN</title>
 
   <style>
@@ -89,24 +88,24 @@ if (isset($_SESSION['user_logged_in'])) {
     }
 
     #loginBtn {
-      background-color: #023047;
+      background-color: #001233;
       color: #fff;
     }
 
     #loginBtn:hover {
       background-color: #fff;
-      color: #023047;
+      color: #001233;
     }
   </style>
 </head>
 
 <body class="min-vh-100" id="loginBg">
   <div class="container">
-    <div class="row" style="border-radius: 10px; background-color: #fff; width: 900px; margin: 100px auto 0;">
+    <div class="row" style="border-radius: 10px; background-color: #fff; width: 900px; margin: 100px auto 0; box-shadow: 5px 10px 10px black;">
       <div class="col-8 text-center rounded-3" style="height: 450px; background-image: url(images/login_bg.jpg); background-size: cover; background-repeat: no-repeat; background-position: top;">
       </div>
       <!-- LOGIN FORM -->
-      <div class="col-4 text-center px-4 py-4 rounded-3 bg-body-secondary" style="box-shadow: 3px 5px 20px black; position: relative;">
+      <div class="col-4 text-center px-4 py-4 rounded-3 bg-body-secondary" style=" position: relative;">
         <img src="images/logo.png" alt="TC LOGO" style="width: 70px; height: 70px;">
         <h2 class="mt-2 fw-bold text-shadow: 2px 2px 3px black;">LOGIN</h2>
         <?php

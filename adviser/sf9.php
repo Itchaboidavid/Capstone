@@ -12,7 +12,7 @@ $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
 $id = $_GET['id'];
-$select = "SELECT *  FROM `student` WHERE `id` = '$id' AND is_archived = 0";
+$select = "SELECT *  FROM `student` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
 $student = $row['name'];
@@ -20,15 +20,6 @@ $student = $row['name'];
 $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
-
-// $currentMonth1 = date('m');
-// $currentYear = date('Y');
-// $schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth1' AND `year` = '$currentYear'";
-// $schoolDaysResult = $conn->query($schoolDays);
-// $schoolDaysRow = $schoolDaysResult->fetch_assoc();
-
-// $startDate = $schoolDaysRow['start_date'];
-// $endDate = $schoolDaysRow['end_date'];
 
 //SF9 FRONT
 $html = '
@@ -152,14 +143,29 @@ $html .= '
 
 $totalPresent = 0;
 
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
+
 for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+    $currentYear = date('Y');
     // If the current month is greater than 12, subtract 12 to get the next year
     $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
 
-    $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
-    $presentResult = $conn->query($present);
-    $presentCount = $presentResult->num_rows;
-    $totalPresent += $presentCount;
+    if ($adjustedMonth >= 8) {
+        $currentYear--;
+        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth' AND attendance_year = '$currentYear' AND school_year_id = '$school_year_id'";
+        $presentResult = $conn->query($present);
+        $presentCount = $presentResult->num_rows;
+        $totalPresent += $presentCount;
+    } else {
+        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth' AND attendance_year = '$currentYear' AND school_year_id = '$school_year_id'";
+        $presentResult = $conn->query($present);
+        $presentCount = $presentResult->num_rows;
+        $totalPresent += $presentCount;
+    }
+
 
     if ($presentCount > 0) {
         $html .= '<td style=" border: 1px solid black; width: 20px;">' . $presentCount . '</td>';
@@ -179,21 +185,38 @@ $html .= '
 $totalAbsent = 0;
 
 for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+    $currentYear = date('Y');
     // If the current month is greater than 12, subtract 12 to get the next year
     $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+    if ($adjustedMonth >= 8) {
+        $currentYear--;
+        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+        $presentResult = $conn->query($present);
+        $presentCount = $presentResult->num_rows;
 
-    $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
-    $presentResult = $conn->query($present);
-    $presentCount = $presentResult->num_rows;
-
-    if ($presentCount > 0) {
-        $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
-        $html .= '
-        <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
-        $totalAbsent += $absentMonth;
+        if ($presentCount > 0) {
+            $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+            $html .= '
+            <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
+            $totalAbsent += $absentMonth;
+        } else {
+            $html .= '
+            <td style=" border: 1px solid black; width: 20px;"></td>';
+        }
     } else {
-        $html .= '
-        <td style=" border: 1px solid black; width: 20px;"></td>';
+        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+        $presentResult = $conn->query($present);
+        $presentCount = $presentResult->num_rows;
+
+        if ($presentCount > 0) {
+            $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+            $html .= '
+            <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
+            $totalAbsent += $absentMonth;
+        } else {
+            $html .= '
+            <td style=" border: 1px solid black; width: 20px;"></td>';
+        }
     }
 }
 

@@ -735,18 +735,19 @@ if (isset($_POST['submit'])) {
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
     $lrn = $studentRow['lrn'];
+    $school_year_id = $studentRow['school_year_id'];
 
     $completed = $conn->escape_string($_POST['completed']);
     $nc = $conn->escape_string($_POST['nc']);
 
-    $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
+    $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName' AND school_year_id = '$school_year_id'";
     $sf5bResult = $conn->query($sf5b);
     $sf5bCount = $sf5bResult->num_rows;
 
     if ($sf5bCount > 0) {
         echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in SF5B!';</script>";
     } else {
-        $insertSF5B = "INSERT INTO `sf5b`(`lrn`, `student_name`, `completed`, `nc`, `section`, `sex`) VALUES ('$lrn','$studentName','$completed','$nc','$section','$sex')";
+        $insertSF5B = "INSERT INTO `sf5b`(`lrn`, `student_name`, `school_year_id`, `completed`, `nc`, `section`, `sex`) VALUES ('$lrn','$studentName', '$school_year_id','$completed','$nc','$section','$sex')";
         $conn->query($insertSF5B);
     }
 
@@ -758,8 +759,8 @@ if (isset($_POST['submit'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        $stmt = $conn->prepare("INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $studentName, $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section);
+        $stmt = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssss", $studentName, $school_year_id,  $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section);
         $stmt->execute();
         $stmt->close();
     }
@@ -772,8 +773,8 @@ if (isset($_POST['submit'])) {
         $second2 = (float)$_POST['second2' . $i];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        $stmt2 = $conn->prepare("INSERT INTO `sf9`(`student_name`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt2->bind_param("sssssssss", $studentName, $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $sex, $section);
+        $stmt2 = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt2->bind_param("ssssssssss", $studentName, $school_year_id,  $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $sex, $section);
         $stmt2->execute();
         $stmt2->close();
     }
@@ -855,7 +856,7 @@ if (isset($_POST['submit'])) {
         $finalGrade = ($first + $second) / 2;
         $action = $conn->real_escape_string($_POST['action' . $i]);
 
-        $sql = "INSERT INTO `sf10remedial`(`student_name`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`, `section`) VALUES ('$studentName','$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex', '$section')";
+        $sql = "INSERT INTO `sf10remedial`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`, `section`) VALUES ('$studentName', '$school_year_id', '$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex', '$section')";
         $sqlResult = $conn->query($sql);
     }
 

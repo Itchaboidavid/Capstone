@@ -8,7 +8,7 @@ if (isset($_POST['add_student'])) {
 
     function getStudentInfo($conn, $studentId, $currentMonth, $currentYear)
     {
-        $stmt = $conn->prepare("SELECT name, section, sex FROM student WHERE id = ? AND is_archived = 0");
+        $stmt = $conn->prepare("SELECT name, section, sex, school_year_id FROM student WHERE id = ? AND is_archived = 0");
         $stmt->bind_param("i", $studentId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -21,7 +21,9 @@ if (isset($_POST['add_student'])) {
         return $studentInfo;
     }
 
+
     try {
+        // Inside the foreach loop where you handle attendance data
         foreach ($_POST['attendance'] as $studentId => $attendanceData) {
             foreach ($attendanceData as $day => $status) {
                 $currentMonth = date('m');
@@ -37,9 +39,12 @@ if (isset($_POST['add_student'])) {
 
                 if ($recordCount == 0) {
                     // Record doesn't exist, insert a new one
-                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, day, attendance_status, attendance_month, attendance_year) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $insertStmt = $conn->prepare("INSERT INTO sf2 (student_id, student_name, student_section, sex, school_year_id, day, attendance_status, attendance_month, attendance_year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                    // Get student information including school_year_id
                     $studentInfo = getStudentInfo($conn, $studentId, $currentMonth, $currentYear);
-                    $insertStmt->bind_param("isssssii", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $day, $status, $currentMonth, $currentYear);
+
+                    $insertStmt->bind_param("isssisssi", $studentId, $studentInfo['name'], $studentInfo['section'], $studentInfo['sex'], $studentInfo['school_year_id'], $day, $status, $currentMonth, $currentYear);
                     $insertStmt->execute();
                 }
 
@@ -134,9 +139,14 @@ if (isset($_POST['add_student'])) {
                         </div>
                         <div class="card-body row g-1">
                             <?php
+                            $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                            $syResult = $conn->query($sy);
+                            $syRow = $syResult->fetch_assoc();
+                            $school_year_id = $syRow['id'];
+
                             $section = $_SESSION['section'];
                             // Get student information
-                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0 ORDER BY `sex`, `name` ASC");
+                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0 AND school_year_id = $school_year_id ORDER BY `sex`, `name` ASC");
 
                             // Get current month and year
                             $currentMonth = date('m');
