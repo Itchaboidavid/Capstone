@@ -18,6 +18,7 @@ if (isset($_POST["login"])) {
         header("location: system admin/dashboard.php");
       } elseif ($row_login["user_type"] == "Adviser") {
         $_SESSION["id"] = $row_login["id"];
+        $_SESSION["username"] = $row_login["username"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         $_SESSION["section"] = $row_login["section"];

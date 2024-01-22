@@ -1,6 +1,22 @@
 <?php
 include("../config.php");
 session_start();
+
+if (isset($_POST["submit"])) {
+    $username = $_SESSION['username'];
+    $password = md5($_POST['password']);
+
+    $user = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+    $userResult = $conn->query($user);
+
+    if ($userResult->num_rows > 0) {
+        header("location: archived_classes.php");
+    } else {
+        echo '<script>alert("Password does not match. Please try again.");</script>';
+        echo '<script>window.location.href = "dashboard.php";</script>';
+        exit; // Make sure to exit after the redirect to prevent further execution of the script
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -133,8 +149,32 @@ session_start();
                                 <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Archived classes : <?php echo $archivedClassesCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="javascript:void(0);" onclick="confirmPassword()">View Details</a>
+                                <a class="small text-white stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#archiveModal">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="archiveModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-dark" id="archiveModalLabel">Archived Classes</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form action="dashboard.php" method="POST">
+                                            <div class="modal-body text-dark">
+                                                <div class="mb-3 form-floating input-container" style="position: relative;">
+                                                    <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px;" />
+                                                    <label for=" password" class="form-label text-dark"></i>Please enter your password</label>
+                                                    <button type="button" class="btn" onclick="togglePasswordVisibility()" style="position: absolute; top: 0; right: 0; height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;"><i class="bi bi-eye"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,19 +208,17 @@ session_start();
         </main>
     </div>
     </div>
-
-    <?php
-    $password = $_SESSION['password'];
-    ?>
     <script>
-        function confirmPassword() {
-            var password = prompt("Please enter your password:", "");
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const button = document.querySelector('button[onclick="togglePasswordVisibility()"]');
 
-            // You should replace 'your_actual_password' with the actual password for verification
-            if (password === '<?php echo $password; ?>') {
-                window.location.href = 'archived_classes.php';
+            if (passwordField.getAttribute('type') === "password") {
+                passwordField.setAttribute('type', 'text');
+                button.innerHTML = '<i class="bi bi-eye-slash"></i>';
             } else {
-                alert('Incorrect password. Please try again.');
+                passwordField.setAttribute('type', 'password');
+                button.innerHTML = '<i class="bi bi-eye"></i>';
             }
         }
     </script>
