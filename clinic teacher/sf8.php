@@ -9,11 +9,17 @@ $pdf = new TCPDF('P', 'mm', 'LETTER');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
+
 $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$sections = "SELECT * FROM `section` WHERE is_archived = 0";
+$id = $_GET['id'];
+$sections = "SELECT * FROM `section` WHERE id = '$id' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page

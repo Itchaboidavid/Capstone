@@ -11,44 +11,47 @@ $option = new Options();
 $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
-$section = $_SESSION['section'];
-$select = "SELECT * FROM student WHERE section = '$section' AND is_archived = 0";
-$results = $conn->query($select);
-foreach ($results as $result) {
+$school = "SELECT * FROM school WHERE id = '1'";
+$schoolResult = $conn->query($school);
+$schoolRow = $schoolResult->fetch_assoc();
 
-    $student = $result['name'];
-    $id = $result['id'];
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
 
-    $school = "SELECT * FROM school WHERE id = '1'";
-    $schoolResult = $conn->query($school);
-    $schoolRow = $schoolResult->fetch_assoc();
+$adviser_id = $_SESSION['id'];
+$section = "SELECT * FROM section WHERE adviser_id = '$adviser_id' AND school_year_id = '$school_year_id' AND is_archived = 0";
+$sectionResult = $conn->query($section);
+$sectionRow = $sectionResult->fetch_assoc();
+$sectionName = $sectionRow['name'];
 
-    $currentMonth1 = date('m');
-    $currentYear = date('Y');
-    $schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth1' AND `year` = '$currentYear'";
-    $schoolDaysResult = $conn->query($schoolDays);
-    $schoolDaysRow = $schoolDaysResult->fetch_assoc();
+$students = "SELECT * FROM student WHERE section = '$sectionName' AND school_year_id = '$school_year_id' AND is_archived = 0 ORDER BY `name`";
+$studentResult = $conn->query($students);
+$studentRows = $studentResult->fetch_all(MYSQLI_ASSOC);
 
-    $startDate = $schoolDaysRow['start_date'];
-    $endDate = $schoolDaysRow['end_date'];
+$html = '';
+
+foreach ($studentRows as $studentRow) {
+    $id = $studentRow['id'];
+    $student = $studentRow['name'];
 
     //SF9 FRONT
-    $html = '
-
-    <style>
-    table{
+    $html .= '
+<style>
+table{
     border-collapse: collapse;
-    }
+}
 
-    *{
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    </style>
+*{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+</style>
 
-    <p style=" font-size: 13.5px;margin-left: 97px; margin-top: -7px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
-    <div><p style=" font-size: 12px;margin-left: 480px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
+<p style=" font-size: 13.5px;margin-left: 97px; margin-top: -7px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
+<div><p style=" font-size: 12px;margin-left: 480px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
 
-    <table style="margin-left: -24px; margin-top: 19px; ">
+<table style="margin-left: -24px; margin-top: 19px; ">
      <tr style="font-size: 8.5pt; text-align:center; ">
         <td style="border-collapse: collapse; border: 1px solid black;Height:15px; "> </td>
         <td style="  border: 1px solid black;" > Aug</td>
@@ -68,11 +71,9 @@ foreach ($results as $result) {
     <tr style="font-size: 10pt; text-align:center;">
     <td style="width: 79px; height:29px; border-collapse: collapse; border: 1px solid black;" "></td>';
 
-    // Get current year
-    $currentYear = date('Y');
-
     // Initialize an array to store weekday counts for each month
     $weekdayCounts = array();
+    $currentYear = date('Y');
 
     // Initialize total weekdays count
     $totalWeekdays = 0;
@@ -81,21 +82,55 @@ foreach ($results as $result) {
     for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
         // If the current month is greater than 12, subtract 12 to get the next year
         $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+        $currentYear = date('Y');
 
-        // Determine the number of days in the current month
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
+        if ($adjustedMonth >= 8) {
+            $currentYear--;
+            $month = "SELECT * FROM schoolstart WHERE `month` = $adjustedMonth AND `year` = $currentYear";
+            $monthResult = $conn->query($month);
+        } else {
+            $month = "SELECT * FROM schoolstart WHERE `month` = $adjustedMonth AND `year` = $currentYear";
+            $monthResult = $conn->query($month);
+        }
 
-        // Calculate weekdays and weekend days
-        $weekdays = 0;
-        $weekendDays = 0;
+        if ($monthResult->num_rows > 0) {
+            $monthRow = $monthResult->fetch_assoc();
+            $startDate = $monthRow['start_date'];
+            $endDate = $monthRow['end_date'];
+            // Determine the number of days in the current month
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
 
-        for ($i = $startDate; $i <= $endDate; $i++) {
-            $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+            // Calculate weekdays and weekend days
+            $weekdays = 0;
+            $weekendDays = 0;
 
-            if ($day == 'Sat' || $day == 'Sun') {
-                $weekendDays++;
-            } else {
-                $weekdays++;
+            for ($i = $startDate; $i <= $endDate; $i++) {
+                $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+
+                if ($day == 'Sat' || $day == 'Sun') {
+                    $weekendDays++;
+                } else {
+                    $weekdays++;
+                }
+            }
+        } else {
+            $startDate = 0;
+            $endDate = -1;
+            // Determine the number of days in the current month
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $adjustedMonth, $currentYear);
+
+            // Calculate weekdays and weekend days
+            $weekdays = 0;
+            $weekendDays = 0;
+
+            for ($i = $startDate; $i <= $endDate; $i++) {
+                $day = date('D', strtotime($currentYear . '-' . $adjustedMonth . '-' . $i));
+
+                if ($day == 'Sat' || $day == 'Sun') {
+                    $weekendDays++;
+                } else {
+                    $weekdays++;
+                }
             }
         }
 
@@ -107,7 +142,7 @@ foreach ($results as $result) {
 
         // Append HTML for the current month to the $html variable
         $html .= '
-        <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
+     <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
     }
 
     // Now you can use the $html variable as needed.
@@ -122,14 +157,29 @@ foreach ($results as $result) {
 
     $totalPresent = 0;
 
+    $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+    $syResult = $conn->query($sy);
+    $syRow = $syResult->fetch_assoc();
+    $school_year_id = $syRow['id'];
+
     for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+        $currentYear = date('Y');
         // If the current month is greater than 12, subtract 12 to get the next year
         $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
 
-        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
-        $presentResult = $conn->query($present);
-        $presentCount = $presentResult->num_rows;
-        $totalPresent += $presentCount;
+        if ($adjustedMonth >= 8) {
+            $currentYear--;
+            $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth' AND attendance_year = '$currentYear' AND school_year_id = '$school_year_id'";
+            $presentResult = $conn->query($present);
+            $presentCount = $presentResult->num_rows;
+            $totalPresent += $presentCount;
+        } else {
+            $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth' AND attendance_year = '$currentYear' AND school_year_id = '$school_year_id'";
+            $presentResult = $conn->query($present);
+            $presentCount = $presentResult->num_rows;
+            $totalPresent += $presentCount;
+        }
+
 
         if ($presentCount > 0) {
             $html .= '<td style=" border: 1px solid black; width: 20px;">' . $presentCount . '</td>';
@@ -149,223 +199,240 @@ foreach ($results as $result) {
     $totalAbsent = 0;
 
     for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
+        $currentYear = date('Y');
         // If the current month is greater than 12, subtract 12 to get the next year
         $adjustedMonth = ($currentMonth > 12) ? $currentMonth - 12 : $currentMonth;
+        if ($adjustedMonth >= 8) {
+            $currentYear--;
+            $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+            $presentResult = $conn->query($present);
+            $presentCount = $presentResult->num_rows;
 
-        $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
-        $presentResult = $conn->query($present);
-        $presentCount = $presentResult->num_rows;
-
-        if ($presentCount > 0) {
-            $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
-            $html .= '
-        <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
-            $totalAbsent += $absentMonth;
+            if ($presentCount > 0) {
+                $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+                $html .= '
+            <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
+                $totalAbsent += $absentMonth;
+            } else {
+                $html .= '
+            <td style=" border: 1px solid black; width: 20px;"></td>';
+            }
         } else {
-            $html .= '
-        <td style=" border: 1px solid black; width: 20px;"></td>';
+            $present = "SELECT * FROM sf2 WHERE student_id = '$id' AND attendance_month = '$adjustedMonth'";
+            $presentResult = $conn->query($present);
+            $presentCount = $presentResult->num_rows;
+
+            if ($presentCount > 0) {
+                $absentMonth = $weekdayCounts[$adjustedMonth] - $presentCount;
+                $html .= '
+            <td style=" border: 1px solid black; width: 20px;">' . $absentMonth . '</td>';
+                $totalAbsent += $absentMonth;
+            } else {
+                $html .= '
+            <td style=" border: 1px solid black; width: 20px;"></td>';
+            }
         }
     }
 
     $html .= '
     <td style="border: 1px solid black;" >' . $totalAbsent . '</td>
     </tr>
-    </table>
-    ';
+</table>
+';
 
     $html .= '
-    <img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 480px;" >
-    <img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 678px;" >
-    <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
-    <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
-    <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> days absent</p></div>
-    ';
+<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 480px;" >
+<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 715px;" >
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
+<div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> days absent</p></div>
+';
 
     $html .= '
 
-    <table style="margin-left: -26px; border: 0px solid black; margin-top:90px;">
-        <tr>
-        <td colspan="2" style="border: 0px solid black; font-size: 13.5px; font-weight:bold;  width: 358px; padding-left: 95px; height:20px"> PARENT/GUARDIAN&rsquo;S SIGNATURE </td>
-        </tr>
+<table style="margin-left: -26px; border: 0px solid black; margin-top:90px;">
+    <tr>
+      <td colspan="2" style="border: 0px solid black; font-size: 13.5px; font-weight:bold;  width: 358px; padding-left: 95px; height:20px"> PARENT/GUARDIAN&rsquo;S SIGNATURE </td>
+    </tr>
 
-        <tr style=" border: 0px solid black;">
-        <td style=" vertical-align:bottom; height:34px;border: 0px solid black; font-size: 13.5px; width:80px;"> 1st Quarter</td>
-        <td style=" border-bottom: 1px solid black; width:365px;">  </td>
-        </tr>
-        <tr style=" border: 0px solid black;">
-        <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 2nd Quarter</td>
-        <td style=" border-bottom: 1px solid black; width:365px;">  </td>
+    <tr style=" border: 0px solid black;">
+      <td style=" vertical-align:bottom; height:34px;border: 0px solid black; font-size: 13.5px; width:80px;"> 1st Quarter</td>
+      <td style=" border-bottom: 1px solid black; width:365px;">  </td>
     </tr>
     <tr style=" border: 0px solid black;">
-    <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 3rd Quarter</td>
+    <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 2nd Quarter</td>
     <td style=" border-bottom: 1px solid black; width:365px;">  </td>
-    </tr>
-    <tr style=" border: 0px solid black;">
-    <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 4th Quarter</td>
-    <td style=" border-bottom: 1px solid black; width:365px;">  </td>
-    </tr>
+  </tr>
+  <tr style=" border: 0px solid black;">
+  <td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 3rd Quarter</td>
+  <td style=" border-bottom: 1px solid black; width:365px;">  </td>
+</tr>
+<tr style=" border: 0px solid black;">
+<td style="   vertical-align:bottom; height:34px; border: 0px solid black; font-size: 13.5px; width:80px;"> 4th Quarter</td>
+<td style=" border-bottom: 1px solid black; width:365px;">  </td>
+</tr>
 
 
-    </table>
-    ';
+</table>
+';
 
 
 
 
 
     $html .= '<div>
-    <table style="margin-left:480px; margin-top: -235px; border: no-border; ">
-        <tr>
-            <td colspan ="4" style=" Width:510px; text-align: center; font-weight:bold; font-size:14.5px; height:20px;"> LEARNER&rsquo;S PROGRESS REPORT CARD</td>
+<table style="margin-left:480px; margin-top: -235px; border: no-border; ">
+      <tr>
+        <td colspan ="4" style=" Width:510px; text-align: center; font-weight:bold; font-size:14.5px; height:20px;"> LEARNER&rsquo;S PROGRESS REPORT CARD</td>
 
-        </tr>
+      </tr>
 
-        <tr style="font-size: 12px;">
-        <td style="width:88px;">Name:</td>
-        <td colspan="3" style=" text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['name'] . '</td>
-        </tr>
+      <tr style="font-size: 12px;">
+      <td style="width:88px;">Name:</td>
+      <td colspan="3" style=" text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['name'] . '</td>
+      </tr>
 
-        <tr style="font-size: 12px;">
-        <td >Age:</td>
-        <td  style="width:132px;text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['age'] . '</td>
-        <td style="width:58px;">Sex:</td>
-        <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $result['sex'] . '</td>
-        </tr>
+      <tr style="font-size: 12px;">
+      <td >Age:</td>
+      <td  style="width:132px;text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['age'] . '</td>
+      <td style="width:58px;">Sex:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $studentRow['sex'] . '</td>
+      </tr>
 
-        <tr style="font-size: 12px;"> 
-        <td >Grade:</td>
-        <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['grade'] . '</td>
-        <td >Section:</td>
-        <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['section'] . '</td>
-        </tr>
+      <tr style="font-size: 12px;"> 
+      <td >Grade:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['grade'] . '</td>
+      <td >Section:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['section'] . '</td>
+      </tr>
 
-        <tr style="font-size: 12px;">
-        <td >School Year:</td>
-        <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['school_year'] . '</td>
-        <td >LRN:</td>
-        <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['lrn'] . '</td>
-        </tr>
+      <tr style="font-size: 12px;">
+      <td >School Year:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['school_year'] . '</td>
+      <td >LRN:</td>
+      <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['lrn'] . '</td>
+      </tr>
 
-        <tr style="font-size: 12px;">
-        <td >Track/Strand:</td>
-        <td colspan="3"  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $result['track'] . " - " . $result['strand'] . '</td>
-        </tr>
+      <tr style="font-size: 12px;">
+      <td >Track/Strand:</td>
+      <td colspan="3"  style="text-align: center; font-weight:bold; border-bottom:1px solid black;">' . $studentRow['track'] . " - " . $studentRow['strand'] . '</td>
+      </tr>
 
-    <tr>
-    <td colspan="4" style="height: 17px;"> </td>
-    </tr>
-        <tr >
-        <td colspan="4" style="font-size: 12.5px;" > Dear Parent,</td>
-        </tr>
-        <tr>
-        <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" > This report  card  shows  the ability and  progress your child has made</td>
-        </tr>
-        <tr>
-        <td colspan="4" style="font-size: 12.5px;" >in  the  different  learning  areas  as  well  as his/her  core  values.</td>
-        </tr>
-        <tr>
-        <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" >  The school welcomes you should you desire to know more about</td>
-        </tr>
-        <tr>
-        <td colspan="4" style="font-size: 12.5px;" >your child&rsquo;s progress.</td>
-        </tr>
-    </table>
-    </div>
-
-
-    <div>
-    <table style="margin-left:548px; margin-top: 0px; border: no-border; ">
-    <tr style="font-size: 12px;">
-    <td ></td>
-    <td  style="width:130px;text-align: center; font-weight:bold; "></td>
-    <td style="width:55px;"></td>
-    <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
-    </tr>
-    <tr style="font-size: 12px;">
-    <td ></td>
-    <td  style="width:130px;text-align: center; font-weight:bold; "></td>
-    <td style="width:55px;"></td>
-    <td  style="text-align: center; width:220px;">Class Adviser</td>
-    </tr>
-
-    </table>
-    </div>
-
-    <div>
-    <table style="margin-left:480px; margin-top: 2px; border: no-border; ">
-    <tr style="font-size: 12px;">
-
-    <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
-    </tr>
-    <tr style="font-size: 12px;">
-
-    <td  style="text-align: center; width:220px; font-size: 12px;">School Principal IV</td>
-    </tr>
+<tr>
+<td colspan="4" style="height: 17px;"> </td>
+</tr>
+      <tr >
+      <td colspan="4" style="font-size: 12.5px;" > Dear Parent,</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" > This report  card  shows  the ability and  progress your child has made</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px;" >in  the  different  learning  areas  as  well  as his/her  core  values.</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px; padding-left: 51px;" >  The school welcomes you should you desire to know more about</td>
+      </tr>
+      <tr>
+      <td colspan="4" style="font-size: 12.5px;" >your child&rsquo;s progress.</td>
+      </tr>
+</table>
+</div>
 
 
+<div>
+<table style="margin-left:548px; margin-top: 0px; border: no-border; ">
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; width:220px;">Class Adviser</td>
+</tr>
 
-    </table>
-    </div>
+</table>
+</div>
 
+<div>
+<table style="margin-left:480px; margin-top: 2px; border: no-border; ">
+<tr style="font-size: 12px;">
 
-    <div>
-    <table style="margin-left:480px; margin-top: 36px; border: no-border; ">>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
 
-    <tr style="font-size: 12px;">
-    <td colspan="4" style="text-align:center; font-weight:bold;">Certificate of Transfer</td>
-    </tr>
-
-    <tr style="font-size: 12px;">
-    <td style="width:132px;">Admitted to Grade:</td>
-    <td style=" width: 88px; text-align:center;  border-bottom:1px solid black;"> </td>
-    <td style=" width: 58px; text-align:center;">Section:</td>
-    <td style="  width: 219px; text-align:center;  border-bottom:1px solid black;"></td>
-    </tr>
-
-
-    <tr style="font-size: 12px;"> 
-    <td colspan="2" ">Eligibility for Admission to Grade:</td>
-    <td colspan="2" style="text-align:center; border-bottom:1px solid black; "></td>
-    </tr>
-    </table>
-    </div>
+<td  style="text-align: center; width:220px; font-size: 12px;">School Principal IV</td>
+</tr>
 
 
 
-    <div>
-    <table style="margin-left:480px; margin-top: 33px; border: no-border; ">
-    <tr style="font-size: 12px;">
-    <td ></td>
-    <td  style="width:130px;text-align: center; font-weight:bold; "></td>
-    <td style="width:55px;"></td>
-    <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
-    </tr>
-    <tr style="font-size: 12px;">
-    <td >Approved:</td>
-    <td  style="width:130px;text-align: center; font-weight:bold; "></td>
-    <td style="width:95px;"></td>
-    <td  style="text-align: center; width:220px;">Class Adviser</td>
-    </tr>
+</table>
+</div>
 
-    </table>
-    </div>
 
-    <div>
-    <table style="margin-left:480px; margin-top: 17px; border: no-border; ">
-    <tr style="font-size: 12px;">
+<div>
+<table style="margin-left:480px; margin-top: 36px; border: no-border; ">>
 
-    <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
-    </tr>
-    <tr style="font-size: 12px;">
+<tr style="font-size: 12px;">
+<td colspan="4" style="text-align:center; font-weight:bold;">Certificate of Transfer</td>
+</tr>
 
-    <td  style="text-align: center; width:222px; font-size: 12px;">School Principal IV</td>
-    </tr>
+<tr style="font-size: 12px;">
+<td style="width:132px;">Admitted to Grade:</td>
+<td style=" width: 88px; text-align:center;  border-bottom:1px solid black;"> </td>
+<td style=" width: 58px; text-align:center;">Section:</td>
+<td style="  width: 219px; text-align:center;  border-bottom:1px solid black;"></td>
+</tr>
+
+
+<tr style="font-size: 12px;"> 
+<td colspan="2" ">Eligibility for Admission to Grade:</td>
+<td colspan="2" style="text-align:center; border-bottom:1px solid black; "></td>
+</tr>
+</table>
+</div>
 
 
 
-    </table>
-    </div>
-    ';
+<div>
+<table style="margin-left:480px; margin-top: 33px; border: no-border; ">
+<tr style="font-size: 12px;">
+<td ></td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:55px;"></td>
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px;">' . $_SESSION['name'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
+<td >Approved:</td>
+<td  style="width:130px;text-align: center; font-weight:bold; "></td>
+<td style="width:95px;"></td>
+<td  style="text-align: center; width:220px;">Class Adviser</td>
+</tr>
+
+</table>
+</div>
+
+<div>
+<table style="margin-left:480px; margin-top: 17px; border: no-border; ">
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
+</tr>
+<tr style="font-size: 12px;">
+
+<td  style="text-align: center; width:222px; font-size: 12px;">School Principal IV</td>
+</tr>
+
+
+
+</table>
+</div>
+';
     $html .= '<div style="page-break-before: always;"></div>';
 
     //SF9 BACK
@@ -413,51 +480,51 @@ foreach ($results as $result) {
 
     $html .=
         '
-        <style>
-            *{
-                font-family: Arial, Helvetica, sans-serif;
-            }
-        </style>
-    <div>
-        <table style="margin-left: -6px; margin-top:-3px; font-size: 8.2pt; border-collapse: collapse;">
-            <tr style="border: none;">
-            <th colspan="4" style="width: 100%; border:none;">REPORT OF LEARNING PROGRESS AND ACHIEVEMENT </th>
-            </tr>
+    <style>
+          *{
+            font-family: Arial, Helvetica, sans-serif;
+           }
+    </style>
+<div>
+    <table style="margin-left: -6px; margin-top:-3px; font-size: 8.2pt; border-collapse: collapse;">
+        <tr style="border: none;">
+        <th colspan="4" style="width: 100%; border:none;">REPORT OF LEARNING PROGRESS AND ACHIEVEMENT </th>
+        </tr>
 
-            <tr>
-            <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (1st Semester) </th>
-            <th colspan = "2" style="font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
-            <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
-            </tr>
+        <tr>
+        <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (1st Semester) </th>
+        <th colspan = "2" style="font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
+        <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
+        </tr>
 
-            <tr >
-            <th style="width: 44px; border: 1px solid black;">  1 </th>
-            <th style="width: 44px; border: 1px solid black;">  2 </th>
-            </tr>
+        <tr >
+        <th style="width: 44px; border: 1px solid black;">  1 </th>
+        <th style="width: 44px; border: 1px solid black;">  2 </th>
+        </tr>
 
-            <tr  style=" font-weight: bold; vertical-align: bottom;" >
-            <td style=" vertical-align: bottom; height: 18px; width: 100px; border: 1px solid black;">CORE SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-            ';
+        <tr  style=" font-weight: bold; vertical-align: bottom;" >
+        <td style=" vertical-align: bottom; height: 18px; width: 100px; border: 1px solid black;">CORE SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+        ';
 
     if ($coreResultCount == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($coreRow = $coreResult->fetch_assoc()) {
             $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow['subject_title'] . '</td>
-                <td style="height: 18px; border: 1px solid black;">' . $coreRow['sem_grade1'] . '</td>
-                <td style="border: 1px solid black;">' . $coreRow['sem_grade2'] . '</td>
-                <td style="border: 1px solid black; font-weight: bold;">' .  $coreRow['final_grade'] . '</td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow['subject_title'] . '</td>
+            <td style="height: 18px; border: 1px solid black;">' . $coreRow['sem_grade1'] . '</td>
+            <td style="border: 1px solid black;">' . $coreRow['sem_grade2'] . '</td>
+            <td style="border: 1px solid black; font-weight: bold;">' .  $coreRow['final_grade'] . '</td>
+            </tr>';
             // Calculate the sum for Core subjects
             $semAverage += $coreRow['final_grade'];
             $coreCount++;
@@ -465,29 +532,29 @@ foreach ($results as $result) {
     }
 
     $html .= '
-            <tr  style="font-weight: bold; vertical-align: bottom; " >
-            <td style="height: 18px; width: 100px; border: 1px solid black;">APPLIED TRACK SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-    ';
+        <tr  style="font-weight: bold; vertical-align: bottom; " >
+        <td style="height: 18px; width: 100px; border: 1px solid black;">APPLIED TRACK SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+';
 
     if ($appliedResultCount == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($appliedRow = $appliedResult->fetch_assoc()) {
             $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow['subject_title'] . '</td>
-                <td style="height: 18px; border: 1px solid black;">' . $appliedRow['sem_grade1'] . '</td>
-                <td style="border: 1px solid black;">' . $appliedRow['sem_grade2'] . '</td>
-                <td style="border: 1px solid black; font-weight: bold;">' .  $appliedRow['final_grade'] . '</td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow['subject_title'] . '</td>
+            <td style="height: 18px; border: 1px solid black;">' . $appliedRow['sem_grade1'] . '</td>
+            <td style="border: 1px solid black;">' . $appliedRow['sem_grade2'] . '</td>
+            <td style="border: 1px solid black; font-weight: bold;">' .  $appliedRow['final_grade'] . '</td>
+            </tr>';
             // Calculate the sum for Applied subjects
             $semAverage += $appliedRow['final_grade'];
             $appliedCount++;
@@ -495,89 +562,94 @@ foreach ($results as $result) {
     }
 
     $html .= '
-            <tr  style="font-weight: bold; vertical-align: bottom; " >
-            <td style="height: 18px; width: 100px; border: 1px solid black;">SPECIALIZED TRACK SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-    ';
+        <tr  style="font-weight: bold; vertical-align: bottom; " >
+        <td style="height: 18px; width: 100px; border: 1px solid black;">SPECIALIZED TRACK SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+';
 
     if ($specializedResultCount == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($specializedRow = $specializedResult->fetch_assoc()) {
             $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow['subject_title'] . '</td>
-                <td style="height: 18px; border: 1px solid black;">' . $specializedRow['sem_grade1'] . '</td>
-                <td style="border: 1px solid black;">' . $specializedRow['sem_grade2'] . '</td>
-                <td style="border: 1px solid black; font-weight: bold;">' .  $specializedRow['final_grade'] . '</td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow['subject_title'] . '</td>
+            <td style="height: 18px; border: 1px solid black;">' . $specializedRow['sem_grade1'] . '</td>
+            <td style="border: 1px solid black;">' . $specializedRow['sem_grade2'] . '</td>
+            <td style="border: 1px solid black; font-weight: bold;">' .  $specializedRow['final_grade'] . '</td>
+            </tr>';
             // Calculate the sum for Specialized subjects
             $semAverage += $specializedRow['final_grade'];
             $specializedCount++;
         }
     }
-    $semAverage = ($semAverage) / ($coreCount + $appliedCount + $specializedCount);
+    if ($semAverage != 0) {
+        $semAverage = ($semAverage) / ($coreCount + $appliedCount + $specializedCount);
+    } else {
+        $semAverage = 0;
+    }
+
     $html .= '  
-            <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
-            <td style=" height: 18px; width: 100px; border: none;">General Average for the Semester:</td>
-            <td style="border: 0px solid black;"></td>
-            <td style="border: 0px solid black;"> </td>
-            <td style="border: 1px solid black; font-weight: bold;">' . round($semAverage) . '  </td>
-            </tr>
-        </table>
-        </div>
-    ';
+        <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
+        <td style=" height: 18px; width: 100px; border: none;">General Average for the Semester:</td>
+        <td style="border: 0px solid black;"></td>
+        <td style="border: 0px solid black;"> </td>
+        <td style="border: 1px solid black; font-weight: bold;">' . round($semAverage) . '  </td>
+        </tr>
+    </table>
+    </div>
+';
 
     $html .= '
-        <div style="margin-top: 10px;">
-        <table style="margin-left: -6px; font-size:8.2pt;">
-            <tr>   
-                <th colspan="4" style=" height:18px; border: 0px solid black;"></th>
-            </tr>
+    <div style="margin-top: 10px;">
+    <table style="margin-left: -6px; font-size:8.2pt;">
+        <tr>   
+            <th colspan="4" style=" height:18px; border: 0px solid black;"></th>
+        </tr>
 
-            <tr>
-            <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (2nd Semester) </th>
-            <th colspan = "2"style="        font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
-            <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
-            </tr>
+        <tr>
+        <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (2nd Semester) </th>
+        <th colspan = "2"style="        font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
+        <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
+        </tr>
 
-            <tr >
-            <th style="width: 44px; border: 1px solid black;">  3 </th>
-            <th style="width: 44px; border: 1px solid black;">  4 </th>
-            </tr>
+        <tr >
+        <th style="width: 44px; border: 1px solid black;">  3 </th>
+        <th style="width: 44px; border: 1px solid black;">  4 </th>
+        </tr>
 
-            <tr  style=" font-weight: bold; vertical-align: bottom;" >
-            <td style=" vertical-align: bottom; height: 18px; width: 100px; border: 1px solid black;">CORE SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-    ';
+        <tr  style=" font-weight: bold; vertical-align: bottom;" >
+        <td style=" vertical-align: bottom; height: 18px; width: 100px; border: 1px solid black;">CORE SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+';
     //2ND SEM
     if ($coreResultCount2 == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($coreRow2 = $coreResult2->fetch_assoc()) {
             $html .= '
-            <tr style="text-align: center; vertical-align: bottom;">
-            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow2['subject_title'] . '</td>
-            <td style="height: 18px; border: 1px solid black;">' . $coreRow2['sem_grade1'] . '</td>
-            <td style="border: 1px solid black;">' . $coreRow2['sem_grade2'] . '</td>
-            <td style="border: 1px solid black; font-weight: bold;">' . $coreRow2['final_grade'] . '</td>
-            </tr>
-    ';
+        <tr style="text-align: center; vertical-align: bottom;">
+        <td style="text-align: left; width: 30px; border: 1px solid black;">' . $coreRow2['subject_title'] . '</td>
+        <td style="height: 18px; border: 1px solid black;">' . $coreRow2['sem_grade1'] . '</td>
+        <td style="border: 1px solid black;">' . $coreRow2['sem_grade2'] . '</td>
+        <td style="border: 1px solid black; font-weight: bold;">' . $coreRow2['final_grade'] . '</td>
+        </tr>
+';
             // Calculate the sum for Core subjects
             $semAverage2 += $coreRow2['final_grade'];
             $coreCount2++;
@@ -585,30 +657,30 @@ foreach ($results as $result) {
     }
 
     $html .= '
-            <tr  style="font-weight: bold; vertical-align: bottom; " >
-            <td style="height: 18px; width: 100px; border: 1px solid black;">APPLIED TRACK SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-    ';
+        <tr  style="font-weight: bold; vertical-align: bottom; " >
+        <td style="height: 18px; width: 100px; border: 1px solid black;">APPLIED TRACK SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+';
     if ($appliedResultCount2 == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($appliedRow2 = $appliedResult2->fetch_assoc()) {
             $html .= '
-            <tr style="text-align: center; vertical-align: bottom;">
-            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow2['subject_title'] . '</td>
-            <td style="height: 18px; border: 1px solid black;">' . $appliedRow2['sem_grade1'] . '</td>
-            <td style="border: 1px solid black;">' . $appliedRow2['sem_grade2'] . '</td>
-            <td style="border: 1px solid black; font-weight: bold;">' . $appliedRow2['final_grade'] . '</td>
-            </tr>
-    ';
+        <tr style="text-align: center; vertical-align: bottom;">
+        <td style="text-align: left; width: 30px; border: 1px solid black;">' . $appliedRow2['subject_title'] . '</td>
+        <td style="height: 18px; border: 1px solid black;">' . $appliedRow2['sem_grade1'] . '</td>
+        <td style="border: 1px solid black;">' . $appliedRow2['sem_grade2'] . '</td>
+        <td style="border: 1px solid black; font-weight: bold;">' . $appliedRow2['final_grade'] . '</td>
+        </tr>
+';
             // Calculate the sum for Applied subjects
             $semAverage2 += $appliedRow2['final_grade'];
             $appliedCount2++;
@@ -616,196 +688,320 @@ foreach ($results as $result) {
     }
 
     $html .= '
-            <tr  style="font-weight: bold; vertical-align: bottom;" >
-            <td style=" height: 18px; width: 100px; border: 1px solid black;">SPECIALIZED SUBJECTS</td>
-            <td style="border: 1px solid black;"></td>
-            <td style="border: 1px solid black;">  </td>
-            <td style="border: 1px solid black;">   </td>
-            </tr>
-    ';
+        <tr  style="font-weight: bold; vertical-align: bottom;" >
+        <td style=" height: 18px; width: 100px; border: 1px solid black;">SPECIALIZED SUBJECTS</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;">  </td>
+        <td style="border: 1px solid black;">   </td>
+        </tr>
+';
 
     if ($specializedResultCount2 == 0) {
         $html .= '<tr style="text-align: center; vertical-align: bottom;">
-                <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
-                <td style="height: 18px; border: 1px solid black;"></td>
-                <td style="border: 1px solid black;"></td>
-                <td style="border: 1px solid black; font-weight: bold;"></td>
-                </tr>';
+            <td style="text-align: left; width: 30px; border: 1px solid black;"></td>
+            <td style="height: 18px; border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black; font-weight: bold;"></td>
+            </tr>';
     } else {
         while ($specializedRow2 = $specializedResult2->fetch_assoc()) {
             $html .= '
-            <tr style="text-align: center; vertical-align: bottom;">
-            <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow2['subject_title'] . '</td>
-            <td style="height: 18px; border: 1px solid black;">' . $specializedRow2['sem_grade1'] . '</td>
-            <td style="border: 1px solid black;">' . $specializedRow2['sem_grade2'] . '</td>
-            <td style="border: 1px solid black; font-weight: bold;">' . $specializedRow2['final_grade'] . '</td>
-            </tr>
-    ';
+        <tr style="text-align: center; vertical-align: bottom;">
+        <td style="text-align: left; width: 30px; border: 1px solid black;">' . $specializedRow2['subject_title'] . '</td>
+        <td style="height: 18px; border: 1px solid black;">' . $specializedRow2['sem_grade1'] . '</td>
+        <td style="border: 1px solid black;">' . $specializedRow2['sem_grade2'] . '</td>
+        <td style="border: 1px solid black; font-weight: bold;">' . $specializedRow2['final_grade'] . '</td>
+        </tr>
+';
             // Calculate the sum for Specialized subjects
             $semAverage2 += $specializedRow2['final_grade'];
             $specializedCount2++;
         }
     }
+    if ($semAverage2 != 0) {
+        $semAverage2 = ($semAverage2) / ($coreCount2 + $appliedCount2 + $specializedCount2);
+    } else {
+        $semAverage2 = 0;
+    }
 
-    $semAverage2 = ($semAverage2) / ($coreCount2 + $appliedCount2 + $specializedCount2);
     $totalAverage = ($semAverage + $semAverage2) / 2;
     $html .= '
-            <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
-            <td style=" height: 18px; width: 100px; border: 0px solid black;">General Average for the Semester:</td>
-            <td style="border: 0px solid black;"></td>
-            <td style="border: 0px solid black;">  </td>
-            <td style="border: 1px solid black;">' . round($semAverage2) . '</td>
-            </tr>
+        <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
+        <td style=" height: 18px; width: 100px; border: 0px solid black;">General Average for the Semester:</td>
+        <td style="border: 0px solid black;"></td>
+        <td style="border: 0px solid black;">  </td>
+        <td style="border: 1px solid black;">' . round($semAverage2) . '</td>
+        </tr>
 
-            <tr  style="font-weight: bold; vertical-align: bottom; text-align: center;" >
-            <td style=" height: 20px; width: 100px; border: 0px solid black;">General Average for the two Semesters:</td>
-            <td style="border: 0px solid black;"></td>
-            <td style="border: 0px solid black;">  </td>
-            <td style="border: 1px solid black;">' . round($totalAverage) . '</td>
-            </tr>
+        <tr  style="font-weight: bold; vertical-align: bottom; text-align: center;" >
+        <td style=" height: 20px; width: 100px; border: 0px solid black;">General Average for the two Semesters:</td>
+        <td style="border: 0px solid black;"></td>
+        <td style="border: 0px solid black;">  </td>
+        <td style="border: 1px solid black;">' . round($totalAverage) . '</td>
+        </tr>
 
-            <tr>
-            <th colspan="4" style=" height:9px; border: 0px solid black;"></th>
-            </tr>
+        <tr>
+        <th colspan="4" style=" height:9px; border: 0px solid black;"></th>
+        </tr>
 
-        </table>
-            </div>
-        
-    <div>';
+    </table>
+         </div>
+    
+<div>';
 
     $modality = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$student'";
     $modalityResult = $conn->query($modality);
-    $modalityRow = $modalityResult->fetch_assoc();
+    if ($modalityResult->num_rows > 0) {
+        $modalityRow = $modalityResult->fetch_assoc();
 
-    $html .= '
+        $html .= '
     <table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 10px;">
-        <tr  style=" font-weight: bold; text-align: center;" >
-        <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
-        <td style="width: 44px; border: 1px solid black;">  Q1 </td>
-        <td style="width: 44px; border: 1px solid black;">  Q2 </td>
-        <td style="width: 44px; border: 1px solid black;">  Q3 </td>
-        <td style="width: 44px; border: 1px solid black;">  Q4 </td>
-        </tr>
-        <tr style="font-weight: bold; text-align: center; ">
-        <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Blended</td>';
-    //BLENDED MODALITY
-    if ($modalityRow['blended_q1'] == 1) {
+            <tr  style=" font-weight: bold; text-align: center;" >
+            <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
+            <td style="width: 44px; border: 1px solid black;">  Q1 </td>
+            <td style="width: 44px; border: 1px solid black;">  Q2 </td>
+            <td style="width: 44px; border: 1px solid black;">  Q3 </td>
+            <td style="width: 44px; border: 1px solid black;">  Q4 </td>
+            </tr>
+            <tr style="font-weight: bold; text-align: center; ">
+            <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Blended</td>';
+        //BLENDED MODALITY
+        if ($modalityRow['blended_q1'] == 1) {
+            $html .= '
+        <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+            <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['blended_q2'] == 1) {
+            $html .= '
+        <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+            <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['blended_q3'] == 1) {
+            $html .= '
+        <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+            <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['blended_q4'] == 1) {
+            $html .= '
+        <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+            <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        //MODULAR DISTANCE LEARNING MODALITY
         $html .= '
-    <td style="width: 44px; border: 1px solid black;">/</td>';
+            </tr>
+            <tr  style="font-weight: bold; text-align:center;">
+            <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Modular Distance Learning</td>';
+        if ($modalityRow['mdl_q1'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['mdl_q2'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['mdl_q3'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['mdl_q4'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        //IN-PERSON MODALITY
+        $html .= '
+            </tr>
+            <tr  style="font-weight: bold;  text-align:center;" >
+            <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* In-person</td>';
+        if ($modalityRow['ip_q1'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['ip_q2'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['ip_q3'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
+
+        if ($modalityRow['ip_q4'] == 1) {
+            $html .= '
+                <td style="width: 44px; border: 1px solid black;">/</td>';
+        } else {
+            $html .= '
+                    <td style="width: 44px; border: 1px solid black;">  </td>';
+        }
     } else {
         $html .= '
-        <td style="width: 44px; border: 1px solid black;">  </td>';
+        <table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 10px;">
+                <tr  style=" font-weight: bold; text-align: center;" >
+                <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
+                <td style="width: 44px; border: 1px solid black;">  Q1 </td>
+                <td style="width: 44px; border: 1px solid black;">  Q2 </td>
+                <td style="width: 44px; border: 1px solid black;">  Q3 </td>
+                <td style="width: 44px; border: 1px solid black;">  Q4 </td>
+                </tr>
+                <tr style="font-weight: bold; text-align: center; ">
+                <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Blended</td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                </tr>
+                <tr  style="font-weight: bold; text-align:center;">
+                <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Modular Distance Learning</td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                </tr>
+                <tr  style="font-weight: bold;  text-align:center;" >
+                <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* In-person</td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                <td style="width: 44px; border: 1px solid black;"></td>
+                ';
     }
-
-    if ($modalityRow['blended_q2'] == 1) {
-        $html .= '
-    <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-        <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['blended_q3'] == 1) {
-        $html .= '
-    <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-        <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['blended_q4'] == 1) {
-        $html .= '
-    <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-        <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    //MODULAR DISTANCE LEARNING MODALITY
-    $html .= '
-        </tr>
-        <tr  style="font-weight: bold; text-align:center;">
-        <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Modular Distance Learning</td>';
-    if ($modalityRow['mdl_q1'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['mdl_q2'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['mdl_q3'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['mdl_q4'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    //IN-PERSON MODALITY
-    $html .= '
-        </tr>
-        <tr  style="font-weight: bold;  text-align:center;" >
-        <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* In-person</td>';
-    if ($modalityRow['ip_q1'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['ip_q2'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['ip_q3'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
-    if ($modalityRow['ip_q4'] == 1) {
-        $html .= '
-            <td style="width: 44px; border: 1px solid black;">/</td>';
-    } else {
-        $html .= '
-                <td style="width: 44px; border: 1px solid black;">  </td>';
-    }
-
 
     $ov = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$student'";
     $ovResult = $conn->query($ov);
-    $ovRow = $ovResult->fetch_assoc();
+    if ($ovResult->num_rows > 0) {
+        $ovRow = $ovResult->fetch_assoc();
 
-    $html .= '
-         </tr>
-         </table>
-            </div>
-            <div>
+        $html .= '
+            </tr>
+    </table>
+    </div>
+        <div>
             <table style="margin-left: 555px; position:fixed; font-size:8.2pt; border-collapse: collapse;">
+                <tr style="border: none;">
+                <th colspan="6" style="font-size:11.3pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
+                </tr>
+                <tr >
+                <th rowspan="2" style="height:28px; width: 120px; border: 1px solid black;">CORE VALUES</th>
+                <th rowspan="2" style="width: 169px; border: 1px solid black;">BEHAVIOR STATEMENT</th>
+                <th rowspan="1" colspan = "4" style="width: 100px; border: 1px solid black;">QUARTER</th>
+                </tr>
+                <tr >
+                <th style="width: 27px; border: 1px solid black;">  1 </th>
+                <th style="width: 25px; border: 1px solid black;">  2 </th>
+                <th style="width: 25px; border: 1px solid black;">  3 </th>
+                <th style="width: 25px; border: 1px solid black;">  4 </th>
+                </tr>
+    
+    
+                <tr >
+                <td rowspan="2" style=" text-align: left; width: 100px; border: 1px solid black;">1. Maka-Diyos</td>
+    
+                <td style="height:59px; text-align: left; border: 1px solid black;"> Expresses ones spiritual belief&rsquo;s while respecting the spiritual beliefs of other </td>
+                <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq1'] . ' </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mdq2'] . '  </td>
+                <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq3'] . '</td>
+                <td style="text-align: center;border: 1px solid black;">' . $ovRow['mdq4'] . '  </td>
+                
+                </tr>
+    
+                <tr style="text-align: center;">
+                <td style="text-align: left; height: 39px; border: 1px solid black;">Shows adherence to ethical principles by uplholding truth. </td>
+                <td style="border: 1px solid black;">' . $ovRow['mdq5'] . '</td>
+                <td style="border: 1px solid black;">' . $ovRow['mdq6'] . '</td>
+                <td style="border: 1px solid black;">' . $ovRow['mdq7'] . '</td>
+                <td style="border: 1px solid black;"> ' . $ovRow['mdq8'] . '  </td>
+                </tr>
+    
+                <tr >
+                <td rowspan="2" style="text-align: left; width: 100px; border: 1px solid black;">2. Makatao</td>
+                <td style="text-align: Left; height: 39px; border: 1px solid black;"> Is sensitive to individual, social and cultural differences</td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq1'] . ' </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq2'] . '  </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq3'] . '  </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq4'] . ' </td>
+                
+                </tr>
+    
+                <tr style="text-align: center;">
+                <td style="text-align: left;height: 39px;  width: 30px; border: 1px solid black;">Demonstrate contribution toward solidarity </td>
+                <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq5'] . '</td>
+                <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq6'] . '</td>
+                <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq7'] . '</td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq8'] . '  </td>
+                </tr>
+    
+                <tr >
+                <td style="width: 100px; border: 1px solid black;">3.Makakalikasan</td>
+                <td style="text-align: left; height: 78px; border: 1px solid black;"> Cares for the environment and utilizes resources wisely, judiciously, and economically.</td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq1'] . ' </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq2'] . '  </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq3'] . ' </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq4'] . '  </td>
+                
+                </tr>
+                <tr >
+                <td rowspan="2" style="width: 100px; border: 1px solid black;">4.Makabansa</td>
+                <td style="text-align: left; border: 1px solid black;"> Demonstrate pride in being a Filipino, exercises the rights and responsibilities of a <br>Filipio citizen.</td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq1'] . ' </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq2'] . '  </td>
+                <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq3'] . '  </td>
+                <td style="text-align: center;  border: 1px solid black;"> ' . $ovRow['mbq4'] . '  </td>
+                </tr>
+                <tr style="text-align: center;">
+                <td style="text-align: left;height: 78px; width: 30px; border: 1px solid black;">Demonstrate appropriate behavior in carrying out activities in the school, community, and country.</td>
+                <td style="border: 1px solid black;">' . $ovRow['mbq5'] . '</td>
+                <td style="border: 1px solid black;">' . $ovRow['mbq6'] . '</td>
+                <td style="border: 1px solid black;">' . $ovRow['mbq7'] . '</td>
+                <td style="border: 1px solid black;"> ' . $ovRow['mbq8'] . ' </td>
+                </tr>
+            </table>                                                            
+        </div>
+    <div>';
+    } else {
+        $html .= '
+        </tr>
+</table>
+</div>
+    <div>
+        <table style="margin-left: 555px; position:fixed; font-size:8.2pt; border-collapse: collapse;">
             <tr style="border: none;">
             <th colspan="6" style="font-size:11.3pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
             </tr>
@@ -826,87 +1022,84 @@ foreach ($results as $result) {
             <td rowspan="2" style=" text-align: left; width: 100px; border: 1px solid black;">1. Maka-Diyos</td>
 
             <td style="height:59px; text-align: left; border: 1px solid black;"> Expresses ones spiritual belief&rsquo;s while respecting the spiritual beliefs of other </td>
-            <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq1'] . ' </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mdq2'] . '  </td>
-            <td style="text-align: center; border: 1px solid black;">' . $ovRow['mdq3'] . '</td>
-            <td style="text-align: center;border: 1px solid black;">' . $ovRow['mdq4'] . '  </td>
+            <td style="text-align: center; border: 1px solid black;"></td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;"></td>
+            <td style="text-align: center;border: 1px solid black;"> </td>
             
             </tr>
 
             <tr style="text-align: center;">
             <td style="text-align: left; height: 39px; border: 1px solid black;">Shows adherence to ethical principles by uplholding truth. </td>
-            <td style="border: 1px solid black;">' . $ovRow['mdq5'] . '</td>
-            <td style="border: 1px solid black;">' . $ovRow['mdq6'] . '</td>
-            <td style="border: 1px solid black;">' . $ovRow['mdq7'] . '</td>
-            <td style="border: 1px solid black;"> ' . $ovRow['mdq8'] . '  </td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;">  </td>
             </tr>
 
             <tr >
             <td rowspan="2" style="text-align: left; width: 100px; border: 1px solid black;">2. Makatao</td>
             <td style="text-align: Left; height: 39px; border: 1px solid black;"> Is sensitive to individual, social and cultural differences</td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq1'] . ' </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq2'] . '  </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq3'] . '  </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq4'] . ' </td>
+            <td style="text-align: center; border: 1px solid black;"> </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;"> </td>
             
             </tr>
 
             <tr style="text-align: center;">
             <td style="text-align: left;height: 39px;  width: 30px; border: 1px solid black;">Demonstrate contribution toward solidarity </td>
-            <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq5'] . '</td>
-            <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq6'] . '</td>
-            <td style="text-align: center; border: 1px solid black;">' . $ovRow['mkq7'] . '</td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkq8'] . '  </td>
+            <td style="text-align: center; border: 1px solid black;"></td>
+            <td style="text-align: center; border: 1px solid black;"></td>
+            <td style="text-align: center; border: 1px solid black;"></td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
             </tr>
 
             <tr >
             <td style="width: 100px; border: 1px solid black;">3.Makakalikasan</td>
             <td style="text-align: left; height: 78px; border: 1px solid black;"> Cares for the environment and utilizes resources wisely, judiciously, and economically.</td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq1'] . ' </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq2'] . '  </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq3'] . ' </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mkkq4'] . '  </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;">   </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;">   </td>
             
             </tr>
             <tr >
             <td rowspan="2" style="width: 100px; border: 1px solid black;">4.Makabansa</td>
             <td style="text-align: left; border: 1px solid black;"> Demonstrate pride in being a Filipino, exercises the rights and responsibilities of a <br>Filipio citizen.</td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq1'] . ' </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq2'] . '  </td>
-            <td style="text-align: center; border: 1px solid black;"> ' . $ovRow['mbq3'] . '  </td>
-            <td style="text-align: center;  border: 1px solid black;"> ' . $ovRow['mbq4'] . '  </td>
+            <td style="text-align: center; border: 1px solid black;"> </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center; border: 1px solid black;">  </td>
+            <td style="text-align: center;  border: 1px solid black;">  </td>
             </tr>
             <tr style="text-align: center;">
             <td style="text-align: left;height: 78px; width: 30px; border: 1px solid black;">Demonstrate appropriate behavior in carrying out activities in the school, community, and country.</td>
-            <td style="border: 1px solid black;">' . $ovRow['mbq5'] . '</td>
-            <td style="border: 1px solid black;">' . $ovRow['mbq6'] . '</td>
-            <td style="border: 1px solid black;">' . $ovRow['mbq7'] . '</td>
-            <td style="border: 1px solid black;"> ' . $ovRow['mbq8'] . ' </td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
+            <td style="border: 1px solid black;"></td>
             </tr>
-        </table>
-                                                                    
+        </table>                                                            
     </div>
-        
-    <div>
-    <table style=" margin-top: 485px; margin-left: 553px; position:fixed; font-size:8pt;">
+<div>';
+    }
+
+    $html .= '
+<table style=" margin-top: 485px; margin-left: 553px; position:fixed; font-size:8pt;">
 
         <tr  style="font-size: 8pt; font-weight: bold; text-align: left;" >
         <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">OBSERVED VALUES</td>
-
-
 
         </tr>
 
         <tr style=" font-weight: bold; text-align: left; ">
         <td style="width: 80px; height: 0px; text-align: left;  border: 0px solid black;">MARKING</td>
         <td style="width: 200px; border: 0px solid black;"> NON-NUMERICAL RATING  </td>
-    
 
         </tr>
         <tr  style="" >
         <td style=" width: 80px; height: 0px;  border: 0px solid black;">AO</td>
         <td style="width: 200px; border: 0px solid black;">  Always Observed </td>
-
 
         </tr>
         <tr  style="" >
@@ -929,11 +1122,11 @@ foreach ($results as $result) {
 
         </tr>
 
-    </table>
-    </div>
+</table>
+</div>
 
-    <div>
-    <table style="margin-top: 595px; margin-left: 553px; position:fixed; font-size:8pt;">
+<div>
+<table style="margin-top: 595px; margin-left: 553px; position:fixed; font-size:8pt;">
 
         <tr  style=" font-weight: bold; text-align: left;" >
         <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">Learner Progress and Achievement</td>
@@ -976,14 +1169,12 @@ foreach ($results as $result) {
         <td style="width: 200px; border: 0px solid black;">Below 75-79</td>
 
         </tr>
-    </table>
-    </div>
+</table>
+</div>
     ';
+    $html .= '<div style="page-break-before: always;"></div>';
 }
 $dompdf->loadHtml($html);
-
 $dompdf->setPaper('LETTER', 'landscape');
-
 $dompdf->render();
-
 $dompdf->stream('my. pdf', array('Attachment' => 0));

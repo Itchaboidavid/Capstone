@@ -10,7 +10,7 @@ session_start();
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Edit Faculty</title>
+    <title>Edit User</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -24,18 +24,18 @@ session_start();
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-end">
                     <div>
-                        <h1 class="mt-4">Faculty</h1>
+                        <h1 class="mt-4">User</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="user_table.php">Faculty Table</a></li>
-                            <li class="breadcrumb-item active">Edit Faculty</li>
+                            <li class="breadcrumb-item"><a href="user_table.php">User Table</a></li>
+                            <li class="breadcrumb-item active">Edit User</li>
                         </ol>
                     </div>
                 </div>
                 <form action="" method="POST" class="needs-validation" novalidate>
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4>Edit Faculty</h4>
+                            <h4>Edit User</h4>
                         </div>
                         <div class="card-body">
                             <?php
@@ -64,7 +64,7 @@ session_start();
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
-                                    <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Adviser</option>
+                                    <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Class Adviser</option>
                                     <option value="Clinic teacher" <?php echo ($userRow['user_type'] == 'Clinic teacher') ? "selected" : ""; ?>>Clinic teacher</option>
                                     <option value="Registrar" <?php echo ($userRow['user_type'] == 'Registrar') ? "selected" : ""; ?>>Registrar</option>
                                 </select>

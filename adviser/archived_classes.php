@@ -71,7 +71,7 @@ session_start();
                                         <td><?php echo $archivedSectionRow["grade"] ?></td>
                                         <td><?php echo $archivedSectionRow["school_year"] ?></td>
                                         <td>
-                                            <a href="archived_student.php?sectionName=<?php echo $archivedSectionRow['name'] ?>" style="border: none; background: transparent;">
+                                            <a href="archived_student.php?id=<?php echo $archivedSectionRow['id'] ?>" style="border: none; background: transparent;">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         </td>

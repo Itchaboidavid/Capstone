@@ -82,11 +82,6 @@ if (isset($_SESSION['user_logged_in'])) {
       font-family: "Poppins", sans-serif;
     }
 
-    #loginBg {
-      background-color: #001233;
-      border: 1px solid black;
-    }
-
     #loginBtn {
       background-color: #001233;
       color: #fff;
@@ -95,55 +90,67 @@ if (isset($_SESSION['user_logged_in'])) {
     #loginBtn:hover {
       background-color: #fff;
       color: #001233;
+      transform: scale(1.2);
+      transition: .8s;
+    }
+
+    #form {
+      text-align: center;
+      width: 50%;
+      height: 500px;
+      box-shadow: 1px 1px 3px blue;
+    }
+
+    #info {
+      display: grid;
+      place-items: center;
+      background-image: url(images/gg.jpg);
+      background-size: cover;
     }
   </style>
 </head>
 
-<body class="min-vh-100" id="loginBg">
-  <div class="container">
-    <div class="row" style="border-radius: 10px; background-color: #fff; width: 900px; margin: 100px auto 0; box-shadow: 5px 10px 10px black;">
-      <div class="col-8 text-center rounded-3" style="height: 450px; background-image: url(images/login_bg.jpg); background-size: cover; background-repeat: no-repeat; background-position: top;">
-      </div>
-      <!-- LOGIN FORM -->
-      <div class="col-4 text-center px-4 py-4 rounded-3 bg-body-secondary" style=" position: relative;">
-        <img src="images/logo.png" alt="TC LOGO" style="width: 70px; height: 70px;">
-        <h2 class="mt-2 fw-bold text-shadow: 2px 2px 3px black;">LOGIN</h2>
-        <?php
-        if (isset($_GET['errmsg'])) {
-          $errmsg = $_GET['errmsg'];
-          echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
-            . $errmsg .
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<body class="min-vh-100 container-fluid" style="display: grid; place-items: center;">
+  <!-- LOGIN FORM -->
+  <div id="form" class="row">
+    <div class="col" id="info">
+      <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" style="width: 200px; height: 200px; border-radius: 100px;">
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; border-radius: 10px; position: relative;" class="bg-white col">
+      <?php
+      if (isset($_GET['errmsg'])) {
+        $errmsg = $_GET['errmsg'];
+        echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
+          . $errmsg .
+          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                              </div>';
-        }
-        ?>
-        <form action="" method="POST" class="needs-validation" novalidate>
-          <div class="mb-3 form-floating mt-3">
-            <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required />
-            <label for="username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
-            <div class="valid-feedback bg-body-tertiary">Great!</div>
-            <div class="invalid-feedback bg-body-tertiary"> Please enter a username.</div>
-          </div>
-          <div class="mb-4 form-floating input-container" style="position: relative;">
-            <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px;" />
-            <label for="password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Password</label>
-            <div class="valid-feedback bg-light">Great!</div>
-            <div class="invalid-feedback bg-light"> Please enter a password.</div>
-            <button type="button" class="btn" onclick="togglePasswordVisibility()" style="position: absolute; top: 0; right: 0; height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;"><i class="bi bi-eye"></i></button>
-          </div>
-          <div class="d-flex">
-            <input type="submit" class="btn" value="Login" name="login" id="loginBtn" />
-          </div>
-        </form>
-
+      }
+      ?>
+      <form action="" method="POST" class="needs-validation" novalidate>
+        <h3 class="text-shadow: 1px 2px 3px blue; fw-bold" style="letter-spacing: 1.5px;">LOGIN</h3>
+        <div class="mb-3 form-floating">
+          <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required style="box-shadow: 0px 1px 2px blue;" />
+          <label for=" username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
+          <div class="valid-feedback bg-body-tertiary">Great!</div>
+          <div class="invalid-feedback bg-body-tertiary"> Please enter a username.</div>
+        </div>
+        <div class="mb-3 form-floating input-container" style="position: relative;">
+          <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px; box-shadow: 0px 1px 2px blue;" />
+          <label for="password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Password</label>
+          <div class="valid-feedback bg-light">Great!</div>
+          <div class="invalid-feedback bg-light"> Please enter a password.</div>
+          <button type="button" class="btn" onclick="togglePasswordVisibility()" style="position: absolute; top: 0; right: 0; height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;"><i class="bi bi-eye"></i></button>
+        </div>
+        <div class="d-flex">
+          <input type="submit" class="btn" value="Login" name="login" id="loginBtn" />
+        </div>
         <div style="text-align: start; position:absolute; bottom:10px; left:30px;">
           <a href="https://www.facebook.com/DepEdTayoTCNHS301216" target="_blank" style="text-decoration: none;">
             <i class="fa-brands fa-facebook" style="width: 10px; height: 10px;"></i>
           </a>
           <span style="font-size: xx-small;"> Come and visit our facebook page!</span>
         </div>
-
-      </div>
+      </form>
     </div>
   </div>
   <script src="index.js"></script>

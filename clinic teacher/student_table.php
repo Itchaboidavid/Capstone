@@ -36,6 +36,9 @@ session_start();
                             <li class="breadcrumb-item active">Student table</li>
                         </ol>
                     </div>
+                    <a href="sf8all.php" target="_blank" class="pe-3 btn btn-primary">
+                        <span><i class="fa-solid fa-print"></i></span>
+                    </a>
                 </div>
                 <?php
                 if (isset($_GET['msg'])) {
@@ -66,10 +69,9 @@ session_start();
                                 <i class="fas fa-table me-1"></i>
                                 <?php echo $sectionName ?>
                             </div>
-                            <a href="sf8.php" style="border: none; background: transparent;" target="_blank">
+                            <a href="sf8.php?id=<?php echo $row['id'] ?>" style="border: none; background: transparent;" target="_blank">
                                 <i class="fa-solid fa-print"></i>
                             </a>
-
                         </div>
                         <div class="card-body">
                             <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">

@@ -2,10 +2,12 @@
 include("../config.php");
 session_start();
 
-$sectionName = $_GET['sectionName'];
-$studentSection = "SELECT * FROM `section` WHERE `name` = '$sectionName'";
+$id = $_GET['id'];
+$studentSection = "SELECT * FROM `section` WHERE id = '$id'";
 $studentSectionResult = $conn->query($studentSection);
 $studentSectionRow = $studentSectionResult->fetch_assoc();
+$school_year_id = $studentSectionRow['school_year_id'];
+$sectionName = $studentSectionRow['name'];
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +55,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             <i class="fa-solid fa-print"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="sf5archived.php" target="_blank">School Form 5</a></li>
+                            <li><a class="dropdown-item" href="sf5archived.php?id=<?php echo $id ?>" target="_blank">School Form 5</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -71,7 +73,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 1 ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 1 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
                                 $studentResult = $conn->query($student);
                                 while ($studentRow = $studentResult->fetch_assoc()) :
                                 ?>
