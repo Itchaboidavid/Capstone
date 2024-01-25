@@ -442,7 +442,7 @@ while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowFemaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowFemaleStudent["name"], 1, 0, 'C', 0);
-    $backSubject = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$currentStudent' AND `final_grade` < 75 AND `final_grade` > 0";
+    $backSubject = "SELECT * FROM `sf9` WHERE `student_name` = '$currentStudent' AND `final_grade` < 75 AND `final_grade` > 0";
     $backSubjectResult = $conn->query($backSubject);
 
     // Variable to store concatenated subject titles with line breaks

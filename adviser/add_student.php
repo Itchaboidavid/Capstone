@@ -244,11 +244,11 @@ if (isset($_POST["add_student"])) {
                                 <div class="invalid-feedback ps-1"> Please enter a mother's name.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-6 d-inline-block">
-                                <input type="text" name="guardian" id="guardian" placeholder="guardian" class="form-control bg-body-tertiary" />
+                                <input type="text" name="guardian" id="guardian" placeholder="guardian" class="form-control bg-body-tertiary" required />
                                 <label for="guardian">Guardian's name</label>
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
-                                <input type="text" name="relationship" id="relationship" placeholder="relationship" class="form-control bg-body-tertiary" />
+                                <input type="text" name="relationship" id="relationship" placeholder="relationship" class="form-control bg-body-tertiary" required />
                                 <label for="relationship">Relationship</label>
                             </div>
                             <div class="input-group mb-3 col" style="height: 58px;">
