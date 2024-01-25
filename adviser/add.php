@@ -751,6 +751,7 @@ if (isset($_POST['submit'])) {
         $conn->query($insertSF5B);
     }
 
+    //SCHOOL FORM 9
     for ($i = 1; $i <= 10; $i++) {
         $sem1 = $_POST['sem1' . $i];
         $subjectType1 = $_POST['subject_type1' . $i];

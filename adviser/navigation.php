@@ -2,7 +2,7 @@
     <!-- Navbar Brand-->
     <a class=" navbar-brand ps-3 text-uppercase" href="dashboard.php">
         <?php
-        if ($_SESSION['user_type'] == 'adviser') {
+        if ($_SESSION['user_type'] == 'Adviser') {
             echo "ClASS ADVISER";
         } else {
             echo $_SESSION['user_type'];
