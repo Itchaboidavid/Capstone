@@ -189,8 +189,15 @@ if (isset($_POST['add_student'])) {
                             $start = "SELECT * FROM schoolstart WHERE month = '$currentMonth' AND year = '$currentYear'";
                             $startResult = $conn->query($start);
                             $startRow = $startResult->fetch_assoc();
+                            if ($startResult->num_rows > 0) {
+                                $start_date = $startRow['start_date'];
+                                $end_date = $startRow['end_date'];
+                            } else {
+                                $start_date = 0;
+                                $end_date = 0;
+                            }
 
-                            for ($i = $startRow['start_date']; $i <= $startRow['end_date']; $i++) {
+                            for ($i = $start_date; $i <= $end_date; $i++) {
                                 $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
 
                                 if ($day == 'Sat' || $day == 'Sun') {
@@ -203,7 +210,7 @@ if (isset($_POST['add_student'])) {
 
                             echo '<tr>';
                             // Generate headers for each weekday
-                            for ($i = $startRow['start_date']; $i <= $startRow['end_date']; $i++) {
+                            for ($i = $start_date; $i <= $end_date; $i++) {
                                 $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
                                 if ($day == 'Sat' || $day == 'Sun') {
                                     $weekdays++;
@@ -221,7 +228,7 @@ if (isset($_POST['add_student'])) {
 
                                 echo '<td style="text-align:center;">' . $student['sex'] . '</td>';
 
-                                for ($i = $startRow['start_date']; $i <= $startRow['end_date']; $i++) {
+                                for ($i = $start_date; $i <= $end_date; $i++) {
                                     $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
 
                                     if ($day == 'Sat' || $day == 'Sun') {

@@ -390,7 +390,17 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowMaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowMaleStudent["name"], 1, 0, 'C', 0);
-    $backSubject = "SELECT subject_title FROM `sf9` WHERE `student_name` = '$currentStudent' AND `final_grade` < 75 AND `final_grade` > 0";
+    $backSubject = "
+        SELECT student_name, final_grade
+        FROM sf9
+        WHERE student_name = '$currentStudent' AND final_grade < 75 AND final_grade > 0
+
+        UNION
+
+        SELECT student_name, final_grade
+        FROM sf10remedial
+        WHERE student_name = '$currentStudent' AND final_grade >= 75 AND final_grade <= 0;
+    ";
     $backSubjectResult = $conn->query($backSubject);
 
     // Variable to store concatenated subject titles with line breaks
@@ -442,7 +452,17 @@ while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowFemaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowFemaleStudent["name"], 1, 0, 'C', 0);
-    $backSubject = "SELECT * FROM `sf9` WHERE `student_name` = '$currentStudent' AND `final_grade` < 75 AND `final_grade` > 0";
+    $backSubject = "
+        SELECT student_name, final_grade, subject_title
+        FROM sf9
+        WHERE student_name = '$currentStudent' AND final_grade < 75 AND final_grade > 0
+
+        UNION
+
+        SELECT student_name, final_grade, subject_title
+        FROM sf10remedial
+        WHERE student_name = '$currentStudent' AND final_grade >= 75 AND final_grade <= 0;
+    ";
     $backSubjectResult = $conn->query($backSubject);
 
     // Variable to store concatenated subject titles with line breaks

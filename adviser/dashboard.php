@@ -62,10 +62,10 @@ if (isset($_POST["submit"])) {
                                 <div class="card-header">
                                     <h4 style="text-shadow: 1px 1px 3px black;">
                                         <?php
-                                        $sectionName = $advisedRow['section'];
-                                        $section = "SELECT * FROM section WHERE name = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
+                                        $section = "SELECT * FROM section WHERE adviser_id = '$id' AND is_archived = 0 AND school_year_id = '$school_year_id'";
                                         $sectionResult = $conn->query($section);
                                         $sectionRow = $sectionResult->fetch_assoc();
+                                        $sectionName = $sectionRow['name'];
 
                                         echo $sectionRow['name'] . " - " . $sectionRow['grade'];
                                         ?>
