@@ -100,7 +100,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             </thead>
                             <tbody>
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
+                                $student = "SELECT * FROM `student` WHERE `section` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `sex` ASC";
                                 $studentResult = $conn->query($student);
                                 $studentCount = 1;
                                 while ($studentRow = $studentResult->fetch_assoc()) :
@@ -115,7 +115,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
                                         <?php
                                         $name = $studentRow['name'];
-                                        $check = "SELECT * FROM `sf9` WHERE `student_name` = '$name'";
+                                        $check = "SELECT DISTINCT student_name FROM `sf9` WHERE `student_name` = '$name'";
                                         $checkResult = $conn->query($check);
                                         $checkCount = $checkResult->num_rows;
                                         if ($checkCount > 0) {
@@ -127,9 +127,9 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         <td>
                                             <?php
                                             $removeAddBtn = "
-                                            SELECT student_name FROM sf5b
+                                            SELECT DISTINCT student_name FROM sf5b WHERE student_name = '$name'
                                             UNION
-                                            SELECT student_name FROM sf9
+                                            SELECT DISTINCT student_name FROM sf9 WHERE student_name = '$name'
                                             ";
                                             $removeAddBtnResult = $conn->query($removeAddBtn);
                                             if ($removeAddBtnResult->num_rows > 0) { ?>

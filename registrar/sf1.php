@@ -9,7 +9,12 @@ $option = new Options();
 $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
-$sections = "SELECT * FROM `section` WHERE is_archived = 0 ORDER BY `name` ASC";
+$sySQL = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sySQL);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
+
+$sections = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
 $sectionResult = $conn->query($sections);
 $sectionCount = $sectionResult->num_rows;
 $html = '';
@@ -186,7 +191,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
        ';
   //MALE TABLE
   $sectionName = $sectionRow['name'];
-  $maleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND `sex` = 'M' AND is_archived = 0 ORDER BY `name` ASC";
+  $maleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND `sex` = 'M' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
   $maleStudentResult = mysqli_query($conn, $maleStudents);
   $maleStudentCount = mysqli_num_rows($maleStudentResult);
   if ($maleStudentCount === 0) {
@@ -249,7 +254,7 @@ while ($sectionRow = mysqli_fetch_assoc($sectionResult)) {
               ';
   };
   //FEMALE TABLE
-  $femaleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND sex = 'F' AND is_archived = 0 ORDER BY name ASC";
+  $femaleStudents = "SELECT *  FROM student WHERE `section` = '$sectionName' AND sex = 'F' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY name ASC";
   $femaleStudentResult = mysqli_query($conn, $femaleStudents);
   $femaleStudentCount = mysqli_num_rows($femaleStudentResult);
   if ($femaleStudentCount === 0) {

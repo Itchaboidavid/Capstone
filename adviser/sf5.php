@@ -180,26 +180,26 @@ $pdf->Cell(-0.000001);
 $sectionName = $sectionsf5Row['name'];
 
 //COMPLETE MALE 1ST SEM
-$completeMale1st_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
-$completeMale1st_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$completeMale1st_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$completeMale1st_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
 $completeMale1st = "$completeMale1st_sf9 UNION $completeMale1st_sf10remedial";
 $completeMale1stResult = $conn->query($completeMale1st);
 $completeMale1stCount = $completeMale1stResult->num_rows;
 //INCOMPLETE MALE 1ST SEM
-$incompleteMale1st_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '1st'";
-$incompleteMale1st_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '1st'";
+$incompleteMale1st_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '1st'";
+$incompleteMale1st_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '1st'";
 $incompleteMale1st = "$incompleteMale1st_sf9 UNION $incompleteMale1st_sf10remedial";
 $incompleteMale1stResult = $conn->query($incompleteMale1st);
 $incompleteMale1stCount = $incompleteMale1stResult->num_rows;
 //COMPLETE FEMALE 1ST SEM
-$completeFemale1st_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
-$completeFemale1st_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$completeFemale1st_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$completeFemale1st_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
 $completeFemale1st = "$completeFemale1st_sf9 UNION $completeFemale1st_sf10remedial";
 $completeFemale1stResult = $conn->query($completeFemale1st);
 $completeFemale1stCount = $completeFemale1stResult->num_rows;
 //INCOMPLETE FEMALE 1ST SEM
-$incompleteFemale1st_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
-$incompleteFemale1st_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$incompleteFemale1st_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
+$incompleteFemale1st_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '1st' AND school_year_id = '$school_year_id'";
 $incompleteFemale1st = "$incompleteFemale1st_sf9 UNION $incompleteFemale1st_sf10remedial";
 $incompleteFemale1stResult = $conn->query($incompleteFemale1st);
 $incompleteFemale1stCount = $incompleteFemale1stResult->num_rows;
@@ -254,26 +254,26 @@ $pdf->Cell(24.5, 7, 'Complete', 1, 0, 'C', 0);
 $pdf->Cell(-0.000001);
 
 //COMPLETE MALE 2nd SEM
-$completeMale2nd_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
-$completeMale2nd_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
+$completeMale2nd_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
+$completeMale2nd_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'M' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
 $completeMale2nd = "$completeMale2nd_sf9 UNION $completeMale2nd_sf10remedial";
 $completeMale2ndResult = $conn->query($completeMale2nd);
 $completeMale2ndCount = $completeMale2ndResult->num_rows;
 //INCOMPLETE MALE 2nd SEM
-$incompleteMale2nd_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '2nd'";
-$incompleteMale2nd_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '2nd'";
+$incompleteMale2nd_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '2nd'";
+$incompleteMale2nd_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'M' AND `semester` = '2nd'";
 $incompleteMale2nd = "$incompleteMale2nd_sf9 UNION $incompleteMale2nd_sf10remedial";
 $incompleteMale2ndResult = $conn->query($incompleteMale2nd);
 $incompleteMale2ndCount = $incompleteMale2ndResult->num_rows;
 //COMPLETE FEMALE 2nd SEM
-$completeFemale2nd_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
-$completeFemale2nd_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
+$completeFemale2nd_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
+$completeFemale2nd_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` >= 75 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
 $completeFemale2nd = "$completeFemale2nd_sf9 UNION $completeFemale2nd_sf10remedial";
 $completeFemale2ndResult = $conn->query($completeFemale2nd);
 $completeFemale2ndCount = $completeFemale2ndResult->num_rows;
 //INCOMPLETE FEMALE 2nd SEM
-$incompleteFemale2nd_sf9 = "SELECT DISTINCT `student_name` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '2nd'";
-$incompleteFemale2nd_sf10remedial = "SELECT DISTINCT `student_name` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '2nd'";
+$incompleteFemale2nd_sf9 = "SELECT DISTINCT `student_id` FROM `sf9` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
+$incompleteFemale2nd_sf10remedial = "SELECT DISTINCT `student_id` FROM `sf10remedial` WHERE `section` = '$sectionName' AND `final_grade` < 75 AND `final_grade` > 0 AND `sex` = 'F' AND `semester` = '2nd' AND school_year_id = '$school_year_id'";
 $incompleteFemale2nd = "$incompleteFemale2nd_sf9 UNION $incompleteFemale2nd_sf10remedial";
 $incompleteFemale2ndResult = $conn->query($incompleteFemale2nd);
 $incompleteFemale2ndCount = $incompleteFemale2ndResult->num_rows;
@@ -380,7 +380,7 @@ $totalMale = $resultMaleStudent->num_rows;
 $pdf->SetXY(10, 89.5);
 $countsf5A = 1;
 while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
-    $currentStudent = $rowMaleStudent["name"];
+    $currentStudent = $rowMaleStudent["id"];
 
     $pdf->SetFont('Arial', 'I', 6);
     $pdf->SetLineWidth(0.5);
@@ -391,15 +391,15 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
     $pdf->Cell(26, 7, $rowMaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowMaleStudent["name"], 1, 0, 'C', 0);
     $backSubject = "
-        SELECT student_name, final_grade
+        SELECT student_id, final_grade
         FROM sf9
-        WHERE student_name = '$currentStudent' AND final_grade < 75 AND final_grade > 0
+        WHERE student_id = '$currentStudent' AND final_grade < 75 AND final_grade > 0
 
         UNION
 
-        SELECT student_name, final_grade
+        SELECT student_id, final_grade
         FROM sf10remedial
-        WHERE student_name = '$currentStudent' AND final_grade >= 75 AND final_grade <= 0;
+        WHERE student_id = '$currentStudent' AND final_grade >= 75 AND final_grade <= 0;
     ";
     $backSubjectResult = $conn->query($backSubject);
 
@@ -442,7 +442,7 @@ $femaleStudent = "SELECT * FROM `student` WHERE `sex` = 'F' AND `section` = '$na
 $resultFemaleStudent = mysqli_query($conn, $femaleStudent);
 $totalFemale = $resultFemaleStudent->num_rows;
 while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
-    $currentStudent = $rowFemaleStudent["name"];
+    $currentStudent = $rowFemaleStudent["id"];
 
     $pdf->SetFont('Arial', 'I', 6);
     $pdf->SetLineWidth(0.5);
@@ -453,15 +453,15 @@ while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {
     $pdf->Cell(26, 7, $rowFemaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowFemaleStudent["name"], 1, 0, 'C', 0);
     $backSubject = "
-        SELECT student_name, final_grade, subject_title
+        SELECT student_id, final_grade, subject_title
         FROM sf9
-        WHERE student_name = '$currentStudent' AND final_grade < 75 AND final_grade > 0
+        WHERE student_id = '$currentStudent' AND final_grade < 75 AND final_grade > 0
 
         UNION
 
-        SELECT student_name, final_grade, subject_title
+        SELECT student_id, final_grade, subject_title
         FROM sf10remedial
-        WHERE student_name = '$currentStudent' AND final_grade >= 75 AND final_grade <= 0;
+        WHERE student_id = '$currentStudent' AND final_grade < 75 AND final_grade > 0;
     ";
     $backSubjectResult = $conn->query($backSubject);
 

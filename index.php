@@ -99,7 +99,7 @@ if (isset($_SESSION['user_logged_in'])) {
       text-align: center;
       width: 50%;
       height: 500px;
-      box-shadow: 1px 1px 3px blue;
+      box-shadow: 1px 1px 3px black;
     }
 
     #info {
@@ -128,15 +128,15 @@ if (isset($_SESSION['user_logged_in'])) {
       }
       ?>
       <form action="" method="POST" class="needs-validation" novalidate>
-        <h3 class="text-shadow: 1px 2px 3px blue; fw-bold" style="letter-spacing: 1.5px;">LOGIN</h3>
+        <h3 class="text-shadow: 1px 2px 3px black; fw-bold" style="letter-spacing: 1.5px;">LOGIN</h3>
         <div class="mb-3 form-floating">
-          <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required style="box-shadow: 0px 1px 2px blue;" />
+          <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required style="box-shadow: 0px 1px 3px black;" />
           <label for=" username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
           <div class="valid-feedback bg-body-tertiary">Great!</div>
           <div class="invalid-feedback bg-body-tertiary"> Please enter a username.</div>
         </div>
         <div class="mb-3 form-floating input-container" style="position: relative;">
-          <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px; box-shadow: 0px 1px 2px blue;" />
+          <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px; box-shadow: 0px 1px 3px black;" />
           <label for="password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Password</label>
           <div class="valid-feedback bg-light">Great!</div>
           <div class="invalid-feedback bg-light"> Please enter a password.</div>

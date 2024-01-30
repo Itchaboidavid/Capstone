@@ -31,7 +31,12 @@ session_start();
                     </div>
                 </div>
                 <?php
-                $section = "SELECT * FROM section WHERE is_archived = 0";
+                $sySQL = "SELECT * FROM school_year WHERE is_archived = 0";
+                $syResult = $conn->query($sySQL);
+                $syRow = $syResult->fetch_assoc();
+                $school_year_id = $syRow['id'];
+
+                $section = "SELECT * FROM section WHERE school_year_id = '$school_year_id' AND is_archived = 0";
                 $sectionResult = $conn->query($section);
                 while ($sectionRow = $sectionResult->fetch_assoc()) {
                     $sectionName = $sectionRow['name'];
@@ -61,7 +66,7 @@ session_start();
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $student = "SELECT * FROM `student` WHERE is_archived = 0 AND section = '$sectionName' ORDER BY `sex`, `name` ASC";
+                                    $student = "SELECT * FROM `student` WHERE is_archived = 0 AND section = '$sectionName' AND school_year_id = '$school_year_id' ORDER BY `sex`, `name` ASC";
                                     $studentResult = $conn->query($student);
                                     while ($studentRow = $studentResult->fetch_assoc()) :
                                     ?>

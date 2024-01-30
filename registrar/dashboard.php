@@ -35,7 +35,12 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $students = "SELECT * FROM `student`";
+                                $sySQL = "SELECT * FROM school_year WHERE is_archived = 0";
+                                $syResult = $conn->query($sySQL);
+                                $syRow = $syResult->fetch_assoc();
+                                $school_year_id = $syRow['id'];
+
+                                $students = "SELECT * FROM `student` WHERE school_year_id = '$school_year_id' AND is_archived = 0";
                                 $studentsResult = $conn->query($students);
                                 $studentsCount = $studentsResult->num_rows;
                                 ?>
@@ -54,7 +59,7 @@ session_start();
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $section = "SELECT * FROM `section`";
+                                $section = "SELECT * FROM `section` WHERE school_year_id = '$school_year_id' AND is_archived = 0";
                                 $sectionResult = $conn->query($section);
                                 $sectionCount = $sectionResult->num_rows;
                                 ?>

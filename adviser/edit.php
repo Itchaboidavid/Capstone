@@ -74,29 +74,49 @@ $studentName = $studentRow['name'];
                             <?php
                             $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
                             $sf5bResult = $conn->query($sf5b);
-                            $sf5bRow = $sf5bResult->fetch_assoc();
+                            if ($sf5bResult->num_rows > 0) {
+                                $sf5bRow = $sf5bResult->fetch_assoc();
                             ?>
-                            <div class="form-floating mb-3 ">
-                                <select class="form-select bg-body-tertiary" name="completed" id="completed" required>
-                                    <option selected value="<?php echo $sf5bRow['completed'] ?>"><?php echo $sf5bRow['completed'] ?></option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                                <label for="completed">Completed SHS in 2 School Year</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
-                            </div>
-                            <div class="form-floating mb-3 ">
-                                <select class="form-select bg-body-tertiary" name="nc" id="nc">
-                                    <option selected value="<?php echo $sf5bRow['nc'] ?>"><?php echo $sf5bRow['nc'] ?></option>
-                                    <option value="NC I">NC I</option>
-                                    <option value="NC II">NC II</option>
-                                    <option value="NC III">NC III</option>
-                                </select>
-                                <label for="nc">National Certification Level Attained(only if applicable)</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
-                            </div>
+                                <div class="form-floating mb-3 ">
+                                    <select class="form-select bg-body-tertiary" name="completed" id="completed" required>
+                                        <option selected value="<?php echo $sf5bRow['completed'] ?>"><?php echo $sf5bRow['completed'] ?></option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <label for="completed">Completed SHS in 2 School Year</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                                </div>
+                                <div class="form-floating mb-3 ">
+                                    <select class="form-select bg-body-tertiary" name="nc" id="nc">
+                                        <option selected value="<?php echo $sf5bRow['nc'] ?>"><?php echo $sf5bRow['nc'] ?></option>
+                                        <option value="NC I">NC I</option>
+                                        <option value="NC II">NC II</option>
+                                        <option value="NC III">NC III</option>
+                                    </select>
+                                    <label for="nc">National Certification Level Attained(only if applicable)</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="form-floating mb-3 ">
+                                    <select class="form-select bg-body-tertiary" name="completed" id="completed" required>
+                                        <option selected></option>
+                                    </select>
+                                    <label for="completed">Completed SHS in 2 School Year</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                                </div>
+                                <div class="form-floating mb-3 ">
+                                    <select class="form-select bg-body-tertiary" name="nc" id="nc">
+                                        <option selected></option>
+                                    </select>
+                                    <label for="nc">National Certification Level Attained(only if applicable)</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select Yes/No.</div>
+                                </div>
+                            <?php }
+                            ?>
                             <hr>
                             <h4>School Form 9</h4>
                             <h5>REPORT OF LEARNING PROGRESS AND ACHIEVEMENT</h5>
@@ -115,42 +135,72 @@ $studentName = $studentRow['name'];
                                     <?php
                                     $sf91 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st'";
                                     $sf91Result = $conn->query($sf91);
-                                    $i = 1;
 
-                                    $fetchedData = [];
-                                    while ($sf91Row = $sf91Result->fetch_assoc()) {
-                                        $fetchedData[$i] = $sf91Row;
-                                        $i++;
-                                    }
-                                    for ($i = 1; $i <= 10; $i++) {
-                                        echo '<tr>';
+                                    if ($sf91Result->num_rows > 0) {
+                                        $i = 1;
 
-                                        // Display form fields with fetched data
-                                        echo '<td>
+                                        $fetchedData = [];
+                                        while ($sf91Row = $sf91Result->fetch_assoc()) {
+                                            $fetchedData[$i] = $sf91Row;
+                                            $i++;
+                                        }
+                                        for ($i = 1; $i <= 10; $i++) {
+                                            echo '<tr>';
+
+                                            // Display form fields with fetched data
+                                            echo '<td>
                                             <input type="hidden" name="id' . $i . '" value="' . $fetchedData[$i]['id'] . '" />
                                             <input type="text" name="sem1' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="1st" readonly />
                                             </td>';
-                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">';
-                                        echo '<option value="' . $fetchedData[$i]['subject_type'] . '" selected>' . $fetchedData[$i]['subject_type'] . '</option>';
-                                        echo '<option value="Core">Core</option>';
-                                        echo '<option value="Applied">Applied</option>';
-                                        echo '<option value="Specialized">Specialized</option>';
-                                        echo '</select></td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">';
+                                            echo '<option value="' . $fetchedData[$i]['subject_type'] . '" selected>' . $fetchedData[$i]['subject_type'] . '</option>';
+                                            echo '<option value="Core">Core</option>';
+                                            echo '<option value="Applied">Applied</option>';
+                                            echo '<option value="Specialized">Specialized</option>';
+                                            echo '</select></td>';
 
-                                        echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">';
-                                        echo '<option value="' . $fetchedData[$i]['subject_title'] . '" selected>' . $fetchedData[$i]['subject_title'] . '</option>';
-                                        echo '</select></td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">';
+                                            echo '<option value="' . $fetchedData[$i]['subject_title'] . '" selected>' . $fetchedData[$i]['subject_title'] . '</option>';
+                                            echo '</select></td>';
 
-                                        echo '<td><input type="number" name="first1' . $i . '" id="first1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade1'] . '"/></td>';
+                                            echo '<td><input type="number" name="first1' . $i . '" id="first1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade1'] . '"/></td>';
 
-                                        echo '<td><input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade2'] . '" /></td>';
+                                            echo '<td><input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]['sem_grade2'] . '" /></td>';
 
-                                        echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]['final_grade'] . '" /></td>';
+                                            echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]['final_grade'] . '" /></td>';
 
-                                        echo '</tr>';
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        $i = 1;
+
+                                        for ($i = 1; $i <= 10; $i++) {
+                                            echo '<tr>';
+
+                                            // Display form fields with fetched data
+                                            echo '<td>
+                                            <input type="hidden" name="id' . $i . '" />
+                                            <input type="text" name="sem1' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="1st" readonly />
+                                            </td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">';
+                                            echo '<option  selected></option>';
+                                            echo '</select></td>';
+
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title1' . $i . '">';
+                                            echo '<option selected></option>';
+                                            echo '</select></td>';
+
+                                            echo '<td><input type="number" name="first1' . $i . '" id="first1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100"/></td>';
+
+                                            echo '<td><input type="number" name="second1' . $i . '" id="second1' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage(' . $i . ')" step="0.01" max="100" /></td>';
+
+                                            echo '<td><input type="text" name="final_grade1' . $i . '" id="final_grade1' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly /></td>';
+
+                                            echo '</tr>';
+                                        }
                                     }
-
                                     ?>
+
                                     <!-- 2ndSEM -->
                                     <tr>
                                         <td colspan="6" class="fw-bold text-center">2nd Semester</td>
@@ -193,6 +243,32 @@ $studentName = $studentRow['name'];
 
                                             echo '</tr>';
                                         }
+                                    } else {
+                                        $x = 1;
+
+                                        for ($x = 1; $x <= 10; $x++) {
+                                            echo '<tr>';
+
+                                            // Display form fields with fetched data
+                                            echo '<td>
+                                            <input type="hidden" name="id2' . $x . '"  />
+                                            <input type="text" name="sem2' . $x . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="2nd" readonly />
+                                            </td>';
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $x . '">';
+                                            echo '<option selected></option>';
+                                            echo '</select></td>';
+
+                                            echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_title2' . $x . '">';
+                                            echo '<option selected></option>';
+                                            echo '</select></td>';
+
+                                            echo '<td><input type="number" name="first2' . $x . '" id="first2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" /></td>';
+
+                                            echo '<td><input type="number" name="second2' . $x . '" id="second2' . $x . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage2ndSem(' . $x . ')" step="0.01" max="100" /></td>';
+
+                                            echo '<td><input type="text" name="final_grade2' . $x . '" id="final_grade2' . $x . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly /></td>';
+                                            echo '</tr>';
+                                        }
                                     }
 
                                     ?>
@@ -220,85 +296,108 @@ $studentName = $studentRow['name'];
                                     <tr>
                                         <td class="fw-bold">BLENDED</td>
                                         <?php
-                                        if ($modalityRow['blended_q1'] == 1) {
-                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100"></td>';
-                                        };
+                                        if ($modalityResult->num_rows > 0) {
+                                            if ($modalityRow['blended_q1'] == 1) {
+                                                echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['blended_q2'] == 1) {
-                                            echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['blended_q2'] == 1) {
+                                                echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="blended_q2" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['blended_q3'] == 1) {
-                                            echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['blended_q3'] == 1) {
+                                                echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="blended_q3" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['blended_q4'] == 1) {
-                                            echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100" checked></td>';
+                                            if ($modalityRow['blended_q4'] == 1) {
+                                                echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100"></td>';
+                                            };
                                         } else {
-                                            echo  '<td><input type="checkbox" name="blended_q4" value="1" class="w-100"></td>';
-                                        };
+
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="blended_q1" value="1" class="w-100" disabled></td>';
+                                        }
                                         ?>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">MODULAR DISTANCE LEARNING</td>
                                         <?php
-                                        if ($modalityRow['mdl_q1'] == 1) {
-                                            echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100"></td>';
-                                        };
+                                        if ($modalityResult->num_rows > 0) {
+                                            if ($modalityRow['mdl_q1'] == 1) {
+                                                echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="mdl_q1" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['mdl_q2'] == 1) {
-                                            echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['mdl_q2'] == 1) {
+                                                echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="mdl_q2" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['mdl_q3'] == 1) {
-                                            echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['mdl_q3'] == 1) {
+                                                echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="mdl_q3" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['mdl_q4'] == 1) {
-                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" checked></td>';
+                                            if ($modalityRow['mdl_q4'] == 1) {
+                                                echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100"></td>';
+                                            };
                                         } else {
-                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100"></td>';
-                                        };
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="mdl_q4" value="1" class="w-100" disabled></td>';
+                                        }
                                         ?>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">IN-PERSON</td>
                                         <?php
-                                        if ($modalityRow['ip_q1'] == 1) {
-                                            echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100"></td>';
-                                        };
+                                        if ($modalityResult->num_rows > 0) {
+                                            if ($modalityRow['ip_q1'] == 1) {
+                                                echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="ip_q1" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['ip_q2'] == 1) {
-                                            echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['ip_q2'] == 1) {
+                                                echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="ip_q2" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['ip_q3'] == 1) {
-                                            echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100" checked></td>';
-                                        } else {
-                                            echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100"></td>';
-                                        };
+                                            if ($modalityRow['ip_q3'] == 1) {
+                                                echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="ip_q3" value="1" class="w-100"></td>';
+                                            };
 
-                                        if ($modalityRow['ip_q4'] == 1) {
-                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" checked></td>';
+                                            if ($modalityRow['ip_q4'] == 1) {
+                                                echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" checked></td>';
+                                            } else {
+                                                echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100"></td>';
+                                            };
                                         } else {
-                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100"></td>';
-                                        };
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" disabled></td>';
+                                            echo  '<td><input type="checkbox" name="ip_q4" value="1" class="w-100" disabled></td>';
+                                        }
+
                                         ?>
                                     </tr>
                                 </tbody>
@@ -328,317 +427,630 @@ $studentName = $studentRow['name'];
                                     <?php
                                     $editOV = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$studentName'";
                                     $editOVResult = $conn->query($editOV);
-                                    $editOVRow = $editOVResult->fetch_assoc();
+                                    if ($editOVResult->num_rows > 0) {
+                                        $editOVRow = $editOVResult->fetch_assoc();
                                     ?>
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
-                                            <td>
-                                                Expresses ones spiritual belief’s
-                                                while respecting the spiritual
-                                                beliefs of other
-                                            </td>
-                                            <td>
-                                                <select name="mdq1" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq1'] ?>"><?php echo $editOVRow['mdq1'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq2" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq2'] ?>"><?php echo $editOVRow['mdq2'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq3" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq3'] ?>"><?php echo $editOVRow['mdq3'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq4" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq4'] ?>"><?php echo $editOVRow['mdq4'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Shows adherence to ethical
-                                                principles by uplholding truth.
-                                            </td>
-                                            <td>
-                                                <select name="mdq5" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq5'] ?>"><?php echo $editOVRow['mdq5'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq6" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq6'] ?>"><?php echo $editOVRow['mdq6'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq7" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq7'] ?>"><?php echo $editOVRow['mdq7'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mdq8" id="" required>
-                                                    <option value="<?php echo $editOVRow['mdq8'] ?>"><?php echo $editOVRow['mdq8'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <!--  -->
-                                        <tr>
-                                            <td rowspan="2" style="vertical-align:middle;">2. Makatao</td>
-                                            <td>
-                                                Is sensitive to individual, social
-                                                and cultural differences
-                                            </td>
-                                            <td>
-                                                <select name="mkq1" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq1'] ?>"><?php echo $editOVRow['mkq1'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq2" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq2'] ?>"><?php echo $editOVRow['mkq2'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq3" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq3'] ?>"><?php echo $editOVRow['mkq3'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq4" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq4'] ?>"><?php echo $editOVRow['mkq4'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Demonstrate contribution toward
-                                                solidarity
-                                            </td>
-                                            <td>
-                                                <select name="mkq5" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq5'] ?>"><?php echo $editOVRow['mkq5'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq6" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq6'] ?>"><?php echo $editOVRow['mkq6'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq7" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq7'] ?>"><?php echo $editOVRow['mkq7'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkq8" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkq8'] ?>"><?php echo $editOVRow['mkq8'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <!--  -->
-                                        <tr>
-                                            <td rowspan="" style="vertical-align:middle;">3.Makakalikasan</td>
-                                            <td>
-                                                Cares for the environment and
-                                                utilizes resources wisely,
-                                                judiciously, and economically.
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
+                                                <td>
+                                                    Expresses ones spiritual belief’s
+                                                    while respecting the spiritual
+                                                    beliefs of other
+                                                </td>
+                                                <td>
+                                                    <select name="mdq1" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq1'] ?>"><?php echo $editOVRow['mdq1'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq2" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq2'] ?>"><?php echo $editOVRow['mdq2'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq3" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq3'] ?>"><?php echo $editOVRow['mdq3'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq4" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq4'] ?>"><?php echo $editOVRow['mdq4'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Shows adherence to ethical
+                                                    principles by uplholding truth.
+                                                </td>
+                                                <td>
+                                                    <select name="mdq5" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq5'] ?>"><?php echo $editOVRow['mdq5'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq6" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq6'] ?>"><?php echo $editOVRow['mdq6'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq7" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq7'] ?>"><?php echo $editOVRow['mdq7'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq8" id="" required>
+                                                        <option value="<?php echo $editOVRow['mdq8'] ?>"><?php echo $editOVRow['mdq8'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">2. Makatao</td>
+                                                <td>
+                                                    Is sensitive to individual, social
+                                                    and cultural differences
+                                                </td>
+                                                <td>
+                                                    <select name="mkq1" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq1'] ?>"><?php echo $editOVRow['mkq1'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq2" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq2'] ?>"><?php echo $editOVRow['mkq2'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq3" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq3'] ?>"><?php echo $editOVRow['mkq3'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq4" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq4'] ?>"><?php echo $editOVRow['mkq4'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Demonstrate contribution toward
+                                                    solidarity
+                                                </td>
+                                                <td>
+                                                    <select name="mkq5" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq5'] ?>"><?php echo $editOVRow['mkq5'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq6" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq6'] ?>"><?php echo $editOVRow['mkq6'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq7" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq7'] ?>"><?php echo $editOVRow['mkq7'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq8" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkq8'] ?>"><?php echo $editOVRow['mkq8'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="" style="vertical-align:middle;">3.Makakalikasan</td>
+                                                <td>
+                                                    Cares for the environment and
+                                                    utilizes resources wisely,
+                                                    judiciously, and economically.
 
-                                            </td>
-                                            <td>
-                                                <select name="mkkq1" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkkq1'] ?>"><?php echo $editOVRow['mkkq1'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkkq2" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkkq2'] ?>"><?php echo $editOVRow['mkkq2'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkkq3" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkkq3'] ?>"><?php echo $editOVRow['mkkq3'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mkkq4" id="" required>
-                                                    <option value="<?php echo $editOVRow['mkkq4'] ?>"><?php echo $editOVRow['mkkq4'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <!--  -->
-                                        <tr>
-                                            <td rowspan="2" style="vertical-align:middle;">4.Makabansa</td>
-                                            <td>
-                                                Demonstrate pride in being a
-                                                Filipino, exercises the rights and
-                                                responsibilities of a
-                                                Filipio citizen.
-                                            </td>
-                                            <td>
-                                                <select name="mbq1" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq1'] ?>"><?php echo $editOVRow['mbq1'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq2" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq2'] ?>"><?php echo $editOVRow['mbq2'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq3" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq3'] ?>"><?php echo $editOVRow['mbq3'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq4" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq4'] ?>"><?php echo $editOVRow['mbq4'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Demonstrate appropriate behavior
-                                                in carrying out activities in the
-                                                school, community, and country.
-                                            </td>
-                                            <td>
-                                                <select name="mbq5" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq5'] ?>"><?php echo $editOVRow['mbq5'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq6" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq6'] ?>"><?php echo $editOVRow['mbq6'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq7" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq7'] ?>"><?php echo $editOVRow['mbq7'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="mbq8" id="" required>
-                                                    <option value="<?php echo $editOVRow['mbq8'] ?>"><?php echo $editOVRow['mbq8'] ?></option>
-                                                    <option value="AO">AO</option>
-                                                    <option value="SO">SO</option>
-                                                    <option value="RO">RO</option>
-                                                    <option value="NO">NO</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq1" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkkq1'] ?>"><?php echo $editOVRow['mkkq1'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq2" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkkq2'] ?>"><?php echo $editOVRow['mkkq2'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq3" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkkq3'] ?>"><?php echo $editOVRow['mkkq3'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq4" id="" required>
+                                                        <option value="<?php echo $editOVRow['mkkq4'] ?>"><?php echo $editOVRow['mkkq4'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">4.Makabansa</td>
+                                                <td>
+                                                    Demonstrate pride in being a
+                                                    Filipino, exercises the rights and
+                                                    responsibilities of a
+                                                    Filipio citizen.
+                                                </td>
+                                                <td>
+                                                    <select name="mbq1" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq1'] ?>"><?php echo $editOVRow['mbq1'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq2" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq2'] ?>"><?php echo $editOVRow['mbq2'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq3" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq3'] ?>"><?php echo $editOVRow['mbq3'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq4" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq4'] ?>"><?php echo $editOVRow['mbq4'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Demonstrate appropriate behavior
+                                                    in carrying out activities in the
+                                                    school, community, and country.
+                                                </td>
+                                                <td>
+                                                    <select name="mbq5" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq5'] ?>"><?php echo $editOVRow['mbq5'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq6" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq6'] ?>"><?php echo $editOVRow['mbq6'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq7" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq7'] ?>"><?php echo $editOVRow['mbq7'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq8" id="" required>
+                                                        <option value="<?php echo $editOVRow['mbq8'] ?>"><?php echo $editOVRow['mbq8'] ?></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    <?php } else { ?>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">1. Maka-Diyos</td>
+                                                <td>
+                                                    Expresses ones spiritual belief’s
+                                                    while respecting the spiritual
+                                                    beliefs of other
+                                                </td>
+                                                <td>
+                                                    <select name="mdq1" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq2" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq3" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq4" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Shows adherence to ethical
+                                                    principles by uplholding truth.
+                                                </td>
+                                                <td>
+                                                    <select name="mdq5" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq6" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq7" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mdq8" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">2. Makatao</td>
+                                                <td>
+                                                    Is sensitive to individual, social
+                                                    and cultural differences
+                                                </td>
+                                                <td>
+                                                    <select name="mkq1" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq2" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq3" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq4" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Demonstrate contribution toward
+                                                    solidarity
+                                                </td>
+                                                <td>
+                                                    <select name="mkq5" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq6" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq7" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkq8" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="" style="vertical-align:middle;">3.Makakalikasan</td>
+                                                <td>
+                                                    Cares for the environment and
+                                                    utilizes resources wisely,
+                                                    judiciously, and economically.
+
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq1" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq2" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq3" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mkkq4" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <!--  -->
+                                            <tr>
+                                                <td rowspan="2" style="vertical-align:middle;">4.Makabansa</td>
+                                                <td>
+                                                    Demonstrate pride in being a
+                                                    Filipino, exercises the rights and
+                                                    responsibilities of a
+                                                    Filipio citizen.
+                                                </td>
+                                                <td>
+                                                    <select name="mbq1" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq2" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq3" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq4" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Demonstrate appropriate behavior
+                                                    in carrying out activities in the
+                                                    school, community, and country.
+                                                </td>
+                                                <td>
+                                                    <select name="mbq5" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq6" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq7" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="mbq8" id="" required>
+                                                        <option></option>
+                                                        <option value="AO">AO</option>
+                                                        <option value="SO">SO</option>
+                                                        <option value="RO">RO</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    <?php } ?>
+
                                 </table>
                                 <img src="../images/sf9ov.png" alt="sf9 OV table" class="ms-3">
                             </div>
@@ -660,52 +1072,92 @@ $studentName = $studentRow['name'];
                                     <?php
                                     $remedial = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$studentName'";
                                     $remedialResult = $conn->query($remedial);
-                                    $i = 1;
+                                    if ($remedialResult->num_rows > 0) {
+                                        $i = 1;
 
-                                    $fetchedData = [];
-                                    while ($remedialRow = $remedialResult->fetch_assoc()) {
-                                        $fetchedData[$i] = $remedialRow;
-                                        $i++;
-                                    }
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        echo
-                                        '
+                                        $fetchedData = [];
+                                        while ($remedialRow = $remedialResult->fetch_assoc()) {
+                                            $fetchedData[$i] = $remedialRow;
+                                            $i++;
+                                        }
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            echo
+                                            '
+                                            <tr>
+                                                    <td>
+                                                        <input type="hidden" name="id10' . $i . '" value="' . $fetchedData[$i]["id"] . '" />
+                                                        <select class="form-select-sm bg-body-tertiary w-100" name="semester' . $i . '">
+                                                            <option value="' . $fetchedData[$i]["semester"] . '" selected>' . $fetchedData[$i]["semester"] . '</option>
+                                                            <option value="1st">1st</option>
+                                                            <option value="2nd">2nd</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select-sm bg-body-tertiary w-100" name="subject_type' . $i . '">
+                                                            <option value="' . $fetchedData[$i]["subject_type"] . '" selected>' . $fetchedData[$i]["subject_type"] . '</option>
+                                                            <option value="Core">Core</option>
+                                                            <option value="Applied">Applied</option>
+                                                            <option value="Specialized">Specialized</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select-sm bg-body-tertiary w-100" name="subject_title' . $i . '">
+                                                            <option value="' . $fetchedData[$i]["subject_title"] . '" selected readonly>' . $fetchedData[$i]["subject_title"] . '</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="first' . $i . '" id="first' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["old_grade"] . '"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["new_grade"] . '"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["final_grade"] . '" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["action"] . '" />
+                                                    </td>
+                                                </tr>
+                                            ';
+                                        }
+                                    } else {
+                                        $i = 1;
+
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            echo
+                                            '
                                         <tr>
                                                 <td>
-                                                    <input type="hidden" name="id10' . $i . '" value="' . $fetchedData[$i]["id"] . '" />
+                                                    <input type="hidden" name="id10' . $i . '"  />
                                                     <select class="form-select-sm bg-body-tertiary w-100" name="semester' . $i . '">
-                                                        <option value="' . $fetchedData[$i]["semester"] . '" selected>' . $fetchedData[$i]["semester"] . '</option>
-                                                        <option value="1st">1st</option>
-                                                        <option value="2nd">2nd</option>
+                                                        <option selected></option>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select class="form-select-sm bg-body-tertiary w-100" name="subject_type' . $i . '">
-                                                        <option value="' . $fetchedData[$i]["subject_type"] . '" selected>' . $fetchedData[$i]["subject_type"] . '</option>
-                                                        <option value="Core">Core</option>
-                                                        <option value="Applied">Applied</option>
-                                                        <option value="Specialized">Specialized</option>
+                                                        <option selected></option>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select class="form-select-sm bg-body-tertiary w-100" name="subject_title' . $i . '">
-                                                        <option value="' . $fetchedData[$i]["subject_title"] . '" selected readonly>' . $fetchedData[$i]["subject_title"] . '</option>
+                                                        <option selected readonly></option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="first' . $i . '" id="first' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["old_grade"] . '"/>
+                                                    <input type="number" name="first' . $i . '" id="first' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" />
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" value="' . $fetchedData[$i]["new_grade"] . '"/>
+                                                    <input type="number" name="second' . $i . '" id="second' . $i . '" placeholder="Grade" class="form-control bg-body-tertiary" oninput="calculateAverage10(' . $i . ')" step="0.01" max="100" />
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["final_grade"] . '" />
+                                                    <input type="text" name="final_grade' . $i . '" id="final_grade' . $i . '" placeholder="Final Grade" class="form-control bg-body-tertiary" readonly />
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly value="' . $fetchedData[$i]["action"] . '" />
+                                                    <input type="text" id="action' . $i . '" name="action' . $i . '" placeholder="Action" class="form-control bg-body-tertiary" readonly />
                                                 </td>
                                             </tr>
                                         ';
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -726,13 +1178,13 @@ $studentName = $studentRow['name'];
                                     ?>
                                     <tr>
                                         <td><input type="text" name="remedialSem1" value="1st" readonly></td>
-                                        <td><input type="date" name="startDate1" value="<?php echo $sf10RemedialDateRow['start_date1'] ?>"></td>
-                                        <td><input type="date" name="endDate1" value="<?php echo $sf10RemedialDateRow['end_date1'] ?>"></td>
+                                        <td><input type="date" name="startDate1" value="<?php echo $sf10RemedialDateRow['start_date1'] ?>" disabled></td>
+                                        <td><input type="date" name="endDate1" value="<?php echo $sf10RemedialDateRow['end_date1'] ?>" disabled></td>
                                     </tr>
                                     <tr>
                                         <td><input type="text" name="remedialSem2" value="2nd" readonly></td>
-                                        <td><input type="date" name="startDate2" value="<?php echo $sf10RemedialDateRow['start_date2'] ?>"></td>
-                                        <td><input type="date" name="endDate2" value="<?php echo $sf10RemedialDateRow['end_date2'] ?>"></td>
+                                        <td><input type="date" name="startDate2" value="<?php echo $sf10RemedialDateRow['start_date2'] ?>" disabled></td>
+                                        <td><input type="date" name="endDate2" value="<?php echo $sf10RemedialDateRow['end_date2'] ?>" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>

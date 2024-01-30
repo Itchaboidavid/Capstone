@@ -43,6 +43,6 @@ $conn->query($activeSections);
 //     }
 // }
 
-echo ("<script>location.href = 'sy_table.php?msg=Archived successfully!';</script>");
+echo ("<script>location.href = 'sy_table.php?msg=Active school year is updated!';</script>");
 exit();
 $conn->close();

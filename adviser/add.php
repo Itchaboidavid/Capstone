@@ -735,19 +735,20 @@ if (isset($_POST['submit'])) {
     $sex = $studentRow['sex'];
     $section = $studentRow['section'];
     $lrn = $studentRow['lrn'];
+    $student_id = $studentRow['id'];
     $school_year_id = $studentRow['school_year_id'];
 
     $completed = $conn->escape_string($_POST['completed']);
     $nc = $conn->escape_string($_POST['nc']);
 
-    $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName' AND school_year_id = '$school_year_id'";
+    $sf5b = "SELECT * FROM `sf5b` WHERE `student_id` = '$student_id' AND school_year_id = '$school_year_id'";
     $sf5bResult = $conn->query($sf5b);
     $sf5bCount = $sf5bResult->num_rows;
 
     if ($sf5bCount > 0) {
         echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in SF5B!';</script>";
     } else {
-        $insertSF5B = "INSERT INTO `sf5b`(`lrn`, `student_name`, `school_year_id`, `completed`, `nc`, `section`, `sex`) VALUES ('$lrn','$studentName', '$school_year_id','$completed','$nc','$section','$sex')";
+        $insertSF5B = "INSERT INTO `sf5b`(`lrn`, `student_name`, `school_year_id`, `completed`, `nc`, `section`, `sex`, `student_id`) VALUES ('$lrn','$studentName', '$school_year_id','$completed','$nc','$section','$sex','$student_id')";
         $conn->query($insertSF5B);
     }
 
@@ -760,8 +761,8 @@ if (isset($_POST['submit'])) {
         $second1 = (float)$_POST['second1' . $i];
         $finalGrade1 = ($first1 + $second1) / 2;
 
-        $stmt = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssss", $studentName, $school_year_id,  $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section);
+        $stmt = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`, `student_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssssss", $studentName, $school_year_id,  $subjectType1, $subjectTitle1, $first1, $second1, $finalGrade1, $sem1, $sex, $section, $student_id);
         $stmt->execute();
         $stmt->close();
     }
@@ -774,8 +775,8 @@ if (isset($_POST['submit'])) {
         $second2 = (float)$_POST['second2' . $i];
         $finalGrade2 = ($first2 + $second2) / 2;
 
-        $stmt2 = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt2->bind_param("ssssssssss", $studentName, $school_year_id,  $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $sex, $section);
+        $stmt2 = $conn->prepare("INSERT INTO `sf9`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`, `student_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt2->bind_param("sssssssssss", $studentName, $school_year_id,  $subjectType2, $subjectTitle2, $first2, $second2, $finalGrade2, $sem2, $sex, $section, $student_id);
         $stmt2->execute();
         $stmt2->close();
     }
@@ -793,14 +794,14 @@ if (isset($_POST['submit'])) {
     $ipQ3 = isset($_POST['ip_q3']) ? 1 : 0;
     $ipQ4 = isset($_POST['ip_q4']) ? 1 : 0;
 
-    $check = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$studentName'";
+    $check = "SELECT * FROM `sf9_modality` WHERE `student_id` = '$student_id'";
     $checkResult = $conn->query($check);
     $checkCount = $checkResult->num_rows;
 
     if ($checkCount > 0) {
         echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in Modality!';</script>";
     } else {
-        $insertModality = "INSERT INTO `sf9_modality`(`student_name`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES ('$studentName','$blendedQ1','$blendedQ2','$blendedQ3','$blendedQ4','$mdlQ1','$mdlQ2','$mdlQ3','$mdlQ4','$ipQ1','$ipQ2','$ipQ3','$ipQ4')";
+        $insertModality = "INSERT INTO `sf9_modality`(`student_name`,  `student_id`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES ('$studentName','$student_id','$blendedQ1','$blendedQ2','$blendedQ3','$blendedQ4','$mdlQ1','$mdlQ2','$mdlQ3','$mdlQ4','$ipQ1','$ipQ2','$ipQ3','$ipQ4')";
         $insertModalityResult = $conn->query($insertModality);
     }
 
@@ -837,13 +838,13 @@ if (isset($_POST['submit'])) {
     $mbq7 = $_POST['mbq7'];
     $mbq8 = $_POST['mbq8'];
 
-    $checkOV = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$studentName'";
+    $checkOV = "SELECT * FROM `sf9_ov` WHERE `student_id` = '$student_id'";
     $checkOVResult = $conn->query($checkOV);
     $checkOVCount = $checkOVResult->num_rows;
     if ($checkOVCount > 0) {
         echo "<script>location.href = 'student_table.php?errmsg=Duplication of entry in OBSERVED VALUES!';</script>";
     } else {
-        $insertOV = "INSERT INTO `sf9_ov`(`student_name`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES ('$studentName','$mdq1','$mdq2','$mdq3','$mdq4','$mdq5','$mdq6','$mdq7','$mdq8','$mkq1','$mkq2','$mkq3','$mkq4','$mkq5','$mkq6','$mkq7','$mkq8','$mkkq1','$mkkq2','$mkkq3','$mkkq4','$mbq1','$mbq2','$mbq3','$mbq4','$mbq5','$mbq6','$mbq7','$mbq8')";
+        $insertOV = "INSERT INTO `sf9_ov`(`student_name`, `student_id`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES ('$studentName','$student_id','$mdq1','$mdq2','$mdq3','$mdq4','$mdq5','$mdq6','$mdq7','$mdq8','$mkq1','$mkq2','$mkq3','$mkq4','$mkq5','$mkq6','$mkq7','$mkq8','$mkkq1','$mkkq2','$mkkq3','$mkkq4','$mbq1','$mbq2','$mbq3','$mbq4','$mbq5','$mbq6','$mbq7','$mbq8')";
         $insertOVResult = $conn->query($insertOV);
     }
 
@@ -857,7 +858,7 @@ if (isset($_POST['submit'])) {
         $finalGrade = ($first + $second) / 2;
         $action = $conn->real_escape_string($_POST['action' . $i]);
 
-        $sql = "INSERT INTO `sf10remedial`(`student_name`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`, `section`) VALUES ('$studentName', '$school_year_id', '$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex', '$section')";
+        $sql = "INSERT INTO `sf10remedial`(`student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`,`action`, `sex`, `section`) VALUES ('$studentName', '$student_id', '$school_year_id', '$subjectType','$subjectTitle','$first','$second','$finalGrade','$sem','$action', '$sex', '$section')";
         $sqlResult = $conn->query($sql);
     }
 
@@ -866,7 +867,7 @@ if (isset($_POST['submit'])) {
     $startDate2 = $_POST['startDate2'];
     $endDate2 = $_POST['endDate2'];
 
-    $check = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
+    $check = "SELECT * FROM `sf10remedialDate` WHERE `student_id` = '$student_id'";
     $checkResult = $conn->query($check);
     $checkCount = $checkResult->num_rows;
 
@@ -874,7 +875,7 @@ if (isset($_POST['submit'])) {
         echo ("<script>location.href = 'student_table.php?errmsg=Duplication of entry in SF10 remedial!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `sf10remedialdate`( `student_name`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES ('$studentName','$startDate1','$endDate1','$startDate2','$endDate2')";
+        $insert = "INSERT INTO `sf10remedialdate`(`student_name`, `student_id`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES ('$studentName','$student_id','$startDate1','$endDate1','$startDate2','$endDate2')";
         $insertResult = $conn->query($insert);
         echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
         exit();

@@ -146,23 +146,36 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a religious affiliation.</div>
                             </div>
-                            <div class="form-floating mb-3 d-inline-block col-4">
-                                <input type="text" name="province" id="province" placeholder="province" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["province"] ?>" />
+                            <div class="form-floating mb-3 col-4 col pe-0 d-inline-block">
+                                <select class="form-select bg-body-tertiary" name="province" id="province" required onchange="loadMunicipalities()">
+                                    <option selected value="<?php echo $studentRow["province_id"] ?>"><?php echo $studentRow["province"] ?></option>
+                                    <?php
+                                    $provinceSQL = "SELECT * FROM table_province ORDER BY province_name ASC";
+                                    $provinceSQLResult = $conn->query($provinceSQL);
+                                    while ($provinceSQLRow = $provinceSQLResult->fetch_assoc()) { ?>
+                                        <option value="<?php echo $provinceSQLRow['province_id'] ?>"><?php echo $provinceSQLRow['province_name'] ?></option>
+                                    <?php }
+                                    ?>
+                                </select>
                                 <label for="province">Province</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter a province.</div>
+                                <div class="invalid-feedback ps-1"> Please select a province.</div>
                             </div>
-                            <div class="form-floating mb-3 d-inline-block col-4 col d-inline-block">
-                                <input type="text" name="municipality" id="municipality" placeholder="municipality" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["municipality"] ?>" />
-                                <label for="municipality">Municipality / City</label>
+                            <div class="form-floating mb-3 col-4 col pe-0 d-inline-block">
+                                <select class="form-select bg-body-tertiary" name="municipality" id="municipality" required onchange="loadBarangays()">
+                                    <option selected value="<?php echo $studentRow["municipality_id"] ?>"><?php echo $studentRow["municipality"] ?></option>
+                                </select>
+                                <label for="municipality">Municipality</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter a municipality.</div>
+                                <div class="invalid-feedback ps-1"> Please select a municipality.</div>
                             </div>
-                            <div class="form-floating mb-3 d-inline-block col-4 col d-inline-block">
-                                <input type="text" name="barangay" id="barangay" placeholder="barangay" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["barangay"] ?>" />
+                            <div class="form-floating mb-3 col-4 col pe-0 d-inline-block">
+                                <select class="form-select bg-body-tertiary" name="barangay" id="barangay" required>
+                                    <option selected value="<?php echo $studentRow["barangay_id"] ?>"><?php echo $studentRow["barangay"] ?></option>
+                                </select>
                                 <label for="barangay">Barangay</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please enter a barangay.</div>
+                                <div class="invalid-feedback ps-1"> Please select a barangay.</div>
                             </div>
                             <div class="form-floating mb-3 d-inline-block col-12">
                                 <input type="text" name="house_no" id="house_no" placeholder="house_no" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["house_no"] ?>" />
@@ -254,7 +267,67 @@ session_start();
             </div>
         </main>
     </div>
+    <script>
+        function loadMunicipalities() {
+            // Get the selected province value
+            var selectedProvince = document.getElementById("province").value;
 
+            // Enable the municipality dropdown
+            document.getElementById("municipality").disabled = false;
+
+            // Make an AJAX request to fetch municipalities based on the selected province
+            // Replace 'fetchMunicipalities.php' with the actual server-side script
+            // that will fetch the municipalities based on the selected province
+            var url = 'fetchMunicipalities.php?province=' + selectedProvince;
+
+            // Use Fetch API or XMLHttpRequest to make the AJAX request
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the municipality dropdown with fetched data
+                    var municipalityDropdown = document.getElementById("municipality");
+                    municipalityDropdown.innerHTML = "<option value=''>Select Municipality</option>";
+
+                    data.forEach(function(municipality) {
+                        var option = document.createElement("option");
+                        option.value = municipality.municipality_id;
+                        option.text = municipality.municipality_name;
+                        municipalityDropdown.add(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function loadBarangays() {
+            // Get the selected municipality value
+            var selectedMunicipality = document.getElementById("municipality").value;
+
+            // Enable the barangay dropdown
+            document.getElementById("barangay").disabled = false;
+
+            // Make an AJAX request to fetch barangays based on the selected municipality
+            // Replace 'fetchBarangays.php' with the actual server-side script
+            // that will fetch the barangays based on the selected municipality
+            var url = 'fetchBarangays.php?municipality=' + selectedMunicipality;
+
+            // Use Fetch API or XMLHttpRequest to make the AJAX request
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the barangay dropdown with fetched data
+                    var barangayDropdown = document.getElementById("barangay");
+                    barangayDropdown.innerHTML = "<option value=''>Select Barangay</option>";
+
+                    data.forEach(function(barangay) {
+                        var option = document.createElement("option");
+                        option.value = barangay.barangay_id;
+                        option.text = barangay.barangay_name;
+                        barangayDropdown.add(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -294,9 +367,25 @@ if (isset($_POST['edit_student'])) {
 
     $ra = mysqli_real_escape_string($conn, $_POST["ra"]);
     $house_no = mysqli_real_escape_string($conn, $_POST["house_no"]);
-    $barangay = mysqli_real_escape_string($conn, $_POST["barangay"]);
-    $municipality = mysqli_real_escape_string($conn, $_POST["municipality"]);
-    $province = mysqli_real_escape_string($conn, $_POST["province"]);
+    $barangay_id = mysqli_real_escape_string($conn, $_POST["barangay"]);
+    $municipality_id = mysqli_real_escape_string($conn, $_POST["municipality"]);
+    $province_id = mysqli_real_escape_string($conn, $_POST["province"]);
+
+    $barangaySQL = "SELECT * FROM table_barangay WHERE barangay_id = '$barangay_id'";
+    $barangayResult = $conn->query($barangaySQL);
+    $barangayRow = $barangayResult->fetch_assoc();
+    $barangay = $barangayRow['barangay_name'];
+
+    $municipalitySQL = "SELECT * FROM table_municipality WHERE municipality_id = '$municipality_id'";
+    $municipalityResult = $conn->query($municipalitySQL);
+    $municipalityRow = $municipalityResult->fetch_assoc();
+    $municipality = $municipalityRow['municipality_name'];
+
+    $provinceSQL = "SELECT * FROM table_province WHERE province_id = '$province_id'";
+    $provinceResult = $conn->query($provinceSQL);
+    $provinceRow = $provinceResult->fetch_assoc();
+    $province = $provinceRow['province_name'];
+
     $father = mysqli_real_escape_string($conn, $_POST["father"]);
     $mother = mysqli_real_escape_string($conn, $_POST["mother"]);
     $guardian = mysqli_real_escape_string($conn, $_POST["guardian"]);
@@ -326,7 +415,7 @@ if (isset($_POST['edit_student'])) {
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
     $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
 
-    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$sy_id',`school_year`='$sy',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$sy_id',`school_year`='$sy',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid',`barangay_id`='$barangay_id',`municipality_id`='$municipality_id',`province_id`='$province_id' WHERE `id` = '$id'";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
     exit();
