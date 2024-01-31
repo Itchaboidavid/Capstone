@@ -83,6 +83,10 @@ if (isset($_SESSION['user_logged_in'])) {
       font-family: "Poppins", sans-serif;
     }
 
+    #body {
+      background-color: #e9edc9;
+    }
+
     #loginBtn {
       background-color: #001233;
       color: #fff;
@@ -111,13 +115,13 @@ if (isset($_SESSION['user_logged_in'])) {
   </style>
 </head>
 
-<body class="min-vh-100 container-fluid" style="display: grid; place-items: center;">
+<body class="min-vh-100 container-fluid" style="display: grid; place-items: center;" id="body">
   <!-- LOGIN FORM -->
   <div id="form" class="row">
     <div class="col" id="info">
       <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" style="width: 200px; height: 200px; border-radius: 100px;">
     </div>
-    <div style="display: flex; justify-content: center; align-items: center; border-radius: 10px; position: relative;" class="bg-white col">
+    <div style="display: flex; justify-content: center; align-items: center; position: relative;" class="col bg-white">
       <?php
       if (isset($_GET['errmsg'])) {
         $errmsg = $_GET['errmsg'];

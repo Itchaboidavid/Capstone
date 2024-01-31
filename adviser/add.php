@@ -25,19 +25,31 @@ $studentRow = $studentResult->fetch_assoc();
     <script>
         $(document).ready(function() {
             $(document).on('change', 'input[name^="sem"], select[name^="sem"], select[name^="subject_type"]', function() {
-                var semesterInput = $(this).closest('tr').find('input[name^="sem"]');
-                var semesterSelect = $(this).closest('tr').find('select[name^="sem"]');
+                var currentRow = $(this).closest('tr');
+                var semesterInput = currentRow.find('input[name^="sem"]');
+                var semesterSelect = currentRow.find('select[name^="sem"]');
                 var semester = semesterInput.length > 0 ? semesterInput.val() : semesterSelect.val();
 
-                var subjectType = $(this).closest('tr').find('select[name^="subject_type"]').val();
-                var subjectTitle = $(this).closest('tr').find('select[name^="subject_title"]');
+                var subjectType = currentRow.find('select[name^="subject_type"]').val();
+                var subjectTitle = currentRow.find('select[name^="subject_title"]');
+
+                // Get an array of all selected subjects
+                var selectedSubjects = [];
+
+                // If the current row is not the first row, collect selected subjects from previous rows
+                if (currentRow.index() > 0) {
+                    currentRow.prevAll('tr').find('select[name^="subject_title"]').each(function() {
+                        selectedSubjects.push($(this).val());
+                    });
+                }
 
                 $.ajax({
                     url: "subjectajax.php",
                     method: "POST",
                     data: {
                         subjectType: subjectType,
-                        semester: semester
+                        semester: semester,
+                        selectedSubjects: selectedSubjects // Pass the array to the server
                     },
                     success: function(data) {
                         subjectTitle.html(data);
@@ -46,6 +58,7 @@ $studentRow = $studentResult->fetch_assoc();
             });
         });
     </script>
+
 </head>
 
 <body class="sb-nav-fixed">
