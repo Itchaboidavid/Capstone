@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2024 at 08:36 AM
+-- Generation Time: Jan 31, 2024 at 07:56 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -170,6 +170,13 @@ CREATE TABLE `sf5b` (
   `sex` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf5b`
+--
+
+INSERT INTO `sf5b` (`id`, `lrn`, `student_name`, `student_id`, `school_year_id`, `completed`, `nc`, `section`, `sex`) VALUES
+(1, 21011502, 'Cabrera, Yasy  Sen', 3, 1, 'Yes', 'NC I', 'Generosity', 'F');
+
 -- --------------------------------------------------------
 
 --
@@ -190,6 +197,32 @@ CREATE TABLE `sf9` (
   `sex` varchar(255) NOT NULL,
   `section` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9`
+--
+
+INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES
+(1, 'Cabrera, Yasy  Sen', 3, 1, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'F', 'Generosity'),
+(2, 'Cabrera, Yasy  Sen', 3, 1, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 88, 88, 88, '1st', 'F', 'Generosity'),
+(3, 'Cabrera, Yasy  Sen', 3, 1, 'Applied', 'Empowerment Technologies', 77, 77, 77, '1st', 'F', 'Generosity'),
+(4, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(5, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(6, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(7, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(8, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(9, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(10, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(11, 'Cabrera, Yasy  Sen', 3, 1, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'F', 'Generosity'),
+(12, 'Cabrera, Yasy  Sen', 3, 1, 'Core', 'Understanding Culture, Society, and Politics', 88, 88, 88, '2nd', 'F', 'Generosity'),
+(13, 'Cabrera, Yasy  Sen', 3, 1, 'Applied', 'Practical Research 1', 77, 77, 77, '2nd', 'F', 'Generosity'),
+(14, 'Cabrera, Yasy  Sen', 3, 1, 'Applied', 'Filipino sa Piling Larang', 77, 77, 77, '2nd', 'F', 'Generosity'),
+(15, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(16, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(17, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(18, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(19, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(20, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity');
 
 -- --------------------------------------------------------
 
@@ -214,6 +247,13 @@ CREATE TABLE `sf9_modality` (
   `ip_q3` tinyint(1) DEFAULT 0,
   `ip_q4` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9_modality`
+--
+
+INSERT INTO `sf9_modality` (`id`, `student_name`, `student_id`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES
+(1, 'Cabrera, Yasy  Sen', 3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -255,6 +295,13 @@ CREATE TABLE `sf9_ov` (
   `mbq8` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf9_ov`
+--
+
+INSERT INTO `sf9_ov` (`id`, `student_name`, `student_id`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES
+(1, 'Cabrera, Yasy  Sen', 3, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO');
+
 -- --------------------------------------------------------
 
 --
@@ -277,6 +324,17 @@ CREATE TABLE `sf10remedial` (
   `section` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf10remedial`
+--
+
+INSERT INTO `sf10remedial` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`, `action`, `sex`, `section`) VALUES
+(1, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(2, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(3, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(4, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(5, 'Cabrera, Yasy  Sen', 3, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity');
+
 -- --------------------------------------------------------
 
 --
@@ -292,6 +350,13 @@ CREATE TABLE `sf10remedialdate` (
   `start_date2` date NOT NULL,
   `end_date2` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf10remedialdate`
+--
+
+INSERT INTO `sf10remedialdate` (`id`, `student_name`, `student_id`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES
+(1, 'Cabrera, Yasy  Sen', 3, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -44534,37 +44599,37 @@ ALTER TABLE `sf2remarks`
 -- AUTO_INCREMENT for table `sf5b`
 --
 ALTER TABLE `sf5b`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf9`
 --
 ALTER TABLE `sf9`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sf9_modality`
 --
 ALTER TABLE `sf9_modality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf9_ov`
 --
 ALTER TABLE `sf9_ov`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf10remedial`
 --
 ALTER TABLE `sf10remedial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sf10remedialdate`
 --
 ALTER TABLE `sf10remedialdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `strand`
