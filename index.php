@@ -84,26 +84,31 @@ if (isset($_SESSION['user_logged_in'])) {
     }
 
     #body {
-      background-color: #e9edc9;
+      position: relative;
     }
 
-    #loginBtn {
-      background-color: #001233;
-      color: #fff;
+    #body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('images/tcbg.jpg');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: blur(5px);
+      /* Adjust the blur radius as needed */
+      z-index: -1;
+      /* Ensure the overlay is behind the content */
     }
 
-    #loginBtn:hover {
-      background-color: #fff;
-      color: #001233;
-      transform: scale(1.2);
-      transition: .8s;
-    }
 
     #form {
       text-align: center;
-      width: 50%;
+      width: 400px;
       height: 500px;
-      box-shadow: 1px 1px 3px black;
     }
 
     #info {
@@ -112,16 +117,40 @@ if (isset($_SESSION['user_logged_in'])) {
       background-image: url(images/gg.jpg);
       background-size: cover;
     }
+
+    #formPhoto {
+      background-image: url(images/gg.jpg);
+      background-position: bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .tcLogo {
+      width: 125px;
+      height: 125px;
+    }
   </style>
 </head>
 
 <body class="min-vh-100 container-fluid" style="display: grid; place-items: center;" id="body">
   <!-- LOGIN FORM -->
-  <div id="form" class="row">
-    <div class="col" id="info">
-      <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" style="width: 200px; height: 200px; border-radius: 100px;">
+  <div id="form" class="row" style="width: 50%; height: 500px;">
+    <div class="col-6" id="formPhoto">
+      <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" class="tcLogo">
+      <p class="fw-bold text-light">Tagaytay City National High School <br>- Integrated High School</p>
     </div>
-    <div style="display: flex; justify-content: center; align-items: center; position: relative;" class="col bg-white">
+    <div style="position: relative;
+                background: rgba(255, 255, 255, 0.60);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(9.8px);
+                -webkit-backdrop-filter: blur(9.8px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                display: grid;
+                place-items: center;" class="col-6">
       <?php
       if (isset($_GET['errmsg'])) {
         $errmsg = $_GET['errmsg'];
@@ -132,29 +161,37 @@ if (isset($_SESSION['user_logged_in'])) {
       }
       ?>
       <form action="" method="POST" class="needs-validation" novalidate>
-        <h3 class="text-shadow: 1px 2px 3px black; fw-bold" style="letter-spacing: 1.5px;">LOGIN</h3>
+        <div style="margin-bottom: 20px;">
+          <h1>Welcome!</h1>
+          <p style="color: #444; margin-bottom: 15px;">Sign in to start your session</p>
+        </div>
         <div class="mb-3 form-floating">
           <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required style="box-shadow: 0px 1px 3px black;" />
           <label for=" username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
-          <div class="valid-feedback bg-body-tertiary">Great!</div>
-          <div class="invalid-feedback bg-body-tertiary"> Please enter a username.</div>
+          <div class="valid-feedback">Great!</div>
+          <div class="invalid-feedback"> Please enter a username.</div>
         </div>
         <div class="mb-3 form-floating input-container" style="position: relative;">
           <input type="password" name="password" id="password" class="form-control bg-body-tertiary" placeholder="Password" required style="padding-right: 30px; box-shadow: 0px 1px 3px black;" />
           <label for="password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Password</label>
-          <div class="valid-feedback bg-light">Great!</div>
-          <div class="invalid-feedback bg-light"> Please enter a password.</div>
+          <div class="valid-feedback">Great!</div>
+          <div class="invalid-feedback"> Please enter a password.</div>
           <button type="button" class="btn" onclick="togglePasswordVisibility()" style="position: absolute; top: 0; right: 0; height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;"><i class="bi bi-eye"></i></button>
         </div>
-        <div class="d-flex">
-          <input type="submit" class="btn" value="Login" name="login" id="loginBtn" />
+        <input type="submit" class="btn btn-primary mb-3" value="Login" name="login" id="loginBtn" style="width: 100%;" />
+        <hr>
+        <div>
+          <a href="https://www.facebook.com/DepEdTayoTCNHS301216" target="_blank" style="text-decoration: none;">
+            <i class="fa-brands fa-facebook" style="width: 10px; height: 10px;"></i>
+            <span style="font-size: x-small; color: black;"> Come and visit our facebook page!</span>
+          </a>
         </div>
-        <div style="text-align: start; position:absolute; bottom:10px; left:30px;">
+        <!-- <div style="text-align: start; position:absolute; bottom:10px; left: 15px;">
           <a href="https://www.facebook.com/DepEdTayoTCNHS301216" target="_blank" style="text-decoration: none;">
             <i class="fa-brands fa-facebook" style="width: 10px; height: 10px;"></i>
           </a>
-          <span style="font-size: xx-small;"> Come and visit our facebook page!</span>
-        </div>
+          <span style="font-size: x-small; color: black;"> Come and visit our facebook page!</span>
+        </div> -->
       </form>
     </div>
   </div>
