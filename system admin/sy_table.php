@@ -178,7 +178,7 @@ if (isset($_POST["add_sy"])) {
     } else {
         $insert = "INSERT INTO `school_year`(`start_year`, `end_year`, `sy`) VALUES ('$start_year','$end_year','$sy')";
         mysqli_query($conn, $insert);
-        echo ("<script>location.href = 'sy_table.php?msg=Semester successfully added!';</script>");
+        echo ("<script>location.href = 'sy_table.php?msg=School year successfully added!';</script>");
         exit();
     }
 }

@@ -63,6 +63,10 @@ if (isset($_POST['schoolStart'])) {
         const url = new URL(window.location.href);
         url.searchParams.delete('msg');
         url.searchParams.delete('errmsg');
+        url.searchParams.delete('msg2');
+        url.searchParams.delete('errmsg2');
+        url.searchParams.delete('msg3');
+        url.searchParams.delete('errmsg3');
         window.history.replaceState({}, document.title, url);
     </script>
 </head>
@@ -82,7 +86,7 @@ if (isset($_POST['schoolStart'])) {
                     </div>
                 </div>
                 <!-- SCHOOL DAYS -->
-                <form action="" method="POST" class="w-50">
+                <form action="" method="POST" class="col-6">
                     <?php
                     if (isset($_GET['msg2'])) {
                         $msg = $_GET['msg2'];
@@ -103,13 +107,13 @@ if (isset($_POST['schoolStart'])) {
 
                     <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4>School Start and End for the month:
+                            <h5>School Start and End for the month of :
                                 <?php
                                 $currentMonth = date('m');
                                 $currentYear = date('Y');
-                                echo date('F', strtotime('2023-' . $currentMonth . '-01'));
+                                echo date('F', strtotime($currentYear . '-' . $currentMonth . '-01'));
                                 ?>
-                            </h4>
+                            </h5>
                         </div>
                         <div class="card-body row g-1">
                             <?php
@@ -137,6 +141,110 @@ if (isset($_POST['schoolStart'])) {
                         </div>
                     </div>
                 </form>
+
+                <div class="card mb-5">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Holiday table
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                            <h5>
+                                Holidays for the month of :
+                                <?php
+                                $currentMonth = date('m');
+                                $currentYear = date('Y');
+                                echo "<span class='fw-bold'>" . date('F', strtotime($currentYear . '-' . $currentMonth . '-01')) . "</span>";
+                                ?>
+                            </h5>
+                            <!-- Button trigger modal -->
+                            <button type="button" style="align-self: end;" class="btn btn-success px-3 py-1" data-bs-toggle="modal" data-bs-target="#holidayModal">
+                                Add Holiday
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="holidayModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class=" modal-title fs-5" id="trackModalLabel">Add Holiday</h1>
+                                            <button type="button" class="btn-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="" method="POST" class="needs-validation" novalidate>
+                                            <div class="modal-body">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" name="holiday_date" id="holiday_date" placeholder="holiday_date" class="form-control bg-body-tertiary" required min="1" max="31" />
+                                                    <label for="holiday_date">Holiday Date</label>
+                                                    <div class="valid-feedback ps-1">Great!</div>
+                                                    <div class="invalid-feedback ps-1"> Please enter a valid holiday date.</div>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" name="holiday_desc" id="holiday_desc" placeholder="holiday_desc" class="form-control bg-body-tertiary" required />
+                                                    <label for="holiday_desc">Holiday Description</label>
+                                                    <div class="valid-feedback ps-1">Great!</div>
+                                                    <div class="invalid-feedback ps-1"> Please enter a holiday description.</div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" name="add_holiday">Add</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if (isset($_GET['msg3'])) {
+                            $msg3 = $_GET['msg3'];
+                            echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
+                                . $msg3 .
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+                        }
+
+                        if (isset($_GET['errmsg3'])) {
+                            $errmsg3 = $_GET['errmsg3'];
+                            echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
+                                . $errmsg3 .
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+                        }
+                        ?>
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Holiday Date</th>
+                                    <th>Holiday Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $holidays = "SELECT * FROM `holidays` ORDER BY `holiday_date`";
+                                $holidaysResult = $conn->query($holidays);
+                                $holidaysCount = 1;
+                                while ($holidaysRow = $holidaysResult->fetch_assoc()) :
+                                ?>
+                                    <tr>
+                                        <td><?php echo $holidaysCount ?></td>
+                                        <td><?php echo $holidaysRow['holiday_date'] ?></td>
+                                        <td><?php echo $holidaysRow['holiday_desc'] ?></td>
+                                        <td>
+                                            <a href="edit_holiday.php?holiday_id=<?php echo $holidaysRow['holiday_id'] ?>" style="border: none; background: transparent;">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                    $holidaysCount++;
+                                endwhile;
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <form action="" method="POST">
                     <?php
                     if (isset($_GET['msg'])) {
@@ -162,7 +270,7 @@ if (isset($_POST['schoolStart'])) {
                     ?>
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4 class="text-capitalize">School Information</h4>
+                            <h5 class="text-capitalize">School Information</h5>
                         </div>
                         <div class="card-body">
                             <div class="form-floating mb-3">
@@ -220,6 +328,7 @@ if (isset($_POST['schoolStart'])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
+    <script src="../index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
@@ -249,4 +358,24 @@ if (isset($_POST['submit'])) {
     }
 }
 
+if (isset($_POST['add_holiday'])) {
+    $currentMonth = date('m');
+    $currentYear = date('Y');
+    $holiday_date = $conn->escape_string($_POST['holiday_date']);
+    $holiday_desc = $conn->escape_string($_POST['holiday_desc']);
+    $holiday_month = $currentMonth;
+    $holiday_year = $currentYear;
+
+    $check_holiday = "SELECT * FROM holidays WHERE holiday_date = '$holiday_date' AND holiday_month = '$holiday_month' AND holiday_year = '$holiday_year'";
+    $check_result = $conn->query($check_holiday);
+    if ($check_result->num_rows > 0) {
+        echo ("<script>location.href = 'school_settings.php?errmsg3=The holiday already exist!';</script>");
+        exit();
+    } else {
+        $holiday_sql = "INSERT INTO `holidays`(`holiday_date`, `holiday_desc`, `holiday_month`, `holiday_year`) VALUES ('$holiday_date','$holiday_desc','$holiday_month','$holiday_year')";
+        $conn->query($holiday_sql);
+        echo ("<script>location.href = 'school_settings.php?msg3=Holiday successfully added!';</script>");
+        exit();
+    }
+}
 $conn->close();

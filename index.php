@@ -94,7 +94,8 @@ if (isset($_SESSION['user_logged_in'])) {
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('images/tcbg.jpg');
+      background-image: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)), url('images/tcbg.jpg');
+      /* Reorder background layers to place linear gradient on top */
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
@@ -103,7 +104,6 @@ if (isset($_SESSION['user_logged_in'])) {
       z-index: -1;
       /* Ensure the overlay is behind the content */
     }
-
 
     #form {
       text-align: center;

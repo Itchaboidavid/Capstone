@@ -12,8 +12,13 @@ $option = new Options();
 $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
+$sy = "SELECT * FROM school_year WHERE is_archived = 0";
+$syResult = $conn->query($sy);
+$syRow = $syResult->fetch_assoc();
+$school_year_id = $syRow['id'];
+
 $sectionName = $_SESSION['section'];
-$section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0";
+$section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $sectionResult = $conn->query($section);
 $sectionRow = $sectionResult->fetch_assoc();
 
@@ -40,7 +45,7 @@ $school = "SELECT * FROM `school` WHERE `id` = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'M' AND school_year_id = '$school_year_id' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 while ($row = mysqli_fetch_assoc($result)) {
   $html =
@@ -189,7 +194,7 @@ $html .= '
 
 ';
 
-$select = "SELECT *  FROM student WHERE sex = 'M' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'M' AND school_year_id = '$school_year_id' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 $maleCount = 1;
 $totalAbsentMale = 0;
@@ -203,12 +208,13 @@ foreach ($result as $emp) {
   $currentMonth = date('m');
   $currentYear = date('Y');
 
+  $student_id = $emp['id'];
   $studentName = $emp['name'];
   $studentSex = $emp['sex'];
   $consecutiveAbsences = 0; // Counter for consecutive absences
   $isConsecutive = false;
 
-  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND attendance_year = '$currentYear'";
+  $sf2 = "SELECT * FROM `sf2` WHERE `student_id` = '$student_id' AND `attendance_month` = '$currentMonth' AND attendance_year = '$currentYear'";
   $sf2Result = $conn->query($sf2);
   $sf2Count = $sf2Result->num_rows;
 
@@ -246,7 +252,7 @@ foreach ($result as $emp) {
       <td style=" height: 22px; border-right: 2px solid black; border-bottom: 1px solid black;  font-size:7pt;  width:20px;  text-align: center;  vertical-align: middle; " >' . $maleCount . '</td>
       <td style=" border-right: 2px solid black; border-bottom: 1px solid black; font-size:7pt;   vertical-align: middle; ">' . $emp['name'] . '</td>';
 
-  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
+  $present = "SELECT `day` FROM `sf2` WHERE `student_id` = '$student_id' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $presentResult = $conn->query($present);
   $presentDays = [];
 
@@ -254,59 +260,49 @@ foreach ($result as $emp) {
     $presentDays[] = $present['day'];
   }
 
+  $holidays = "SELECT holiday_date FROM holidays WHERE holiday_month = '$currentMonth' AND holiday_year = '$currentYear'";
+  $holidays_result = $conn->query($holidays);
+  $holidays_row = $holidays_result->fetch_assoc();
+
   foreach ($calendar->getWeeks() as $week) {
     foreach ($week as $day) {
       $dayNumber = $day['dayNumber'];
+      $isHoliday = false;
+      foreach ($holidays_result as $holiday_row) {
+        if ($holiday_row['holiday_date'] == $dayNumber) {
+          $isHoliday = true;
+          break;
+        }
+      }
+
+      // Border style
+      $borderStyle = 'border: 1px solid black;';
+      if ($isHoliday) {
+        $borderStyle .= 'border-top: none; border-bottom: none;';
+      }
+
       if (date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $dayNumber)) === 'Fri') {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
-          $consecutiveAbsences = 0;
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;"></td>';
         } else {
-          $consecutiveAbsences++;
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;">X</td>';
-
-          // Check for 5 consecutive absences
-          if ($consecutiveAbsences == 5) {
-            // Increment counters based on student's sex
-            if ($studentSex === 'Male') {
-              $male5Days++;
-            } elseif ($studentSex === 'Female') {
-              $female5Days++;
-            }
-
-            // Reset the counter after detecting 5 consecutive absences
-            $consecutiveAbsences = 0;
-          }
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;">X</td>';
         }
       } else {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
-          $consecutiveAbsences = 0;
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;"></td>';
         } else {
-          $consecutiveAbsences++;
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;">X</td>';
-          // Check for 5 consecutive absences
-          if ($consecutiveAbsences == 5) {
-            // Increment counters based on student's sex
-            if ($studentSex === 'Male') {
-              $male5Days++;
-            } elseif ($studentSex === 'Female') {
-              $female5Days++;
-            }
-
-            // Reset the counter after detecting 5 consecutive absences
-            $consecutiveAbsences = 0;
-          }
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;">X</td>';
         }
       }
     }
   }
+
 
   $html .= '
       <td style="  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $absent . '</td>
@@ -340,21 +336,37 @@ foreach ($calendar->getWeeks() as $week) {
     $dayNumber = $day['dayNumber'];
 
     // Query to get the count of students present on the current day
-    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
+    $presentQuery = "SELECT COUNT(DISTINCT student_id) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
     $presentResult = $conn->query($presentQuery);
     $presentCount = $presentResult->fetch_assoc()['count'];
 
     // Store the count of present students for the current day in the array
     $presentCounts[$dayNumber] = $presentCount;
 
+    // Set the default border style
+    $borderStyle = 'font-size: 8pt; width:10px; text-align: center; vertical-align: middle; border: 1px solid black; border-bottom: 2px solid black;';
+
     // Check if the day is Friday to add border-right
-    $borderStyle = 'border: 1px solid black; border-bottom: 2px solid black';
     if (date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $dayNumber)) === 'Fri') {
-      $borderStyle = 'border: 1px solid black; border-right: 2px solid black; border-bottom: 2px solid black';
+      $borderStyle .= ' border-right: 2px solid black;';
+    }
+
+    // Check if the day is a holiday to remove top and bottom borders and the value
+    $isHoliday = false;
+    foreach ($holidays_result as $holiday_row) {
+      if ($holiday_row['holiday_date'] == $dayNumber) {
+        $borderStyle .= ' border-top: none; border-bottom: none;';
+        $isHoliday = true;
+        break;
+      }
     }
 
     // Append the cell with the appropriate border style
-    $html .= '<td style="font-size: 8pt; width:10px; text-align: center; vertical-align: middle; ' . $borderStyle . '">' . $presentCounts[$dayNumber] . '</td>';
+    if (!$isHoliday) {
+      $html .= '<td style="' . $borderStyle . '">' . $presentCounts[$dayNumber] . '</td>';
+    } else {
+      $html .= '<td style="' . $borderStyle . '"></td>'; // Empty cell for holiday
+    }
   }
 }
 
@@ -366,7 +378,7 @@ $html .= '
 </tr>
   ';
 
-$select = "SELECT *  FROM student WHERE sex = 'F' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
+$select = "SELECT *  FROM student WHERE sex = 'F' AND school_year_id = '$school_year_id' AND section = '$sectionName' AND is_archived = 0 ORDER BY name ASC";
 $result = mysqli_query($conn, $select);
 $femaleCount = 1;
 $totalAbsentFemale = 0;
@@ -376,8 +388,8 @@ foreach ($result as $emp) {
   $currentMonth = date('m');
   $currentYear = date('Y');
 
-  $studentName = $emp['name'];
-  $sf2 = "SELECT * FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
+  $student_id = $emp['id'];
+  $sf2 = "SELECT * FROM `sf2` WHERE `student_id` = '$student_id' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $sf2Result = $conn->query($sf2);
   $sf2Count = $sf2Result->num_rows;
   $totalPresentFemale += $sf2Count;
@@ -406,7 +418,7 @@ foreach ($result as $emp) {
       <td style=" height: 22px; border-right: 2px solid black; border-bottom: 1px solid black;  font-size:7pt;  width:20px;  text-align: center;  vertical-align: middle; " >' . $femaleCount . '</td>
       <td style=" border-right: 2px solid black; border-bottom: 1px solid black; font-size:7pt;   vertical-align: middle; ">' . $emp['name'] . '</td>';
 
-  $present = "SELECT `day` FROM `sf2` WHERE `student_name` = '$studentName' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
+  $present = "SELECT `day` FROM `sf2` WHERE `student_id` = '$student_id' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $presentResult = $conn->query($present);
   $presentDays = [];
 
@@ -417,27 +429,42 @@ foreach ($result as $emp) {
   foreach ($calendar->getWeeks() as $week) {
     foreach ($week as $day) {
       $dayNumber = $day['dayNumber'];
+      $isHoliday = false;
+      foreach ($holidays_result as $holiday_row) {
+        if ($holiday_row['holiday_date'] == $dayNumber) {
+          $isHoliday = true;
+          break;
+        }
+      }
+
+      // Border style
+      $borderStyle = 'border: 1px solid black;';
+      if ($isHoliday) {
+        $borderStyle .= 'border-top: none; border-bottom: none;';
+      }
+
       if (date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $dayNumber)) === 'Fri') {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;"></td>';
         } else {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black; border-right: 2px solid black;">X</td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;">X</td>';
         }
       } else {
         // Check if the day number exists in the presentDays array
         if (in_array($day['dayNumber'], $presentDays)) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;"></td>';
         } elseif ($dayNumber < $startDate || $dayNumber > $endDate) {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;"></td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;"></td>';
         } else {
-          $html .= '<td style="font-size:7pt;  width:10px; text-align: center; vertical-align: middle;  border: 1px solid black;">X</td>';
+          $html .= '<td style="' . $borderStyle . ' font-size:7pt; width:10px; text-align: center; vertical-align: middle;">X</td>';
         }
       }
     }
   }
+
 
   $html .= '      
       <td style="  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $absent . '</td>
@@ -461,22 +488,38 @@ foreach ($calendar->getWeeks() as $week) {
     // Get the day number
     $dayNumber = $day['dayNumber'];
 
-    // Query to get the count of students present on the current day
-    $presentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
+    // Query to get the count of female students present on the current day
+    $presentQuery = "SELECT COUNT(DISTINCT student_id) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
     $presentResult = $conn->query($presentQuery);
     $presentCount = $presentResult->fetch_assoc()['count'];
 
-    // Store the count of present students for the current day in the array
+    // Store the count of present female students for the current day in the array
     $presentCounts[$dayNumber] = $presentCount;
 
+    // Set the default border style
+    $borderStyle = 'font-size: 8pt; width:10px; text-align: center; vertical-align: middle; border: 1px solid black; border-bottom: 2px solid black;';
+
     // Check if the day is Friday to add border-right
-    $borderStyle = 'border: 1px solid black; border-bottom: 2px solid black';
     if (date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $dayNumber)) === 'Fri') {
-      $borderStyle = 'border: 1px solid black; border-right: 2px solid black; border-bottom: 2px solid black';
+      $borderStyle .= ' border-right: 2px solid black;';
+    }
+
+    // Check if the day is a holiday to remove top and bottom borders and the value
+    $isHoliday = false;
+    foreach ($holidays_result as $holiday_row) {
+      if ($holiday_row['holiday_date'] == $dayNumber) {
+        $borderStyle .= ' border-top: none; border-bottom: none;';
+        $isHoliday = true;
+        break;
+      }
     }
 
     // Append the cell with the appropriate border style
-    $html .= '<td style="font-size: 8pt; width:10px; text-align: center; vertical-align: middle; ' . $borderStyle . '">' . $presentCounts[$dayNumber] . '</td>';
+    if (!$isHoliday) {
+      $html .= '<td style="' . $borderStyle . '">' . $presentCounts[$dayNumber] . '</td>';
+    } else {
+      $html .= '<td style="' . $borderStyle . '"></td>'; // Empty cell for holiday
+    }
   }
 }
 
@@ -502,25 +545,42 @@ foreach ($calendar->getWeeks() as $week) {
     $dayNumber = $day['dayNumber'];
 
     // Query to get the count of male students present on the current day
-    $malePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
+    $malePresentQuery = "SELECT COUNT(DISTINCT student_id) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'M'";
     $malePresentResult = $conn->query($malePresentQuery);
     $malePresentCount = $malePresentResult->fetch_assoc()['count'];
 
     // Query to get the count of female students present on the current day
-    $femalePresentQuery = "SELECT COUNT(DISTINCT student_name) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
+    $femalePresentQuery = "SELECT COUNT(DISTINCT student_id) AS count FROM sf2 WHERE attendance_month = '$currentMonth' AND attendance_year = '$currentYear' AND day = '$dayNumber' AND sex = 'F'";
     $femalePresentResult = $conn->query($femalePresentQuery);
     $femalePresentCount = $femalePresentResult->fetch_assoc()['count'];
 
     // Calculate the combined count
     $combinedCount = $malePresentCount + $femalePresentCount;
 
-    // Store the combined count for the current day in the array
-    $combinedCounts[$dayNumber] = $combinedCount;
+    // Set the default border style
+    $borderStyle = 'font-size: 8pt; width:10px; text-align: center; vertical-align: middle; border-right: 2px solid black;';
 
-    // Append the cell with the combined count
-    $html .= '<td style="font-size: 8pt; width:10px; text-align: center; vertical-align: middle; border: 1px solid black; border-right: 2px solid black; border-bottom: 2px solid black;">' . $combinedCounts[$dayNumber] . '</td>';
+    // Check if the day is a holiday
+    $isHoliday = false;
+    foreach ($holidays_result as $holiday_row) {
+      if ($holiday_row['holiday_date'] == $dayNumber) {
+        $isHoliday = true;
+        $borderStyle .= ' border-top: none; border-bottom: none;'; // Remove top and bottom borders
+        break;
+      }
+    }
+
+    // Append the cell with the combined count and border style if it's not a holiday
+    if (!$isHoliday) {
+      // Append the cell with the combined count and border style
+      $html .= '<td style="' . $borderStyle . ' border: 1px solid black; border-bottom: 2px solid black;">' . $combinedCount . '</td>';
+    } else {
+      // Append an empty cell with adjusted border style for holiday
+      $html .= '<td style="' . $borderStyle . '"></td>';
+    }
   }
 }
+
 
 $totalAbsent = $totalAbsentMale + $totalAbsentFemale;
 $totalPresent = $totalPresentMale + $totalPresentFemale;
@@ -579,11 +639,11 @@ if ($currentMonth < 8) {
 $firstFridayOfAugust = date('d', strtotime("first friday of August $currentYear"));
 
 // Your SQL query to select male students with attendance on the first Friday of August
-$totalMaleAugust = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'M'";
+$totalMaleAugust = "SELECT DISTINCT student_id FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'M'";
 $totalMaleAugustResult = $conn->query($totalMaleAugust);
 $totalMaleAugustCount = $totalMaleAugustResult->num_rows;
 
-$totalFemaleAugust = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'F'";
+$totalFemaleAugust = "SELECT DISTINCT student_id FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day = '$firstFridayOfAugust' AND sex = 'F'";
 $totalFemaleAugustResult = $conn->query($totalFemaleAugust);
 $totalFemaleAugustCount = $totalFemaleAugustResult->num_rows;
 $totalAugust = $totalMaleAugustCount + $totalFemaleAugustCount;
@@ -600,11 +660,11 @@ $html .= '
       <td></td>
       <td colspan="1" ></td>';
 
-$lateEnrolleesMale = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'M'";
+$lateEnrolleesMale = "SELECT DISTINCT student_id FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'M'";
 $lateEnrolleesMaleResult = $conn->query($lateEnrolleesMale);
 $lateEnrolleesMaleCount = $lateEnrolleesMaleResult->num_rows;
 
-$lateEnrolleesFemale = "SELECT DISTINCT student_name FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'F'";
+$lateEnrolleesFemale = "SELECT DISTINCT student_id FROM sf2 WHERE attendance_month = 8 AND attendance_year = '$currentYear' AND day != '$firstFridayOfAugust' AND sex = 'F'";
 $lateEnrolleesFemaleResult = $conn->query($lateEnrolleesFemale);
 $lateEnrolleesFemaleCount = $lateEnrolleesFemaleResult->num_rows;
 
