@@ -221,7 +221,7 @@ if (isset($_POST['schoolStart'])) {
                             </thead>
                             <tbody>
                                 <?php
-                                $holidays = "SELECT * FROM `holidays` ORDER BY `holiday_date`";
+                                $holidays = "SELECT * FROM `holidays` WHERE holiday_month = '$currentMonth' ORDER BY `holiday_date`";
                                 $holidaysResult = $conn->query($holidays);
                                 $holidaysCount = 1;
                                 while ($holidaysRow = $holidaysResult->fetch_assoc()) :

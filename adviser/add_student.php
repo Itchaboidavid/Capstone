@@ -150,6 +150,9 @@ if (isset($_POST["add_student"])) {
                         </ol>
                     </div>
                 </div>
+                <form action="">
+
+                </form>
                 <form action="" method="POST" class="needs-validation" novalidate>
                     <div class="card mb-5">
                         <div class="card-header">

@@ -37,7 +37,7 @@ session_start();
                         </ol>
                     </div>
                     <a href="sf8all.php" target="_blank" class="pe-3 btn btn-primary">
-                        <span><i class="fa-solid fa-print"></i></span>
+                        <span>Print All <i class="fa-solid fa-print ms-1"></i></span>
                     </a>
                 </div>
                 <?php
