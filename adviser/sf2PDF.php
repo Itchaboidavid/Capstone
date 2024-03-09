@@ -22,16 +22,30 @@ $section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archive
 $sectionResult = $conn->query($section);
 $sectionRow = $sectionResult->fetch_assoc();
 
+
+$currentMonth = $_GET['month'];
+$currentYear = $_GET['year'];
+
+
 $today = new CurrentDate();
 $calendar = new Calendar($today, new CalendarDate());
 
 // Automatically set the calendar to the current month and year
-$calendar->setMonthYear($today->getYear(), $today->getMonthNumber());
+$calendar->setMonthYear($currentYear, $currentMonth);
 
 $calendar->create();
 
-$currentMonth = date('m');
-$currentYear = date('Y');
+// // Get selected month and year
+// if (isset($_GET['month']) && isset($_GET['year'])) {
+//   $currentMonth = $_GET['month'];
+//   $currentYear = $_GET['year'];
+// } else {
+//   // Default to current month and year if not provided
+//   $currentMonth = date('m');
+//   $currentYear = date('Y');
+// }
+
+
 
 if ($sectionRow['track'] == 'Technical-Vocational-Livelihood') {
   $track = $sectionRow['track'];
@@ -203,11 +217,11 @@ $totalPresentMale = 0;
 $male5Days = 0;
 $female5Days = 0;
 
-foreach ($result as $emp) {
-  // Get current month and year
-  $currentMonth = date('m');
-  $currentYear = date('Y');
+// Get current month and year
+$currentMonth = $_GET['month'];
+$currentYear =  $_GET['year'];
 
+foreach ($result as $emp) {
   $student_id = $emp['id'];
   $studentName = $emp['name'];
   $studentSex = $emp['sex'];
@@ -224,10 +238,16 @@ foreach ($result as $emp) {
 
   $schoolDays = "SELECT * FROM schoolstart WHERE `month` = '$currentMonth' AND `year` = '$currentYear'";
   $schoolDaysResult = $conn->query($schoolDays);
-  $schoolDaysRow = $schoolDaysResult->fetch_assoc();
+  if ($schoolDaysResult->num_rows > 0) {
+    $schoolDaysRow = $schoolDaysResult->fetch_assoc();
 
-  $startDate = $schoolDaysRow['start_date'];
-  $endDate = $schoolDaysRow['end_date'];
+    $startDate = $schoolDaysRow['start_date'];
+    $endDate = $schoolDaysRow['end_date'];
+  } else {
+    $startDate = 1;
+    $endDate = 10;
+  }
+
 
   // Calculate weekdays and weekend days
   $weekdays = 0;
@@ -383,11 +403,11 @@ $result = mysqli_query($conn, $select);
 $femaleCount = 1;
 $totalAbsentFemale = 0;
 $totalPresentFemale = 0;
-foreach ($result as $emp) {
-  // Get current month and year
-  $currentMonth = date('m');
-  $currentYear = date('Y');
 
+$currentMonth = $_GET['month'];
+$currentYear = $_GET['year'];
+
+foreach ($result as $emp) {
   $student_id = $emp['id'];
   $sf2 = "SELECT * FROM `sf2` WHERE `student_id` = '$student_id' AND `attendance_month` = '$currentMonth' AND `attendance_year` = '$currentYear'";
   $sf2Result = $conn->query($sf2);

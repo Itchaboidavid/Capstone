@@ -133,9 +133,54 @@ if (isset($_POST['add_student'])) {
                     <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4>Monthly Attendance (SF 2)</h4>
-                            <a href="sf2PDF.php" style="border: none; background: transparent;" target="_blank">
+                            <div>
+                                <form id="printForm" action="sf2PDF.php" method="GET" target="_blank">
+                                    <input type="hidden" name="month" id="month" value="">
+                                    <input type="hidden" name="year" id="year" value="">
+                                    <label for="selected_month">Month:</label>
+                                    <select name="selected_month" id="selected_month">
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <label for="selected_year">Year:</label>
+                                    <input type="number" name="selected_year" id="selected_year" min="2020" max="2100" value="<?php echo date('Y'); ?>">
+                                    <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer;">
+                                        <i class="fa-solid fa-print"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <script>
+                                function openPDF() {
+                                    var selectedMonth = document.getElementById('selected_month').value;
+                                    var selectedYear = document.getElementById('selected_year').value;
+
+                                    // Set the values of hidden input fields
+                                    document.getElementById('month').value = selectedMonth;
+                                    document.getElementById('year').value = selectedYear;
+
+                                    // Get the URL with query parameters
+                                    var url = 'sf2PDF.php?month=' + selectedMonth + '&year=' + selectedYear;
+
+                                    // Open the new tab/window with the URL
+                                    window.open(url, '_blank');
+                                }
+                            </script>
+
+
+                            <!-- <a href="sf2PDF.php" style="border: none; background: transparent;" target="_blank">
                                 <i class="fa-solid fa-print"></i>
-                            </a>
+                            </a> -->
                         </div>
                         <div class="card-body row g-1">
                             <?php
@@ -292,7 +337,6 @@ if (isset($_POST['add_student'])) {
             xhttp.send();
         }
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
