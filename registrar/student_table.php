@@ -47,9 +47,9 @@ session_start();
                                 <i class="fas fa-table me-1"></i>
                                 <?php echo $sectionName ?>
                             </div>
-                            <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
+                            <!-- <a href="sf1.php" style="border: none; background: transparent;" target="_blank">
                                 <i class="fa-solid fa-print"></i>
-                            </a>
+                            </a> -->
                         </div>
                         <div class="card-body">
                             <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">
@@ -60,8 +60,18 @@ session_start();
                                         <th>Sex</th>
                                         <th>Birthday</th>
                                         <th>Age</th>
+                                        <th>Religion</th>
                                         <th>Address</th>
+                                        <th>Father's Name</th>
+                                        <th>Mother's Name</th>
+                                        <th>Guardian's Name</th>
+                                        <th>Relationship</th>
+                                        <th>Contact</th>
                                         <th>Grade & Section</th>
+                                        <th>School Year</th>
+                                        <th>Track</th>
+                                        <th>Strand</th>
+                                        <th>Learning Modality</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,13 +86,23 @@ session_start();
                                             <td><?php echo $studentRow["sex"] ?></td>
                                             <td><?php echo $studentRow["birth_date"] ?></td>
                                             <td><?php echo $studentRow["age"] ?></td>
+                                            <td><?php echo $studentRow["ra"] ?></td>
                                             <td>
                                                 <?php echo $studentRow["house_no"] ?>,
                                                 <?php echo $studentRow["barangay"] ?>,
                                                 <?php echo $studentRow["municipality"] ?>,
                                                 <?php echo $studentRow["province"] ?>
                                             </td>
+                                            <td><?php echo $studentRow["father"] ?></td>
+                                            <td><?php echo $studentRow["mother"] ?></td>
+                                            <td><?php echo $studentRow["guardian"] ?></td>
+                                            <td><?php echo $studentRow["relationship"] ?></td>
+                                            <td><?php echo $studentRow["contact"] ?></td>
                                             <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                            <td><?php echo $studentRow["school_year"] ?></td>
+                                            <td><?php echo $studentRow["track"] ?></td>
+                                            <td><?php echo $studentRow["strand"] ?></td>
+                                            <td><?php echo $studentRow["lm"] ?></td>
                                         </tr>
                                     <?php
                                     endwhile;
