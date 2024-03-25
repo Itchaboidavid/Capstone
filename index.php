@@ -141,7 +141,7 @@ if (isset($_SESSION['user_logged_in'])) {
   <div id="form" class="row" style="width: 50%; height: 500px;">
     <div class="col-6" id="formPhoto">
       <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" class="tcLogo">
-      <p class="fw-bold text-light">Tagaytay City National High School <br>- Integrated High School</p>
+      <p class="fw-bold text-light">Development of Web-based School Form Management System for Tagaytay City National High School - Integrated Senior High School</p>
     </div>
     <div style="position: relative;
                 background: rgba(255, 255, 255, 0.60);

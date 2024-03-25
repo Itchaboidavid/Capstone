@@ -45,7 +45,7 @@ $calendar->create();
 //   $currentYear = date('Y');
 // }
 
-
+$html = '';
 
 if ($sectionRow['track'] == 'Technical-Vocational-Livelihood') {
   $track = $sectionRow['track'];

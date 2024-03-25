@@ -90,7 +90,7 @@ session_start();
                                             <select class="form-select bg-body-tertiary" name="faculty" id="faculty" placeholder="faculty" required>
                                                 <option value="" selected>Class Adviser</option>
                                                 <?php
-                                                $select = "SELECT * FROM `user` WHERE user_type = 'adviser' AND section = ''";
+                                                $select = "SELECT * FROM `user` WHERE user_type = 'adviser' AND section = '' AND status = 'Active'";
                                                 $result = mysqli_query($conn, $select);
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>

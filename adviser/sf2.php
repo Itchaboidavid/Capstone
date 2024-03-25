@@ -154,9 +154,30 @@ if (isset($_POST['add_student'])) {
                                     </select>
                                     <label for="selected_year">Year:</label>
                                     <input type="number" name="selected_year" id="selected_year" min="2020" max="2100" value="<?php echo date('Y'); ?>">
-                                    <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer;">
-                                        <i class="fa-solid fa-print"></i>
-                                    </button>
+                                    <?php
+                                    $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                                    $syResult = $conn->query($sy);
+                                    $syRow = $syResult->fetch_assoc();
+                                    $school_year_id = $syRow['id'];
+
+                                    $sectionName = $_SESSION['section'];
+                                    $section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
+                                    $sectionResult = $conn->query($section);
+                                    $sectionRow = $sectionResult->fetch_assoc();
+
+                                    $availableStudent = "SELECT * FROM student WHERE school_year_id = '$school_year_id' AND section = '$sectionName'";
+                                    $availableStudentResult = $conn->query($availableStudent);
+                                    if ($availableStudentResult->num_rows > 0) { ?>
+                                        <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer;">
+                                            <i class="fa-solid fa-print"></i>
+                                        </button>
+                                    <?php } else { ?>
+                                        <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer; display: none;">
+                                            <i class="fa-solid fa-print"></i>
+                                        </button>
+                                    <?php }
+                                    ?>
+
                                 </form>
                             </div>
 
