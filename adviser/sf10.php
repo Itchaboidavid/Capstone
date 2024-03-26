@@ -123,6 +123,7 @@ $pdf->Cell(15.8, 4.25, 'TAKEN', 0, 1, 'C', 0);
 $pdf->ln(0.7);
 
 $studentName = $studentRow['name'];
+$studentID = $studentRow['id'];
 $sf9 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st' AND `subject_type` != '' AND `subject_title` != '' ORDER BY `subject_type`, `subject_title` ASC";
 $sf9Result = $conn->query($sf9);
 $sf9Count = $sf9Result->num_rows;
@@ -457,18 +458,31 @@ $pdf->Cell(65, 4, 'Signature of Authorized Person over Printed Name, Designation
 $pdf->ln(-2);
 $pdf->SetFont('helveticanarrowb', '', 7);
 $pdf->Cell(18, 0.001, '', 0, 1, 'L');
-$remedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
+$remedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_id` = '$studentID'";
 $remedialDateResult = $conn->query($remedialDate);
 $remedialDateRow = $remedialDateResult->fetch_assoc();
 
 if ($remedialDateResult->num_rows > 0) {
     $firstSem = $remedialDateRow['start_date1'];
-    $convertedFirstSem = strtotime($firstSem);
-    $firstSemDate = date("m/d/Y", $convertedFirstSem);
+
+    // Check if the date is valid
+    if ($firstSem != '0000-00-00') {
+        $convertedFirstSem = strtotime($firstSem);
+        $firstSemDate = date("m/d/Y", $convertedFirstSem);
+    } else {
+        $firstSemDate = ""; // or any other default value
+    }
+
 
     $firstSemEnd = $remedialDateRow['end_date1'];
-    $convertedFirstSemEnd = strtotime($firstSemEnd);
-    $firstSemDateEnd = date("m/d/Y", $convertedFirstSemEnd);
+
+    // Check if the end date is valid
+    if ($firstSemEnd != '0000-00-00') {
+        $convertedFirstSemEnd = strtotime($firstSemEnd);
+        $firstSemDateEnd = date("m/d/Y", $convertedFirstSemEnd);
+    } else {
+        $firstSemDateEnd = ""; // or any other default value
+    }
 } else {
     $firstSemDate = "";
     $firstSemDateEnd = "";
@@ -1176,12 +1190,24 @@ $pdf->Cell(18, 0.001, '', 0, 1, 'L');
 
 if ($remedialDateResult->num_rows > 0) {
     $secondSem = $remedialDateRow['start_date2'];
-    $convertedSecondSem = strtotime($secondSem);
-    $secondSemDate = date("m/d/Y", $convertedSecondSem);
+
+    // Check if the start date of the second semester is valid
+    if ($secondSem != '0000-00-00') {
+        $convertedSecondSem = strtotime($secondSem);
+        $secondSemDate = date("m/d/Y", $convertedSecondSem);
+    } else {
+        $secondSemDate = ""; // or any other default value
+    }
 
     $secondSemEnd = $remedialDateRow['end_date2'];
-    $convertedSecondSemEnd = strtotime($secondSemEnd);
-    $secondSemDateEnd = date("m/d/Y", $convertedSecondSemEnd);
+
+    // Check if the end date of the second semester is valid
+    if ($secondSemEnd != '0000-00-00') {
+        $convertedSecondSemEnd = strtotime($secondSemEnd);
+        $secondSemDateEnd = date("m/d/Y", $convertedSecondSemEnd);
+    } else {
+        $secondSemDateEnd = ""; // or any other default value
+    }
 } else {
     $secondSemDate = "";
     $secondSemDateEnd = "";

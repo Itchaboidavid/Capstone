@@ -27,6 +27,7 @@ $html = '
 <style>
 table{
     border-collapse: collapse;
+    border-spacing: 0; 
 }
 
 *{
@@ -421,6 +422,8 @@ $html .= '<div>
 ';
 $html .= '<div style="page-break-before: always;"></div>';
 
+
+
 //SF9 BACK
 //CORE SUBJECTS 1ST SEM
 $core = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '1st'";
@@ -470,6 +473,7 @@ $html .=
           *{
             font-family: Arial, Helvetica, sans-serif;
            }
+           
     </style>
 <div>
     <table style="margin-left: -6px; margin-top:-3px; font-size: 8.2pt; border-collapse: collapse;">
@@ -584,7 +588,7 @@ if ($semAverage != 0) {
 
 $html .= '  
         <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
-        <td style=" height: 18px; width: 100px; border: none;">General Average for the Semester:</td>
+        <td style=" height: 15px; width: 100px; border: none; text-align:left;">General Average for the Semester:</td>
         <td style="border: 0px solid black;"></td>
         <td style="border: 0px solid black;"> </td>
         <td style="border: 1px solid black; font-weight: bold;">' . round($semAverage) . '  </td>
@@ -594,10 +598,10 @@ $html .= '
 ';
 
 $html .= '
-    <div style="margin-top: 10px;">
+    <div style="">
     <table style="margin-left: -6px; font-size:8.2pt;">
         <tr>   
-            <th colspan="4" style=" height:18px; border: 0px solid black;"></th>
+            <th colspan="4" style=" height:12px; border: 0px solid black;"></th>
         </tr>
 
         <tr>
@@ -714,21 +718,22 @@ if ($semAverage2 != 0) {
 $totalAverage = ($semAverage + $semAverage2) / 2;
 $html .= '
         <tr  style="font-weight: bold; vertical-align: bottom; text-align:center;" >
-        <td style=" height: 18px; width: 100px; border: 0px solid black;">General Average for the Semester:</td>
+        <td style=" height: 15px; width: 100px; border: 0px solid black; text-align: left;">General Average for the Semester:</td>
         <td style="border: 0px solid black;"></td>
         <td style="border: 0px solid black;">  </td>
         <td style="border: 1px solid black;">' . round($semAverage2) . '</td>
         </tr>
+        
 
         <tr  style="font-weight: bold; vertical-align: bottom; text-align: center;" >
-        <td style=" height: 20px; width: 100px; border: 0px solid black;">General Average for the two Semesters:</td>
+        <td style=" height: 15px; width: 100px; border: 0px solid black; text-align: left;">General Average for the two Semesters:</td>
         <td style="border: 0px solid black;"></td>
         <td style="border: 0px solid black;">  </td>
         <td style="border: 1px solid black;">' . round($totalAverage) . '</td>
         </tr>
 
         <tr>
-        <th colspan="4" style=" height:9px; border: 0px solid black;"></th>
+        <th colspan="4" style=" height:0px; border: 0px solid black;"></th>
         </tr>
 
     </table>
@@ -742,7 +747,7 @@ if ($modalityResult->num_rows > 0) {
     $modalityRow = $modalityResult->fetch_assoc();
 
     $html .= '
-<table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 10px;">
+<table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 5px;">
         <tr  style=" font-weight: bold; text-align: center;" >
         <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
         <td style="width: 44px; border: 1px solid black;">  Q1 </td>
@@ -860,7 +865,7 @@ if ($modalityResult->num_rows > 0) {
     }
 } else {
     $html .= '
-    <table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 10px;">
+    <table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 5px;">
             <tr  style=" font-weight: bold; text-align: center;" >
             <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
             <td style="width: 44px; border: 1px solid black;">  Q1 </td>
