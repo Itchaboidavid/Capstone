@@ -12,7 +12,7 @@ if (isset($_POST["login"])) {
     $row_login = mysqli_fetch_assoc($result_user);
     if ($row_login["status"] == "Active") {
       $_SESSION['user_logged_in'] = true;
-      if ($row_login["user_type"] == "system admin") {
+      if ($row_login["user_type"] == "System admin") {
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         header("location: system admin/dashboard.php");
@@ -51,7 +51,7 @@ if (isset($_POST["login"])) {
 }
 
 if (isset($_SESSION['user_logged_in'])) {
-  if ($_SESSION['user_type'] == 'system admin') {
+  if ($_SESSION['user_type'] == 'System admin') {
     header("location:system admin/dashboard.php");
   } elseif ($_SESSION['user_type'] == 'Adviser') {
     header("location: adviser/dashboard.php");

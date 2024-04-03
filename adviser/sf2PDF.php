@@ -329,16 +329,20 @@ foreach ($result as $emp) {
       <td style= "  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $sf2Count . '</td>';
 
   $id = $emp['id'];
-  $remarks = "SELECT * FROM `sf2remarks` WHERE `student_id` = '$id'";
+  $remarks = "SELECT remarks FROM `sf2remarks` WHERE `student_id` = '$id'";
   $remarksResult = $conn->query($remarks);
-  $remarksRow = $remarksResult->fetch_assoc();
+  if ($remarksResult->num_rows > 0) {
+    $remarksRow = $remarksResult->fetch_assoc();
+    $remarksValue = $remarksRow['remarks'];
 
-  $remarksValue = isset($remarksRow['remarks']) ? $remarksRow['remarks'] : '';
-
-  $html .= '
-        <td style="font-size: 5pt; width:228px; vertical-align: middle; text-align: center; border: 1px solid black;">' . $remarksValue . '</td>
-      </tr>';
-
+    $html .= '
+          <td style="font-size: 5pt; width:228px; vertical-align: middle; text-align: center; border: 1px solid black;">' . $remarksValue . '</td>
+        </tr>';
+  } else {
+    $html .= '
+          <td style="font-size: 5pt; width:228px; vertical-align: middle; text-align: center; border: 1px solid black;"></td>
+        </tr>';
+  }
   $maleCount++;
 }
 
@@ -485,14 +489,24 @@ foreach ($result as $emp) {
     }
   }
 
-
   $html .= '      
       <td style="  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $absent . '</td>
-      <td style= "  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $sf2Count . '</td>
+      <td style= "  vertical-align: middle; text-align : center;  border-right: 2px solid black; border-bottom: 1px solid black;">' . $sf2Count . '</td>';
+  $id = $emp['id'];
+  $remarks = "SELECT remarks FROM `sf2remarks` WHERE `student_id` = '$id'";
+  $remarksResult = $conn->query($remarks);
+  if ($remarksResult->num_rows > 0) {
+    $remarksRow = $remarksResult->fetch_assoc();
+    $remarksValue = $remarksRow['remarks'];
 
-      <td style= " font-size: 5pt; width:228px; vertical-align: middle; text-align : center; border: 1px solid black;"></td>
-    </tr>
-        ';
+    $html .= '
+              <td style="font-size: 5pt; width:228px; vertical-align: middle; text-align: center; border: 1px solid black;">' . $remarksValue . '</td>
+            </tr>';
+  } else {
+    $html .= '
+              <td style="font-size: 5pt; width:228px; vertical-align: middle; text-align: center; border: 1px solid black;"></td>
+            </tr>';
+  }
   $femaleCount++;
 }
 

@@ -29,7 +29,13 @@
                         Dashboard
                     </a>
                     <!-- FACULTY -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#facultyCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="user_table.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        User
+                    </a>
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#facultyCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-user"></i>
                         </div>
@@ -43,7 +49,7 @@
                                 User table
                             </a>
                         </nav>
-                    </div>
+                    </div> -->
                     <!-- TRACK AND STRAND -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#trackStrandCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
@@ -65,7 +71,13 @@
                         </nav>
                     </div>
                     <!-- SUBJECT -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#subjectCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="subject_table.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        Subject
+                    </a>
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#subjectCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-book-open"></i>
                         </div>
@@ -79,9 +91,15 @@
                                 Subject table
                             </a>
                         </nav>
-                    </div>
+                    </div> -->
                     <!-- SCHOOL YEAR -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#schoolyearCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="sy_table.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                        School Year
+                    </a>
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#schoolyearCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fa-regular fa-calendar"></i>
                         </div>
@@ -95,9 +113,15 @@
                                 S.Y table
                             </a>
                         </nav>
-                    </div>
+                    </div> -->
                     <!-- SECTION -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#sectionCollapse" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="section_table.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        Section
+                    </a>
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#sectionCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-user-group"></i>
                         </div>
@@ -111,7 +135,7 @@
                                 Section table
                             </a>
                         </nav>
-                    </div>
+                    </div> -->
                     <!-- School Settings -->
                     <a class="nav-link collapsed" href="school_settings.php">
                         <div class="sb-nav-link-icon">

@@ -31,7 +31,7 @@ session_start();
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Faculty</h3>
+                                <h3 style="text-shadow: 1px 1px 3px black;">Users</h3>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
@@ -133,7 +133,7 @@ session_start();
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fa-solid fa-chart-bar"></i>
-                                Faculty Chart
+                                User Chart
                             </div>
                             <div class="card-body">
                                 <div id="facultyChart" style="width:100%; height:300px;"></div>

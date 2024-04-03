@@ -598,7 +598,7 @@ $html .= '
 ';
 
 $html .= '
-    <div style="">
+    <div>
     <table style="margin-left: -6px; font-size:8.2pt;">
         <tr>   
             <th colspan="4" style=" height:12px; border: 0px solid black;"></th>
@@ -606,7 +606,7 @@ $html .= '
 
         <tr>
         <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (2nd Semester) </th>
-        <th colspan = "2"style="        font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
+        <th colspan = "2"style="font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
         <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
         </tr>
 

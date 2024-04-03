@@ -72,6 +72,7 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
+                                                <option value="System admin">System admin</option>
                                                 <option value="Adviser">Class Adviser</option>
                                                 <option value="Clinic teacher">Clinic Teacher</option>
                                                 <option value="Registrar">Registrar</option>
@@ -80,14 +81,6 @@ session_start();
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select type of user.</div>
                                         </div>
-                                        <!-- <div class="form-floating mb-3" id="sectionDropdown" style="display: none;">
-                                            <select class="form-select bg-body-tertiary" name="section" id="section">
-                                                <option value="" selected>Section</option>
-                                            </select>
-                                            <label for="section">Section</label>
-                                            <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select a section.</div>
-                                        </div> -->
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                                 <option value="" selected>Status</option>
@@ -159,6 +152,8 @@ session_start();
                                                 echo '<td>Non-Teaching</td>';
                                             } elseif ($userRow['user_type'] == 'Clinic teacher') {
                                                 echo '<td>Non-Advisory</td>';
+                                            } elseif ($userRow['user_type'] == 'System admin') {
+                                                echo '<td>System Admin</td>';
                                             } else {
                                                 echo '<td>' . $userRow["section"] . '</td>';
                                             }

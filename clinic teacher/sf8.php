@@ -24,8 +24,8 @@ $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page
   $pdf->AddPage();
-  $pdf->Image('../images/sf_logo.gif', 7.5, 4.5, 19.9, 18.5);
-  $pdf->Image('../images/sf_logo2.png', 176, 5.5, 31, 14.3);
+  $pdf->Image('../images/circleLogosf5.jpg', 7.5, 4.5, 19.9, 18.5);
+  $pdf->Image('../images/depedlogosf5.jpg', 176, 5.5, 31, 14.3);
 
   $pdf->SetFont('helvetica', 'B', 8.8);
   $pdf->Text(91.5, 5.5, 'Department of Education');

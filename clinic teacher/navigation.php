@@ -28,7 +28,11 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <a class="nav-link collapsed" href="student_table.php">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                        Students
+                    </a>
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                         Students
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -40,7 +44,7 @@
                                 Student table
                             </a>
                         </nav>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="sb-sidenav-footer" style="background: #03045e;">
