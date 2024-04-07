@@ -64,6 +64,7 @@ session_start();
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
+                                    <option value="System admin" <?php echo ($userRow['user_type'] == 'System admin') ? "selected" : ""; ?>>System Admin</option>
                                     <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Class Adviser</option>
                                     <option value="Clinic teacher" <?php echo ($userRow['user_type'] == 'Clinic teacher') ? "selected" : ""; ?>>Clinic teacher</option>
                                     <option value="Registrar" <?php echo ($userRow['user_type'] == 'Registrar') ? "selected" : ""; ?>>Registrar</option>

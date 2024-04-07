@@ -1,6 +1,7 @@
 <?php
 include("../config.php");
 session_start();
+$sectionID = $_GET['id'];
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@ session_start();
                 $syRow = $syResult->fetch_assoc();
                 $school_year_id = $syRow['id'];
 
-                $section = "SELECT * FROM section WHERE school_year_id = '$school_year_id' AND is_archived = 0";
+                $section = "SELECT * FROM section WHERE id = '$sectionID'";
                 $sectionResult = $conn->query($section);
                 while ($sectionRow = $sectionResult->fetch_assoc()) {
                     $sectionName = $sectionRow['name'];
@@ -52,7 +53,7 @@ session_start();
                             </a> -->
                         </div>
                         <div class="card-body">
-                            <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">
+                            <table class="table table-sm table-bordered table-hover text-sm" style="font-size: 14px;">
                                 <thead>
                                     <tr>
                                         <th>LRN</th>
@@ -69,8 +70,7 @@ session_start();
                                         <th>Contact</th>
                                         <th>Grade & Section</th>
                                         <th>School Year</th>
-                                        <th>Track</th>
-                                        <th>Strand</th>
+                                        <th>Track & Strand</th>
                                         <th>Learning Modality</th>
                                     </tr>
                                 </thead>
@@ -100,8 +100,7 @@ session_start();
                                             <td><?php echo $studentRow["contact"] ?></td>
                                             <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
                                             <td><?php echo $studentRow["school_year"] ?></td>
-                                            <td><?php echo $studentRow["track"] ?></td>
-                                            <td><?php echo $studentRow["strand"] ?></td>
+                                            <td><?php echo $studentRow["track"] . " - " . $studentRow["strand"] ?></td>
                                             <td><?php echo $studentRow["lm"] ?></td>
                                         </tr>
                                     <?php

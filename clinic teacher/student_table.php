@@ -86,6 +86,7 @@ session_start();
                                         <th>BMI<br>(kg/m<sup>2</sup>)</th>
                                         <th>BMI<br>Category</th>
                                         <th>HFA <br>(Height for age)</th>
+                                        <th>Remarks</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -106,6 +107,7 @@ session_start();
                                             <td><?php echo $studentRow["bmi"] ?></td>
                                             <td><?php echo $studentRow["bmi_category"] ?></td>
                                             <td><?php echo $studentRow["hfa_category"] ?></td>
+                                            <td><?php echo $studentRow["sf8_remarks"] ?></td>
                                             <td>
                                                 <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
                                                     <i class="fa-solid fa-plus"></i>

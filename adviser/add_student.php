@@ -189,8 +189,8 @@ if (isset($_POST["add_student"])) {
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
                                 <?php
-                                $faculty = $_SESSION['name'];
-                                $section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
+                                $faculty = $_SESSION['id'];
+                                $section = "SELECT * FROM `user` WHERE `id` = '$faculty'";
                                 $sectionResult = $conn->query($section);
                                 $sectionRow = $sectionResult->fetch_assoc();
                                 ?>
