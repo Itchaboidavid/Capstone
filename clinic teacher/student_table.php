@@ -33,12 +33,13 @@ session_start();
                         <h1 class="mt-4">Student</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Student table</li>
+                            <li class="breadcrumb-item"><a href="section_table.php">Section Table</a></li>
+                            <li class="breadcrumb-item active">Student Table</li>
                         </ol>
                     </div>
-                    <a href="sf8all.php" target="_blank" class="pe-3 btn btn-primary">
+                    <!-- <a href="sf8all.php" target="_blank" class="pe-3 btn btn-primary">
                         <span>Print All <i class="fa-solid fa-print ms-1"></i></span>
-                    </a>
+                    </a> -->
                 </div>
                 <?php
                 if (isset($_GET['msg'])) {
@@ -58,7 +59,8 @@ session_start();
                 }
                 ?>
                 <?php
-                $sql = "SELECT * FROM section WHERE is_archived = 0";
+                $sectionID = $_GET['id'];
+                $sql = "SELECT * FROM section WHERE id = '$sectionID'";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     $sectionName = $row['name'];

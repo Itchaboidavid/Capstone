@@ -28,9 +28,9 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <a class="nav-link collapsed" href="student_table.php">
+                    <a class="nav-link collapsed" href="section_table.php">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
-                        Students
+                        Sections
                     </a>
                     <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>

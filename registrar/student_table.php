@@ -27,7 +27,8 @@ $sectionID = $_GET['id'];
                         <h1 class="mt-4">Student</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Student table</li>
+                            <li class="breadcrumb-item"><a href="section_table.php">Section Table</a></li>
+                            <li class="breadcrumb-item active">Student Table</li>
                         </ol>
                     </div>
                 </div>
