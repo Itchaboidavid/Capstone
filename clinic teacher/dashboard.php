@@ -31,18 +31,23 @@ session_start();
                     <div class="col-xl-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-header">
-                                <h4 style="text-shadow: 1px 1px 3px black;">Students</h4>
+                                <h4 style="text-shadow: 1px 1px 3px black;">Sections</h4>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $student = "SELECT * FROM `student` WHERE is_archived = 0";
-                                $studentResult = $conn->query($student);
-                                $studentCount = $studentResult->num_rows;
+                                $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                                $syResult = $conn->query($sy);
+                                $syRow = $syResult->fetch_assoc();
+                                $syID = $syRow['id'];
+
+                                $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
+                                $sectionResult = $conn->query($section);
+                                $sectionCount = $sectionResult->num_rows;
                                 ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentCount ?></span>
+                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                <a class="small text-white stretched-link" href="section_table.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -166,7 +171,7 @@ $tallCount = mysqli_num_rows($tallResult);
 
     function hfaChart() {
         const data = google.visualization.arrayToDataTable([
-            ['Contry', 'Mhl'],
+            ['Contry', 'Highlight'],
             ['Severly Stunted', <?php echo $severelyStuntedCount ?>],
             ['Stunted', <?php echo $stuntedCount ?>],
             ['Normal', <?php echo $normalHeightCount ?>],

@@ -31,42 +31,23 @@ session_start();
                     <div class="col-xl-4 col-md-6">
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Students</h3>
+                                <h4 style="text-shadow: 1px 1px 3px black;">Sections</h4>
                             </div>
                             <div class="card-body text-center p-0">
                                 <?php
-                                $sySQL = "SELECT * FROM school_year WHERE is_archived = 0";
-                                $syResult = $conn->query($sySQL);
+                                $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+                                $syResult = $conn->query($sy);
                                 $syRow = $syResult->fetch_assoc();
-                                $school_year_id = $syRow['id'];
+                                $syID = $syRow['id'];
 
-                                $students = "SELECT * FROM `student` WHERE school_year_id = '$school_year_id' AND is_archived = 0";
-                                $studentsResult = $conn->query($students);
-                                $studentsCount = $studentsResult->num_rows;
-                                ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $studentsCount ?></span>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
-                            <div class="card-header">
-                                <h3 style="text-shadow: 1px 1px 3px black;">Sections</h3>
-                            </div>
-                            <div class="card-body text-center p-0">
-                                <?php
-                                $section = "SELECT * FROM `section` WHERE school_year_id = '$school_year_id' AND is_archived = 0";
+                                $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
                                 $sectionResult = $conn->query($section);
                                 $sectionCount = $sectionResult->num_rows;
                                 ?>
                                 <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="student_table.php">View Details</a>
+                                <a class="small text-white stretched-link" href="section_table.php">View Details</a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -119,20 +100,20 @@ session_start();
 
 <?php
 //STUDENT CHART
-$g11 = "SELECT * FROM `student` WHERE `grade` = '11'";
+$g11 = "SELECT * FROM `student` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
 $resultG11 = mysqli_query($conn, $g11);
 $rowG11 = mysqli_num_rows($resultG11);
 
-$g12 = "SELECT * FROM `student` WHERE `grade` = '12'";
+$g12 = "SELECT * FROM `student` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
 $resultG12 = mysqli_query($conn, $g12);
 $rowG12 = mysqli_num_rows($resultG12);
 
 //SECTION CHART
-$g112 = "SELECT * FROM `section` WHERE `grade` = '11'";
+$g112 = "SELECT * FROM `section` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
 $resultG112 = mysqli_query($conn, $g11);
 $rowG112 = mysqli_num_rows($resultG112);
 
-$g122 = "SELECT * FROM `section` WHERE `grade` = '12'";
+$g122 = "SELECT * FROM `section` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
 $resultG122 = mysqli_query($conn, $g12);
 $rowG122 = mysqli_num_rows($resultG122);
 ?>
@@ -165,7 +146,7 @@ $rowG122 = mysqli_num_rows($resultG122);
 
     function sectionChart() {
         const data = google.visualization.arrayToDataTable([
-            ['Contry', 'Mhl'],
+            ['Contry', ''],
             ['G11', <?php echo $rowG112 ?>],
             ['G12', <?php echo $rowG122 ?>],
         ]);

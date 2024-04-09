@@ -182,7 +182,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     //MALE TABLE
     $html = '<table>';
     $section = $row["name"];
-    $select_male = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND `sex` = 'M' ORDER BY `name` ASC";
+    $select_male = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id' AND `sex` = 'M' ORDER BY `name` ASC";
     $result_select_male = mysqli_query($conn, $select_male);
     $select_male_count = $result_select_male->num_rows;
     $maleCount = 1;
@@ -254,7 +254,7 @@ td {
 
     //FEMALE TALBE
     $html = '<table>';
-    $select_female = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND `sex` = 'F' ORDER BY `name` ASC";
+    $select_female = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id' AND `sex` = 'F' ORDER BY `name` ASC";
     $result_select_female = mysqli_query($conn, $select_female);
     $femaleCount = 1;
     if ($result_select_female->num_rows == 0) {
@@ -286,7 +286,7 @@ td {
           <td style="width:5.84%; nobr=true; text-align:center;">' . $empf["bmi"] . '</td>
           <td style="width:7.78%; nobr=true; text-align:center;">' . $empf["bmi_category"] . '</td>
           <td style="width:8.25%; nobr=true; text-align:center;">' . $empf["hfa_category"] . '</td>
-          <td style="width:12.6%;  nobr=true; text-align:center;">' . $emp['sf8_remarks'] . '</td>
+          <td style="width:12.6%;  nobr=true; text-align:center;">' . $empf['sf8_remarks'] . '</td>
     </tr>';
             $femaleCount++;
         }

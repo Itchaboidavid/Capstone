@@ -156,23 +156,15 @@ session_start();
 
 <?php
 //USER CHART
-$adviser = "SELECT * FROM `user` WHERE `user_type` = 'adviser'";
+$adviser = "SELECT * FROM `user` WHERE `user_type` = 'Adviser' AND `status` = 'Active'";
 $adviserResult = mysqli_query($conn, $adviser);
 $adviserCount = mysqli_num_rows($adviserResult);
 
-$registrar = "SELECT * FROM `user` WHERE `user_type` = 'registrar'";
+$registrar = "SELECT * FROM `user` WHERE `user_type` = 'Registrar' AND `status` = 'Active'";
 $registrarResult = mysqli_query($conn, $registrar);
 $registrarCount = mysqli_num_rows($registrarResult);
 
-$librarian = "SELECT * FROM `user` WHERE `user_type` = 'librarian'";
-$librarianResult = mysqli_query($conn, $librarian);
-$librarianCount = mysqli_num_rows($librarianResult);
-
-$hr = "SELECT * FROM `user` WHERE `user_type` = 'human resources'";
-$hrResult = mysqli_query($conn, $hr);
-$hrCount = mysqli_num_rows($hrResult);
-
-$clinic = "SELECT * FROM `user` WHERE `user_type` = 'clinic staff'";
+$clinic = "SELECT * FROM `user` WHERE `user_type` = 'Clinic teacher' AND `status` = 'Active'";
 $clinicResult = mysqli_query($conn, $clinic);
 $clinicCount = mysqli_num_rows($clinicResult);
 
@@ -240,7 +232,7 @@ $subjectRowG12 = mysqli_num_rows($subjectResultG12);
 
     function facultyChart() {
         const data = google.visualization.arrayToDataTable([
-            ['Contry', 'Mhl'],
+            ['Contry', 'Highlight'],
             ['Class Adviser', <?php echo $adviserCount ?>],
             ['Clinic Teacher', <?php echo $clinicCount ?>],
             ['Registrar', <?php echo $registrarCount ?>],
