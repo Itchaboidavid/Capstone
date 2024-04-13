@@ -73,6 +73,7 @@ $sectionID = $_GET['id'];
                                         <th>School Year</th>
                                         <th>Track & Strand</th>
                                         <th>Learning Modality</th>
+                                        <th>Student's Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,6 +104,7 @@ $sectionID = $_GET['id'];
                                             <td><?php echo $studentRow["school_year"] ?></td>
                                             <td><?php echo $studentRow["track"] . " - " . $studentRow["strand"] ?></td>
                                             <td><?php echo $studentRow["lm"] ?></td>
+                                            <td><?php echo $studentRow["indicator"] . " " . $studentRow["ri"] . " " . $studentRow["rid"] ?></td>
                                         </tr>
                                     <?php
                                     endwhile;

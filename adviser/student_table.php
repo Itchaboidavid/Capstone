@@ -94,6 +94,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                     <th>Birthday</th>
                                     <th>Age</th>
                                     <th>Grade & <br>Section</th>
+                                    <th>Student's Remarks</th>
                                     <th>School Form <br>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -113,6 +114,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         <td><?php echo $studentRow["birth_date"] ?></td>
                                         <td><?php echo $studentRow["age"] ?></td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
+                                        <td><?php echo $studentRow["indicator"] . " " . $studentRow["ri"] . " " . $studentRow["rid"] ?></td>
                                         <?php
                                         $name = $studentRow['name'];
                                         $check = "SELECT DISTINCT student_name FROM `sf9` WHERE `student_name` = '$name'";

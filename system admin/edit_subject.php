@@ -1,7 +1,7 @@
 <?php
 include("../config.php");
 session_start();
-
+$id = $_GET['id'];
 //EDIT SUBJECT
 if (isset($_POST['edit_subject'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
@@ -14,9 +14,10 @@ if (isset($_POST['edit_subject'])) {
     $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+    $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
 
-    $update = "UPDATE `subject` SET `name`='$name', `subject_type`='$subject_type', `track`='$track', `strand`='$strand', `grade`='$grade', `semester`='$semester' WHERE id = $id";
+    $update = "UPDATE `subject` SET `name`='$name', `subject_type`='$subject_type', `track`='$track', `strand`='$strand', `grade`='$grade', `semester`='$semester', `status`='$status' WHERE id = $id";
 
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'subject_table.php?msg=Record updated successfully!';</script>");
@@ -155,7 +156,7 @@ if (isset($_POST['edit_subject'])) {
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select the grade level.</div>
                             </div>
-                            <div class="form-floating">
+                            <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="semester" id="semester">
                                     <option value="1st" <?php echo ($subjectRow['semester'] == '1st') ? "selected" : ""; ?>>1st</option>
                                     <option value="2nd" <?php echo ($subjectRow['semester'] == '2nd') ? "selected" : ""; ?>>2nd</option>
@@ -163,6 +164,15 @@ if (isset($_POST['edit_subject'])) {
                                 <label for="semester">Semester</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a semester.</div>
+                            </div>
+                            <div class="form-floating">
+                                <select class="form-select bg-body-tertiary" name="status" id="status">
+                                    <option value="Active" class="text-success" <?php echo ($subjectRow['status'] == 'Active') ? "selected" : ""; ?>>Active</option>
+                                    <option value="Disabled" class="text-danger" <?php echo ($subjectRow['status'] == 'Disabled') ? "selected" : ""; ?>>Disabled</option>
+                                </select>
+                                <label for="status">Status</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a status.</div>
                             </div>
                         </div>
                         <div class="card-footer pe-0">

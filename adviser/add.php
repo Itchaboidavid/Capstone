@@ -58,7 +58,6 @@ $studentRow = $studentResult->fetch_assoc();
             });
         });
     </script>
-
 </head>
 
 <body class="sb-nav-fixed">

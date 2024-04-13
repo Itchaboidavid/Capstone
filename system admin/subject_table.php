@@ -13,15 +13,16 @@ if (isset($_POST["add_subject"])) {
     $track = $forTrackRow['track'];
     $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
     $semester = mysqli_real_escape_string($conn, $_POST["semester"]);
+    $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
-    $subject = "SELECT * FROM `subject` WHERE name = '$name'";
+    $subject = "SELECT * FROM `subject` WHERE name = '$name' AND semester = '$semester'";
     $subjectResult = $conn->query($subject);
 
     if (mysqli_num_rows($subjectResult) > 0) {
         header("location:subject_table.php?errmsg=The subject/subject code already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester')";
+        $insert = "INSERT INTO `subject`(`name`, `subject_type`, `track`,`strand`, `grade`,`semester`,`status`) VALUES ('$name','$subject_type', '$track','$strand','$grade','$semester','$status')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'subject_table.php?msg=Subject added successfully!';</script>");
         exit();
@@ -136,7 +137,7 @@ if (isset($_POST["add_subject"])) {
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select the grade level.</div>
                                         </div>
-                                        <div class="form-floating">
+                                        <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="semester" id="semester" placeholder="semester" required>
                                                 <option value="" selected>Semester</option>
                                                 <option value="1st">1st</option>
@@ -145,6 +146,15 @@ if (isset($_POST["add_subject"])) {
                                             <label for=" semester">Semester</label>
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select a semester.</div>
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select bg-body-tertiary" name="status" id="status" placeholder="status" required>
+                                                <option value="Active" class="text-success" selected>Active</option>
+                                                <option value="Disabled" class="text-danger">Disabled</option>
+                                            </select>
+                                            <label for="status">Status</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a status.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -179,16 +189,6 @@ if (isset($_POST["add_subject"])) {
                             <i class="fas fa-table me-1"></i>
                             Subject table
                         </div>
-                        <!-- <select class="form-select" id="filterSemester" style="max-width: 180px;">
-                            <option value="all">All Semester</option>
-                            <?php
-                            $selectSemester = "SELECT DISTINCT `semester` FROM `subject` ORDER BY `semester` ASC";
-                            $semesterResult = $conn->query($selectSemester);
-                            while ($row = $semesterResult->fetch_assoc()) {
-                                echo '<option value="' . $row["semester"] . '">' . $row["semester"] . '</option>';
-                            }
-                            ?>
-                        </select> -->
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -200,6 +200,7 @@ if (isset($_POST["add_subject"])) {
                                     <th>Strand</th>
                                     <th>Grade</th>
                                     <th>Semester</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -218,6 +219,13 @@ if (isset($_POST["add_subject"])) {
                                             <td><?php echo $subjectRow["strand"] ?></td>
                                             <td><?php echo $subjectRow["grade"] ?></td>
                                             <td><?php echo $subjectRow["semester"] ?></td>
+                                            <?php
+                                            if ($subjectRow['status'] == 'Active') {
+                                                echo '<td>Active</td>';
+                                            } else {
+                                                echo '<td>Disabled</td>';
+                                            }
+                                            ?>
                                             <td>
                                                 <a href="edit_subject.php?id=<?php echo $subjectRow['id'] ?>" style="border: none; background: transparent;">
                                                     <i class="fa-regular fa-pen-to-square"></i>

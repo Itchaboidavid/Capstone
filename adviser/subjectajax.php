@@ -23,11 +23,11 @@ $selectedSubjects = $_POST['selectedSubjects'];
 // Prepare and execute the query
 if (empty($selectedSubjects)) {
     // For the first row, don't include conditions related to previous rows
-    $select = $conn->prepare("SELECT * FROM `subject` WHERE `subject_type` = ? AND `semester` = ? AND `grade` = ? AND (`strand` = ? OR `strand` = 'All')");
+    $select = $conn->prepare("SELECT * FROM `subject` WHERE `subject_type` = ? AND `semester` = ? AND `grade` = ? AND (`strand` = ? OR `strand` = 'All') AND `status` = 'Active'");
     $select->bind_param("ssss", $subjectType, $semester, $grade, $strand);
 } else {
     // For subsequent rows, include conditions related to previous rows
-    $select = $conn->prepare("SELECT * FROM `subject` WHERE `subject_type` = ? AND `semester` = ? AND `grade` = ? AND (`strand` = ? OR `strand` = 'All') AND `name` NOT IN (" . implode(",", array_fill(0, count($selectedSubjects), "?")) . ")");
+    $select = $conn->prepare("SELECT * FROM `subject` WHERE `subject_type` = ? AND `semester` = ? AND `grade` = ? AND (`strand` = ? OR `strand` = 'All') AND `status` = 'Active' AND `name` NOT IN (" . implode(",", array_fill(0, count($selectedSubjects), "?")) . ")");
     $select->bind_param("ssss" . str_repeat("s", count($selectedSubjects)), $subjectType, $semester, $grade, $strand, ...$selectedSubjects);
 }
 
