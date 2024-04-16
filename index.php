@@ -13,6 +13,7 @@ if (isset($_POST["login"])) {
     if ($row_login["status"] == "Active") {
       $_SESSION['user_logged_in'] = true;
       if ($row_login["user_type"] == "System admin") {
+        $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
         header("location: system admin/dashboard.php");

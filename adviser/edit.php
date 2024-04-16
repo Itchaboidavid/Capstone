@@ -84,7 +84,7 @@ $studentName = $studentRow['name'];
                         <div class=" card-body">
                             <h4 class="mb-3">School Form 5B</h4>
                             <?php
-                            $sf5b = "SELECT * FROM `sf5b` WHERE `student_name` = '$studentName'";
+                            $sf5b = "SELECT * FROM `sf5b` WHERE `student_id` = '$id'";
                             $sf5bResult = $conn->query($sf5b);
                             if ($sf5bResult->num_rows > 0) {
                                 $sf5bRow = $sf5bResult->fetch_assoc();
@@ -145,7 +145,7 @@ $studentName = $studentRow['name'];
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sf91 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '1st'";
+                                    $sf91 = "SELECT * FROM `sf9` WHERE `student_id` = '$id' AND `semester` = '1st'";
                                     $sf91Result = $conn->query($sf91);
 
                                     if ($sf91Result->num_rows > 0) {
@@ -165,6 +165,7 @@ $studentName = $studentRow['name'];
                                             <input type="text" name="sem1' . $i . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="1st" readonly />
                                             </td>';
                                             echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type1' . $i . '">';
+                                            echo '<option value="">--Subject title--</option>';
                                             echo '<option value="' . $fetchedData[$i]['subject_type'] . '" selected>' . $fetchedData[$i]['subject_type'] . '</option>';
                                             echo '<option value="Core">Core</option>';
                                             echo '<option value="Applied">Applied</option>';
@@ -218,7 +219,7 @@ $studentName = $studentRow['name'];
                                         <td colspan="6" class="fw-bold text-center">2nd Semester</td>
                                     </tr>
                                     <?php
-                                    $sf92 = "SELECT * FROM `sf9` WHERE `student_name` = '$studentName' AND `semester` = '2nd'";
+                                    $sf92 = "SELECT * FROM `sf9` WHERE `student_id` = '$id' AND `semester` = '2nd'";
                                     $sf92Result = $conn->query($sf92);
                                     if ($sf92Result->num_rows > 0) {
                                         $x = 1;
@@ -237,6 +238,7 @@ $studentName = $studentRow['name'];
                                             <input type="text" name="sem2' . $x . '" placeholder="Semester" class="form-control bg-body-tertiary text-center" value="2nd" readonly />
                                             </td>';
                                             echo '<td><select class="form-select-sm bg-body-tertiary w-100" name="subject_type2' . $x . '">';
+                                            echo '<option value="">--Subject title--</option>';
                                             echo '<option value="' . $fetchedData2[$x]['subject_type'] . '" selected>' . $fetchedData2[$x]['subject_type'] . '</option>';
                                             echo '<option value="Core">Core</option>';
                                             echo '<option value="Applied">Applied</option>';
@@ -288,7 +290,7 @@ $studentName = $studentRow['name'];
                             </table>
                             <br>
                             <?php
-                            $modality = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$studentName'";
+                            $modality = "SELECT * FROM `sf9_modality` WHERE `student_id` = '$id'";
                             $modalityResult = $conn->query($modality);
                             $modalityRow = $modalityResult->fetch_assoc();
                             ?>
@@ -437,7 +439,7 @@ $studentName = $studentRow['name'];
                                         </tr>
                                     </thead>
                                     <?php
-                                    $editOV = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$studentName'";
+                                    $editOV = "SELECT * FROM `sf9_ov` WHERE `student_id` = '$id'";
                                     $editOVResult = $conn->query($editOV);
                                     if ($editOVResult->num_rows > 0) {
                                         $editOVRow = $editOVResult->fetch_assoc();
@@ -1082,7 +1084,7 @@ $studentName = $studentRow['name'];
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $remedial = "SELECT * FROM `sf10remedial` WHERE `student_name` = '$studentName'";
+                                    $remedial = "SELECT * FROM `sf10remedial` WHERE `student_id` = '$id'";
                                     $remedialResult = $conn->query($remedial);
                                     if ($remedialResult->num_rows > 0) {
                                         $i = 1;
@@ -1184,7 +1186,7 @@ $studentName = $studentRow['name'];
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sf10RemedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_name` = '$studentName'";
+                                    $sf10RemedialDate = "SELECT * FROM `sf10remedialDate` WHERE `student_id` = '$id'";
                                     $sf10RemedialDateResult = $conn->query($sf10RemedialDate);
                                     $sf10RemedialDateRow = $sf10RemedialDateResult->fetch_assoc()
                                     ?>

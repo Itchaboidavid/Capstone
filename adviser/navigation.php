@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION['id'])) {
+    header("location:../index.php");
+}
+?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
     <a class=" navbar-brand ps-3 text-uppercase" href="dashboard.php">
