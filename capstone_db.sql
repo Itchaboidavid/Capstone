@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2024 at 05:52 AM
+-- Generation Time: Apr 16, 2024 at 12:51 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -136,7 +136,8 @@ CREATE TABLE `section` (
 INSERT INTO `section` (`id`, `name`, `track`, `strand`, `grade`, `adviser_id`, `adviser`, `school_year_id`, `school_year`, `is_archived`) VALUES
 (1, 'Responsibility', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 1, '2023 - 2024', 1),
 (2, 'Perseverance', 'Academic', 'Science, Technology, Engineering and Mathematics', 12, 5, 'Daryl Balbastro', 1, '2023 - 2024', 1),
-(3, 'Humility', 'Academic', 'Humanities and Social Science', 11, 3, 'Arcie Natuel', 2, '2024 - 2025', 0);
+(3, 'Humility', 'Academic', 'Humanities and Social Science', 11, 3, 'Arcie Natuel', 2, '2024 - 2025', 0),
+(4, 'Responsibility', 'Academic', 'Accountancy, Business and Management', 12, 5, 'Daryl Balbastro', 2, '2024 - 2025', 0);
 
 -- --------------------------------------------------------
 
@@ -1541,9 +1542,9 @@ INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subjec
 (311, 'Cruz, Maria  R', 25, 2, 'Core', '21st Century from the Philippines and the World', 96, 96, 96, '1st', 'F', 'Humility'),
 (312, 'Cruz, Maria  R', 25, 2, 'Applied', 'Empowerment Technologies', 97, 96, 96.5, '1st', 'F', 'Humility'),
 (313, 'Cruz, Maria  R', 25, 2, 'Applied', 'English for Academic and Special Purposes', 96, 97, 96.5, '1st', 'F', 'Humility'),
-(314, 'Cruz, Maria  R', 25, 2, 'Core', 'General Mathematics', 98, 97, 97.5, '1st', 'F', 'Humility'),
-(315, 'Cruz, Maria  R', 25, 2, 'Core', 'Earth And Life Science ', 88, 88, 88, '1st', 'F', 'Humility'),
-(316, 'Cruz, Maria  R', 25, 2, 'Core', 'Reading and Writing Skills', 67, 86, 76.5, '1st', 'F', 'Humility'),
+(314, 'Cruz, Maria  R', 25, 2, '', '', 98, 97, 97.5, '1st', 'F', 'Humility'),
+(315, 'Cruz, Maria  R', 25, 2, '', '', 88, 88, 88, '1st', 'F', 'Humility'),
+(316, 'Cruz, Maria  R', 25, 2, '', '', 67, 86, 76.5, '1st', 'F', 'Humility'),
 (317, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
 (318, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
 (319, 'Cruz, Maria  R', 25, 2, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 98, 97, 97.5, '2nd', 'F', 'Humility'),
@@ -1717,9 +1718,9 @@ INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subjec
 (487, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
 (488, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
 (489, 'Cruz, Benjamin  M', 30, 2, 'Core', 'Oral Communication in Context', 98, 99, 98.5, '1st', 'M', 'Humility'),
-(490, 'Cruz, Benjamin  M', 30, 2, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 98, 96, 97, '1st', 'M', 'Humility');
+(490, 'Cruz, Benjamin  M', 30, 2, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 98, 96, 97, '1st', 'M', 'Humility'),
+(491, 'Cruz, Benjamin  M', 30, 2, 'Core', '21st Century from the Philippines and the World', 97, 96, 96.5, '1st', 'M', 'Humility');
 INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES
-(491, 'Cruz, Benjamin  M', 30, 2, 'Core', '21st Century from the Philippines and the World', 97, 96, 96.5, '1st', 'M', 'Humility'),
 (492, 'Cruz, Benjamin  M', 30, 2, 'Core', 'General Mathematics', 96, 95, 95.5, '1st', 'M', 'Humility'),
 (493, 'Cruz, Benjamin  M', 30, 2, 'Applied', 'Empowerment Technologies', 96, 95, 95.5, '1st', 'M', 'Humility'),
 (494, 'Cruz, Benjamin  M', 30, 2, 'Applied', 'English for Academic and Special Purposes', 96, 99, 97.5, '1st', 'M', 'Humility'),
@@ -2321,46 +2322,47 @@ CREATE TABLE `subject` (
   `track` varchar(255) NOT NULL,
   `strand` varchar(255) NOT NULL,
   `grade` int(255) NOT NULL,
-  `semester` varchar(255) NOT NULL
+  `semester` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `subject`
 --
 
-INSERT INTO `subject` (`id`, `name`, `subject_type`, `track`, `strand`, `grade`, `semester`) VALUES
-(11, 'Oral Communication in Context', 'Core', 'All', 'All', 11, '1st'),
-(12, 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 'Core', 'All', 'All', 11, '1st'),
-(13, '21st Century from the Philippines and the World', 'Core', 'All', 'All', 11, '1st'),
-(14, 'General Mathematics', 'Core', 'All', 'All', 11, '1st'),
-(15, 'Empowerment Technologies', 'Applied', 'All', 'All', 11, '1st'),
-(16, 'Practical Research 1', 'Applied', 'All', 'All', 11, '2nd'),
-(17, 'Practical Research 2', 'Applied', 'All', 'All', 12, '1st'),
-(18, 'Philippine Politics and Governance', 'Specialized', 'Academic', 'Accountancy, Business and Management', 11, '1st'),
-(19, 'Discipline and Ideas in the Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st'),
-(24, 'Earth And Life Science ', 'Core', 'All', 'All', 11, '1st'),
-(25, 'Physical Education and Health', 'Core', 'All', 'All', 12, '1st'),
-(26, 'Reading and Writing Skills', 'Core', 'All', 'All', 11, '1st'),
-(27, 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 'Core', 'All', 'All', 11, '2nd'),
-(28, 'Understanding Culture, Society, and Politics', 'Core', 'All', 'All', 11, '2nd'),
-(29, 'Statistics and Probability', 'Core', 'All', 'All', 11, '2nd'),
-(30, 'Physical Science', 'Core', 'All', 'All', 11, '2nd'),
-(32, 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 'Core', 'All', 'All', 12, '1st'),
-(33, 'Personality Development', 'Core', 'All', 'All', 12, '1st'),
-(35, 'Media and Information Technology', 'Core', 'All', 'All', 12, '2nd'),
-(36, 'Contemporary Philippine Arts from the Regions', 'Core', 'All', 'All', 12, '2nd'),
-(37, 'Filipino sa Piling Larang', 'Applied', 'All', 'All', 11, '2nd'),
-(38, 'English for Academic and Special Purposes', 'Applied', 'All', 'All', 11, '1st'),
-(39, 'Entrepreneurship', 'Applied', 'All', 'All', 12, '2nd'),
-(40, 'Inquiries, Investigation, and Immersion', 'Applied', 'All', 'All', 12, '1st'),
-(42, 'Culminating Activity or Work Immersion ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd'),
-(43, 'Trends, Networks and Critical Thinking in the 21st Century Culture ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd'),
-(44, 'Creative Non-fiction: The Literary Essay', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd'),
-(45, 'Community Engagement, Solidarity and Citizenship', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st'),
-(46, 'Creative Writing/ Malikhaing Pagsulat ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st'),
-(47, 'Discipline and Ideas in the Applied Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st'),
-(48, 'Introduction to World Religions and Belief System', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st'),
-(49, 'Sample Title', 'Core', 'Sample Track', 'Sample Strand', 11, '1st');
+INSERT INTO `subject` (`id`, `name`, `subject_type`, `track`, `strand`, `grade`, `semester`, `status`) VALUES
+(11, 'Oral Communication in Context', 'Core', 'All', 'All', 11, '1st', 'Disabled'),
+(12, 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 'Core', 'All', 'All', 11, '1st', 'Active'),
+(13, '21st Century from the Philippines and the World', 'Core', 'All', 'All', 11, '1st', 'Active'),
+(14, 'General Mathematics', 'Core', 'All', 'All', 11, '1st', 'Active'),
+(15, 'Empowerment Technologies', 'Applied', 'All', 'All', 11, '1st', 'Active'),
+(16, 'Practical Research 1', 'Applied', 'All', 'All', 11, '2nd', 'Active'),
+(17, 'Practical Research 2', 'Applied', 'All', 'All', 12, '1st', 'Active'),
+(18, 'Philippine Politics and Governance', 'Specialized', 'Academic', 'Accountancy, Business and Management', 11, '1st', 'Active'),
+(19, 'Discipline and Ideas in the Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
+(24, 'Earth And Life Science ', 'Core', 'All', 'All', 11, '1st', 'Active'),
+(25, 'Physical Education and Health', 'Core', 'All', 'All', 12, '1st', 'Active'),
+(26, 'Reading and Writing Skills', 'Core', 'All', 'All', 11, '1st', 'Active'),
+(27, 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 'Core', 'All', 'All', 11, '2nd', 'Active'),
+(28, 'Understanding Culture, Society, and Politics', 'Core', 'All', 'All', 11, '2nd', 'Active'),
+(29, 'Statistics and Probability', 'Core', 'All', 'All', 11, '2nd', 'Active'),
+(30, 'Physical Science', 'Core', 'All', 'All', 11, '2nd', 'Active'),
+(32, 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 'Core', 'All', 'All', 12, '1st', 'Active'),
+(33, 'Personality Development', 'Core', 'All', 'All', 12, '1st', 'Active'),
+(35, 'Media and Information Technology', 'Core', 'All', 'All', 12, '2nd', 'Active'),
+(36, 'Contemporary Philippine Arts from the Regions', 'Core', 'All', 'All', 12, '2nd', 'Active'),
+(37, 'Filipino sa Piling Larang', 'Applied', 'All', 'All', 11, '2nd', 'Active'),
+(38, 'English for Academic and Special Purposes', 'Applied', 'All', 'All', 11, '1st', 'Active'),
+(39, 'Entrepreneurship', 'Applied', 'All', 'All', 12, '2nd', 'Active'),
+(40, 'Inquiries, Investigation, and Immersion', 'Applied', 'All', 'All', 12, '1st', 'Active'),
+(42, 'Culminating Activity or Work Immersion ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd', 'Active'),
+(43, 'Trends, Networks and Critical Thinking in the 21st Century Culture ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd', 'Active'),
+(44, 'Creative Non-fiction: The Literary Essay', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '2nd', 'Active'),
+(45, 'Community Engagement, Solidarity and Citizenship', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
+(46, 'Creative Writing/ Malikhaing Pagsulat ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
+(47, 'Discipline and Ideas in the Applied Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
+(48, 'Introduction to World Religions and Belief System', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
+(49, 'Sample Title', 'Core', 'Sample Track', 'Sample Strand', 11, '1st', 'Active');
 
 -- --------------------------------------------------------
 
@@ -46280,7 +46282,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_typ
 (2, 'david', '73b5498b79df94cf62d5c280874896cb', 'centeno', 'David Centeno', 'Registrar', '', 'Active'),
 (3, 'arcie', 'a126780c3a673de4fbc14896a79b0e66', 'natuel', 'Arcie Natuel', 'Adviser', 'Humility', 'Active'),
 (4, 'jerome', '662eaa47199461d01a623884080934ab', 'jose', 'Jerome Jose', 'Clinic teacher', '', 'Active'),
-(5, 'daryl', 'f39e6f5e6a5a38472e0a1558a285f1d1', 'balbastro', 'Daryl Balbastro', 'Adviser', '', 'Active'),
+(5, 'daryl', 'f39e6f5e6a5a38472e0a1558a285f1d1', 'balbastro', 'Daryl Balbastro', 'Adviser', 'Responsibility', 'Active'),
 (6, 'new', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'new admin', 'System admin', '', 'Active');
 
 --
@@ -46452,7 +46454,7 @@ ALTER TABLE `school_year`
 -- AUTO_INCREMENT for table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sf2`
@@ -46470,37 +46472,37 @@ ALTER TABLE `sf2remarks`
 -- AUTO_INCREMENT for table `sf5b`
 --
 ALTER TABLE `sf5b`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `sf9`
 --
 ALTER TABLE `sf9`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=609;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=709;
 
 --
 -- AUTO_INCREMENT for table `sf9_modality`
 --
 ALTER TABLE `sf9_modality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `sf9_ov`
 --
 ALTER TABLE `sf9_ov`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `sf10remedial`
 --
 ALTER TABLE `sf10remedial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `sf10remedialdate`
 --
 ALTER TABLE `sf10remedialdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `strand`
@@ -46512,13 +46514,13 @@ ALTER TABLE `strand`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `table_barangay`
