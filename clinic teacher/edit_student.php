@@ -125,6 +125,6 @@ if (isset($_POST['edit_bmi'])) {
 
     $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory',`sf8_remarks`='$sf8_remarks' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
-    echo ("<script>location.href = 'student_table.php?section_id=$sectionID&msg=Information added successfully!';</script>");
+    echo ("<script>location.href = 'student_table.php?section_id=$sectionID&msg=Information updated successfully!';</script>");
     exit();
 }

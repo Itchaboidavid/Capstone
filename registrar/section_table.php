@@ -47,7 +47,7 @@ session_start();
                             </a> -->
                     </div>
                     <div class="card-body">
-                        <table class="table table-sm table-bordered table-hover text-sm" style="font-size: 14px;">
+                        <table id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -95,6 +95,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
+
 </body>
 
 </html>

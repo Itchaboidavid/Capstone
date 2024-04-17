@@ -71,7 +71,7 @@ session_start();
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-sm table-bordered table-hover" style="font-size: 14px;">
+                        <table id="datatablesSimple">
                             <thead>
                                 <tr>
                                     <th></th>

@@ -54,7 +54,7 @@ $sectionID = $_GET['id'];
                             </a> -->
                         </div>
                         <div class="card-body">
-                            <table class="table table-sm table-bordered table-hover text-sm" style="font-size: 14px;">
+                            <table id="datatablesSimple">
                                 <thead>
                                     <tr>
                                         <th>LRN</th>
