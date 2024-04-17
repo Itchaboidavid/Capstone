@@ -27,7 +27,7 @@ session_start();
                         <h1 class="mt-4">Student</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="student_table.php">Student Table</a></li>
+                            <li class="breadcrumb-item"><a href="section_table.php">Section Table</a></li>
                             <li class="breadcrumb-item active">Add BMI & HFA</li>
                         </ol>
                     </div>
@@ -123,6 +123,8 @@ if (isset($_POST['add_bmi'])) {
     } else {
         $hfaCategory = "Tall";
     };
+
+    $id = $_GET['id'];
 
     $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory',`sf8_remarks`='$sf8_remarks' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);

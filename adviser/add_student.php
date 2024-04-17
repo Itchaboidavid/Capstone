@@ -294,8 +294,14 @@ if (isset($_POST["add_student"])) {
                             </div>
                             <div class="form-floating mb-3 col-3 pe-0 d-inline-block">
                                 <select class="form-select bg-body-tertiary" name="lm" id="lm" required>
+                                    <option value="Modular(Print)">Modular(Print)</option>
+                                    <option value="Modular Digital">Modular Digital</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Educational TV">Educational TV</option>
+                                    <option value="Radio-based Instruction">Radio-based Instruction</option>
+                                    <option value="Homeschooling">Homeschooling</option>
+                                    <option value="Blended">Blended</option>
                                     <option value="Face to face">Face to face</option>
-                                    <option value="Online class">Online class</option>
                                 </select>
                                 <label for="lm">Learning modality</label>
                                 <div class="valid-feedback ps-1">Great!</div>

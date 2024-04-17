@@ -152,10 +152,11 @@ $rowG122 = mysqli_num_rows($resultG122);
         ]);
 
         const options = {
-            title: 'Section Chart'
+            title: 'Section Chart',
+            is3D: true
         };
 
-        const chart = new google.visualization.BarChart(document.getElementById('sectionChart'));
+        const chart = new google.visualization.PieChart(document.getElementById('sectionChart'));
         chart.draw(data, options);
     };
 </script>

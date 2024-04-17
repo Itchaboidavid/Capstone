@@ -80,13 +80,6 @@ session_start();
                 </div>
             </div>
         </main>
-        <footer class="py-4 bg-light mt-auto">
-            <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; All rights reserved 2023</div>
-                </div>
-            </div>
-        </footer>
     </div>
     </div>
 
@@ -179,10 +172,11 @@ $tallCount = mysqli_num_rows($tallResult);
         ]);
 
         const options = {
-            title: 'HFA Chart'
+            title: 'HFA Chart',
+            is3D: true
         };
 
-        const chart = new google.visualization.BarChart(document.getElementById('hfaChart'));
+        const chart = new google.visualization.PieChart(document.getElementById('hfaChart'));
         chart.draw(data, options);
     };
 </script>

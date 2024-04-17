@@ -223,7 +223,8 @@ $subjectRowG12 = mysqli_num_rows($subjectResultG12);
         ]);
 
         const options = {
-            title: 'Section Chart'
+            title: 'Section Chart',
+            is3D: true
         };
 
         const chart = new google.visualization.PieChart(document.getElementById('sectionChart'));
@@ -239,10 +240,11 @@ $subjectRowG12 = mysqli_num_rows($subjectResultG12);
         ]);
 
         const options = {
-            title: 'User Chart'
+            title: 'User Chart',
+            is3D: true
         };
 
-        const chart = new google.visualization.BarChart(document.getElementById('facultyChart'));
+        const chart = new google.visualization.PieChart(document.getElementById('facultyChart'));
         chart.draw(data, options);
     };
 </script>

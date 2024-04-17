@@ -103,22 +103,13 @@ session_start();
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
                                 <?php
-                                $faculty = $_SESSION['name'];
-                                $section = "SELECT * FROM `user` WHERE `name` = '$faculty'";
-                                $sectionResult = $conn->query($section);
-                                $sectionRow = $sectionResult->fetch_assoc();
+                                $section = $_SESSION['section'];
                                 ?>
-                                <input type="text" class="form-control bg-body-tertiary" name="section" id="section" value="<?php echo $sectionRow["section"] ?>" readonly>
+                                <input type="text" class="form-control bg-body-tertiary" name="section" id="section" value="<?php echo $section ?>" readonly>
                                 <label for="section">Section</label>
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select section.</div>
                             </div>
-                            <?php
-                            $id = $_GET["id"];
-                            $select = "SELECT * FROM `student` WHERE `id` = '$id'";
-                            $result = mysqli_query($conn, $select);
-                            $studentRow = mysqli_fetch_assoc($result);
-                            ?>
                             <div class="form-floating mb-3 col-2 d-inline-block">
                                 <select class="form-select" name="sex" id="sex">
                                     <option value="M" <?php echo ($studentRow['sex'] == 'M') ? "selected" : ""; ?>>Male</option>
@@ -218,8 +209,14 @@ session_start();
                             </div>
                             <div class="form-floating mb-3 col-3 d-inline-block">
                                 <select class="form-select" name="lm" id="lm">
+                                    <option value="Modular(Print)" <?php echo ($studentRow['lm'] == 'Modular(Print)') ? "selected" : ""; ?>>Modular(Print)</option>
+                                    <option value="Modular Digital" <?php echo ($studentRow['lm'] == 'Modular Digital') ? "selected" : ""; ?>>Modular Digital</option>
+                                    <option value="Online" <?php echo ($studentRow['lm'] == 'Online') ? "selected" : ""; ?>>Online</option>
+                                    <option value="Educational TV" <?php echo ($studentRow['lm'] == 'Educational TV') ? "selected" : ""; ?>>Educational TV</option>
+                                    <option value="Radio-based Instruction" <?php echo ($studentRow['lm'] == 'Radio-based Instruction') ? "selected" : ""; ?>>Radio-based Instruction</option>
+                                    <option value="Homeschooling" <?php echo ($studentRow['lm'] == 'Homeschooling') ? "selected" : ""; ?>>Homeschooling</option>
+                                    <option value="Blended" <?php echo ($studentRow['lm'] == 'Blended') ? "selected" : ""; ?>>Blended</option>
                                     <option value="Face to face" <?php echo ($studentRow['lm'] == 'Face to face') ? "selected" : ""; ?>>Face to face</option>
-                                    <option value="Online class" <?php echo ($studentRow['lm'] == 'Online class') ? "selected" : ""; ?>>Online class</option>
                                 </select>
                                 <label for="lm">Learning modality</label>
                                 <div class="valid-feedback ps-1">Great!</div>
@@ -341,12 +338,18 @@ session_start();
 <?php
 //EDIT STUDENT
 if (isset($_POST['edit_student'])) {
+    $sy = "SELECT * FROM school_year WHERE is_archived = 0";
+    $syResult = $conn->query($sy);
+    $syRow = $syResult->fetch_assoc();
+    $school_year_id = $syRow['id'];
+    $syName = $syRow['sy'];
+
     $lrn = mysqli_real_escape_string($conn, $_POST["lrn"]);
     $fname = mysqli_real_escape_string($conn, $_POST["fname"]);
     $mname = mysqli_real_escape_string($conn, $_POST["mname"]);
     $lname = mysqli_real_escape_string($conn, $_POST["lname"]);
     $suffix = mysqli_real_escape_string($conn, $_POST["suffix"]);
-    $name = $lname . ", " . $fname . " " . $mname . " " . $suffix;
+    $name = $lname . ", " . $fname . " " . $suffix . " " . $mname;
     $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
     $birth_date = mysqli_real_escape_string($conn, $_POST["birth_date"]);
     $birth_date2 = mysqli_real_escape_string($conn, $_POST["birth_date"]);
@@ -391,31 +394,26 @@ if (isset($_POST['edit_student'])) {
     $guardian = mysqli_real_escape_string($conn, $_POST["guardian"]);
     $relationship = mysqli_real_escape_string($conn, $_POST["relationship"]);
     $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
-    $contact = mysqli_real_escape_string($conn, $_POST["contact"]);
+    $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
 
-    $select = "SELECT * FROM `section` WHERE `name` = '$section'";
-    $result = mysqli_query($conn, $select);
-    $row = mysqli_fetch_assoc($result);
+    $sectionName = "SELECT * FROM `section` WHERE `name` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id'";
+    $sectionNameResult = mysqli_query($conn, $sectionName);
+    $sectionNameRow = mysqli_fetch_assoc($sectionNameResult);
 
-    $track = $row["track"];
-    $strand = $row["strand"];
-    $grade = $row["grade"];
+    $track = $sectionNameRow["track"];
+    $strand = $sectionNameRow["strand"];
+    $grade = $sectionNameRow["grade"];
 
-    $sy_id = $row['school_year_id'];
-
-    //To get school year
-    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
-    $schoolYearResult = $conn->query($schoolYear);
-    $schoolYearRow = $schoolYearResult->fetch_assoc();
-    //School year
-    $sy = $schoolYearRow['sy'];
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
     $rid = mysqli_real_escape_string($conn, $_POST["rid"]);
 
-    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$sy_id',`school_year`='$sy',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid',`barangay_id`='$barangay_id',`municipality_id`='$municipality_id',`province_id`='$province_id' WHERE `id` = '$id'";
+    $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
+    $studentResult = mysqli_query($conn, $student);
+
+    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$school_year_id',`school_year`='$syName',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid',`barangay_id`='$barangay_id',`municipality_id`='$municipality_id',`province_id`='$province_id' WHERE `id` = '$id'";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
     exit();

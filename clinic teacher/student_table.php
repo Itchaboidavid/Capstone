@@ -111,10 +111,10 @@ session_start();
                                             <td><?php echo $studentRow["hfa_category"] ?></td>
                                             <td><?php echo $studentRow["sf8_remarks"] ?></td>
                                             <td>
-                                                <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
+                                                <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1" target="_blank">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </a>
-                                                <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;">
+                                                <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;" target="_blank">
                                                     <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
