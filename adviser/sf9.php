@@ -15,7 +15,6 @@ $id = $_GET['id'];
 $select = "SELECT *  FROM `student` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
-$student = $row['name'];
 
 $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
@@ -426,15 +425,15 @@ $html .= '<div style="page-break-before: always;"></div>';
 
 //SF9 BACK
 //CORE SUBJECTS 1ST SEM
-$core = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '1st'";
+$core = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Core' AND subject_title != '' AND `semester` = '1st'";
 $coreResult = $conn->query($core);
 $coreResultCount = $coreResult->num_rows;
 //APPLIED SUBJECTS 1ST SEM
-$applied = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '1st'";
+$applied = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Applied' AND subject_title != '' AND `semester` = '1st'";
 $appliedResult = $conn->query($applied);
 $appliedResultCount = $appliedResult->num_rows;
 //SPECIALIZED SUBJECTS 1ST SEM
-$specialized = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '1st'";
+$specialized = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Specialized' AND subject_title != '' AND `semester` = '1st'";
 $specializedResult = $conn->query($specialized);
 $specializedResultCount = $specializedResult->num_rows;
 
@@ -447,15 +446,15 @@ $specializedCount = 0;
 
 //2ND SEM
 //CORE SUBJECTS 2ND SEM
-$core2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '2nd'";
+$core2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Core' AND subject_title != '' AND `semester` = '2nd'";
 $coreResult2 = $conn->query($core2);
 $coreResultCount2 = $coreResult2->num_rows;
 //APPLIED SUBJECTS 2ND SEM
-$applied2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '2nd'";
+$applied2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Applied' AND subject_title != '' AND `semester` = '2nd'";
 $appliedResult2 = $conn->query($applied2);
 $appliedResultCount2 = $appliedResult2->num_rows;
 //SPECIALIZED SUBJECTS 2ND SEM
-$specialized2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '2nd'";
+$specialized2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Specialized' AND subject_title != '' AND `semester` = '2nd'";
 $specializedResult2 = $conn->query($specialized2);
 $specializedResultCount2 = $specializedResult2->num_rows;
 
@@ -741,7 +740,7 @@ $html .= '
     
 <div>';
 
-$modality = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$student'";
+$modality = "SELECT * FROM `sf9_modality` WHERE student_id = '$id'";
 $modalityResult = $conn->query($modality);
 if ($modalityResult->num_rows > 0) {
     $modalityRow = $modalityResult->fetch_assoc();
@@ -896,7 +895,7 @@ if ($modalityResult->num_rows > 0) {
             ';
 }
 
-$ov = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$student'";
+$ov = "SELECT * FROM `sf9_ov` WHERE student_id = '$id'";
 $ovResult = $conn->query($ov);
 if ($ovResult->num_rows > 0) {
     $ovRow = $ovResult->fetch_assoc();
