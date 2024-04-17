@@ -1,6 +1,7 @@
 <?php
 include("../config.php");
 session_start();
+$sectionID = $_GET['section_id'];
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ session_start();
                         </div>
                         <div class="card-body">
                             <?php
-                            $id = $_GET["id"];
+                            $id = $_GET["student_id"];
                             $select = "SELECT * FROM `student` WHERE `id` = '$id'";
                             $result = mysqli_query($conn, $select);
                             $row = mysqli_fetch_assoc($result);
@@ -124,6 +125,6 @@ if (isset($_POST['edit_bmi'])) {
 
     $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory',`sf8_remarks`='$sf8_remarks' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
-    echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
+    echo ("<script>location.href = 'student_table.php?section_id=$sectionID&msg=Information added successfully!';</script>");
     exit();
 }

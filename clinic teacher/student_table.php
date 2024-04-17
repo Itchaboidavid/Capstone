@@ -59,7 +59,7 @@ session_start();
                 }
                 ?>
                 <?php
-                $sectionID = $_GET['id'];
+                $sectionID = $_GET['section_id'];
                 $sql = "SELECT * FROM section WHERE id = '$sectionID'";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
@@ -111,10 +111,10 @@ session_start();
                                             <td><?php echo $studentRow["hfa_category"] ?></td>
                                             <td><?php echo $studentRow["sf8_remarks"] ?></td>
                                             <td>
-                                                <a href="add_bmi.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1" target="_blank">
+                                                <a href="add_bmi.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </a>
-                                                <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent;" target="_blank">
+                                                <a href="edit_student.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent;">
                                                     <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>

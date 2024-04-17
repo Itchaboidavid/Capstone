@@ -1,6 +1,7 @@
 <?php
 include("../config.php");
 session_start();
+$sectionID = $_GET['section_id'];
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +35,7 @@ session_start();
                 </div>
                 <form action="" method="POST" class="needs-validation" novalidate>
                     <?php
-                    $id = $_GET['id'];
+                    $id = $_GET['student_id'];
                     $student = "SELECT * FROM `student` WHERE `id` = '$id'";
                     $studentResult = $conn->query($student);
                     $studentRow = $studentResult->fetch_assoc()
@@ -71,7 +72,6 @@ session_start();
             </div>
         </main>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -124,10 +124,8 @@ if (isset($_POST['add_bmi'])) {
         $hfaCategory = "Tall";
     };
 
-    $id = $_GET['id'];
-
     $update = "UPDATE `student` SET `weight`='$weight',`height`='$height',`height2`='$height2',`bmi`='$formattedBMI',`bmi_category`='$bmi_category',`hfa_category`='$hfaCategory',`sf8_remarks`='$sf8_remarks' WHERE `id` = '$id'";
     $updateResult = mysqli_query($conn, $update);
-    echo ("<script>location.href = 'student_table.php?msg=Information added successfully!';</script>");
+    echo ("<script>location.href = 'student_table.php?section_id=$sectionID&msg=Information added successfully!';</script>");
     exit();
 }
