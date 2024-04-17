@@ -140,7 +140,7 @@ if (isset($_SESSION['user_logged_in'])) {
 <body class="min-vh-100 container-fluid" style="display: grid; place-items: center;" id="body">
   <!-- LOGIN FORM -->
   <div id="form" class="row" style="width: 50%; height: 500px;">
-    <div class="col-6" id="formPhoto">
+    <div class="col-sm-5 d-none d-sm-flex justify-content-center align-items-center" id="formPhoto">
       <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" class="tcLogo">
       <p class="fw-bold text-light">Development of Web-based School Form Management System for Tagaytay City National High School - Integrated Senior High School</p>
     </div>
@@ -151,7 +151,7 @@ if (isset($_SESSION['user_logged_in'])) {
                 -webkit-backdrop-filter: blur(9.8px);
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 display: grid;
-                place-items: center;" class="col-6">
+                place-items: center;" class="col-sm-7">
       <?php
       if (isset($_GET['errmsg'])) {
         $errmsg = $_GET['errmsg'];

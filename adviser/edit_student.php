@@ -251,7 +251,7 @@ session_start();
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
                             </div>
-                            <img src="../images/sf1RI.png" alt="sf 1 chart" class="" height="150px;" width="500px">
+                            <img src="../images/add_pic.jpg" alt="sf 1 chart" class="" height="150px;" width="500px">
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
