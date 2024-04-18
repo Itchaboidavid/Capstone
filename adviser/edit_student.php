@@ -251,6 +251,15 @@ session_start();
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
                             </div>
+                            <div class="form-floating mb-3 col- pe-0 d-inline-block">
+                                <select class="form-select bg-body-tertiary" name="enrollment" id="enrollment" required>
+                                    <option value="1st Friday of August" <?php echo ($studentRow['enrollment'] == '1st Friday of August') ? "selected" : ""; ?>>1st Friday of August</option>
+                                    <option value="During the month" <?php echo ($studentRow['enrollment'] == 'During the month') ? "selected" : ""; ?>>During the month</option>
+                                </select>
+                                <label for="enrollment">Enrollment</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please choose type of enrollment</div>
+                            </div>
                             <img src="../images/add_pic.jpg" alt="sf 1 chart" class="" height="150px;" width="500px">
                         </div>
                         <div class="card-footer pe-0">
@@ -396,6 +405,7 @@ if (isset($_POST['edit_student'])) {
     $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
     $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
+    $enrollment = mysqli_real_escape_string($conn, $_POST["enrollment"]);
 
     $sectionName = "SELECT * FROM `section` WHERE `name` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id'";
     $sectionNameResult = mysqli_query($conn, $sectionName);
@@ -413,7 +423,7 @@ if (isset($_POST['edit_student'])) {
     $student = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
     $studentResult = mysqli_query($conn, $student);
 
-    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$school_year_id',`school_year`='$syName',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid',`barangay_id`='$barangay_id',`municipality_id`='$municipality_id',`province_id`='$province_id' WHERE `id` = '$id'";
+    $update = "UPDATE `student` SET `lrn`='$lrn',`name`='$name',`fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`sex`='$sex',`birth_date`=' $formattedBirthDate',`birth_date2`='$birth_date2',`age`='$age',`ra`='$ra',`house_no`='$house_no',`barangay`='$barangay',`municipality`='$municipality',`province`='$province',`father`='$father',`mother`='$mother',`guardian`='$guardian',`relationship`='$relationship',`contact`='$contact',`section`='$section',`school_year_id`='$school_year_id',`school_year`='$syName',`track`='$track',`strand`='$strand',`grade`='$grade',`lm`='$lm',`indicator`='$indicator',`ri`='$ri',`rid`='$rid',`barangay_id`='$barangay_id',`municipality_id`='$municipality_id',`province_id`='$province_id',`enrollment`='$enrollment' WHERE `id` = '$id'";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'student_table.php?msg=Record updated successfully!';</script>");
     exit();

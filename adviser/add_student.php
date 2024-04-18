@@ -62,6 +62,7 @@ if (isset($_POST["add_student"])) {
     $lm = mysqli_real_escape_string($conn, $_POST["lm"]);
     $contact = '0' . mysqli_real_escape_string($conn, $_POST["contact"]);
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
+    $enrollment = mysqli_real_escape_string($conn, $_POST["enrollment"]);
 
     $sectionName = "SELECT * FROM `section` WHERE `name` = '$section' AND is_archived = 0 AND school_year_id = '$school_year_id'";
     $sectionNameResult = mysqli_query($conn, $sectionName);
@@ -70,6 +71,7 @@ if (isset($_POST["add_student"])) {
     $track = $sectionNameRow["track"];
     $strand = $sectionNameRow["strand"];
     $grade = $sectionNameRow["grade"];
+
 
     $indicator = mysqli_real_escape_string($conn, $_POST["indicator"]);
     $ri = mysqli_real_escape_string($conn, $_POST["ri"]);
@@ -82,9 +84,9 @@ if (isset($_POST["add_student"])) {
         header("location:student_table.php?errmsg=The student already exist!");
         exit();
     } else {
-        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`, `barangay_id`, `municipality_id`, `province_id`)
+        $insert = "INSERT INTO `student`(`lrn`, `fname`, `mname`, `lname`, `suffix`, `name`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `father`, `mother`, `guardian`, `relationship`, `lm`, `contact`, `section`, `school_year_id`, `school_year`,`track`,`strand`, `grade`, `indicator`, `ri`, `rid`, `barangay_id`, `municipality_id`, `province_id`, `enrollment`)
          VALUES 
-         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$school_year_id', '$syName',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid', '$barangay_id', '$municipality_id', '$province_id')";
+         ('$lrn','$fname','$mname','$lname', '$suffix','$name','$sex','$formattedBirthDate','$birth_date2','$age','$ra','$house_no','$barangay','$municipality','$province','$father','$mother','$guardian','$relationship','$lm','$contact', '$section', '$school_year_id', '$syName',  '$track',  '$strand',  '$grade', '$indicator', '$ri', '$rid', '$barangay_id', '$municipality_id', '$province_id', '$enrollment')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'student_table.php?msg=Student added successfully!';</script>");
         exit();
@@ -334,7 +336,16 @@ if (isset($_POST["add_student"])) {
                                     <div class="invalid-feedback ps-1"> Please enter required information date.</div>
                                 </div>
                             </div>
-                            <img src="../images/add_pic.jpg" alt="sf 1 chart" class="" height="150px;" width="500px">
+                            <div class="form-floating mb-3 col- pe-0 d-inline-block">
+                                <select class="form-select bg-body-tertiary" name="enrollment" id="enrollment" required>
+                                    <option value="1st Friday of August">1st Friday of August</option>
+                                    <option value="During the month">During the month</option>
+                                </select>
+                                <label for="enrollment">Enrollment</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please choose type of enrollment</div>
+                            </div>
+                            <img src="../images/add_pic.jpg" alt="sf 1 chart" class="" height="150px;" width="100%">
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">

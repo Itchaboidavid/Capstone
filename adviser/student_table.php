@@ -94,8 +94,8 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                     <th>Birthday</th>
                                     <th>Age</th>
                                     <th>Grade & <br>Section</th>
-                                    <th>Student's Remarks</th>
                                     <th>School Form <br>Status</th>
+                                    <th>Student's Remarks</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -114,10 +114,9 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                         <td><?php echo $studentRow["birth_date"] ?></td>
                                         <td><?php echo $studentRow["age"] ?></td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
-                                        <td><?php echo $studentRow["indicator"] . " " . $studentRow["ri"] . " " . $studentRow["rid"] ?></td>
                                         <?php
-                                        $name = $studentRow['name'];
-                                        $check = "SELECT DISTINCT student_name FROM `sf9` WHERE `student_name` = '$name'";
+                                        $studentID = $studentRow['id'];
+                                        $check = "SELECT DISTINCT student_id FROM `sf9` WHERE `student_id` = '$studentID'";
                                         $checkResult = $conn->query($check);
                                         $checkCount = $checkResult->num_rows;
                                         if ($checkCount > 0) {
@@ -126,12 +125,13 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                             echo '<td class="text-warning">Pending</td>';
                                         }
                                         ?>
+                                        <td><?php echo $studentRow["indicator"] . " " . $studentRow["ri"] . " " . $studentRow["rid"] ?></td>
                                         <td>
                                             <?php
                                             $removeAddBtn = "
-                                            SELECT DISTINCT student_name FROM sf5b WHERE student_name = '$name'
+                                            SELECT DISTINCT student_id FROM sf5b WHERE student_id = '$studentID'
                                             UNION
-                                            SELECT DISTINCT student_name FROM sf9 WHERE student_name = '$name'
+                                            SELECT DISTINCT student_id FROM sf9 WHERE student_id = '$studentID'
                                             ";
                                             $removeAddBtnResult = $conn->query($removeAddBtn);
                                             if ($removeAddBtnResult->num_rows > 0) { ?>

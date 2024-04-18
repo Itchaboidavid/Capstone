@@ -390,6 +390,7 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowMaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowMaleStudent["name"], 1, 0, 'C', 0);
+
     $backSubject = "
         SELECT student_id, final_grade
         FROM sf9

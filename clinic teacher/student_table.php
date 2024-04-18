@@ -71,7 +71,7 @@ session_start();
                                 <i class="fas fa-table me-1"></i>
                                 <?php echo $sectionName ?>
                             </div>
-                            <a href="sf8.php?id=<?php echo $row['id'] ?>" style="border: none; background: transparent;" target="_blank">
+                            <a href="sf8.php?section_id=<?php echo $row['id'] ?>" style="border: none; background: transparent;" target="_blank">
                                 <i class="fa-solid fa-print"></i>
                             </a>
                         </div>
@@ -98,6 +98,7 @@ session_start();
                                     $studentResult = $conn->query($student);
                                     $studentCount = 1;
                                     while ($studentRow = $studentResult->fetch_assoc()) :
+                                        $studentID = $studentRow['id'];
                                     ?>
                                         <tr>
                                             <td><?php echo $studentCount ?></td>
@@ -110,14 +111,29 @@ session_start();
                                             <td><?php echo $studentRow["bmi_category"] ?></td>
                                             <td><?php echo $studentRow["hfa_category"] ?></td>
                                             <td><?php echo $studentRow["sf8_remarks"] ?></td>
-                                            <td>
-                                                <a href="add_bmi.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </a>
-                                                <a href="edit_student.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent;">
-                                                    <i class="fa-regular fa-pen-to-square"></i>
-                                                </a>
-                                            </td>
+                                            <?php
+                                            $removeEditBtn = "SELECT `bmi` FROM student WHERE id = '$studentID'";
+                                            $removeEditBtnResult = $conn->query($removeEditBtn);
+                                            $removeEditBtnRow = $removeEditBtnResult->fetch_assoc();
+                                            if ($removeEditBtnRow['bmi'] != 0) {
+                                            ?>
+                                                <td>
+                                                    <a href="edit_student.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent;">
+                                                        <i class="fa-regular fa-pen-to-square"></i>
+                                                    </a>
+                                                </td>
+                                            <?php } else { ?>
+                                                <td>
+                                                    <a href="add_bmi.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success me-1">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </a>
+                                                    <a href="edit_student.php?student_id=<?php echo $studentRow['id'] ?>&section_id=<?php echo $sectionID ?>" style="border: none; background: transparent;">
+                                                        <i class="fa-regular fa-pen-to-square"></i>
+                                                    </a>
+                                                </td>
+                                            <?php }
+                                            ?>
+
                                         </tr>
                                     <?php
                                         $studentCount++;

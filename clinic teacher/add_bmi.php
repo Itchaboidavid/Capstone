@@ -65,7 +65,7 @@ $sectionID = $_GET['section_id'];
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
                                 <button type="submit" class="btn btn-primary" name="add_bmi">Add</button>
-                                <a href="student_table.php" type="button" class="btn btn-danger">Close</a>
+                                <a href="student_table.php?section_id=<?php echo $sectionID ?>" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>
                 </form>

@@ -18,7 +18,7 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$id = $_GET['id'];
+$id = $_GET['section_id'];
 $sections = "SELECT * FROM `section` WHERE id = '$id' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {

@@ -120,8 +120,19 @@ if (isset($_POST['add_remarks'])) {
                             </div>
                             <div class="card-body row g-1">
                                 <div class="form-floating mb-3 col">
-                                    <input type="text" name="remarks" id="remarks" placeholder="remarks" class="form-control bg-body-tertiary" required value="<?php echo htmlspecialchars($existingRemarks); ?>" />
-                                    <label for="remarks">Student Remarks</label>
+                                    <select class="form-select bg-body-tertiary" name="remarks" id="remarks" placeholder="remarks" required>
+                                        <option value="<?php echo htmlspecialchars($existingRemarks); ?>" selected>
+                                            <?php echo htmlspecialchars($existingRemarks); ?>
+                                        </option>
+                                        <option value="NLPA">NLPA</option>
+                                        <option value="Transferred Out">Transferred Out</option>
+                                        <option value="Transferred In">Transferred In</option>
+                                        <option value="Shifted Out">Shifted Out</option>
+                                        <option value="Shifted In">Shifted In</option>
+                                    </select>
+                                    <label for="remarks">Remarks</label>
+                                    <div class="valid-feedback ps-1">Great!</div>
+                                    <div class="invalid-feedback ps-1"> Please select a remarks.</div>
                                 </div>
                             </div>
                             <div class="card-footer pe-0">
@@ -132,10 +143,6 @@ if (isset($_POST['add_remarks'])) {
                             </div>
                         </div>
                     </form>
-                    <aside class="col-4 pb-3">
-                        <img src="../images/sf2remarks1.png" alt="sf 2 remarks" style="width: 250px;">
-
-                    </aside>
                 </div>
             </div>
         </main>
