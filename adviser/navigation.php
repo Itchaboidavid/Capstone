@@ -5,7 +5,7 @@ if (!isset($_SESSION['id'])) {
 ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
-    <a class=" navbar-brand ps-3 text-uppercase" href="dashboard.php">
+    <a class=" navbar-brand ps-3 text-uppercase fs-6" href="dashboard.php">
         <?php
         if ($_SESSION['user_type'] == 'Adviser') {
             echo "ClASS ADVISER";
@@ -62,7 +62,7 @@ if (!isset($_SESSION['id'])) {
             </div>
             <div class="sb-sidenav-footer" style="background: #03045e;">
                 <div class="small">Logged in as:</div>
-                <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
+                <span class="text-capitalize text-white"><?php echo $_SESSION['name'] ?></span>
             </div>
         </nav>
     </div>

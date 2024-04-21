@@ -11,10 +11,12 @@ $option = new Options();
 $option->set('chroot', realpath(''));
 $dompdf = new Dompdf($option);
 
+
 $id = $_GET['id'];
 $select = "SELECT *  FROM `student` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $select);
 $row = $result->fetch_assoc();
+$student = $row['name'];
 
 $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
@@ -34,13 +36,13 @@ table{
   }
 </style>
 
-<p style=" font-size: 13.5px;margin-left: 97px; margin-top: -7px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
-<div><p style=" font-size: 12px;margin-left: 480px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
+<p style=" font-size: 13.5px;margin-left: 97px; margin-top: -5px; font-weight:bold;"> REPORT ON ATTENDANCE</p>
+<div><p style=" font-size: 12px;margin-left: 452px; margin-top: -30px; font-weight:bold;">SF9-SHS</p></div>
 
 <table style="margin-left: -24px; margin-top: 19px; ">
      <tr style="font-size: 8.5pt; text-align:center; ">
-        <td style="border-collapse: collapse; border: 1px solid black;Height:15px; "> </td>
-        <td style="  border: 1px solid black;" > Aug</td>
+        <td style="border-collapse: collapse; border: 1px solid black; Height:15px; "> </td>
+        <td style="  border: 1px solid black; " > Aug</td>
         <td style="  border: 1px solid black;" > Sept</td>
         <td style="  border: 1px solid black;" > Oct</td>
         <td style="  border: 1px solid black;" > Nov</td>
@@ -128,12 +130,12 @@ for ($currentMonth = 8; $currentMonth <= 19; $currentMonth++) {
 
     // Append HTML for the current month to the $html variable
     $html .= '
-     <td style="width: 27px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
+     <td style="width: 25px;  border: 1px solid black;">' . $weekdayCounts[$adjustedMonth] . '</td>';
 }
 
 // Now you can use the $html variable as needed.
 $html .= '
-        <td style="width: 27px;  border: 1px solid black;">' . $totalWeekdays . '</td>
+        <td style="width: 28px;  border: 1px solid black;">' . $totalWeekdays . '</td>
     </tr>';
 
 
@@ -227,8 +229,8 @@ $html .= '
 ';
 
 $html .= '
-<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 480px;" >
-<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 715px;" >
+<img src="sf9logo2nd.jpg" alt="" style="  Height: 98px; Width:510px; margin-top: -113px; margin-left: 451px;" >
+<img src="sf_logo.gif" alt="" style="  Height: 50px; Width:50px; margin-top: -185px; margin-left: 679px;" >
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -138.5px; text-align: center; width: 81px; ">No. of </br> school days</p></div>
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -107px; text-align: center; width: 81px; ">No. of </br> days present</p></div>
 <div><p style=" font-size: 14px;margin-left: -24px; margin-top: -75px; text-align: center; width: 81px; ">No. of </br> days absent</p></div>
@@ -267,7 +269,7 @@ $html .= '
 
 
 $html .= '<div>
-<table style="margin-left:480px; margin-top: -235px; border: no-border; ">
+<table style="margin-left:452px; margin-top: -235px; border: no-border; ">
       <tr>
         <td colspan ="4" style=" Width:510px; text-align: center; font-weight:bold; font-size:14.5px; height:20px;"> LEARNER&rsquo;S PROGRESS REPORT CARD</td>
 
@@ -345,7 +347,7 @@ $html .= '<div>
 </div>
 
 <div>
-<table style="margin-left:480px; margin-top: 2px; border: no-border; ">
+<table style="margin-left:452px; margin-top: 2px; border: no-border; ">
 <tr style="font-size: 12px;">
 
 <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:222px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
@@ -362,7 +364,7 @@ $html .= '<div>
 
 
 <div>
-<table style="margin-left:480px; margin-top: 36px; border: no-border; ">>
+<table style="margin-left:452px; margin-top: 36px; border: no-border; ">>
 
 <tr style="font-size: 12px;">
 <td colspan="4" style="text-align:center; font-weight:bold;">Certificate of Transfer</td>
@@ -386,7 +388,7 @@ $html .= '<div>
 
 
 <div>
-<table style="margin-left:480px; margin-top: 33px; border: no-border; ">
+<table style="margin-left:452px; margin-top: 33px; border: no-border; ">
 <tr style="font-size: 12px;">
 <td ></td>
 <td  style="width:130px;text-align: center; font-weight:bold; "></td>
@@ -404,7 +406,7 @@ $html .= '<div>
 </div>
 
 <div>
-<table style="margin-left:480px; margin-top: 17px; border: no-border; ">
+<table style="margin-left:452px; margin-top: 17px; border: no-border; ">
 <tr style="font-size: 12px;">
 
 <td  style="text-align: center; font-weight:bold; border-bottom:1px solid black; width:220px; font-size: 12px; ">' . $schoolRow['school_head'] . '</td>
@@ -425,15 +427,15 @@ $html .= '<div style="page-break-before: always;"></div>';
 
 //SF9 BACK
 //CORE SUBJECTS 1ST SEM
-$core = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Core' AND subject_title != '' AND `semester` = '1st'";
+$core = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '1st'";
 $coreResult = $conn->query($core);
 $coreResultCount = $coreResult->num_rows;
 //APPLIED SUBJECTS 1ST SEM
-$applied = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Applied' AND subject_title != '' AND `semester` = '1st'";
+$applied = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '1st'";
 $appliedResult = $conn->query($applied);
 $appliedResultCount = $appliedResult->num_rows;
 //SPECIALIZED SUBJECTS 1ST SEM
-$specialized = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Specialized' AND subject_title != '' AND `semester` = '1st'";
+$specialized = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '1st'";
 $specializedResult = $conn->query($specialized);
 $specializedResultCount = $specializedResult->num_rows;
 
@@ -446,15 +448,15 @@ $specializedCount = 0;
 
 //2ND SEM
 //CORE SUBJECTS 2ND SEM
-$core2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Core' AND subject_title != '' AND `semester` = '2nd'";
+$core2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Core' AND `semester` = '2nd'";
 $coreResult2 = $conn->query($core2);
 $coreResultCount2 = $coreResult2->num_rows;
 //APPLIED SUBJECTS 2ND SEM
-$applied2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Applied' AND subject_title != '' AND `semester` = '2nd'";
+$applied2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Applied' AND `semester` = '2nd'";
 $appliedResult2 = $conn->query($applied2);
 $appliedResultCount2 = $appliedResult2->num_rows;
 //SPECIALIZED SUBJECTS 2ND SEM
-$specialized2 = "SELECT * FROM `sf9` WHERE student_id = '$id' AND `subject_type` = 'Specialized' AND subject_title != '' AND `semester` = '2nd'";
+$specialized2 = "SELECT * FROM `sf9` WHERE `student_name` = '$student' AND `subject_type` = 'Specialized' AND `semester` = '2nd'";
 $specializedResult2 = $conn->query($specialized2);
 $specializedResultCount2 = $specializedResult2->num_rows;
 
@@ -475,15 +477,16 @@ $html .=
            
     </style>
 <div>
-    <table style="margin-left: -6px; margin-top:-3px; font-size: 8.2pt; border-collapse: collapse;">
+    <table style="margin-left: -6px; margin-top:-5px; font-size: 8.2pt; border-collapse: collapse;">
+
         <tr style="border: none;">
         <th colspan="4" style="width: 100%; border:none;">REPORT OF LEARNING PROGRESS AND ACHIEVEMENT </th>
         </tr>
 
         <tr>
-        <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (1st Semester) </th>
-        <th colspan = "2" style="font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
-        <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
+        <th rowspan="2" style=" width: 310px; border: 1px solid black;"> SUBJECT (1st Semester) </th>
+        <th colspan = "2" style="font-size:8.2pt;  height: 18px; width: 43px; border: 1px solid black;">  QUARTER </th>
+        <th rowspan="2" style="width: 81px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
         </tr>
 
         <tr >
@@ -604,9 +607,9 @@ $html .= '
         </tr>
 
         <tr>
-        <th rowspan="2" style=" width: 304px; border: 1px solid black;"> SUBJECT (2nd Semester) </th>
-        <th colspan = "2"style="font-size:8.2pt;  height: 18px; width: 42px; border: 1px solid black;">  QUARTER </th>
-        <th rowspan="2" style="width: 80px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
+        <th rowspan="2" style=" width: 310px; border: 1px solid black;"> SUBJECT (2nd Semester) </th>
+        <th colspan = "2"style="font-size:8.2pt;  height: 18px; width: 43px; border: 1px solid black;">  QUARTER </th>
+        <th rowspan="2" style="width: 81px; border: 1px solid black;">SEMESTER FINAL GRADE</th>
         </tr>
 
         <tr >
@@ -740,7 +743,7 @@ $html .= '
     
 <div>';
 
-$modality = "SELECT * FROM `sf9_modality` WHERE student_id = '$id'";
+$modality = "SELECT * FROM `sf9_modality` WHERE `student_id` = '$id'";
 $modalityResult = $conn->query($modality);
 if ($modalityResult->num_rows > 0) {
     $modalityRow = $modalityResult->fetch_assoc();
@@ -866,36 +869,36 @@ if ($modalityResult->num_rows > 0) {
     $html .= '
     <table style="margin-left: -6px; text-align: left; font-size:8.2pt; margin-top: 5px;">
             <tr  style=" font-weight: bold; text-align: center;" >
-            <td style="  height: 18px; width: 210px; border: 1px solid black;">MODALITY</td>
-            <td style="width: 44px; border: 1px solid black;">  Q1 </td>
-            <td style="width: 44px; border: 1px solid black;">  Q2 </td>
-            <td style="width: 44px; border: 1px solid black;">  Q3 </td>
-            <td style="width: 44px; border: 1px solid black;">  Q4 </td>
+            <td style="  height: 18px; width: 212px; border: 1px solid black;">MODALITY</td>
+            <td style="width: 45.5px; border: 1px solid black;">  Q1 </td>
+            <td style="width: 45.5px; border: 1px solid black;">  Q2 </td>
+            <td style="width: 45.5px; border: 1px solid black;">  Q3 </td>
+            <td style="width: 45.5px; border: 1px solid black;">  Q4 </td>
             </tr>
             <tr style="font-weight: bold; text-align: center; ">
             <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Blended</td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
             </tr>
             <tr  style="font-weight: bold; text-align:center;">
             <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* Modular Distance Learning</td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
             </tr>
             <tr  style="font-weight: bold;  text-align:center;" >
             <td style="height: 18px; text-align: left; width: 30px; border: 1px solid black;">* In-person</td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
-            <td style="width: 44px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
+            <td style="width: 45px; border: 1px solid black;"></td>
             ';
 }
 
-$ov = "SELECT * FROM `sf9_ov` WHERE student_id = '$id'";
+$ov = "SELECT * FROM `sf9_ov` WHERE `student_id` = '$id'";
 $ovResult = $conn->query($ov);
 if ($ovResult->num_rows > 0) {
     $ovRow = $ovResult->fetch_assoc();
@@ -907,13 +910,15 @@ if ($ovResult->num_rows > 0) {
     <div>
         <table style="margin-left: 555px; position:fixed; font-size:8.2pt; border-collapse: collapse;">
             <tr style="border: none;">
-            <th colspan="6" style="font-size:11.3pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
+            <th colspan="6" style="font-size:11.5pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
             </tr>
+
             <tr >
             <th rowspan="2" style="height:28px; width: 120px; border: 1px solid black;">CORE VALUES</th>
             <th rowspan="2" style="width: 169px; border: 1px solid black;">BEHAVIOR STATEMENT</th>
             <th rowspan="1" colspan = "4" style="width: 100px; border: 1px solid black;">QUARTER</th>
             </tr>
+            
             <tr >
             <th style="width: 27px; border: 1px solid black;">  1 </th>
             <th style="width: 25px; border: 1px solid black;">  2 </th>
@@ -992,27 +997,27 @@ if ($ovResult->num_rows > 0) {
 </table>
 </div>
 <div>
-    <table style="margin-left: 555px; position:fixed; font-size:8.2pt; border-collapse: collapse;">
+    <table style="margin-left: 568px; margin-top:-10px; position:fixed; font-size:8.2pt; border-collapse: collapse;">
         <tr style="border: none;">
-        <th colspan="6" style="font-size:11.3pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
+        <th colspan="6" style="font-size:11.5pt; border: 0px solid black;">REPORT ON LEARNER&rsquo;S OBSERVED VALUES</th>
         </tr>
         <tr >
-        <th rowspan="2" style="height:28px; width: 120px; border: 1px solid black;">CORE VALUES</th>
-        <th rowspan="2" style="width: 169px; border: 1px solid black;">BEHAVIOR STATEMENT</th>
-        <th rowspan="1" colspan = "4" style="width: 100px; border: 1px solid black;">QUARTER</th>
+        <th rowspan="2" style="height:29px; width: 122px; border: 1px solid black;">CORE VALUES</th>
+        <th rowspan="2" style="width: 175px; border: 1px solid black;">BEHAVIOR STATEMENT</th>
+        <th rowspan="1" colspan = "4" style="width: 104px; border: 1px solid black;">QUARTER</th>
         </tr>
         <tr >
-        <th style="width: 27px; border: 1px solid black;">  1 </th>
-        <th style="width: 25px; border: 1px solid black;">  2 </th>
-        <th style="width: 25px; border: 1px solid black;">  3 </th>
-        <th style="width: 25px; border: 1px solid black;">  4 </th>
+        <th style="width: 27.5px; border: 1px solid black;">  1 </th>
+        <th style="width: 26px; border: 1px solid black;">  2 </th>
+        <th style="width: 26px; border: 1px solid black;">  3 </th>
+        <th style="width: 26px; border: 1px solid black;">  4 </th>
         </tr>
 
 
         <tr >
         <td rowspan="2" style=" text-align: left; width: 100px; border: 1px solid black;">1. Maka-Diyos</td>
 
-        <td style="height:59px; text-align: left; border: 1px solid black;"> Expresses ones spiritual belief&rsquo;s while respecting the spiritual beliefs of other </td>
+        <td style="height:62px; text-align: left; border: 1px solid black;"> Expresses ones spiritual belief&rsquo;s while respecting the spiritual beliefs of other </td>
         <td style="text-align: center; border: 1px solid black;"></td>
         <td style="text-align: center; border: 1px solid black;">  </td>
         <td style="text-align: center; border: 1px solid black;"></td>
@@ -1076,7 +1081,7 @@ if ($ovResult->num_rows > 0) {
 }
 
 $html .= '
-<table style=" margin-top: 485px; margin-left: 553px; position:fixed; font-size:8pt;">
+<table style=" margin-top: 505px; margin-left: 576px; position:fixed; font-size:8pt;">
 
     <tr  style="font-size: 8pt; font-weight: bold; text-align: left;" >
     <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">OBSERVED VALUES</td>
@@ -1117,7 +1122,7 @@ $html .= '
 </div>
 
 <div>
-<table style="margin-top: 595px; margin-left: 553px; position:fixed; font-size:8pt;">
+<table style="margin-top: 615px; margin-left: 573px; position:fixed; font-size:8pt;">
 
     <tr  style=" font-weight: bold; text-align: left;" >
     <td colspan="2" style=" width: 100%; height: 0px;  border: 0px solid black;">Learner Progress and Achievement</td>

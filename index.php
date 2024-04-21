@@ -12,7 +12,7 @@ if (isset($_POST["login"])) {
     $row_login = mysqli_fetch_assoc($result_user);
     if ($row_login["status"] == "Active") {
       $_SESSION['user_logged_in'] = true;
-      if ($row_login["user_type"] == "System admin") {
+      if ($row_login["user_type"] == "System administrator") {
         $_SESSION["id"] = $row_login["id"];
         $_SESSION["name"] = $row_login["name"];
         $_SESSION["user_type"] = $row_login["user_type"];
@@ -142,7 +142,7 @@ if (isset($_SESSION['user_logged_in'])) {
   <div id="form" class="row" style="width: 50%; height: 500px;">
     <div class="col-sm-5 d-none d-sm-flex justify-content-center align-items-center" id="formPhoto">
       <img src="images/finallogo-removebg-preview.png" alt="TC LOGO" class="tcLogo">
-      <p class="fw-bold text-light">Development of Web-based School Form Management System for Tagaytay City National High School - Integrated Senior High School</p>
+      <p class="fw-bold text-light">Web-based School Form Management System for Tagaytay City National High School - Integrated Senior High School</p>
     </div>
     <div style="position: relative;
                 background: rgba(255, 255, 255, 0.60);

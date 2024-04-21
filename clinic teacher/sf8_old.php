@@ -4,7 +4,7 @@ session_start();
 require_once("../TCPDF/tcpdf.php");
 
 // create new PDF document
-$pdf = new TCPDF('P', 'mm', 'LEGAL');
+$pdf = new TCPDF('P', 'mm', 'LETTER');
 // set document information
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
@@ -18,7 +18,8 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$sections = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$school_year_id'";
+$id = $_GET['section_id'];
+$sections = "SELECT * FROM `section` WHERE id = '$id' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page

@@ -219,16 +219,18 @@ if (isset($_POST["add_subject"])) {
                                             <td><?php echo $subjectRow["strand"] ?></td>
                                             <td><?php echo $subjectRow["grade"] ?></td>
                                             <td><?php echo $subjectRow["semester"] ?></td>
-                                            <?php
-                                            if ($subjectRow['status'] == 'Active') {
-                                                echo '<td>Active</td>';
-                                            } else {
-                                                echo '<td>Disabled</td>';
-                                            }
-                                            ?>
                                             <td>
-                                                <a href="edit_subject.php?id=<?php echo $subjectRow['id'] ?>" style="border: none; background: transparent;">
-                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                <?php
+                                                if ($subjectRow['status'] == 'Active') {
+                                                    echo '<span class="text-success">Active</span>';
+                                                } else {
+                                                    echo '<span class="text-danger">Disabled</span>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="edit_subject.php?id=<?php echo $subjectRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                    Edit <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                         </tr>

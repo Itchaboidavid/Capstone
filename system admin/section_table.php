@@ -179,8 +179,8 @@ session_start();
                                         <td><?php echo $sectionRow["grade"] ?></td>
                                         <td><?php echo $sectionRow["school_year"] ?></td>
                                         <td>
-                                            <a href="edit_section.php?id=<?php echo $sectionRow['id'] ?>" style="border: none; background: transparent;">
-                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            <a href="edit_section.php?id=<?php echo $sectionRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                Edit <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         </td>
                                     </tr>

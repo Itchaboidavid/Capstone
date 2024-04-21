@@ -50,6 +50,15 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please enter a track title.</div>
                             </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select bg-body-tertiary" name="track_status" id="track_status" placeholder="track_status" required>
+                                    <option value="Active" class="text-success" <?php echo ($trackRow["track_status"] == 'Active') ? "selected" : ""; ?>>Active</option>
+                                    <option value="Disabled" class="text-danger" <?php echo ($trackRow["track_status"] == 'Disabled') ? "selected" : ""; ?>>Disabled</option>
+                                </select>
+                                <label for="track_status">Track Status</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a track status.</div>
+                            </div>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -75,8 +84,9 @@ session_start();
 //EDIT TRACK
 if (isset($_POST['edit_track'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $track_status = mysqli_real_escape_string($conn, $_POST["track_status"]);
 
-    $update = "UPDATE `track` SET `name`='$name' WHERE id = $id";
+    $update = "UPDATE `track` SET `name`='$name', `track_status`='$track_status' WHERE id = $id";
     $updateResult = mysqli_query($conn, $update);
     echo ("<script>location.href = 'track_table.php?msg=Track updated successfully!';</script>");
     exit();

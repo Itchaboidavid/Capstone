@@ -39,7 +39,7 @@ $pdf->Cell(55, 7, 'School Name', 0, 0, '', 0);
 $pdf->SetXY(36.5, 24.9);
 $pdf->SetLineWidth(0.3);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(55.5, 7, $schoolRow['school_name'], 1, 0, 'L', 0);
+$pdf->Cell(55.5, 7, $schoolRow['school_name'], 1, 0, 'C', 0);
 
 $pdf->SetXY(21.5, 33.5);
 $pdf->SetFont('Arial', '', 9);
@@ -48,9 +48,9 @@ $pdf->SetXY(36.5, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
 $currentMonth = date('m');
 if ($currentMonth >= 8) {
-    $pdf->Cell(55.5, 7, '1st', 1, 0, 'L', 0);
+    $pdf->Cell(55.5, 7, '1st', 1, 0, 'C', 0);
 } else {
-    $pdf->Cell(55.5, 7, '2nd', 1, 0, 'L', 0);
+    $pdf->Cell(55.5, 7, '2nd', 1, 0, 'C', 0);
 }
 $pdf->SetXY(10.5, 42.5);
 $pdf->SetFont('Arial', '', 9);
@@ -58,9 +58,9 @@ $pdf->Cell(55, 7, 'Track and Strand', 0, 0, '', 0);
 $pdf->SetXY(36.5, 42.5);
 $pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(99, 7, $sectionsf5Row["track"], 1, 0, 'L', 0);
+    $pdf->Cell(99, 7, $sectionsf5Row["track"], 1, 0, 'C', 0);
 } else {
-    $pdf->Cell(99, 7, $sectionsf5Row["track"] . " - " . $sectionsf5Row["strand"], 1, 0, 'L', 0);
+    $pdf->Cell(99, 7, $sectionsf5Row["track"] . " - " . $sectionsf5Row["strand"], 1, 0, 'C', 0);
 }
 
 
@@ -69,7 +69,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School ID', 0, 0, '', 0);
 $pdf->SetXY(115.7, 24.9);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(20, 7, $schoolRow['school_id'], 1, 0, 'L', 0);
+$pdf->Cell(20, 7, $schoolRow['school_id'], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(96.5, 33.5);
@@ -77,21 +77,21 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'School Year', 0, 0, '', 0);
 $pdf->SetXY(115.7, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(20, 7, $sectionsf5Row['school_year'], 1, 0, 'L', 0);
+$pdf->Cell(20, 7, $sectionsf5Row['school_year'], 1, 0, 'C', 0);
 
 $pdf->SetXY(148.5, 24.9);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'District', 0, 0, '', 0);
 $pdf->SetXY(160.5, 24.9);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(20.5, 7, $schoolRow['school_district'], 1, 0, 'L', 0);
+$pdf->Cell(20.5, 7, $schoolRow['school_district'], 1, 0, 'C', 0);
 
 $pdf->SetXY(141, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Grade level', 0, 0, '', 0);
 $pdf->SetXY(160.5, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(20.5, 7, $sectionsf5Row["grade"], 1, 0, 'L', 0);
+$pdf->Cell(20.5, 7, $sectionsf5Row["grade"], 1, 0, 'C', 0);
 
 
 $pdf->SetXY(188, 24.9);
@@ -99,14 +99,14 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Divison', 0, 0, '', 0);
 $pdf->SetXY(200.5, 24.9);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(27.5, 7, $schoolRow['school_division'], 1, 0, 'L', 0);
+$pdf->Cell(27.5, 7, $schoolRow['school_division'], 1, 0, 'C', 0);
 
 $pdf->SetXY(188.2, 33.5);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Section', 0, 0, '', 0);
 $pdf->SetXY(200.5, 33.5);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(71, 7, $sectionsf5Row["name"], 1, 0, 'L', 0);
+$pdf->Cell(71, 7, $sectionsf5Row["name"], 1, 0, 'C', 0);
 
 $pdf->SetXY(149, 42.5);
 $pdf->SetFont('Arial', '', 9);
@@ -114,9 +114,9 @@ $pdf->Cell(55, 7, 'Course (only for TVL)', 0, 0, '', 0);
 $pdf->SetXY(183.5, 42.5);
 $pdf->SetFont('Arial', 'B', 7);
 if ($sectionsf5Row["track"] == "Technical-Vocational-Livelihood") {
-    $pdf->Cell(88, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'L', 0);
+    $pdf->Cell(88, 7, 'Animation (NC II), Computer Programming(NC IV)', 1, 0, 'C', 0);
 } else {
-    $pdf->Cell(88, 7, '', 1, 0, 'L', 0);
+    $pdf->Cell(88, 7, '', 1, 0, 'C', 0);
 }
 
 $pdf->SetXY(237, 24.9);
@@ -124,7 +124,7 @@ $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(55, 7, 'Region', 0, 0, '', 0);
 $pdf->SetXY(249, 24.9);
 $pdf->SetFont('Arial', 'B', 7);
-$pdf->Cell(22.5, 7, $schoolRow['school_region'], 1, 0, 'L', 0);
+$pdf->Cell(22.5, 7, $schoolRow['school_region'], 1, 0, 'C', 0);
 
 $pdf->Ln(28);
 $pdf->Cell(-5);
@@ -390,6 +390,7 @@ while ($rowMaleStudent = mysqli_fetch_assoc($resultMaleStudent)) {
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(26, 7, $rowMaleStudent["lrn"], 1, 0, 'C', 0);
     $pdf->Cell(50.5, 7, $rowMaleStudent["name"], 1, 0, 'C', 0);
+
     $backSubject = "
         SELECT student_id, final_grade
         FROM sf9

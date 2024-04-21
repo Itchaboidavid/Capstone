@@ -5,7 +5,7 @@ if (!isset($_SESSION['id'])) {
 ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
+    <a class="navbar-brand ps-3 text-uppercase fs-6" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar-->
@@ -40,21 +40,6 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         User
                     </a>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#facultyCollapse" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        User
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="facultyCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="user_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                User table
-                            </a>
-                        </nav>
-                    </div> -->
                     <!-- TRACK AND STRAND -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#trackStrandCollapse" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon">
@@ -82,21 +67,6 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         Subject
                     </a>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#subjectCollapse" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        Subject
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="subjectCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="subject_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Subject table
-                            </a>
-                        </nav>
-                    </div> -->
                     <!-- SCHOOL YEAR -->
                     <a class="nav-link collapsed" href="sy_table.php">
                         <div class="sb-nav-link-icon">
@@ -104,21 +74,6 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         School Year
                     </a>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#schoolyearCollapse" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fa-regular fa-calendar"></i>
-                        </div>
-                        School Year
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="schoolyearCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="sy_table.php">
-                                <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar"></i></div>
-                                S.Y table
-                            </a>
-                        </nav>
-                    </div> -->
                     <!-- SECTION -->
                     <a class="nav-link collapsed" href="section_table.php">
                         <div class="sb-nav-link-icon">
@@ -126,21 +81,6 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         Section
                     </a>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#sectionCollapse" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fa-solid fa-user-group"></i>
-                        </div>
-                        Section
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="sectionCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="section_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Section table
-                            </a>
-                        </nav>
-                    </div> -->
                     <!-- School Settings -->
                     <a class="nav-link collapsed" href="school_settings.php">
                         <div class="sb-nav-link-icon">
@@ -152,7 +92,7 @@ if (!isset($_SESSION['id'])) {
             </div>
             <div class="sb-sidenav-footer" style="background: #03045e;">
                 <div class="small">Logged in as:</div>
-                <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
+                <span class="text-capitalize text-white"><?php echo $_SESSION['name'] ?></span>
             </div>
         </nav>
     </div>

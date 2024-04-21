@@ -318,7 +318,7 @@ if (isset($_POST['schoolStart'])) {
                         </div>
                         <div class="card-footer">
                             <div class="ms-auto" style="width: 150px;">
-                                <button type="submit" class="btn btn-primary" name="submit">Update</button>
+                                <button type="submit" class="btn btn-primary" name="submit">Save</button>
                                 <a href="dashboard.php" type="button" class="btn btn-danger">Close</a>
                             </div>
                         </div>

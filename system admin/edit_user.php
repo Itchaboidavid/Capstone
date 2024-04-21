@@ -64,7 +64,7 @@ session_start();
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
-                                    <option value="System admin" <?php echo ($userRow['user_type'] == 'System admin') ? "selected" : ""; ?>>System Admin</option>
+                                    <option value="System administrator" <?php echo ($userRow['user_type'] == 'System administrator') ? "selected" : ""; ?>>System Administrator</option>
                                     <option value="Adviser" <?php echo ($userRow['user_type'] == 'Adviser') ? "selected" : ""; ?>>Class Adviser</option>
                                     <option value="Clinic teacher" <?php echo ($userRow['user_type'] == 'Clinic teacher') ? "selected" : ""; ?>>Clinic teacher</option>
                                     <option value="Registrar" <?php echo ($userRow['user_type'] == 'Registrar') ? "selected" : ""; ?>>Registrar</option>
@@ -81,27 +81,6 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a section.</div>
                             </div>
-                            <!-- <div class="form-floating mb-3">
-                                <?php
-                                // Determine whether to show the section dropdown
-                                $showSectionDropdown = ($userRow['user_type'] === 'Clinic teacher');
-                                ?>
-                                <select class="form-select bg-body-tertiary" name="section" id="section" <?php echo ($showSectionDropdown ? '' : 'style="display: none;"'); ?>>
-                                    <option value="<?php echo $userRow['section'] ?>"><?php echo $userRow['section'] ?></option>
-                                    <?php
-                                    if ($showSectionDropdown) {
-                                        $section = "SELECT * FROM `section` WHERE name NOT IN (SELECT DISTINCT section FROM `user` WHERE user_type = 'Clinic teacher')";
-                                        $sectionResult = $conn->query($section);
-                                        while ($sectionRow = $sectionResult->fetch_assoc()) {
-                                            echo '<option value="' . $sectionRow["name"] . '">' . $sectionRow["name"] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                                <label for="section">Section</label>
-                                <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select a section.</div>
-                            </div> -->
                             <div class="form-floating mb-3">
                                 <select class="form-select bg-body-tertiary" name="status" id="status" required>
                                     <option value="Active" class="text-success" <?php echo ($userRow['status'] == 'Active') ? "selected" : ""; ?>>Active</option>

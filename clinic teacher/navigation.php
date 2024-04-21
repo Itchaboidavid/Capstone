@@ -5,7 +5,7 @@ if (!isset($_SESSION['id'])) {
 ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #001233;">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 text-uppercase" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
+    <a class="navbar-brand ps-3 text-uppercase fs-6" href="dashboard.php"><?php echo $_SESSION['user_type'] ?></a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar-->
@@ -37,24 +37,11 @@ if (!isset($_SESSION['id'])) {
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                         Sections
                     </a>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
-                        Students
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link" href="student_table.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Student table
-                            </a>
-                        </nav>
-                    </div> -->
                 </div>
             </div>
             <div class="sb-sidenav-footer" style="background: #03045e;">
                 <div class="small">Logged in as:</div>
-                <span class="text-capitalize"><?php echo $_SESSION['name'] ?></span>
+                <span class="text-capitalize text-white"><?php echo $_SESSION['name'] ?></span>
             </div>
         </nav>
     </div>

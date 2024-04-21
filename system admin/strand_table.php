@@ -59,7 +59,6 @@ session_start();
                                         </div>
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="track" id="track" placeholder="track" required>
-                                                <option value="" selected>Track</option>
                                                 <?php
                                                 $select = "SELECT * FROM `track` ORDER BY `name` ASC";
                                                 $result = mysqli_query($conn, $select);
@@ -74,6 +73,15 @@ session_start();
                                             <label for=" track">Track</label>
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select a track.</div>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="strand_status" id="strand_status" placeholder="strand_status" required>
+                                                <option value="Active" class="text-success">Active</option>
+                                                <option value="Disabled" class="text-danger">Disabled</option>
+                                            </select>
+                                            <label for="strand_status">Strand Status</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a strand status.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -112,8 +120,9 @@ session_start();
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Strand</th>
-                                    <th>Track</th>
+                                    <th>Strand Title</th>
+                                    <th>Track Title</th>
+                                    <th>Strand Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -130,8 +139,17 @@ session_start();
                                             <td><?php echo $strandRow["name"] ?></td>
                                             <td><?php echo $strandRow["track"] ?></td>
                                             <td>
-                                                <a href="edit_strand.php?id=<?php echo $strandRow['id'] ?>" style="border: none; background: transparent;">
-                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                <?php
+                                                if ($strandRow["strand_status"] === 'Active') {
+                                                    echo '<span class="text-success">Active</span>';
+                                                } else {
+                                                    echo '<span class="text-danger">Disabled</span>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="edit_strand.php?id=<?php echo $strandRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                    Edit <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -162,6 +180,7 @@ session_start();
 if (isset($_POST["add_strand"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $track = mysqli_real_escape_string($conn, $_POST["track"]);
+    $strand_status = mysqli_real_escape_string($conn, $_POST["strand_status"]);
 
     $select = "SELECT * FROM `strand` WHERE `name` = '$name'";
     $result = $conn->query($select);
@@ -170,7 +189,7 @@ if (isset($_POST["add_strand"])) {
         echo ("<script>location.href = 'strand_table.php?errmsg=The strand already exist!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `strand` (`name`, `track`) VALUES ('$name', '$track')";
+        $insert = "INSERT INTO `strand` (`name`, `track`, `strand_status`) VALUES ('$name', '$track', '$strand_status')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'strand_table.php?msg=Strand successfully added!';</script>");
         exit();

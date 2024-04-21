@@ -68,6 +68,15 @@ session_start();
                                 <div class="valid-feedback ps-1">Great!</div>
                                 <div class="invalid-feedback ps-1"> Please select a track.</div>
                             </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select bg-body-tertiary" name="strand_status" id="strand_status" placeholder="strand_status" required>
+                                    <option value="Active" class="text-success" <?php echo ($strandRow["strand_status"] == 'Active') ? "selected" : "" ?>>Active</option>
+                                    <option value="Disabled" class="text-danger" <?php echo ($strandRow["strand_status"] == 'Disabled') ? "selected" : "" ?>>Disabled</option>
+                                </select>
+                                <label for="strand_status">Strand Status</label>
+                                <div class="valid-feedback ps-1">Great!</div>
+                                <div class="invalid-feedback ps-1"> Please select a strand status.</div>
+                            </div>
                         </div>
                         <div class="card-footer pe-0">
                             <div class="ms-auto" style="width: 150px;">
@@ -95,8 +104,9 @@ session_start();
 if (isset($_POST['edit_strand'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $track = mysqli_real_escape_string($conn, $_POST["track"]);
+    $strand_status = mysqli_real_escape_string($conn, $_POST["strand_status"]);
 
-    $update = "UPDATE `strand` SET `name`='$name', `track`='$track' WHERE id = $id";
+    $update = "UPDATE `strand` SET `name`='$name', `track`='$track', `strand_status`='$strand_status' WHERE id = $id";
     $updateResult = mysqli_query($conn, $update);
     echo ("<script>location.href = 'strand_table.php?msg=Strand updated successfully!';</script>");
     exit();

@@ -18,12 +18,13 @@ $school = "SELECT * FROM school WHERE id = '1'";
 $schoolResult = $conn->query($school);
 $schoolRow = $schoolResult->fetch_assoc();
 
-$sections = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$school_year_id'";
+$id = $_GET['section_id'];
+$sections = "SELECT * FROM `section` WHERE id = '$id' AND is_archived = 0 AND school_year_id = '$school_year_id'";
 $result = mysqli_query($conn, $sections);
 while ($row = mysqli_fetch_assoc($result)) {
   // add a page
   $pdf->AddPage();
-  $pdf->Image('../images/circleLogosf5.jpg', 7.5, 4.5, 19.9, 18.5);
+  $pdf->Image('../images/circleLogosf5.jpg', 7.5, 4.5, 18.9, 18.5);
   $pdf->Image('../images/depedlogosf5.jpg', 176, 5.5, 31, 14.3);
 
   $pdf->SetFont('helvetica', 'B', 8.8);
@@ -36,66 +37,66 @@ while ($row = mysqli_fetch_assoc($result)) {
   $pdf->Text(100, 13.5, "(For All Grade Levels)");
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(33.5, 21, 'School Name');
+  $pdf->Text(33.5, 24, 'School Name');
   /*-School Name'*/
   $pdf->SetFont('helvetica', '', 5);
-  $pdf->SetXY(47.5, 20.2);
+  $pdf->SetXY(47.5, 23.2);
   $pdf->Cell(39, 4.5, $schoolRow['school_name'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(19, 27, 'School ID');
+  $pdf->Text(19, 30, 'School ID');
   /*-School ID'*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(29.5, 26.3);
+  $pdf->SetXY(29.5, 29.3);
   $pdf->Cell(18, 4.5, $schoolRow['school_id'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(90, 21, 'District');
+  $pdf->Text(90, 24, 'District');
   /*-District*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(98, 20.2);
+  $pdf->SetXY(98, 23.2);
   $pdf->Cell(23.5, 4.5, $schoolRow['school_district'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(51.5, 27, 'Grade');
+  $pdf->Text(51.5, 30, 'Grade');
   /*-Grade*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(59, 26.3);
+  $pdf->SetXY(59, 29.3);
   $pdf->Cell(12, 4.5, $row["grade"], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(78, 27, 'Section');
+  $pdf->Text(78, 30, 'Section');
   /*-Section*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(86.5, 26.3);
+  $pdf->SetXY(86.5, 29.3);
   $pdf->Cell(35, 4.5, $row["name"], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(129, 21, 'Division');
+  $pdf->Text(129, 24, 'Division');
   /*-Division*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(138, 20.2);
+  $pdf->SetXY(138, 23.2);
   $pdf->Cell(28, 4.5, $schoolRow['school_division'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(124.2, 27, 'Track/Strand');
+  $pdf->Text(124.2, 30, 'Track/Strand');
   /*-T&S*/
   $pdf->SetFont('helvetica', '', 5);
-  $pdf->SetXY(138, 26.3);
+  $pdf->SetXY(138, 29.3);
   $pdf->Cell(28, 4.5, $row["track"], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(175, 21, 'Region');
+  $pdf->Text(175, 24, 'Region');
   /*-Region*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(183, 20.2);
+  $pdf->SetXY(183, 23.2);
   $pdf->Cell(26, 4.5, $schoolRow['school_region'], 1, 0, 'C', 0);
 
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->Text(170, 27, 'School Year');
+  $pdf->Text(170, 30, 'School Year');
   /*-School Year*/
   $pdf->SetFont('helvetica', '', 6);
-  $pdf->SetXY(183, 26.3);
+  $pdf->SetXY(183, 29.3);
   $pdf->Cell(26, 4.5, $row['school_year'], 1, 1, 'C', 0);
 
   $pdf->ln(1);
@@ -103,22 +104,73 @@ while ($row = mysqli_fetch_assoc($result)) {
   $pdf->SetFillColor(192);
   $pdf->SetFont('helvetica', 'B', 5.8);
   $pdf->SetX(9);
-  $pdf->Cell(5, 11.4, 'No.', 1, 0, 'C', 1);
-  $pdf->Cell(15.5, 11.4, 'LRN', 1, 0, 'C', 1);
-  $pdf->Cell(41.5, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(15.5, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(11.5, 11.4, 'Age', 1, 0, 'C', 1);
-  $pdf->Cell(12, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(11.5, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(16.5, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(28, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(17, 11.4, '', 1, 0, 'C', 1);
-  $pdf->Cell(26, 11.4, 'Remarks', 1, 0, 'C', 1);
-  $pdf->SetXY(138, 35);
-  $pdf->Cell(12, 8.2, '', 1, 0, 'C', 1);
-  $pdf->Cell(16, 8.2, 'BMI Category', 1, 1, 'C', 1);
+  $pdf->Cell(5, 15, 'No.', 1, 0, 'C', 1);
+  $pdf->Cell(15.5, 15, 'LRN', 1, 0, 'C', 1);
+  $pdf->Cell(41.5, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(15.5, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(11.5, 15, 'Age', 1, 0, 'C', 1);
+  $pdf->Cell(12, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(11.5, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(16.5, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(28, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(17, 15, '', 1, 0, 'C', 1);
+  $pdf->Cell(26, 15, 'Remarks', 1, 0, 'C', 1);
+  $pdf->SetXY(138, 40);
+  $pdf->Cell(12, 9.8, '', 1, 0, 'C', 1);
+  $pdf->Cell(16, 9.8, 'BMI Category', 1, 1, 'C', 1);
+
+
+  $pdf->ln(1);
+  $pdf->SetFont('helvetica', 'B', 5.8);
+
+
+  $pdf->Text(41.3, 38.4, "Learner's Name");
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(30, 40.9, "(Last Name, First Name, Name Extension,");
+  $pdf->Text(43, 43.4, "Middle Name)");
 
   $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(73.5, 39.9, "Birthdate");
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(70.5, 42.4, "(MM/DD/YYYY)");
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+
+  $pdf->Text(98, 41.35, 'Weight');
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(105, 41.35, '(kg)');
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(111.5, 39.9, "Height");
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(113, 42.4, "(m)");
+
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(125.5, 39.9, "Height²");
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(127, 42.4, "(m²)");
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(142.5, 36, "Nutritional Status");
+
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(141.5, 40, "BMI");
+  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->Text(140, 44, "(kg/m²)");
+
+  $pdf->SetFont('helvetica', 'B', 5.8);
+  $pdf->Text(171, 38.4, "(HFA)");
+  $pdf->Text(166.5, 41.9, "Height for Age");
+
+
+
+
+  $pdf->ln(8);
+  $pdf->SetFont('helvetica', '', 5.8);
+
+  $pdf->SetFont('helvetica', '', 5.8);
   $pdf->SetFillColor(220);
   $pdf->Setx(9);
   $pdf->Cell(62, 3.2, '        MALE', 1, 0, 'L', 1);
@@ -130,54 +182,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $pdf->Cell(28, 3.2, '', 1, 0, 'C', 1);
   $pdf->Cell(17, 3.2, '', 1, 0, 'C', 1);
   $pdf->Cell(26, 3.2, '', 1, 0, 'C', 1);
-
-
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-
-
-  $pdf->Text(41.3, 33.4, "Learner's Name");
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(30, 35.9, "(Last Name, First Name, Name Extension,");
-  $pdf->Text(43, 38.4, "Middle Name)");
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(73.5, 34.9, "Birthdate");
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(70.5, 37.4, "(MM/DD/YYYY)");
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-
-  $pdf->Text(98, 36.35, 'Weight');
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(105, 36.35, '(kg)');
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(111.5, 34.9, "Height");
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(113, 37.4, "(m)");
-
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(125.5, 34.9, "Height²");
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(127, 37.4, "(m²)");
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(142.5, 32, "Nutritional Status");
-
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(141.5, 36, "BMI");
-  $pdf->SetFont('helvetica', '', 5.8);
-  $pdf->Text(140, 39, "(kg/m²)");
-
-  $pdf->SetFont('helvetica', 'B', 5.8);
-  $pdf->Text(166.5, 34.9, "Height for Age");
-  $pdf->Text(171, 37.4, "(HFA)");
-
-  $pdf->ln(9);
-  $pdf->SetFont('helvetica', '', 5.8);
+  $pdf->ln(3);
 
   //MALE TABLE
   $html = '<table>';
@@ -186,8 +191,12 @@ while ($row = mysqli_fetch_assoc($result)) {
   $result_select_male = mysqli_query($conn, $select_male);
   $select_male_count = $result_select_male->num_rows;
   $maleCount = 1;
+
   if ($select_male_count == 0) {
-    $html .= '<tr >
+
+    $html .= '
+    
+    <tr >
     <td style="width:2.44%; nobr=true; text-align:center;"></td>
     <td style="width:7.5%; nobr=true; text-align:center;"></td>
     <td style="width:20.15%; nobr=true; text-align:center;"></td>

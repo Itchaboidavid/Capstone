@@ -101,7 +101,6 @@ session_start();
                                 <tr>
                                     <th></th>
                                     <th>School year</th>
-                                    <!-- <th>Status</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -115,33 +114,23 @@ session_start();
                                     <tr>
                                         <td><?php echo $schoolyearCount ?></td>
                                         <td><?php echo $schoolyearRow["sy"] ?></td>
-                                        <!-- <td>
-                                            <?php
-                                            // if ($schoolyearRow["is_archived"] == 0) {
-                                            //     echo '<span class="text-success">Active</span>';
-                                            // } else {
-                                            //     echo '<span class="text-danger">Archived</span>';
-                                            // }
-                                            ?>
-                                        </td> -->
                                         <td>
                                             <a href="edit_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" class="me-1">
                                                 Edit
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-                                            <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year?');">
-                                                <?php
-                                                if ($schoolyearRow["is_archived"] == 0) { ?>
-                                                    <span class="text-success">Active</span>
-                                                    <i class="fa-solid fa-toggle-on"></i>
-                                                <?php } else { ?>
-                                                    <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year?');">
-                                                        <span class="text-danger">Archived</span>
-                                                        <i class="fa-solid fa-toggle-off"></i>
-                                                    </a>
-                                                <?php }
-                                                ?>
-                                            </a>
+
+                                            <?php
+                                            if ($schoolyearRow["is_archived"] == 0) { ?>
+                                                <span class="text-success">Active</span>
+                                                <i class="fa-solid fa-toggle-on" style="color: blue;"></i>
+                                            <?php } else { ?>
+                                                <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year? It will archive all the records within the active school year.');">
+                                                    <span class="text-danger">Archived</span>
+                                                    <i class="fa-solid fa-toggle-off"></i>
+                                                </a>
+                                            <?php }
+                                            ?>
                                         </td>
                                     </tr>
                                 <?php

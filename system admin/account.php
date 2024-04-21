@@ -16,6 +16,13 @@ session_start();
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="../index.js"></script>
+    <script>
+        // This script removes the 'msg' and 'errmsg' parameters from the URL without refreshing the page
+        const url = new URL(window.location.href);
+        url.searchParams.delete('msg');
+        url.searchParams.delete('errmsg');
+        window.history.replaceState({}, document.title, url);
+    </script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -129,14 +136,3 @@ session_start();
 </body>
 
 </html>
-<?php
-//EDIT STRAND
-if (isset($_POST['edit_strand'])) {
-    $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $track = mysqli_real_escape_string($conn, $_POST["track"]);
-
-    $update = "UPDATE `strand` SET `name`='$name', `track`='$track' WHERE id = $id";
-    $updateResult = mysqli_query($conn, $update);
-    echo ("<script>location.href = 'strand_table.php?msg=Strand updated successfully!';</script>");
-    exit();
-}

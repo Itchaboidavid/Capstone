@@ -57,6 +57,15 @@ session_start();
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please enter a track title.</div>
                                         </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select bg-body-tertiary" name="track_status" id="track_status" placeholder="track_status" required>
+                                                <option value="Active" class="text-success">Active</option>
+                                                <option value="Disabled" class="text-danger">Disabled</option>
+                                            </select>
+                                            <label for="track_status">Track Status</label>
+                                            <div class="valid-feedback ps-1">Great!</div>
+                                            <div class="invalid-feedback ps-1"> Please select a track status.</div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary" name="add_track">Add</button>
@@ -94,7 +103,8 @@ session_start();
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Track</th>
+                                    <th>Track Title</th>
+                                    <th>Track Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -110,8 +120,17 @@ session_start();
                                             <td><?php echo $trackCount ?></td>
                                             <td><?php echo $trackRow["name"] ?></td>
                                             <td>
-                                                <a href="edit_track.php?id=<?php echo $trackRow['id'] ?>" style="border: none; background: transparent;">
-                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                <?php
+                                                if ($trackRow["track_status"] === "Active") {
+                                                    echo '<span class="text-success">Active</span>';
+                                                } else {
+                                                    echo '<span class="text-danger">Disabled</span>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="edit_track.php?id=<?php echo $trackRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                    Edit <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -141,15 +160,16 @@ session_start();
 <?php
 if (isset($_POST["add_track"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $track_status = mysqli_real_escape_string($conn, $_POST["track_status"]);
 
-    $select = "SELECT * FROM `track` WHERE `name` = '$name'";
+    $select = "SELECT `name` FROM `track` WHERE `name` = '$name'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
         echo ("<script>location.href = 'track_table.php?errmsg=The track already exist!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `track` (`name`) VALUES ('$name')";
+        $insert = "INSERT INTO `track` (`name`, `track_status`) VALUES ('$name', '$track_status')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'track_table.php?msg=Track successfully added!';</script>");
         exit();

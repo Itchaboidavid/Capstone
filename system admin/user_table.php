@@ -72,7 +72,7 @@ session_start();
                                         <div class="form-floating mb-3">
                                             <select class="form-select bg-body-tertiary" name="user_type" id="user_type" required>
                                                 <option value="" selected>User type</option>
-                                                <option value="System admin">System admin</option>
+                                                <option value="System administrator">System administrator</option>
                                                 <option value="Adviser">Class Adviser</option>
                                                 <option value="Clinic teacher">Clinic Teacher</option>
                                                 <option value="Registrar">Registrar</option>
@@ -166,8 +166,8 @@ session_start();
                                                 } ?>
                                             </td>
                                             <td>
-                                                <a href="edit_user.php?id=<?php echo $userRow['id'] ?>" style="border: none; background: transparent;">
-                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                <a href="edit_user.php?id=<?php echo $userRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;">
+                                                    Edit <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                         </tr>
