@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2024 at 06:26 AM
+-- Generation Time: Apr 24, 2024 at 01:37 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -45410,22 +45410,23 @@ CREATE TABLE `user` (
   `name` varchar(255) NOT NULL,
   `user_type` varchar(255) NOT NULL,
   `section` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL DEFAULT 'active'
+  `status` varchar(255) NOT NULL DEFAULT 'active',
+  `profile_picture` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_type`, `section`, `status`) VALUES
-(1, 'admin', '202cb962ac59075b964b07152d234b70', '123', 'system administrator', 'System administrator', '', 'Active'),
-(2, 'david', '172522ec1028ab781d9dfd17eaca4427', 'david', 'David Centeno', 'Registrar', '', 'Active'),
-(3, 'arcie', '0e6675647ebd3ccc9a6d73cfe0a3fe38', 'Arcie.23', 'Arcie Natuel', 'Adviser', '', 'Active'),
-(4, 'jerome', '662eaa47199461d01a623884080934ab', 'jose', 'Jerome Jose', 'Clinic teacher', '', 'Active'),
-(5, 'daryl', 'f39e6f5e6a5a38472e0a1558a285f1d1', 'balbastro', 'Daryl Balbastro', 'Adviser', '', 'Active'),
-(6, 'new', '21232f297a57a5a743894a0e4a801fc3', '21232f297a57a5a743894a0e4a801fc3', 'new admin', 'System admin', '', 'Active'),
-(7, 'Bry', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Bryan Javier', 'Adviser', '', 'Active'),
-(8, 'noel', 'bbb5ff6dc3826b999a5cf0c2e7b2c889', 'garcia', 'Noel Garcia', 'Adviser', '', 'Active');
+INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_type`, `section`, `status`, `profile_picture`) VALUES
+(1, 'admin', '202cb962ac59075b964b07152d234b70', '123', 'system administrator', 'System administrator', '', 'Active', 'admin_profile.png'),
+(2, 'david', '172522ec1028ab781d9dfd17eaca4427', 'david', 'David Centeno', 'Registrar', '', 'Active', 'registrar.png'),
+(3, 'arcie', '0e6675647ebd3ccc9a6d73cfe0a3fe38', 'Arcie.23', 'Arcie Natuel', 'Adviser', '', 'Active', 'arcie_profile.jpg'),
+(4, 'jerome', '662eaa47199461d01a623884080934ab', 'jose', 'Jerome Jose', 'Clinic teacher', '', 'Active', 'clinic_profile.jpg'),
+(5, 'daryl', 'f39e6f5e6a5a38472e0a1558a285f1d1', 'balbastro', 'Daryl Balbastro', 'Adviser', '', 'Active', 'admin_profile.png'),
+(6, 'new', '21232f297a57a5a743894a0e4a801fc3', '21232f297a57a5a743894a0e4a801fc3', 'new admin', 'System administrator', '', 'Disabled', 'admin_profile.png'),
+(7, 'Bry', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Bryan Javier', 'Adviser', '', 'Active', 'admin_profile.png'),
+(8, 'noel', 'bbb5ff6dc3826b999a5cf0c2e7b2c889', 'garcia', 'Noel Garcia', 'Adviser', '', 'Active', 'admin_profile.png');
 
 --
 -- Indexes for dumped tables
