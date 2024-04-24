@@ -85,6 +85,21 @@ $sectionName = $studentSectionRow['name'];
                                         <td><?php echo $studentRow["age"] ?></td>
                                         <td><?php echo $studentRow["section"] . " - " . $studentRow["grade"] ?></td>
                                         <td>
+                                            <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;" class="mx-1">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-item">
+                                                    <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
+                                                        Edit student
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown-item">
+                                                    <a href="edit.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
+                                                        Edit School Form
+                                                    </a>
+                                                </li>
+                                            </ul>
                                             <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;">
                                                 <i class="fa-solid fa-print"></i>
                                             </a>

@@ -81,19 +81,38 @@ session_start();
 <?php
 //EDIT SEMESTER
 if (isset($_POST['edit_sy'])) {
+    $currentYear = date("Y");
+
     $start_year = $conn->real_escape_string($_POST['start_year']);
     $end_year = $conn->real_escape_string($_POST['end_year']);
     $sy = $start_year . " - " . $end_year;
 
+    if ($start_year < $currentYear) {
+        echo ("<script>location.href = 'sy_table.php?errmsg=The school year must be current or up to date.';</script>");
+        exit();
+    }
 
-    $update = "UPDATE `school_year` SET `start_year`='$start_year',`end_year`='$end_year',`sy`='$sy' WHERE id = '$id'";
-    $result = mysqli_query($conn, $update);
+    if ($end_year < $start_year) {
+        echo ("<script>location.href = 'sy_table.php?errmsg=The end of school year must be greater than the start of school year.';</script>");
+        exit();
+    }
 
-    if ($result) {
-        echo ("<script>location.href = 'sy_table.php?msg=School year updated successfully!';</script>");
+    $select = "SELECT * FROM `school_year` WHERE `start_year` = '$start_year' AND end_year = '$end_year'";
+    $result = mysqli_query($conn, $select);
+
+    if ($result > 0) {
+        echo ("<script>location.href = 'sy_table.php?errmsg=The school year already exist!';</script>");
         exit();
     } else {
-        echo ("<script>location.href = 'sy_table.php?errmsg=School year updating unsuccessful.';</script>");
-        exit();
+        $update = "UPDATE `school_year` SET `start_year`='$start_year',`end_year`='$end_year',`sy`='$sy' WHERE id = '$id'";
+        $result = mysqli_query($conn, $update);
+
+        if ($result) {
+            echo ("<script>location.href = 'sy_table.php?msg=School year updated successfully!';</script>");
+            exit();
+        } else {
+            echo ("<script>location.href = 'sy_table.php?errmsg=School year updating unsuccessful.';</script>");
+            exit();
+        }
     }
 }

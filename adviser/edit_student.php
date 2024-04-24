@@ -201,7 +201,7 @@ session_start();
                             <div class="input-group mb-3 col" style="height: 58px;">
                                 <span class="input-group-text" id="basic-addon1" style="height: 58px;">+63</span>
                                 <div class="form-floating mb-3 col-4 d-inline-block">
-                                    <input type="text" name="contact" id="contact" placeholder="contact" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["contact"] ?>" maxlength="10" />
+                                    <input type="text" name="contact" id="contact" placeholder="contact" class="form-control bg-body-tertiary" required value="<?php echo $studentRow["contact"] ?>" maxlength="10" minlength="10" />
                                     <label for="contact">Contact no.</label>
                                     <div class="valid-feedback ps-1">Great!</div>
                                     <div class="invalid-feedback ps-1"> Please enter contact no.</div>

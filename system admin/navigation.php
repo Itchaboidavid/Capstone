@@ -12,8 +12,17 @@ if (!isset($_SESSION['id'])) {
     <div class="ms-auto me-0" style="width: 55px;">
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <?php
+                $id = $_SESSION['id'];
+                $profilePic = "SELECT `profile_picture` FROM `user` WHERE id = '$id'";
+                $profilePicResult = $conn->query($profilePic);
+                $profilePicRow = $profilePicResult->fetch_assoc();
+                $profilePicImage = $profilePicRow['profile_picture'];
+                ?>
+                <a class="nav-link dropdown-toggle me-lg-2 me-md-1" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../profile_pic/<?php echo $profilePicImage ?>" style="border-radius: 100px; margin-right: 0;" width="25px" height="25px">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end me-2" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="account.php">Account</a></li>
                     <li>
                         <hr class="dropdown-divider" />

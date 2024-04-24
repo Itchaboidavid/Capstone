@@ -187,12 +187,6 @@ if (isset($_SESSION['user_logged_in'])) {
             <span style="font-size: x-small; color: black;"> Come and visit our facebook page!</span>
           </a>
         </div>
-        <!-- <div style="text-align: start; position:absolute; bottom:10px; left: 15px;">
-          <a href="https://www.facebook.com/DepEdTayoTCNHS301216" target="_blank" style="text-decoration: none;">
-            <i class="fa-brands fa-facebook" style="width: 10px; height: 10px;"></i>
-          </a>
-          <span style="font-size: x-small; color: black;"> Come and visit our facebook page!</span>
-        </div> -->
       </form>
     </div>
   </div>

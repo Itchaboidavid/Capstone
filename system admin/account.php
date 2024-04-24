@@ -1,6 +1,26 @@
 <?php
 include("../config.php");
 session_start();
+$id = $_SESSION['id'];
+
+// Handle file upload
+if (isset($_POST['upload'])) {
+    if (isset($_FILES['profile_picture'])) {
+        $fileName = $_FILES['profile_picture']['name'];
+        $fileNameTemp = $_FILES['profile_picture']['tmp_name'];
+        $directory = '../profile_pic/' . $fileName;
+
+        if (move_uploaded_file($fileNameTemp, $directory)) {
+            $upload = "UPDATE user SET profile_picture = '$fileName' WHERE id = '$id'";
+            $uploadResult = $conn->query($upload);
+            echo ("<script>location.href = 'account.php?msg=Profile picture uploaded successfully!';</script>");
+            exit();
+        } else {
+            echo ("<script>location.href = 'account.php?errmsg=We encounter an error in uploading your picture.';</script>");
+            exit();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +41,7 @@ session_start();
         const url = new URL(window.location.href);
         url.searchParams.delete('msg');
         url.searchParams.delete('errmsg');
+        url.searchParams.delete('warmsg');
         window.history.replaceState({}, document.title, url);
     </script>
 </head>
@@ -39,36 +60,43 @@ session_start();
                         </ol>
                     </div>
                 </div>
-                <form action="" method="POST" class="needs-validation" novalidate>
-                    <?php
-                    if (isset($_GET['msg'])) {
-                        $msg = $_GET['msg'];
-                        echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
-                            . $msg .
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <?php
+                if (isset($_GET['msg'])) {
+                    $msg = $_GET['msg'];
+                    echo '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">'
+                        . $msg .
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                              </div>';
-                    }
+                }
 
-                    if (isset($_GET['errmsg'])) {
-                        $errmsg = $_GET['errmsg'];
-                        echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
-                            . $errmsg .
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                if (isset($_GET['errmsg'])) {
+                    $errmsg = $_GET['errmsg'];
+                    echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
+                        . $errmsg .
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                              </div>';
-                    }
-                    ?>
-                    <?php
-                    $faculty = $_SESSION['name'];
-                    $facultyAccount = "SELECT * FROM `user` WHERE `name` = '$faculty'";
-                    $facultyResult = $conn->query($facultyAccount);
-                    $facultyRow = $facultyResult->fetch_assoc();
-                    ?>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h4 class="text-capitalize"><?php echo $facultyRow['name'] ?></h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
+                }
+
+                if (isset($_GET['warmsg'])) {
+                    $warmsg = $_GET['warmsg'];
+                    echo '<div class="alert alert-warning alert-dismissible fade show text-center" role="alert">'
+                        . $warmsg .
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+                }
+                ?>
+                <?php
+                $facultyAccount = "SELECT * FROM `user` WHERE `id` = '$id'";
+                $facultyResult = $conn->query($facultyAccount);
+                $facultyRow = $facultyResult->fetch_assoc();
+                ?>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4 class="text-capitalize"><?php echo $facultyRow['name'] ?></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row container">
+                            <table class="table col p-3 border">
                                 <thead>
                                 </thead>
                                 <tbody class="table-body">
@@ -98,7 +126,7 @@ session_start();
                                     <tr>
                                         <td>Status:</td>
                                         <?php
-                                        if ($facultyRow['status'] === "active") {
+                                        if ($facultyRow['status'] === "Active") {
                                             echo '<td class="text-success">' . $facultyRow['status'] . '</td>';
                                         } else {
                                             echo '<td class="text-danger">' . $facultyRow['status'] . '</td>';
@@ -107,9 +135,29 @@ session_start();
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="col">
+                                <div class="profile-image text-center">
+                                    <?php
+                                    $id = $_SESSION['id'];
+                                    $profilePic = "SELECT profile_picture FROM user WHERE id = '$id'";
+                                    $profilePicResult = $conn->query($profilePic);
+                                    $profilePicRow = $profilePicResult->fetch_assoc();
+                                    $profilePicImage = $profilePicRow['profile_picture'];
+                                    ?>
+                                    <img src="../profile_pic/<?php echo $profilePicImage ?>" width="30%" height="30%" style="border-radius: 100px; margin-bottom: 30px;">
+                                </div>
+                                <div class="mb-3 text-center">
+                                    <form action="account.php" method="POST" enctype="multipart/form-data">
+                                        <div class="input-group">
+                                            <input class="form-control" type="file" id="profile_picture" name="profile_picture" accept="image/jpeg, image/png, image/gif">
+                                            <input type="submit" value="Upload" name="upload" class="input-group-text bg-primary text-white">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                </form>
-            </div>
+                    </div>
+                </div>
         </main>
         <script>
             function togglePasswordVisibility() {

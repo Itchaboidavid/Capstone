@@ -157,11 +157,23 @@ session_start();
 
 <?php
 if (isset($_POST["add_sy"])) {
+    $currentYear = date("Y");
+
     $start_year = $conn->real_escape_string($_POST['start_year']);
     $end_year = $conn->real_escape_string($_POST['end_year']);
     $sy = $start_year . " - " . $end_year;
 
-    $select = "SELECT * FROM `school_year` WHERE `sy` = '$sy'";
+    if ($start_year < $currentYear) {
+        echo ("<script>location.href = 'sy_table.php?errmsg=The school year must be current or up to date.';</script>");
+        exit();
+    }
+
+    if ($end_year < $start_year) {
+        echo ("<script>location.href = 'sy_table.php?errmsg=The end of school year must be greater than the start of school year.';</script>");
+        exit();
+    }
+
+    $select = "SELECT * FROM `school_year` WHERE `start_year` = '$start_year' AND end_year = '$end_year'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {

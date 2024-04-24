@@ -128,6 +128,7 @@ session_start();
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th>Profile Picture</th>
                                     <th>Name</th>
                                     <th>User type</th>
                                     <th>Section</th>
@@ -141,10 +142,15 @@ session_start();
                                 $userResult = $conn->query($user);
                                 $userCount = 1;
                                 while ($userRow = $userResult->fetch_assoc()) :
-                                    if ($userRow['name'] != "system admin") :
+                                    if ($userRow['id'] != $_SESSION['id']) :
                                 ?>
                                         <tr>
                                             <td><?php echo $userCount; ?></td>
+                                            <td>
+                                                <div class="text-center">
+                                                    <img src="../profile_pic/<?php echo $userRow['profile_picture'] ?>" width="100px" height="70px">
+                                                </div>
+                                            </td>
                                             <td><?php echo $userRow["name"] ?></td>
                                             <td><?php echo $userRow["user_type"] ?></td>
                                             <?php
