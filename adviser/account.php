@@ -90,69 +90,75 @@ if (isset($_POST['upload'])) {
                 $facultyResult = $conn->query($facultyAccount);
                 $facultyRow = $facultyResult->fetch_assoc();
                 ?>
-                <div class="card mb-4">
+                <div class="card">
                     <div class="card-header">
                         <h4 class="text-capitalize"><?php echo $facultyRow['name'] ?></h4>
                     </div>
                     <div class="card-body">
-                        <div class="row container">
-                            <table class="table col p-3 border">
-                                <thead>
-                                </thead>
-                                <tbody class="table-body">
-                                    <tr>
-                                        <td>Username:</td>
-                                        <td><?php echo $facultyRow['username'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Password:</td>
-                                        <td>
-                                            <input type="password" name="accPassword" id="accPassword" value="<?php echo $facultyRow['password2'] ?>" style="border: none; padding-right: 30px;" disabled>
-                                            <!-- TOGGLE -->
-                                            <button type="button" class="btn" onclick="togglePasswordVisibility()" style="height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <a href="changepass.php?id=<?php echo $facultyRow['id'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td><?php echo $facultyRow['name'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>User type:</td>
-                                        <td><?php echo $facultyRow['user_type'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status:</td>
+                        <div class="container">
+                            <div class="row">
+                                <table class="table col border">
+                                    <thead>
+                                    </thead>
+                                    <tbody class="table-body">
+                                        <tr>
+                                            <td>Username:</td>
+                                            <td><?php echo $facultyRow['username'] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Password:</td>
+                                            <td>
+                                                <input type="password" name="accPassword" id="accPassword" value="<?php echo $facultyRow['password2'] ?>" style="border: none; padding-right: 30px;" disabled>
+                                                <!-- TOGGLE -->
+                                                <button type="button" class="btn" onclick="togglePasswordVisibility()" style="height: 100%;  border: none; background-color: transparent; cursor: pointer; outline: none;">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <a href="changepass.php?id=<?php echo $facultyRow['id'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td><?php echo $facultyRow['name'] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>User type:</td>
+                                            <td><?php echo $facultyRow['user_type'] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status:</td>
+                                            <?php
+                                            if ($facultyRow['status'] === "Active") {
+                                                echo '<td class="text-success">' . $facultyRow['status'] . '</td>';
+                                            } else {
+                                                echo '<td class="text-danger">' . $facultyRow['status'] . '</td>';
+                                            }
+                                            ?>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col mb-3">
+                                    <div class=" profile-image text-center">
                                         <?php
-                                        if ($facultyRow['status'] === "Active") {
-                                            echo '<td class="text-success">' . $facultyRow['status'] . '</td>';
-                                        } else {
-                                            echo '<td class="text-danger">' . $facultyRow['status'] . '</td>';
-                                        }
+                                        $id = $_SESSION['id'];
+                                        $profilePic = "SELECT profile_picture FROM user WHERE id = '$id'";
+                                        $profilePicResult = $conn->query($profilePic);
+                                        $profilePicRow = $profilePicResult->fetch_assoc();
+                                        $profilePicImage = $profilePicRow['profile_picture'];
+                                        if ($profilePicRow['profile_picture'] != '') { ?>
+                                            <img src="../profile_pic/<?php echo $profilePicImage ?>" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                        <?php } else { ?>
+                                            <img src="../profile_pic/default_profile.jpg" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                        <?php }
                                         ?>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="col">
-                                <div class="profile-image text-center">
-                                    <?php
-                                    $id = $_SESSION['id'];
-                                    $profilePic = "SELECT profile_picture FROM user WHERE id = '$id'";
-                                    $profilePicResult = $conn->query($profilePic);
-                                    $profilePicRow = $profilePicResult->fetch_assoc();
-                                    $profilePicImage = $profilePicRow['profile_picture'];
-                                    ?>
-                                    <img src="../profile_pic/<?php echo $profilePicImage ?>" width="30%" height="30%" style="border-radius: 100px; margin-bottom: 30px;">
-                                </div>
-                                <div class=" mb-3 text-center">
-                                    <form action="account.php" method="POST" enctype="multipart/form-data">
-                                        <div class="input-group">
-                                            <input class="form-control" type="file" id="profile_picture" name="profile_picture" accept="image/jpeg, image/png, image/gif">
-                                            <input type="submit" value="Upload" name="upload" class="input-group-text bg-primary text-white">
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <div class="text-center">
+                                        <form action="account.php" method="POST" enctype="multipart/form-data">
+                                            <div class="input-group">
+                                                <input class="form-control" type="file" id="profile_picture" name="profile_picture" accept="image/jpeg, image/png, image/gif">
+                                                <input type="submit" value="Upload" name="upload" class="input-group-text bg-primary text-white">
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -125,7 +125,7 @@ session_start();
                                                 <span class="text-success">Active</span>
                                                 <i class="fa-solid fa-toggle-on" style="color: blue;"></i>
                                             <?php } else { ?>
-                                                <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the school year? It will archive all the records within the active school year.');">
+                                                <a href="archive_sy.php?id=<?php echo $schoolyearRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" onclick="return confirm('Are you sure you want to change the active school year? It will archive all the student and section records within the active school year.');">
                                                     <span class="text-danger">Archived</span>
                                                     <i class="fa-solid fa-toggle-off"></i>
                                                 </a>

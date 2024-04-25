@@ -102,20 +102,16 @@ session_start();
                                             <div class="valid-feedback ps-1">Great!</div>
                                             <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
                                         </div>
-                                        <div class="form-floating mb-3 ">
-                                            <select class="form-select bg-body-tertiary" name="sy" id="sy" placeholder="sy" required>
-                                                <?php
-                                                $select = "SELECT * FROM `school_year` WHERE is_archived = 0 ORDER BY `start_year`, end_year ASC";
-                                                $result = mysqli_query($conn, $select);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                    <option value="<?php echo $row["id"] ?>" selected><?php echo $row["sy"] ?></option>
-                                                <?php }
-                                                ?>
-                                            </select>
+                                        <div class="form-floating mb-3">
+                                            <?php
+                                            $activeSY = "SELECT * FROM school_year WHERE is_archived = 0";
+                                            $activeSYResult = $conn->query($activeSY);
+                                            $activeSYRow = $activeSYResult->fetch_assoc();
+                                            ?>
+                                            <input type="text" class="form-control bg-body-tertiary" name="sy" id="sy" value="<?php echo $activeSYRow["sy"] ?>" readonly>
                                             <label for="sy">School year</label>
                                             <div class="valid-feedback ps-1">Great!</div>
-                                            <div class="invalid-feedback ps-1"> Please select a school year.</div>
+                                            <div class="invalid-feedback ps-1"> Please select school year.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -228,18 +224,8 @@ if (isset($_POST["add_section"])) {
     $facultyName = $facultyRow['name'];
 
     //School year ID
-    $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
-
-    //To get school year
-    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
-    $schoolYearResult = $conn->query($schoolYear);
-    $schoolYearRow = $schoolYearResult->fetch_assoc();
-
-    //School year
-    $sy = $schoolYearRow['sy'];
-
-    $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
-    $conn->query($update);
+    $sy_id = $activeSYRow['id'];
+    $sy = $activeSYRow['sy'];
 
     $select = "SELECT * FROM `section` WHERE `name` = '$name' AND is_archived = 0";
     $result = mysqli_query($conn, $select);
@@ -248,6 +234,9 @@ if (isset($_POST["add_section"])) {
         header("location:section_table.php?errmsg=The section already exist!");
         exit();
     } else {
+        $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
+        $conn->query($update);
+
         $insert = "INSERT INTO `section`(`name`, `track`, `strand`, `grade`, `adviser_id`, `adviser`, `school_year_id`, `school_year`) VALUES ('$name','$track','$strand', '$grade', '$facultyID', '$facultyName', '$sy_id', '$sy')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'section_table.php?msg=Section added successfully!';</script>");

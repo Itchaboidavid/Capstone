@@ -44,7 +44,7 @@ if (isset($_POST["login"])) {
       header("Expires: 0");
     }
   } else {
-    echo '<script>alert("Wrong username/password");</script>';
+    header("location:index.php?errmsg=Invalid username/password!");
     header("Cache-Control: no-cache, no-store, must-revalidate");
     header("Pragma: no-cache");
     header("Expires: 0");
@@ -152,20 +152,20 @@ if (isset($_SESSION['user_logged_in'])) {
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 display: grid;
                 place-items: center;" class="col-sm-7">
-      <?php
-      if (isset($_GET['errmsg'])) {
-        $errmsg = $_GET['errmsg'];
-        echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
-          . $errmsg .
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                             </div>';
-      }
-      ?>
       <form action="" method="POST" class="needs-validation" novalidate>
         <div style="margin-bottom: 20px;">
           <h1>Welcome!</h1>
           <p style="color: #444; margin-bottom: 15px;">Sign in to start your session</p>
         </div>
+        <?php
+        if (isset($_GET['errmsg'])) {
+          $errmsg = $_GET['errmsg'];
+          echo '<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">'
+            . $errmsg .
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>';
+        }
+        ?>
         <div class="mb-3 form-floating">
           <input type="text" name="username" id="username" class="form-control bg-body-tertiary" placeholder="Username" required style="box-shadow: 0px 1px 3px black;" />
           <label for=" username" class="form-label"><i class="bi bi-person-fill me-2"></i>Username</label>
@@ -190,7 +190,9 @@ if (isset($_SESSION['user_logged_in'])) {
       </form>
     </div>
   </div>
-  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="../js/scripts.js"></script>
+  <script src="../index.js"></script>
   <script>
     function togglePasswordVisibility() {
       const passwordField = document.getElementById('password');

@@ -121,24 +121,10 @@ session_start();
                                 <div class="invalid-feedback ps-1"> Please select a class adviser.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select bg-body-tertiary" name="sy" id="sy">
-                                    <option value="<?php echo $sectionRow["school_year_id"] ?>" selected><?php echo $sectionRow["school_year"] ?></option>
-                                    <?php
-                                    $select = "SELECT * FROM `school_year` WHERE is_archived = 0 ORDER BY start_year, end_year ASC";
-                                    $result = mysqli_query($conn, $select);
-                                    while ($syRow = mysqli_fetch_assoc($result)) {
-                                        if ($sectionRow['school_year'] != $syRow['sy']) {
-
-                                    ?>
-                                            <option value="<?php echo $syRow["id"] ?>"><?php echo $syRow["sy"] ?></option>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control bg-body-tertiary" name="sy" id="sy" value="<?php echo $sectionRow["school_year"] ?>" readonly>
                                 <label for="sy">School year</label>
                                 <div class="valid-feedback ps-1">Great!</div>
-                                <div class="invalid-feedback ps-1"> Please select a school year.</div>
+                                <div class="invalid-feedback ps-1"> Please select school year.</div>
                             </div>
                         </div>
                         <div class="card-footer pe-0">
@@ -185,16 +171,12 @@ if (isset($_POST['edit_section'])) {
     //Adviser name
     $facultyName = $facultyRow['name'];
 
+    $activeSY = "SELECT * FROM school_year WHERE is_archived = 0";
+    $activeSYResult = $conn->query($activeSY);
+    $activeSYRow = $activeSYResult->fetch_assoc();
     //School year ID
-    $sy_id = mysqli_real_escape_string($conn, $_POST["sy"]);
-
-    //To get school year
-    $schoolYear = "SELECT * FROM school_year WHERE id = '$sy_id'";
-    $schoolYearResult = $conn->query($schoolYear);
-    $schoolYearRow = $schoolYearResult->fetch_assoc();
-
-    //School year
-    $sy = $schoolYearRow['sy'];
+    $sy_id = $activeSYRow['id'];
+    $sy = $activeSYRow['sy'];
 
     $update = "UPDATE user SET section = '$name' WHERE id = '$facultyID'";
     $conn->query($update);

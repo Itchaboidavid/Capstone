@@ -148,7 +148,7 @@ session_start();
 if (isset($_POST['edit_user'])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
-    $check = "SELECT * FROM `user` WHERE `name` = '$name' AND `username` = '$username'";
+    $check = "SELECT * FROM `user` WHERE id = '$id'";
     $checkResult = $conn->query($check);
     $checkRow = $checkResult->fetch_assoc();
     if ($_POST["password"] == $checkRow["password"]) {

@@ -148,7 +148,14 @@ session_start();
                                             <td><?php echo $userCount; ?></td>
                                             <td>
                                                 <div class="text-center">
-                                                    <img src="../profile_pic/<?php echo $userRow['profile_picture'] ?>" width="100px" height="70px">
+                                                    <?php
+                                                    if ($userRow['profile_picture'] != '') {
+                                                        echo '<img src="../profile_pic/' . $userRow["profile_picture"] . '" width="100px" height="70px">';
+                                                    } else {
+                                                        echo '<img src="../profile_pic/default_profile.jpg" width="100px" height="70px">';
+                                                    }
+                                                    ?>
+
                                                 </div>
                                             </td>
                                             <td><?php echo $userRow["name"] ?></td>
@@ -190,38 +197,6 @@ session_start();
         </main>
     </div>
     </div>
-    <!-- <script>
-        document.getElementById('user_type').addEventListener('change', function() {
-            var sectionDropdown = document.getElementById('sectionDropdown');
-            var selectedUserType = this.value;
-
-            // Show or hide section dropdown based on user type
-            if (selectedUserType === 'Clinic teacher') {
-                sectionDropdown.style.display = 'block';
-                updateSectionOptions(selectedUserType);
-            } else {
-                sectionDropdown.style.display = 'none';
-            }
-        });
-
-        function updateSectionOptions(userType) {
-            var sectionDropdown = document.getElementById('section');
-
-            // Fetch sections based on user type using AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    // Update section options based on the response
-                    sectionDropdown.innerHTML = xhr.responseText;
-                }
-            };
-
-            // Adjust the URL based on your actual file structure
-            var url = 'get_sections.php?user_type=' + encodeURIComponent(userType);
-            xhr.open('GET', url, true);
-            xhr.send();
-        }
-    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="../index.js"></script>
@@ -242,11 +217,11 @@ if (isset($_POST["add_user"])) {
     $section = mysqli_real_escape_string($conn, $_POST["section"]);
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
-    $select = "SELECT * FROM user WHERE username = '$username' AND `name` = '$name'";
+    $select = "SELECT username FROM user WHERE username = '$username'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
-        echo ("<script>location.href = 'user_table.php?errmsg=The class adviser account already exist / The class advisory is already been assigned!';</script>");
+        echo ("<script>location.href = 'user_table.php?errmsg=The username already exist please choose a different one!';</script>");
         exit();
     } else {
         $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`, `section`, `status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type', '$section', '$status')";

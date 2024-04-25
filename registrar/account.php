@@ -143,8 +143,12 @@ if (isset($_POST['upload'])) {
                                     $profilePicResult = $conn->query($profilePic);
                                     $profilePicRow = $profilePicResult->fetch_assoc();
                                     $profilePicImage = $profilePicRow['profile_picture'];
+                                    if ($profilePicRow['profile_picture'] != '') { ?>
+                                        <img src="../profile_pic/<?php echo $profilePicImage ?>" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                    <?php } else { ?>
+                                        <img src="../profile_pic/default_profile.jpg" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                    <?php }
                                     ?>
-                                    <img src="../profile_pic/<?php echo $profilePicImage ?>" width="30%" height="30%" style="border-radius: 100px; margin-bottom: 30px;">
                                 </div>
                                 <div class=" mb-3 text-center">
                                     <form action="account.php" method="POST" enctype="multipart/form-data">
