@@ -72,7 +72,8 @@ session_start();
                                         <td><?php echo $sectionRow["grade"] ?></td>
                                         <td><?php echo $sectionRow["school_year"] ?></td>
                                         <td>
-                                            <a href="student_table.php?id=<?php echo $sectionRow['id'] ?>">
+                                            <a href="student_table.php?id=<?php echo $sectionRow['id'] ?>" style="text-decoration: none;">
+                                                View
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         </td>

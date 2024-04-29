@@ -75,6 +75,7 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                             <?php echo $sectionName ?>
                         </div>
                         <button href="#" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" style="border: none; background: transparent;" target="_blank">
+                            Print
                             <i class="fa-solid fa-print"></i>
                         </button>
                         <ul class="dropdown-menu">
@@ -136,66 +137,71 @@ $studentSectionRow = $studentSectionResult->fetch_assoc();
                                             $removeAddBtnResult = $conn->query($removeAddBtn);
                                             if ($removeAddBtnResult->num_rows > 0) { ?>
                                                 <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;" class="mx-1">
+                                                    Edit
                                                     <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     <li class="dropdown-item">
                                                         <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
-                                                            Edit student
+                                                            Student info
                                                         </a>
                                                     </li>
                                                     <li class="dropdown-item">
                                                         <a href="edit.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
-                                                            Edit School Form
+                                                            School form
                                                         </a>
                                                     </li>
                                                 </ul>
                                                 <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;">
+                                                    Print
                                                     <i class="fa-solid fa-print"></i>
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     <li class="dropdown-item">
                                                         <a href="sf9.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
-                                                            Print SF 9
+                                                            School form 9
                                                         </a>
                                                     </li>
                                                     <li class="dropdown-item">
                                                         <a href="sf10.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
-                                                            Print SF 10
+                                                            School form 10
                                                         </a>
                                                     </li>
                                                 </ul>
                                             <?php } else { ?>
                                                 <a href="add.php?id=<?php echo $studentRow['id'] ?>" style="border: none; background: transparent; text-decoration:none;" class="text-success">
+                                                    Add
                                                     <i class="fa-solid fa-plus"></i>
                                                 </a>
                                                 <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;" class="mx-1">
+                                                    Edit
                                                     <i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     <li class="dropdown-item">
                                                         <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
-                                                            Edit student
+                                                            Student info
                                                         </a>
                                                     </li>
                                                     <li class="dropdown-item">
                                                         <a href="edit.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
-                                                            Edit School Form
+                                                            School form
                                                         </a>
                                                     </li>
                                                 </ul>
                                                 <a href="#" data-bs-toggle="dropdown" style="border: none; background: transparent; text-decoration: none;">
+                                                    Print
                                                     <i class="fa-solid fa-print"></i>
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     <li class="dropdown-item">
                                                         <a href="sf9.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
-                                                            Print SF 9
+                                                            School form 9
                                                         </a>
                                                     </li>
                                                     <li class="dropdown-item">
                                                         <a href="sf10.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
-                                                            Print SF 10
+                                                            School form 10
                                                         </a>
                                                     </li>
                                                 </ul>

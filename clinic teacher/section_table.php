@@ -97,9 +97,11 @@ session_start();
                                         <td><?php echo $sectionRow["school_year"] ?></td>
                                         <td>
                                             <a href="student_table.php?section_id=<?php echo $sectionRow['id'] ?>" class="me-1" style="text-decoration: none;">
+                                                View
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                             <a href="sf8.php?section_id=<?php echo $sectionRow['id'] ?>" style="border: none; background: transparent; text-decoration: none;" target="_blank">
+                                                Print
                                                 <i class="fa-solid fa-print"></i>
                                             </a>
                                         </td>
