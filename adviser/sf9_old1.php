@@ -743,7 +743,7 @@ $html .= '
     
 <div>';
 
-$modality = "SELECT * FROM `sf9_modality` WHERE `student_name` = '$student'";
+$modality = "SELECT * FROM `sf9_modality` WHERE `student_id` = '$id'";
 $modalityResult = $conn->query($modality);
 if ($modalityResult->num_rows > 0) {
     $modalityRow = $modalityResult->fetch_assoc();
@@ -898,7 +898,7 @@ if ($modalityResult->num_rows > 0) {
             ';
 }
 
-$ov = "SELECT * FROM `sf9_ov` WHERE `student_name` = '$student'";
+$ov = "SELECT * FROM `sf9_ov` WHERE `student_id` = '$id'";
 $ovResult = $conn->query($ov);
 if ($ovResult->num_rows > 0) {
     $ovRow = $ovResult->fetch_assoc();

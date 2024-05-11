@@ -1495,116 +1495,13 @@ $pdf->SetFont('unicodehelvetin', '', 0);
 $pdf->Cell(193.5, 0.2, '', 1, 1, 'C', 1, 1);
 $pdf->Cell(12, 2, '', 0, 1, 'L');
 
-$pdf->SetFillColor(0);
+
 $pdf->SetFont('unicodehelvetin', '', 7);
 $pdf->SetX(10);
 $pdf->Cell(35, 4.25, ' Name of the Teacher/Adviser:', 0, 0, 'L', 0);
 $pdf->Cell(103, 3.5, $_SESSION['name'], 'B', 0, 'L', 0);
 $pdf->Cell(3, 2, '', 0, 0, 'L');
-$pdf->Cell(10, 4.25, 'Signature:', 0, 0, 'L', 0);
-$pdf->Cell(43, 3.5, '', 'B', 1, 'C', 0);
+$pdf->Cell(11, 4.25, 'Signature:', 0, 0, 'L', 0);
+$pdf->Cell(42.5, 3.5, '', 'B', 1, 'C', 0);
 $pdf->Cell(3, 2, '', 0, 0, 'L');
-
-$pdf->ln(1);
-$pdf->SetX(11);
-
-$pdf->SetFillColor(192);
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->Cell(193.2, 2, '', 0, 1, 'L', 1);
-$pdf->Cell(36, 4.25, ' Track/Strand Accomplished:', 0, 0, 'L', 0);
-$pdf->Cell(103, 3.5, $studentRow["track"] . " / " . $studentRow["strand"], 'B', 0, 'L', 0);
-$pdf->Cell(3, 2, '', 0, 0, 'L');
-$pdf->Cell(28, 4.25, 'SHS General Average:', 0, 0, 'L', 0);
-$shsAverage = (round($finalGradeAverage) + round($finalGradeAverage2)) / 2;
-$pdf->Cell(24, 3.5, round($shsAverage), 'B', 1, 'C', 0);
-
-$pdf->Cell(36, 4.25, ' Awards/Honors Received:', 0, 0, 'L', 0);
-$pdf->Cell(78, 3.5, '', 'B', 0, 'L', 0);
-$pdf->Cell(3, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 4.25, 'Date of SHS Graduation (MM/DD/YYYY):', 0, 0, 'L', 0);
-$pdf->Cell(28, 3.5, date("m-d-Y"), 'B', 1, 'C', 0);
-
-$pdf->SetX(10.8);
-$pdf->Cell(100, 4.25, 'Certified by:', 0, 0, 'L', 0);
-$pdf->Cell(49, 4.25, 'Place School Seal Here:', 0, 1, 'L', 0);
-$pdf->ln(2);
-$pdf->SetFont('unicodehelvetin', '', 7);
-$pdf->SetX(10.8);
-$pdf->Cell(60, 4, 'LORENA V. MIRANDA', 'B', 0, 'C', 0);
-$pdf->Cell(5, 2, '', 0, 0, 'L');
-$pdf->Cell(32, 4, date("m-d-Y"), 'B', 0, 'C', 0);
-$pdf->Cell(4, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 4, '', 'L', 1, 'L', 0);
-
-$pdf->SetX(10.8);
-$pdf->Cell(60, 4.25, 'Signature of School Head over Printed Name', 0, 0, 'C', 0);
-$pdf->Cell(5, 2, '', 0, 0, 'L');
-$pdf->Cell(32, 4.25, 'Date', 0, 0, 'C', 0);
-$pdf->Cell(4, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 4.25, '', 'L', 1, 'L', 0);
-
-
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->SetX(10.8);
-$pdf->Cell(60, 4.25, 'NOTE:', 0, 0, 'L', 0);
-$pdf->Cell(5, 2, '', 0, 0, 'L');
-$pdf->Cell(32, 4.25, '', 0, 0, 'C', 0);
-$pdf->Cell(4, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 4.25, '', 'L', 1, 'L', 0);
-
-
-$pdf->SetFont('helvetica', 'I', 5.8);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'This permanent record or a photocopy of this permanent record that bears the seal of the school and the', 'LTR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.8);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'original signature in ink of the School Head shall be considered valid for all legal purposes. Any erasure or', 'LR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.8);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'alteration made on this copy should be validated by the School Head.', 'LR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.75);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'if the student transfers to another school, the originating school should produce one (1) certified true copy of', 'LR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.8);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'this permanent record for safekeeping. The receiving school shall continue filling up the original form.', 'LR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.7);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, 'Upon graduation, the school from which the student graduated should keep the original form and produce one', 'LR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-$pdf->SetFont('helvetica', 'I', 5.7);
-$pdf->SetX(10.8);
-$pdf->Cell(99, 3, '(1) certified true copy for the Division Office.', 'BLR', 0, 'L', 0);
-$pdf->Cell(2, 2, '', 0, 0, 'L');
-$pdf->Cell(49, 3, '', 'L', 1, 'L', 0);
-
-
-$pdf->SetX(10.8);
-$pdf->SetFont('helvetica', 'B', 6);
-$pdf->Cell(12, 3, 'REMARKS: ', 0, 0, 'L', 0);
-$pdf->SetFont('helvetica', 'I', 6);
-$pdf->Cell(2, 3, '(Please indicate the purpose for which this permanent record will be used)', 0, 1, 'L');
-$pdf->ln(3);
-$pdf->SetX(12);
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->Cell(35, 3, 'Date Issued (MM/DD/YYYY): ', 0, 0, 'L', 0);
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->Cell(20, 3, date("m-d-Y"), 'B', 0, 'C');
 $pdf->Output();
