@@ -22,8 +22,8 @@ if (!isset($_SESSION['id'])) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php
-                    $id = $_SESSION['id'];
-                    $profilePic = "SELECT `profile_picture` FROM `user` WHERE id = '$id'";
+                    $profile_id = $_SESSION['id'];
+                    $profilePic = "SELECT `profile_picture` FROM `user` WHERE id = '$profile_id'";
                     $profilePicResult = $conn->query($profilePic);
                     $profilePicRow = $profilePicResult->fetch_assoc();
                     $profilePicImage = $profilePicRow['profile_picture'];

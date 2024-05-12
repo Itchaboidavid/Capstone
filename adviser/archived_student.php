@@ -2,7 +2,7 @@
 include("../config.php");
 session_start();
 
-$id = $_GET['id'];
+$id = $_GET['archived_student_id'];
 $studentSection = "SELECT * FROM `section` WHERE id = '$id'";
 $studentSectionResult = $conn->query($studentSection);
 $studentSectionRow = $studentSectionResult->fetch_assoc();
@@ -92,12 +92,12 @@ $sectionName = $studentSectionRow['name'];
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-item">
-                                                    <a href="edit_student.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
+                                                    <a href="edit_student_archived.php?student_id=<?php echo $studentRow['id'] ?>&archived_student_id=<?php echo $id ?>" style="text-decoration: none;">
                                                         Student info
                                                     </a>
                                                 </li>
                                                 <li class="dropdown-item">
-                                                    <a href="edit.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;">
+                                                    <a href="edit_archived_sf.php?edit_archive_sf_id=<?php echo $studentRow['id'] ?>&&archived_student_id=<?php echo $id ?>" style="text-decoration: none;">
                                                         School form
                                                     </a>
                                                 </li>
@@ -108,7 +108,7 @@ $sectionName = $studentSectionRow['name'];
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-item">
-                                                    <a href="sf9archived.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
+                                                    <a href="sf9.php?id=<?php echo $studentRow['id'] ?>" style="text-decoration: none;" target="_blank">
                                                         School form 9
                                                     </a>
                                                 </li>

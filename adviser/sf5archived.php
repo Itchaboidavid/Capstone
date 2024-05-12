@@ -369,7 +369,7 @@ $pdf->CellFitSpaceForce(77.5, 8, "of learners who completed/satisfied the requir
 
 //MALE TABLE
 $nameOfSection = $sectionsf5Row["name"];
-$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
+$maleStudent = "SELECT * FROM `student` WHERE `sex` = 'M' AND `section` = '$nameOfSection' AND is_archived = 1 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
 $resultMaleStudent = mysqli_query($conn, $maleStudent);
 $totalMale = $resultMaleStudent->num_rows;
 $pdf->SetXY(10, 89.5);
@@ -433,7 +433,7 @@ $pdf->Cell(33, 7, '', 1, 0, 'C', 0);
 $pdf->Cell(30.5, 7, '', 1, 1, 'C', 0);
 
 /*--Female table--*/
-$femaleStudent = "SELECT * FROM `student` WHERE `sex` = 'F' AND `section` = '$nameOfSection' AND is_archived = 0 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
+$femaleStudent = "SELECT * FROM `student` WHERE `sex` = 'F' AND `section` = '$nameOfSection' AND is_archived = 1 AND school_year_id = '$school_year_id' ORDER BY `name` ASC";
 $resultFemaleStudent = mysqli_query($conn, $femaleStudent);
 $totalFemale = $resultFemaleStudent->num_rows;
 while ($rowFemaleStudent = mysqli_fetch_assoc($resultFemaleStudent)) {

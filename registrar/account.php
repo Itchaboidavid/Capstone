@@ -144,9 +144,9 @@ if (isset($_POST['upload'])) {
                                     $profilePicRow = $profilePicResult->fetch_assoc();
                                     $profilePicImage = $profilePicRow['profile_picture'];
                                     if ($profilePicRow['profile_picture'] != '') { ?>
-                                        <img src="../profile_pic/<?php echo $profilePicImage ?>" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                        <img src="../profile_pic/<?php echo $profilePicImage ?>" width="60%" height="60%" style="border-radius: 10px; margin-bottom: 15px;">
                                     <?php } else { ?>
-                                        <img src="../profile_pic/default_profile.jpg" width="40%" height="40%" style="border-radius: 100px; margin-bottom: 15px;">
+                                        <img src="../profile_pic/default_profile.jpg" width="60%" height="60%" style="border-radius: 10px; margin-bottom: 15px;">
                                     <?php }
                                     ?>
                                 </div>
