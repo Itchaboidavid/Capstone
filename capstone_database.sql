@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2024 at 12:03 PM
+-- Generation Time: May 12, 2024 at 02:31 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -88,7 +88,8 @@ CREATE TABLE `schoolstart` (
 
 INSERT INTO `schoolstart` (`id`, `month`, `year`, `start_date`, `end_date`) VALUES
 (1, 3, 2024, 1, 30),
-(2, 4, 2024, 1, 30);
+(2, 4, 2024, 1, 30),
+(4, 5, 2024, 1, 31);
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,8 @@ CREATE TABLE `school_year` (
 --
 
 INSERT INTO `school_year` (`id`, `start_year`, `end_year`, `sy`, `is_archived`) VALUES
-(1, 2024, 2025, '2024 - 2025', 0);
+(1, 2024, 2025, '2024 - 2025', 1),
+(2, 2025, 2026, '2025 - 2026', 0);
 
 -- --------------------------------------------------------
 
@@ -135,9 +137,8 @@ CREATE TABLE `section` (
 --
 
 INSERT INTO `section` (`id`, `name`, `track`, `strand`, `grade`, `adviser_id`, `adviser`, `school_year_id`, `school_year`, `is_archived`) VALUES
-(1, 'Responsibility', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 1, '2024 - 2025', 0),
-(2, 'Perseverance', 'Academic', 'Science, Technology, Engineering and Mathematics', 12, 5, 'Daryl Balbastro', 1, '2024 - 2025', 0),
-(3, 'Dependability', 'Academic', 'Humanities and Social Science', 12, 7, 'Bryan Javier', 1, '2024 - 2025', 0);
+(2, 'Generosity', 'Academic', 'Accountancy, Business and Management', 12, 3, 'Arcie Natuel', 1, '2024 - 2025', 1),
+(3, 'Humility', 'Technical-Vocational-Livelihood', 'AI', 11, 3, 'Arcie Natuel', 2, '2025 - 2026', 0);
 
 -- --------------------------------------------------------
 
@@ -157,6 +158,58 @@ CREATE TABLE `sf2` (
   `attendance_month` int(11) NOT NULL,
   `attendance_year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf2`
+--
+
+INSERT INTO `sf2` (`id`, `student_id`, `student_name`, `student_section`, `school_year_id`, `sex`, `day`, `attendance_status`, `attendance_month`, `attendance_year`) VALUES
+(1, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '1', 'on', 5, 2024),
+(2, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '2', 'on', 5, 2024),
+(3, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '3', 'on', 5, 2024),
+(4, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '6', 'on', 5, 2024),
+(5, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '7', 'on', 5, 2024),
+(6, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '8', 'on', 5, 2024),
+(7, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '9', 'on', 5, 2024),
+(8, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '10', 'on', 5, 2024),
+(9, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '13', 'on', 5, 2024),
+(10, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '14', 'on', 5, 2024),
+(11, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '15', 'on', 5, 2024),
+(12, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '16', 'on', 5, 2024),
+(13, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '17', 'on', 5, 2024),
+(14, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '20', 'on', 5, 2024),
+(15, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '21', 'on', 5, 2024),
+(16, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '22', 'on', 5, 2024),
+(17, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '23', 'on', 5, 2024),
+(18, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '24', 'on', 5, 2024),
+(19, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '27', 'on', 5, 2024),
+(20, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '28', 'on', 5, 2024),
+(21, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '29', 'on', 5, 2024),
+(22, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '30', 'on', 5, 2024),
+(23, 11, 'De Villa, Jennifer  K', 'Generosity', 1, 'F', '31', 'on', 5, 2024),
+(24, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '1', 'on', 5, 2024),
+(25, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '2', 'on', 5, 2024),
+(26, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '3', 'on', 5, 2024),
+(27, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '6', 'on', 5, 2024),
+(28, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '7', 'on', 5, 2024),
+(29, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '8', 'on', 5, 2024),
+(30, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '9', 'on', 5, 2024),
+(31, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '10', 'on', 5, 2024),
+(32, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '13', 'on', 5, 2024),
+(33, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '14', 'on', 5, 2024),
+(34, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '15', 'on', 5, 2024),
+(35, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '16', 'on', 5, 2024),
+(36, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '17', 'on', 5, 2024),
+(37, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '20', 'on', 5, 2024),
+(38, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '21', 'on', 5, 2024),
+(39, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '22', 'on', 5, 2024),
+(40, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '23', 'on', 5, 2024),
+(41, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '24', 'on', 5, 2024),
+(42, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '27', 'on', 5, 2024),
+(43, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '28', 'on', 5, 2024),
+(44, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '29', 'on', 5, 2024),
+(45, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '30', 'on', 5, 2024),
+(46, 12, 'Jehovs, Samuel  A.', 'Generosity', 1, 'M', '31', 'on', 5, 2024);
 
 -- --------------------------------------------------------
 
@@ -193,6 +246,13 @@ CREATE TABLE `sf5b` (
   `sex` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf5b`
+--
+
+INSERT INTO `sf5b` (`id`, `lrn`, `student_name`, `student_id`, `school_year_id`, `completed`, `nc`, `section`, `sex`) VALUES
+(1, 123123, 'De Villa, Jennifer  K.', 11, 1, 'Yes', 'NC I', 'Generosity', 'F');
+
 -- --------------------------------------------------------
 
 --
@@ -213,6 +273,32 @@ CREATE TABLE `sf9` (
   `sex` varchar(255) NOT NULL,
   `section` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9`
+--
+
+INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES
+(1, 'De Villa, Jennifer  K', 11, 1, 'Core', 'Physical Education and Health', 99, 99, 99, '1st', 'F', 'Generosity'),
+(2, 'De Villa, Jennifer  K', 11, 1, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 89, 98, 93.5, '1st', 'F', 'Generosity'),
+(3, 'De Villa, Jennifer  K', 11, 1, 'Applied', 'Practical Research 2', 78, 97, 87.5, '1st', 'F', 'Generosity'),
+(4, 'De Villa, Jennifer  K', 11, 1, 'Applied', 'Inquiries, Investigation, and Immersion', 99, 99, 99, '1st', 'F', 'Generosity'),
+(5, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(6, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(7, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(8, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(9, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(10, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '1st', 'F', 'Generosity'),
+(11, 'De Villa, Jennifer  K', 11, 1, 'Core', 'Media and Information Technology', 89, 99, 94, '2nd', 'F', 'Generosity'),
+(12, 'De Villa, Jennifer  K', 11, 1, 'Core', 'Contemporary Philippine Arts from the Regions', 99, 99, 99, '2nd', 'F', 'Generosity'),
+(13, 'De Villa, Jennifer  K', 11, 1, 'Applied', 'Entrepreneurship', 99, 99, 99, '2nd', 'F', 'Generosity'),
+(14, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(15, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(16, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(17, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(18, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(19, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity'),
+(20, 'De Villa, Jennifer  K', 11, 1, '', '', 0, 0, 0, '2nd', 'F', 'Generosity');
 
 -- --------------------------------------------------------
 
@@ -237,6 +323,13 @@ CREATE TABLE `sf9_modality` (
   `ip_q3` tinyint(1) DEFAULT 0,
   `ip_q4` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9_modality`
+--
+
+INSERT INTO `sf9_modality` (`id`, `student_name`, `student_id`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES
+(1, 'De Villa, Jennifer  K.', 11, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -278,6 +371,13 @@ CREATE TABLE `sf9_ov` (
   `mbq8` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf9_ov`
+--
+
+INSERT INTO `sf9_ov` (`id`, `student_name`, `student_id`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES
+(1, 'De Villa, Jennifer  K.', 11, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO');
+
 -- --------------------------------------------------------
 
 --
@@ -305,96 +405,11 @@ CREATE TABLE `sf10remedial` (
 --
 
 INSERT INTO `sf10remedial` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`, `action`, `sex`, `section`) VALUES
-(1, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(2, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(3, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(4, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(5, 'Cruz, Maria  R', 25, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(6, 'Reyes, Sofia L ', 26, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(7, 'Reyes, Sofia L ', 26, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(8, 'Reyes, Sofia L ', 26, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(9, 'Reyes, Sofia L ', 26, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(10, 'Reyes, Sofia L ', 26, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(11, 'Meyn, Isabella  S', 27, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(12, 'Meyn, Isabella  S', 27, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(13, 'Meyn, Isabella  S', 27, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(14, 'Meyn, Isabella  S', 27, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(15, 'Meyn, Isabella  S', 27, 2, '', '', 0, 0, 0, '', '', 'F', 'HUMILITY'),
-(16, 'Santos, Ava K ', 29, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(17, 'Santos, Ava K ', 29, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(18, 'Santos, Ava K ', 29, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(19, 'Santos, Ava K ', 29, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(20, 'Santos, Ava K ', 29, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(21, 'Gonzales, Emma N ', 31, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(22, 'Gonzales, Emma N ', 31, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(23, 'Gonzales, Emma N ', 31, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(24, 'Gonzales, Emma N ', 31, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(25, 'Gonzales, Emma N ', 31, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(26, 'Garcia, Mia  T', 33, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(27, 'Garcia, Mia  T', 33, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(28, 'Garcia, Mia  T', 33, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(29, 'Garcia, Mia  T', 33, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(30, 'Garcia, Mia  T', 33, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(31, 'Reyes, Charlotte  E', 35, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(32, 'Reyes, Charlotte  E', 35, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(33, 'Reyes, Charlotte  E', 35, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(34, 'Reyes, Charlotte  E', 35, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(35, 'Reyes, Charlotte  E', 35, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(36, 'Calipa, Anne  F', 59, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(37, 'Calipa, Anne  F', 59, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(38, 'Calipa, Anne  F', 59, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(39, 'Calipa, Anne  F', 59, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(40, 'Calipa, Anne  F', 59, 2, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
-(41, 'Santos, Michael  N.', 24, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(42, 'Santos, Michael  N.', 24, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(43, 'Santos, Michael  N.', 24, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(44, 'Santos, Michael  N.', 24, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(45, 'Santos, Michael  N.', 24, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(46, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(47, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(48, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(49, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(50, 'Garcia, Daniel  C', 28, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(51, 'Cruz, Benjamin  M', 30, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(52, 'Cruz, Benjamin  M', 30, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(53, 'Cruz, Benjamin  M', 30, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(54, 'Cruz, Benjamin  M', 30, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(55, 'Cruz, Benjamin  M', 30, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(56, 'Tan, Alexander  F', 32, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(57, 'Tan, Alexander  F', 32, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(58, 'Tan, Alexander  F', 32, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(59, 'Tan, Alexander  F', 32, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(60, 'Tan, Alexander  F', 32, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(61, 'Lim, Jacob  E', 34, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(62, 'Lim, Jacob  E', 34, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(63, 'Lim, Jacob  E', 34, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(64, 'Lim, Jacob  E', 34, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(65, 'Lim, Jacob  E', 34, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(66, 'Tan, Noah  P', 36, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(67, 'Tan, Noah  P', 36, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(68, 'Tan, Noah  P', 36, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(69, 'Tan, Noah  P', 36, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(70, 'Tan, Noah  P', 36, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(71, 'Ramirez, Isaac  G', 37, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(72, 'Ramirez, Isaac  G', 37, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(73, 'Ramirez, Isaac  G', 37, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(74, 'Ramirez, Isaac  G', 37, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(75, 'Ramirez, Isaac  G', 37, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(76, 'Sanchez, Lily  M', 38, 2, 'Core', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(77, 'Sanchez, Lily  M', 38, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(78, 'Sanchez, Lily  M', 38, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(79, 'Sanchez, Lily  M', 38, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(80, 'Sanchez, Lily  M', 38, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(81, 'Cauyong, Dhayne Jr. M', 61, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(82, 'Cauyong, Dhayne Jr. M', 61, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(83, 'Cauyong, Dhayne Jr. M', 61, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(84, 'Cauyong, Dhayne Jr. M', 61, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(85, 'Cauyong, Dhayne Jr. M', 61, 2, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(86, 'Cabrera, Anne  M', 63, 3, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
-(87, 'Cabrera, Anne  M', 63, 3, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
-(88, 'Cabrera, Anne  M', 63, 3, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
-(89, 'Cabrera, Anne  M', 63, 3, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
-(90, 'Cabrera, Anne  M', 63, 3, '', '', 0, 0, 0, '', '', 'F', 'Responsibility');
+(1, 'De Villa, Jennifer  K.', 11, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(2, 'De Villa, Jennifer  K.', 11, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(3, 'De Villa, Jennifer  K.', 11, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(4, 'De Villa, Jennifer  K.', 11, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity'),
+(5, 'De Villa, Jennifer  K.', 11, 1, '', '', 0, 0, 0, '', '', 'F', 'Generosity');
 
 -- --------------------------------------------------------
 
@@ -411,6 +426,13 @@ CREATE TABLE `sf10remedialdate` (
   `start_date2` date NOT NULL,
   `end_date2` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf10remedialdate`
+--
+
+INSERT INTO `sf10remedialdate` (`id`, `student_name`, `student_id`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES
+(1, 'De Villa, Jennifer  K.', 11, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -492,6 +514,24 @@ CREATE TABLE `student` (
   `is_archived` tinyint(4) NOT NULL,
   `enrollment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`id`, `lrn`, `name`, `fname`, `mname`, `lname`, `suffix`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `barangay_id`, `municipality_id`, `province_id`, `father`, `mother`, `guardian`, `relationship`, `contact`, `section`, `school_year_id`, `school_year`, `track`, `strand`, `grade`, `status`, `lm`, `indicator`, `ri`, `rid`, `weight`, `height`, `height2`, `bmi`, `bmi_category`, `hfa_category`, `sf8_remarks`, `is_archived`, `enrollment`) VALUES
+(1, 50010101, 'Johnson, Emma   S.', 'Emma ', 'S.', 'Johnson', '', 'F', ' 09-28-2005', '2005-09-28', 17, 'Catholic', 'Blk67 Lot78', 'Tartaria', 'Silang', 'Cavite', 10440, 400, 19, 'Micheal Johnson', 'Sarah Kurt', 'Micheal Johnson', 'Father', '009937268176', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(2, 50010102, 'Martinez, Benjamin  L. ', 'Benjamin', 'L. ', 'Martinez', '', 'M', ' 02-09-2005', '2005-02-09', 18, 'Catholic', 'Blk12 Lot45', 'Lumil', 'Silang', 'Cavite', 10420, 400, 19, 'Javier Martinez', 'Maria Madrigal', 'Maria Madrigal', 'Mother', '009916239871', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(3, 50010103, 'Anderson, Olivia  Z', 'Olivia', 'Z', 'Anderson', '', 'F', ' 08-06-2005', '2005-08-06', 17, 'Catholic', 'Blk67 Lot89', 'Lalaan I', 'Silang', 'Cavite', 10416, 400, 19, 'David Anderson', 'Emily Yuen', 'David Anderson', 'Father', '009961289361', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(4, 50010104, 'Thompson, Ethan  S.', 'Ethan', 'S.', 'Thompson', '', 'M', ' 02-08-2005', '2005-02-08', 18, 'Iglesia ni Cristo', 'Blk67 Lot89', 'Bucal', 'Silang', 'Cavite', 10407, 400, 19, 'Robert Thompson', 'Jessica Humer', 'Jessica Humer', 'Mother', '009916273861', 'Responsibility', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(5, 50010105, 'Walker, Sophia  KZ.', 'Sophia', 'KZ.', 'Walker', '', 'F', ' 06-08-2005', '2005-06-08', 17, 'Catholic', 'Blk12 Lot12', 'Bulihan', 'Silang', 'Cavite', 10408, 400, 19, 'Daniel Walker', 'Rachel Timbap', 'Daniel Walker', 'Father', '0009732713678', 'Responsibility', 1, '2024 - 2025', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 1, '1st Friday of August'),
+(6, 60010101, 'Patel, Liam  T.', 'Liam', 'T.', 'Patel', '', 'M', '02-08-2006', '2006-02-08', 17, 'Catholic', 'Blk45 Lot56', 'Tartaria', 'Silang', 'Cavite', 10440, 400, 19, 'Raj Patel', 'Priya Trinidad', 'Priya Trinidad', 'Mother', '09752163858', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(7, 60010102, 'Smith, Isabella  W.', 'Isabella', 'W.', 'Smith', '', 'F', ' 02-09-2006', '2006-02-09', 17, 'Catholic', 'Blk34 Lot45', 'Lumil', 'Silang', 'Cavite', 10420, 400, 19, 'John Smith', 'Elizabeth Queran', 'John Smith', 'Father', '00009737218368', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(8, 60010103, 'Nguyen, Noah  G.', 'Noah', 'G.', 'Nguyen', '', 'M', '02-08-2005', '2005-02-08', 18, 'Iglesia ni Cristo', 'Blk43 Lot55', 'Banaba', 'Silang', 'Cavite', 10450, 400, 19, 'Minh Nguyem', 'Linh Gabrosa', 'Minh Nguyem', 'Father', '09963712367', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(9, 60010104, 'Garcia, Ava  T. ', 'Ava', 'T. ', 'Garcia', '', 'F', '12-28-2005', '2005-12-28', 18, 'Catholic', 'Blk12 Lot 78', 'Buho', 'Silang', 'Cavite', 10406, 400, 19, 'Carlos Garcia', 'Maria Tinua', 'Maria Tinua', 'Mother', '09917239871', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(10, 60010105, 'Jennifer, Mason  Z', 'Mason', 'Z', 'Jennifer', '', 'M', ' 12-09-2005', '2005-12-09', 18, 'Catholic', 'Blk45 Lot78', 'Kaong', 'Silang', 'Cavite', 10415, 400, 19, 'Christopher Brown', 'Jennifer Midlao', 'Jennifer Midlao', 'Mother', '009961278312', 'Hospitality', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 0, '1st Friday of August'),
+(11, 123123, 'De Villa, Jennifer  K', 'Jennifer', 'K', 'De Villa', '', 'F', ' 10-10-2005', '2005-10-10', 17, 'Iglesia ni Cristo', 'Blk 11 Lot 12', 'Tartaria', 'Silang', 'Cavite', 10440, 400, 19, 'Jester De Villa', 'Jenylyn Kaldero', 'Jester De Villa', 'Parent', '009123921321', 'Generosity', 1, '2024 - 2025', 'Academic', 'Accountancy, Business and Management', 12, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 1, '1st Friday of August'),
+(12, 1235125, 'Jehovs, Samuel  A.', 'Samuel', 'A.', 'Jehovs', '', 'M', '01-01-2005', '2005-01-01', 18, 'Catholic', 'Blk 01 Lot 20', 'Salambao', 'Obando', 'Bulacan', 6094, 244, 12, 'Jackson Jehovs', 'Kelly Anova', 'Kelly Anova', 'Parent', '09294929492', 'Generosity', 1, '2024 - 2025', 'Academic', 'Accountancy, Business and Management', 12, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 1, '1st Friday of August');
 
 -- --------------------------------------------------------
 
@@ -44467,10 +44507,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_type`, `section`, `status`, `profile_picture`) VALUES
 (1, 'systemadmin', '0192023a7bbd73250516f069df18b500', 'admin123', 'system administrator', 'System administrator', '', 'Active', 'admin_profile.jpg'),
 (2, 'registrar', '5a0455c7557558735b1b6e12393d84a0', 'registrar123', 'David Centeno', 'Registrar', '', 'Active', 'registrar_profile.jpg'),
-(3, 'classadviser', 'fd7ab343a521997a51080cb54c8edb37', 'fd7ab343a521997a51080cb54c8edb37', 'Arcie Natuel', 'Adviser', 'Responsibility', 'Active', 'adviser_profile.jpg'),
+(3, 'classadviser', 'fd7ab343a521997a51080cb54c8edb37', 'fd7ab343a521997a51080cb54c8edb37', 'Arcie Natuel', 'Adviser', 'Humility', 'Active', 'adviser_profile.jpg'),
 (4, 'clinicteacher', '3e23ccd5b83f73dff4be8ae49638e5c5', 'clinic123', 'Jerome Jose', 'Clinic teacher', '', 'Active', 'clinic_profile.jpg'),
-(5, 'daryl.balbastro', 'aea456814a2936caaf6b9e9a755eba45', 'balbastro123', 'Daryl Balbastro', 'Adviser', 'Perseverance', 'Active', 'daryl_profile.jpg'),
-(7, 'bryan.javier', '6142a88d730b9aa48eed872142467129', 'javier123', 'Bryan Javier', 'Adviser', 'Dependability', 'Active', '');
+(5, 'daryl.balbastro', 'aea456814a2936caaf6b9e9a755eba45', 'balbastro123', 'Daryl Balbastro', 'Adviser', '', 'Active', 'daryl_profile.jpg'),
+(7, 'bryan.javier', '6142a88d730b9aa48eed872142467129', 'javier123', 'Bryan Javier', 'Adviser', '', 'Active', '');
 
 --
 -- Indexes for dumped tables
@@ -44617,7 +44657,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `school`
@@ -44629,13 +44669,13 @@ ALTER TABLE `school`
 -- AUTO_INCREMENT for table `schoolstart`
 --
 ALTER TABLE `schoolstart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `school_year`
 --
 ALTER TABLE `school_year`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `section`
@@ -44647,7 +44687,7 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT for table `sf2`
 --
 ALTER TABLE `sf2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `sf2remarks`
@@ -44659,37 +44699,37 @@ ALTER TABLE `sf2remarks`
 -- AUTO_INCREMENT for table `sf5b`
 --
 ALTER TABLE `sf5b`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf9`
 --
 ALTER TABLE `sf9`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sf9_modality`
 --
 ALTER TABLE `sf9_modality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf9_ov`
 --
 ALTER TABLE `sf9_ov`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sf10remedial`
 --
 ALTER TABLE `sf10remedial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sf10remedialdate`
 --
 ALTER TABLE `sf10remedialdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `strand`
@@ -44701,7 +44741,7 @@ ALTER TABLE `strand`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `subject`
