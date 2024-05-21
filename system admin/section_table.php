@@ -30,7 +30,7 @@ if (isset($_POST["add_section"])) {
     $sy_id = $activeSYRow['id'];
     $sy = $activeSYRow['sy'];
 
-    $select = "SELECT * FROM `section` WHERE `name` = '$name' AND is_archived = 0";
+    $select = "SELECT * FROM `section` WHERE `name` = '$name' AND school_year_id = $sy_id";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
