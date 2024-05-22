@@ -37,14 +37,16 @@ session_start();
                                 <?php
                                 $sy = "SELECT * FROM school_year WHERE is_archived = 0";
                                 $syResult = $conn->query($sy);
-                                $syRow = $syResult->fetch_assoc();
-                                $syID = $syRow['id'];
+                                if ($syResult->num_rows > 0) {
+                                    $syRow = $syResult->fetch_assoc();
+                                    $syID = $syRow['id'];
 
-                                $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
-                                $sectionResult = $conn->query($section);
-                                $sectionCount = $sectionResult->num_rows;
+                                    $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
+                                    $sectionResult = $conn->query($section);
+                                    $sectionCount = $sectionResult->num_rows; ?>
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
+                                <?php }
                                 ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="section_table.php">View Details</a>

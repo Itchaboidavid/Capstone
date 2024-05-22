@@ -37,14 +37,16 @@ session_start();
                                 <?php
                                 $sy = "SELECT * FROM school_year WHERE is_archived = 0";
                                 $syResult = $conn->query($sy);
-                                $syRow = $syResult->fetch_assoc();
-                                $syID = $syRow['id'];
-
-                                $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
-                                $sectionResult = $conn->query($section);
-                                $sectionCount = $sectionResult->num_rows;
+                                if ($syResult->num_rows > 0) {
+                                    $syRow = $syResult->fetch_assoc();
+                                    $syID = $syRow['id'];
+                                    $section = "SELECT * FROM `section` WHERE is_archived = 0 AND school_year_id = '$syID'";
+                                    $sectionResult = $conn->query($section);
+                                    $sectionCount = $sectionResult->num_rows; ?>
+                                    <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
+                                <?php }
                                 ?>
-                                <span class="fs-1" style="text-shadow: 1px 1px 3px black;"><?php echo $sectionCount ?></span>
+
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="section_table.php">View Details</a>
@@ -93,22 +95,24 @@ session_start();
 
 <?php
 //STUDENT CHART
-$g11 = "SELECT * FROM `student` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
-$resultG11 = mysqli_query($conn, $g11);
-$rowG11 = mysqli_num_rows($resultG11);
+if ($syResult->num_rows > 0) {
+    $g11 = "SELECT * FROM `student` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
+    $resultG11 = mysqli_query($conn, $g11);
+    $rowG11 = mysqli_num_rows($resultG11);
 
-$g12 = "SELECT * FROM `student` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
-$resultG12 = mysqli_query($conn, $g12);
-$rowG12 = mysqli_num_rows($resultG12);
+    $g12 = "SELECT * FROM `student` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
+    $resultG12 = mysqli_query($conn, $g12);
+    $rowG12 = mysqli_num_rows($resultG12);
 
-//SECTION CHART
-$g112 = "SELECT * FROM `section` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
-$resultG112 = mysqli_query($conn, $g11);
-$rowG112 = mysqli_num_rows($resultG112);
+    //SECTION CHART
+    $g112 = "SELECT * FROM `section` WHERE `grade` = '11' AND is_archived = 0 AND school_year_id = '$syID'";
+    $resultG112 = mysqli_query($conn, $g11);
+    $rowG112 = mysqli_num_rows($resultG112);
 
-$g122 = "SELECT * FROM `section` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
-$resultG122 = mysqli_query($conn, $g12);
-$rowG122 = mysqli_num_rows($resultG122);
+    $g122 = "SELECT * FROM `section` WHERE `grade` = '12' AND is_archived = 0 AND school_year_id = '$syID'";
+    $resultG122 = mysqli_query($conn, $g12);
+    $rowG122 = mysqli_num_rows($resultG122);
+}
 ?>
 <script>
     google.charts.load('current', {

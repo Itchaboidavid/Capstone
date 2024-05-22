@@ -157,26 +157,29 @@ if (isset($_POST['add_student'])) {
                                     <?php
                                     $sy = "SELECT * FROM school_year WHERE is_archived = 0";
                                     $syResult = $conn->query($sy);
-                                    $syRow = $syResult->fetch_assoc();
-                                    $school_year_id = $syRow['id'];
+                                    if ($syResult->num_rows > 0) {
+                                        $syRow = $syResult->fetch_assoc();
+                                        $school_year_id = $syRow['id'];
 
-                                    $sectionName = $_SESSION['section'];
-                                    $section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
-                                    $sectionResult = $conn->query($section);
-                                    $sectionRow = $sectionResult->fetch_assoc();
-
-                                    $availableStudent = "SELECT * FROM student WHERE school_year_id = '$school_year_id' AND section = '$sectionName'";
-                                    $availableStudentResult = $conn->query($availableStudent);
-                                    if ($availableStudentResult->num_rows > 0) { ?>
-                                        <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer;">
-                                            <i class="fa-solid fa-print"></i>
-                                        </button>
-                                    <?php } else { ?>
-                                        <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer; display: none;">
-                                            <i class="fa-solid fa-print"></i>
-                                        </button>
+                                        $sectionName = $_SESSION['section'];
+                                        $section = "SELECT * FROM `section` WHERE `name` = '$sectionName' AND is_archived = 0 AND school_year_id = '$school_year_id'";
+                                        $sectionResult = $conn->query($section);
+                                        $sectionRow = $sectionResult->fetch_assoc();
+                                        $availableStudent = "SELECT * FROM student WHERE school_year_id = '$school_year_id' AND section = '$sectionName'";
+                                        $availableStudentResult = $conn->query($availableStudent);
+                                        if ($availableStudentResult->num_rows > 0) { ?>
+                                            <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer;">
+                                                <i class="fa-solid fa-print"></i>
+                                            </button>
+                                        <?php } else { ?>
+                                            <button type="button" onclick="openPDF()" style="border: none; background: transparent; cursor: pointer; display: none;">
+                                                <i class="fa-solid fa-print"></i>
+                                            </button>
                                     <?php }
-                                    ?>
+                                    } ?>
+
+
+
 
                                 </form>
                             </div>
@@ -197,22 +200,20 @@ if (isset($_POST['add_student'])) {
                                     window.open(url, '_blank');
                                 }
                             </script>
-
-
-                            <!-- <a href="sf2PDF.php" style="border: none; background: transparent;" target="_blank">
-                                <i class="fa-solid fa-print"></i>
-                            </a> -->
                         </div>
                         <div class="card-body row g-1">
                             <?php
                             $sy = "SELECT * FROM school_year WHERE is_archived = 0";
                             $syResult = $conn->query($sy);
-                            $syRow = $syResult->fetch_assoc();
-                            $school_year_id = $syRow['id'];
+                            if ($syResult->num_rows > 0) {
+                                $syRow = $syResult->fetch_assoc();
+                                $school_year_id = $syRow['id'];
 
-                            $section = $_SESSION['section'];
-                            // Get student information
-                            $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0 AND school_year_id = $school_year_id ORDER BY `sex`, `name` ASC");
+                                $section = $_SESSION['section'];
+                                // Get student information
+                                $students = mysqli_query($conn, "SELECT * FROM student WHERE section = '$section' AND is_archived = 0 AND school_year_id = $school_year_id ORDER BY `sex`, `name` ASC");
+                            }
+
 
                             // Get current month and year
                             $currentMonth = date('m');
@@ -285,38 +286,39 @@ if (isset($_POST['add_student'])) {
                                 }
                             }
                             echo '</tr>';
-
-                            while ($student = mysqli_fetch_assoc($students)) {
-                                echo '<tr>';
-                                echo '<td>' . $student['name'] . '<a href="add_remarks.php?id=' . $student['id'] . '"    
+                            if ($syResult->num_rows > 0) {
+                                while ($student = mysqli_fetch_assoc($students)) {
+                                    echo '<tr>';
+                                    echo '<td>' . $student['name'] . '<a href="add_remarks.php?id=' . $student['id'] . '"    
                                         style="text-decoration: none; font-size: 10px; margin-left: 5px;"> <i class="fa-regular fa-pen-to-square"></i> </a>
                                     </td>';
 
-                                echo '<td style="text-align:center;">' . $student['sex'] . '</td>';
+                                    echo '<td style="text-align:center;">' . $student['sex'] . '</td>';
 
-                                for ($i = $start_date; $i <= $end_date; $i++) {
-                                    $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
+                                    for ($i = $start_date; $i <= $end_date; $i++) {
+                                        $day = date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $i));
 
-                                    if ($day == 'Sat' || $day == 'Sun') {
-                                        continue;
-                                    } else {
-                                        // Check if a record exists in the database for the current student and day
-                                        $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_month = ?");
-                                        $checkRecordStmt->bind_param("isi", $student['id'], $i, $currentMonth);
-                                        $checkRecordStmt->execute();
-                                        $checkRecordStmt->store_result();
-                                        $checkRecordStmt->bind_result($recordCount);
-                                        $checkRecordStmt->fetch();
+                                        if ($day == 'Sat' || $day == 'Sun') {
+                                            continue;
+                                        } else {
+                                            // Check if a record exists in the database for the current student and day
+                                            $checkRecordStmt = $conn->prepare("SELECT COUNT(*) FROM sf2 WHERE student_id = ? AND day = ? AND attendance_month = ?");
+                                            $checkRecordStmt->bind_param("isi", $student['id'], $i, $currentMonth);
+                                            $checkRecordStmt->execute();
+                                            $checkRecordStmt->store_result();
+                                            $checkRecordStmt->bind_result($recordCount);
+                                            $checkRecordStmt->fetch();
 
-                                        echo '<td style="text-align: center;">';
-                                        echo '<input type="checkbox" name="attendance[' . $student['id'] . '][' . $i . ']" onchange="deleteAttendance(' . $student['id'] . ', ' . $i . ', ' . $currentMonth . ', this)" ' . ($recordCount > 0 ? 'checked' : '') . '>';
-                                        echo '</td>';
+                                            echo '<td style="text-align: center;">';
+                                            echo '<input type="checkbox" name="attendance[' . $student['id'] . '][' . $i . ']" onchange="deleteAttendance(' . $student['id'] . ', ' . $i . ', ' . $currentMonth . ', this)" ' . ($recordCount > 0 ? 'checked' : '') . '>';
+                                            echo '</td>';
 
-                                        $checkRecordStmt->free_result();
-                                        $checkRecordStmt->close();
+                                            $checkRecordStmt->free_result();
+                                            $checkRecordStmt->close();
+                                        }
                                     }
+                                    echo '</tr>';
                                 }
-                                echo '</tr>';
                             }
                             echo '</table>';
                             ?>

@@ -52,8 +52,11 @@ if (isset($_POST["submit"])) {
 
                     $sy = "SELECT * FROM school_year WHERE is_archived = 0";
                     $syResult = $conn->query($sy);
-                    $syRow = $syResult->fetch_assoc();
-                    $school_year_id = $syRow['id'];
+                    $syRow = null;
+                    if ($syResult->num_rows > 0) {
+                        $syRow = $syResult->fetch_assoc();
+                        $school_year_id = $syRow['id'];
+                    }
 
                     if ($advisedRow['section'] != "") {
                     ?>
@@ -122,11 +125,15 @@ if (isset($_POST["submit"])) {
                                 <?php
                                 $currentMonth = date('m');
                                 $section = $_SESSION['section'];
-                                $attendance = "SELECT * FROM sf2 WHERE `student_section` = '$section' AND attendance_month = '$currentMonth' AND school_year_id = $school_year_id";
-                                $attendanceResult = $conn->query($attendance);
-                                $attendanceCount = $attendanceResult->num_rows;
+                                if ($syResult->num_rows > 0) {
+                                    $attendance = "SELECT * FROM sf2 WHERE `student_section` = '$section' AND attendance_month = '$currentMonth' AND school_year_id = $school_year_id";
+                                    $attendanceResult = $conn->query($attendance);
+                                    $attendanceCount = $attendanceResult->num_rows; ?>
+
+                                    <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Total attendance for this month : <?php echo $attendanceCount ?></span>
+                                <?php }
                                 ?>
-                                <span class="fs-6" style="text-shadow: 1px 1px 3px black;">Total attendance for this month : <?php echo $attendanceCount ?></span>
+
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="sf2.php">View Details</a>
@@ -233,84 +240,89 @@ if (isset($_POST["submit"])) {
 
 <?php
 $section = $advisedRow['section'];
-$students = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND school_year_id = $school_year_id";
-$studentsResult = $conn->query($students);
-$studentsCount = $studentsResult->num_rows;
+if ($syResult->num_rows > 0) {
+    $students = "SELECT * FROM `student` WHERE `section` = '$section' AND is_archived = 0 AND school_year_id = $school_year_id";
+    $studentsResult = $conn->query($students);
+    $studentsCount = $studentsResult->num_rows;
 
-if ($studentsCount > 0) {
-    //GENDER CHART
-    $male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND is_archived = 0";
-    $maleResult = $conn->query($male);
-    $maleCount = $maleResult->num_rows;
+    if ($studentsCount > 0) {
+        //GENDER CHART
+        $male = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'M' AND is_archived = 0";
+        $maleResult = $conn->query($male);
+        $maleCount = $maleResult->num_rows;
 
-    $female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND is_archived = 0";
-    $femaleResult = $conn->query($female);
-    $femaleCount = $femaleResult->num_rows;
+        $female = "SELECT * FROM `student` WHERE `section` = '$section' AND `sex` = 'F' AND is_archived = 0";
+        $femaleResult = $conn->query($female);
+        $femaleCount = $femaleResult->num_rows;
 
-    //ATTENDANCE CHART
-    $january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
-    $januaryResult = $conn->query($january);
-    $januaryCount = $januaryResult->num_rows;
+        //ATTENDANCE CHART
+        $january = "SELECT * FROM sf2 WHERE attendance_month = '1' AND student_section = '$section'";
+        $januaryResult = $conn->query($january);
+        $januaryCount = $januaryResult->num_rows;
 
-    $february = "SELECT * FROM sf2 WHERE attendance_month = '2' AND student_section = '$section'";
-    $februaryResult = $conn->query($february);
-    $februaryCount = $februaryResult->num_rows;
+        $february = "SELECT * FROM sf2 WHERE attendance_month = '2' AND student_section = '$section'";
+        $februaryResult = $conn->query($february);
+        $februaryCount = $februaryResult->num_rows;
 
-    $march = "SELECT * FROM sf2 WHERE attendance_month = '3' AND student_section = '$section'";
-    $marchResult = $conn->query($march);
-    $marchCount = $marchResult->num_rows;
+        $march = "SELECT * FROM sf2 WHERE attendance_month = '3' AND student_section = '$section'";
+        $marchResult = $conn->query($march);
+        $marchCount = $marchResult->num_rows;
 
-    $april = "SELECT * FROM sf2 WHERE attendance_month = '4' AND student_section = '$section'";
-    $aprilResult = $conn->query($april);
-    $aprilCount = $aprilResult->num_rows;
+        $april = "SELECT * FROM sf2 WHERE attendance_month = '4' AND student_section = '$section'";
+        $aprilResult = $conn->query($april);
+        $aprilCount = $aprilResult->num_rows;
 
-    $may = "SELECT * FROM sf2 WHERE attendance_month = '5' AND student_section = '$section'";
-    $mayResult = $conn->query($may);
-    $mayCount = $mayResult->num_rows;
+        $may = "SELECT * FROM sf2 WHERE attendance_month = '5' AND student_section = '$section'";
+        $mayResult = $conn->query($may);
+        $mayCount = $mayResult->num_rows;
 
-    $june = "SELECT * FROM sf2 WHERE attendance_month = '6' AND student_section = '$section'";
-    $juneResult = $conn->query($june);
-    $juneCount = $juneResult->num_rows;
+        $june = "SELECT * FROM sf2 WHERE attendance_month = '6' AND student_section = '$section'";
+        $juneResult = $conn->query($june);
+        $juneCount = $juneResult->num_rows;
 
-    $july = "SELECT * FROM sf2 WHERE attendance_month = '7' AND student_section = '$section'";
-    $julyResult = $conn->query($july);
-    $julyCount = $julyResult->num_rows;
+        $july = "SELECT * FROM sf2 WHERE attendance_month = '7' AND student_section = '$section'";
+        $julyResult = $conn->query($july);
+        $julyCount = $julyResult->num_rows;
 
-    $august = "SELECT * FROM sf2 WHERE attendance_month = '8' AND student_section = '$section'";
-    $augustResult = $conn->query($august);
-    $augustCount = $augustResult->num_rows;
+        $august = "SELECT * FROM sf2 WHERE attendance_month = '8' AND student_section = '$section'";
+        $augustResult = $conn->query($august);
+        $augustCount = $augustResult->num_rows;
 
-    $september = "SELECT * FROM sf2 WHERE attendance_month = '9' AND student_section = '$section'";
-    $septemberResult = $conn->query($september);
-    $septemberCount = $septemberResult->num_rows;
+        $september = "SELECT * FROM sf2 WHERE attendance_month = '9' AND student_section = '$section'";
+        $septemberResult = $conn->query($september);
+        $septemberCount = $septemberResult->num_rows;
 
-    $october = "SELECT * FROM sf2 WHERE attendance_month = '10' AND student_section = '$section'";
-    $octoberResult = $conn->query($october);
-    $octoberCount = $octoberResult->num_rows;
+        $october = "SELECT * FROM sf2 WHERE attendance_month = '10' AND student_section = '$section'";
+        $octoberResult = $conn->query($october);
+        $octoberCount = $octoberResult->num_rows;
 
-    $november = "SELECT * FROM sf2 WHERE attendance_month = '11' AND student_section = '$section'";
-    $novemberResult = $conn->query($november);
-    $novemberCount = $novemberResult->num_rows;
+        $november = "SELECT * FROM sf2 WHERE attendance_month = '11' AND student_section = '$section'";
+        $novemberResult = $conn->query($november);
+        $novemberCount = $novemberResult->num_rows;
 
-    $december = "SELECT * FROM sf2 WHERE attendance_month = '12' AND student_section = '$section'";
-    $decemberResult = $conn->query($december);
-    $decemberCount = $decemberResult->num_rows;
-} else {
-    $maleCount = 0;
-    $femaleCount = 0;
-    $januaryCount = 0;
-    $februaryCount = 0;
-    $marchCount = 0;
-    $aprilCount = 0;
-    $mayCount = 0;
-    $juneCount = 0;
-    $julyCount = 0;
-    $augustCount = 0;
-    $septemberCount = 0;
-    $octoberCount = 0;
-    $novemberCount = 0;
-    $decemberCount = 0;
+        $december = "SELECT * FROM sf2 WHERE attendance_month = '12' AND student_section = '$section'";
+        $decemberResult = $conn->query($december);
+        $decemberCount = $decemberResult->num_rows;
+    } else {
+        $maleCount = 0;
+        $femaleCount = 0;
+        $januaryCount = 0;
+        $februaryCount = 0;
+        $marchCount = 0;
+        $aprilCount = 0;
+        $mayCount = 0;
+        $juneCount = 0;
+        $julyCount = 0;
+        $augustCount = 0;
+        $septemberCount = 0;
+        $octoberCount = 0;
+        $novemberCount = 0;
+        $decemberCount = 0;
+    }
 }
+
+
+
 ?>
 <script>
     google.charts.load('current', {
