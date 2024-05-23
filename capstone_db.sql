@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 10:35 AM
+-- Generation Time: May 23, 2024 at 11:23 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -40,7 +40,7 @@ CREATE TABLE `holidays` (
 --
 
 INSERT INTO `holidays` (`holiday_id`, `holiday_date`, `holiday_desc`, `holiday_month`, `holiday_year`) VALUES
-(1, 1, 'sample holiday', 5, 2024);
+(2, 1, 'sample holiday', 5, 2024);
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE `school` (
 --
 
 INSERT INTO `school` (`id`, `school_name`, `school_id`, `school_district`, `school_division`, `school_region`, `school_head`, `schoolhead_designation`) VALUES
-(1, 'Tagaytay City National High School -ISHS', 301216, 'Tagaytay City', 'Cavite', 'REGION IV-A', 'LORENA V. MIRANDA', 'PRINCIPAL V');
+(1, 'Tagaytay City National High School -ISHS', 301216, 'Tagaytay City', 'Cavite', 'REGION IV-A', 'LORENA V. MIRANDA', 'PRINCIPAL IV');
 
 -- --------------------------------------------------------
 
@@ -106,10 +106,9 @@ CREATE TABLE `school_year` (
 --
 
 INSERT INTO `school_year` (`id`, `start_year`, `end_year`, `sy`, `is_archived`) VALUES
-(1, 2024, 2025, '2024 - 2025', 1),
-(2, 2025, 2026, '2025 - 2026', 1),
 (3, 2026, 2027, '2026 - 2027', 1),
-(4, 2027, 2028, '2027 - 2028', 0);
+(4, 2027, 2028, '2027 - 2028', 0),
+(6, 2028, 2029, '2028 - 2029', 1);
 
 -- --------------------------------------------------------
 
@@ -138,7 +137,8 @@ INSERT INTO `section` (`id`, `name`, `track`, `strand`, `grade`, `adviser_id`, `
 (1, 'sample section', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 2, '2025 - 2026', 1),
 (2, 'section', 'sample track', 'sample strand', 11, 3, 'Arcie Natuel', 3, '2026 - 2027', 1),
 (3, 'Responsibility', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 4, '2027 - 2028', 0),
-(4, 'Humility', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 5, 'Daryl Balbastro', 4, '2027 - 2028', 0);
+(4, 'Humility', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 5, 'Daryl Balbastro', 4, '2027 - 2028', 0),
+(5, 'sample section', 'sample track', 'sample strand', 11, 13, 'sample user', 4, '2027 - 2028', 0);
 
 -- --------------------------------------------------------
 
@@ -601,7 +601,19 @@ INSERT INTO `sf2` (`id`, `student_id`, `student_name`, `student_section`, `schoo
 (459, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
 (460, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
 (461, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
-(462, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '30', 'on', 5, 2024);
+(462, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '30', 'on', 5, 2024),
+(463, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(464, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(465, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(466, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(467, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '7', 'on', 5, 2024),
+(468, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(469, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '9', 'on', 5, 2024),
+(470, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(471, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(472, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(473, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '20', 'on', 5, 2024),
+(474, 23, 'Student, Sample  S.', 'Humility', 4, 'M', '22', 'on', 5, 2024);
 
 -- --------------------------------------------------------
 
@@ -663,7 +675,8 @@ INSERT INTO `sf5b` (`id`, `lrn`, `student_name`, `student_id`, `school_year_id`,
 (18, 817305124, 'Noah, Kenji  Z.', 14, 4, 'Yes', 'NC I', 'Humility', 'M'),
 (19, 37871385, 'Jerry, Tom  N.', 15, 4, 'Yes', 'NC I', 'Humility', 'M'),
 (20, 20018521, 'Canedo, Roi  F.', 16, 4, 'Yes', 'NC I', 'Humility', 'M'),
-(21, 932859723, 'Navaro, Jhong  B.', 17, 4, 'Yes', 'NC I', 'Humility', 'M');
+(21, 932859723, 'Navaro, Jhong  B.', 17, 4, 'Yes', 'NC I', 'Humility', 'M'),
+(22, 12351351, 'Student, sample  S.', 23, 4, 'Yes', 'NC I', 'Humility', 'M');
 
 -- --------------------------------------------------------
 
@@ -1110,7 +1123,27 @@ INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subjec
 (417, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
 (418, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
 (419, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
-(420, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility');
+(420, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(421, 'Student, Sample  S.', 23, 4, 'Core', 'Physical Education and Health', 89, 98, 93.5, '1st', 'M', 'Humility'),
+(422, 'Student, Sample  S.', 23, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 89, 99, 94, '1st', 'M', 'Humility'),
+(423, 'Student, Sample  S.', 23, 4, 'Core', 'Personality Development', 78, 98, 88, '1st', 'M', 'Humility'),
+(424, 'Student, Sample  S.', 23, 4, 'Applied', 'Practical Research 2', 80, 99, 89.5, '1st', 'M', 'Humility'),
+(425, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(426, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(427, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(428, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(429, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(430, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(431, 'Student, Sample  S.', 23, 4, 'Core', 'Media and Information Technology', 99, 79, 89, '2nd', 'M', 'Humility'),
+(432, 'Student, Sample  S.', 23, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 71, 89, 80, '2nd', 'M', 'Humility'),
+(433, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(434, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(435, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(436, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(437, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(438, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(439, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(440, 'Student, Sample  S.', 23, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility');
 
 -- --------------------------------------------------------
 
@@ -1161,7 +1194,8 @@ INSERT INTO `sf9_modality` (`id`, `student_name`, `student_id`, `blended_q1`, `b
 (18, 'Noah, Kenji  Z.', 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
 (19, 'Jerry, Tom  N.', 15, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
 (20, 'Canedo, Roi  F.', 16, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
-(21, 'Navaro, Jhong  B.', 17, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1);
+(21, 'Navaro, Jhong  B.', 17, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(22, 'Student, Sample  S.', 23, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1228,7 +1262,8 @@ INSERT INTO `sf9_ov` (`id`, `student_name`, `student_id`, `mdq1`, `mdq2`, `mdq3`
 (18, 'Noah, Kenji  Z.', 14, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
 (19, 'Jerry, Tom  N.', 15, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
 (20, 'Canedo, Roi  F.', 16, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
-(21, 'Navaro, Jhong  B.', 17, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO');
+(21, 'Navaro, Jhong  B.', 17, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(22, 'Student, Sample  S.', 23, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO');
 
 -- --------------------------------------------------------
 
@@ -1361,7 +1396,12 @@ INSERT INTO `sf10remedial` (`id`, `student_name`, `student_id`, `school_year_id`
 (102, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
 (103, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
 (104, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
-(105, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility');
+(105, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(106, 'Student, sample  S.', 23, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(107, 'Student, sample  S.', 23, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(108, 'Student, sample  S.', 23, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(109, 'Student, sample  S.', 23, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(110, 'Student, sample  S.', 23, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility');
 
 -- --------------------------------------------------------
 
@@ -1404,7 +1444,8 @@ INSERT INTO `sf10remedialdate` (`id`, `student_name`, `student_id`, `start_date1
 (18, 'Noah, Kenji  Z.', 14, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
 (19, 'Jerry, Tom  N.', 15, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
 (20, 'Canedo, Roi  F.', 16, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
-(21, 'Navaro, Jhong  B.', 17, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00');
+(21, 'Navaro, Jhong  B.', 17, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(22, 'Student, sample  S.', 23, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -1433,7 +1474,7 @@ INSERT INTO `strand` (`id`, `name`, `track`, `strand_status`) VALUES
 (8, 'Information and Communications Technology', 'Technical-Vocational-Livelihood', 'Active'),
 (9, 'Data Science', 'Technical-Vocational-Livelihood', 'Active'),
 (10, 'AI', 'Technical-Vocational-Livelihood', 'Active'),
-(11, 'sample strand', 'sample track', 'Active');
+(13, 'sample strand', 'sample track', 'Active');
 
 -- --------------------------------------------------------
 
@@ -1514,7 +1555,8 @@ INSERT INTO `student` (`id`, `lrn`, `name`, `fname`, `mname`, `lname`, `suffix`,
 (19, 32746932, 'Bida, Jesril  H.', 'Jesril', 'H.', 'Bida', '', 'F', '10-17-2005', '2005-10-17', 17, 'Catholic', 'Blk 11 Lot 08', 'Candami', 'Libmanan', 'Camarines Sur', 15653, 611, 30, 'Bryan Bida', 'Kylie Hemana', 'Kylie Hemana', 'Parent', '09973837459', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 61, 1.75, 3.0625, 19.92, 'Normal', 'Normal', '', 0, '1st Friday of August'),
 (20, 8237589, 'Nembo, Kyline  K.', 'Kyline', 'K.', 'Nembo', '', 'F', '10-10-2005', '2005-10-10', 17, 'Cat', 'Zone 01', 'Mataub', 'Clarin', 'Bohol', 21982, 824, 40, 'Ken Nembo', 'Sarah Kulob', 'Ken Nembo', 'Parent', '09898326583', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 53, 1.6, 2.56, 20.7, 'Normal', 'Normal', '', 0, '1st Friday of August'),
 (21, 21095719, 'Vasquez, Tonnette  X.', 'Tonnette', 'X.', 'Vasquez', '', 'F', '02-01-2005', '2005-02-01', 18, 'Catholic', 'Sitio Uno', 'Butao', 'Calanasan', 'Apayao', 38113, 1437, 72, 'Hanz Vasquez', 'Antonette Xavier', 'Hanz Vasquez', 'Parent', '09974943989', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 53, 1.5, 2.25, 23.56, 'Normal', 'Severely stunted', '', 0, '1st Friday of August'),
-(22, 2001857103, 'Aquino, Yasy  N.', 'Yasy', 'N.', 'Aquino', '', 'F', '10-10-2005', '2005-10-10', 17, 'Catholic', 'Kalye Street', 'Magrafil', 'Gonzaga', 'Cagayan', 3721, 145, 7, 'Dendi Aquino', 'Hulya Nena', 'Dendi Aquino', 'Parent', '09973837482', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 56, 1, 1, 56, 'Obese', 'Severely stunted', '', 0, '1st Friday of August');
+(22, 2001857103, 'Aquino, Yasy  N.', 'Yasy', 'N.', 'Aquino', '', 'F', '10-10-2005', '2005-10-10', 17, 'Catholic', 'Kalye Street', 'Magrafil', 'Gonzaga', 'Cagayan', 3721, 145, 7, 'Dendi Aquino', 'Hulya Nena', 'Dendi Aquino', 'Parent', '09973837482', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 56, 1, 1, 56, 'Obese', 'Severely stunted', '', 0, '1st Friday of August'),
+(23, 12351351, 'Student, Sample  S.', 'Sample', 'S.', 'Student', '', 'M', ' 10-10-2005', '2005-10-10', 17, 'Catholic', 'Blk 26 Lot 12 Zone 6', 'Taloto', 'City of Tagbilaran (Capital)', 'Bohol', 22615, 852, 40, 'sample father', 'sample mother', 'sample father', 'Parent', '009982728437', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 60, 1.7, 2.89, 20.76, 'Normal', 'Normal', 'sample remarks', 0, '1st Friday of August');
 
 -- --------------------------------------------------------
 
@@ -1570,7 +1612,7 @@ INSERT INTO `subject` (`id`, `name`, `subject_type`, `track`, `strand`, `grade`,
 (47, 'Discipline and Ideas in the Applied Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
 (48, 'Introduction to World Religions and Belief System', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
 (51, 'Practical Research', 'Specialized', 'Technical-Vocational-Livelihood', 'AI', 11, '1st', 'Active'),
-(53, 'sample subject', 'Core', 'All', 'All', 11, '1st', 'Active');
+(55, 'sample subject', 'Core', 'sample track', 'sample strand', 11, '1st', 'Active');
 
 -- --------------------------------------------------------
 
@@ -45464,7 +45506,7 @@ INSERT INTO `track` (`id`, `name`, `track_status`) VALUES
 (1, 'Technical-Vocational-Livelihood', 'Active'),
 (2, 'Academic', 'Active'),
 (3, 'All', 'Active'),
-(5, 'sample track', 'Active');
+(7, 'sample track', 'Active');
 
 -- --------------------------------------------------------
 
@@ -45491,9 +45533,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_type`, `section`, `status`, `profile_picture`) VALUES
 (1, 'systemadmin', '4bb0ab7e19d254b92ca94e9d98c36890', 'System.admin123', 'system administrator', 'System administrator', '', 'Active', 'admin_profile.jpg'),
 (2, 'registrar', '5a0455c7557558735b1b6e12393d84a0', 'registrar123', 'David Centeno', 'Registrar', '', 'Active', 'david_profile.jpg'),
-(3, 'classadviser', '4e24f987eb6534cfa86dfc2351079b85', 'classadviser123', 'Arcie Natuel', 'Adviser', 'Responsibility', 'Active', 'adviser_profile.jpg'),
+(3, 'classadviser', '4e24f987eb6534cfa86dfc2351079b85', 'classadviser123', 'Arcie Natuel', 'Adviser', 'Responsibility', 'Active', 'arcie.jpg'),
 (4, 'clinicteacher', '6ddcca1aef1b3a689475d97543f8c28a', 'clinicteacher123', 'Jerome Jose', 'Clinic teacher', '', 'Active', 'jerome.jpg'),
-(5, 'darylbalbastro', 'aea456814a2936caaf6b9e9a755eba45', 'balbastro123', 'Daryl Balbastro', 'Adviser', 'Humility', 'Active', 'daryl.jpg');
+(5, 'darylbalbastro', '97d2fb9670e326bce472a5f9431203a5', 'Daryl.balbastro123', 'Daryl Balbastro', 'Adviser', 'Humility', 'Active', 'favorite_pet.jpg'),
+(13, 'sampleuser', '5570b31c3aa2f824f980aa25e7ce9ce1', 'sampleuser123', 'sample user', 'Adviser', 'sample section', 'Active', '');
 
 --
 -- Indexes for dumped tables
@@ -45640,7 +45683,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `school`
@@ -45658,19 +45701,19 @@ ALTER TABLE `schoolstart`
 -- AUTO_INCREMENT for table `school_year`
 --
 ALTER TABLE `school_year`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sf2`
 --
 ALTER TABLE `sf2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=475;
 
 --
 -- AUTO_INCREMENT for table `sf2remarks`
@@ -45682,55 +45725,55 @@ ALTER TABLE `sf2remarks`
 -- AUTO_INCREMENT for table `sf5b`
 --
 ALTER TABLE `sf5b`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sf9`
 --
 ALTER TABLE `sf9`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=441;
 
 --
 -- AUTO_INCREMENT for table `sf9_modality`
 --
 ALTER TABLE `sf9_modality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sf9_ov`
 --
 ALTER TABLE `sf9_ov`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sf10remedial`
 --
 ALTER TABLE `sf10remedial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `sf10remedialdate`
 --
 ALTER TABLE `sf10remedialdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `strand`
 --
 ALTER TABLE `strand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `table_barangay`
@@ -45760,13 +45803,13 @@ ALTER TABLE `table_region`
 -- AUTO_INCREMENT for table `track`
 --
 ALTER TABLE `track`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

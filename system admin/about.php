@@ -30,18 +30,18 @@ session_start();
             <div class="container">
                 <div class="row g-4 p-3">
                     <div class="col-3">
-                        <div class="card" style="width: 16rem;">
-                            <img src="../profile_pic/" class="card-img-top" style="height: 250px;" alt="Arcie's Profile">
+                        <div class="card" style="width: 16rem; box-shadow: 3px 5px 10px black">
+                            <img src="../profile_pic/arcie.jpg" class="card-img-top" style="height: 250px;" alt="Arcie's Profile">
                             <div class="card-body">
-                                <h5 class="card-title">Arcie Marie C. Natuel</h5>
-                                <p class="card-text fs-6">
+                                <h5 class="card-title">Arcie Marie Natuel</h5>
+                                <p class="card-text">
                                     Arcie Marie C. Natuel, born on January 20, 2002, in Sta. Cruz, Manila, is an IT student at City College of Tagaytay. She is passionate about expanding her knowledge and skills in the evolving field of Information Technology.
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="width: 16rem;">
+                        <div class="card" style="width: 16rem; box-shadow: 3px 5px 10px black">
                             <img src="../profile_pic/jerome.jpg" class="card-img-top" style="height: 250px;" alt="Jerome's Profile">
                             <div class="card-body">
                                 <h5 class="card-title">Jerome Jose</h5>
@@ -52,10 +52,10 @@ session_start();
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="width: 16rem;">
+                        <div class="card" style="width: 16rem; box-shadow: 3px 5px 10px black">
                             <img src="../profile_pic/daryl.jpg" class="card-img-top" style="height: 250px;" alt="Daryl's Profile">
                             <div class="card-body">
-                                <h5 class="card-title">Daryl Balbastro</h5>
+                                <h5 class="card-title">Wynn Daryl Balbastro</h5>
                                 <p class="card-text">
                                     Wynn Daryl Balbastro, an IT student with a strong foundation in PHP, HTML, and Visual Basic. Continually expanding my skills in cybersecurity, network administration, and database management.
                                 </p>
@@ -63,7 +63,7 @@ session_start();
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="width: 16rem;">
+                        <div class="card" style="width: 16rem; box-shadow: 3px 5px 10px black">
                             <img src="../profile_pic/david_profile.jpg" class="card-img-top" style="height: 250px;" alt="David's Profile">
                             <div class="card-body">
                                 <h5 class="card-title">David Centeno</h5>
