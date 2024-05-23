@@ -104,6 +104,13 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         School Settings
                     </a>
+                    <!-- About us -->
+                    <a class="nav-link collapsed" href="about.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        About us
+                    </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer" style="background: #03045e;">

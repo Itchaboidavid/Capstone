@@ -158,10 +158,9 @@ if (isset($_POST['edit_user'])) {
     }
     $password2 = $_POST["password"];
     $user_type = mysqli_real_escape_string($conn, $_POST["user_type"]);
-    $section = mysqli_real_escape_string($conn, $_POST["section"]);
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
-    $update = "UPDATE `user` SET `name`='$name',`username`='$username',`password`='$password',`password2`='$password2',`user_type`='$user_type',`section`='$section',`status`='$status' WHERE id = $id";
+    $update = "UPDATE `user` SET `name`='$name',`username`='$username',`password`='$password',`password2`='$password2',`user_type`='$user_type',`status`='$status' WHERE id = $id";
     $result = mysqli_query($conn, $update);
     echo ("<script>location.href = 'user_table.php?msg=Record updated successfully!';</script>");
     exit();

@@ -121,7 +121,7 @@ session_start();
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Faculty table
+                        User table
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
@@ -214,7 +214,6 @@ if (isset($_POST["add_user"])) {
     $password = md5($_POST["password"]);
     $password2 = $_POST["password"];
     $user_type = mysqli_real_escape_string($conn, $_POST["user_type"]);
-    $section = mysqli_real_escape_string($conn, $_POST["section"]);
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
 
     $select = "SELECT username FROM user WHERE username = '$username'";
@@ -224,7 +223,7 @@ if (isset($_POST["add_user"])) {
         echo ("<script>location.href = 'user_table.php?errmsg=The username already exist please choose a different one!';</script>");
         exit();
     } else {
-        $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`, `section`, `status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type', '$section', '$status')";
+        $insert = "INSERT INTO `user`(`name`, `username`, `password`, `password2`, `user_type`,`status`) VALUES ('$name', '$username', '$password', '$password2', '$user_type','$status')";
         mysqli_query($conn, $insert);
         echo ("<script>location.href = 'user_table.php?msg=Account successfully registered!';</script>");
         exit();

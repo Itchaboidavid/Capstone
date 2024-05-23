@@ -195,7 +195,7 @@ if (isset($_POST["add_subject"])) {
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Subject</th>
+                                    <th>Subject title</th>
                                     <th>Subject type</th>
                                     <th>Strand</th>
                                     <th>Grade</th>

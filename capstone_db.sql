@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2024 at 05:36 AM
+-- Generation Time: May 23, 2024 at 10:35 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -35,6 +35,13 @@ CREATE TABLE `holidays` (
   `holiday_year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `holidays`
+--
+
+INSERT INTO `holidays` (`holiday_id`, `holiday_date`, `holiday_desc`, `holiday_month`, `holiday_year`) VALUES
+(1, 1, 'sample holiday', 5, 2024);
+
 -- --------------------------------------------------------
 
 --
@@ -57,7 +64,7 @@ CREATE TABLE `school` (
 --
 
 INSERT INTO `school` (`id`, `school_name`, `school_id`, `school_district`, `school_division`, `school_region`, `school_head`, `schoolhead_designation`) VALUES
-(1, 'Tagaytay City National High School -ISHS', 301216, 'Tagaytay City', 'Cavite', 'REGION IV-A', 'LORENA V. MIRANDA', 'PRINCIPAL IV');
+(1, 'Tagaytay City National High School -ISHS', 301216, 'Tagaytay City', 'Cavite', 'REGION IV-A', 'LORENA V. MIRANDA', 'PRINCIPAL V');
 
 -- --------------------------------------------------------
 
@@ -73,6 +80,13 @@ CREATE TABLE `schoolstart` (
   `end_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `schoolstart`
+--
+
+INSERT INTO `schoolstart` (`id`, `month`, `year`, `start_date`, `end_date`) VALUES
+(1, 5, 2024, 1, 30);
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +100,16 @@ CREATE TABLE `school_year` (
   `sy` varchar(11) NOT NULL,
   `is_archived` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `school_year`
+--
+
+INSERT INTO `school_year` (`id`, `start_year`, `end_year`, `sy`, `is_archived`) VALUES
+(1, 2024, 2025, '2024 - 2025', 1),
+(2, 2025, 2026, '2025 - 2026', 1),
+(3, 2026, 2027, '2026 - 2027', 1),
+(4, 2027, 2028, '2027 - 2028', 0);
 
 -- --------------------------------------------------------
 
@@ -106,6 +130,16 @@ CREATE TABLE `section` (
   `is_archived` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `section`
+--
+
+INSERT INTO `section` (`id`, `name`, `track`, `strand`, `grade`, `adviser_id`, `adviser`, `school_year_id`, `school_year`, `is_archived`) VALUES
+(1, 'sample section', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 2, '2025 - 2026', 1),
+(2, 'section', 'sample track', 'sample strand', 11, 3, 'Arcie Natuel', 3, '2026 - 2027', 1),
+(3, 'Responsibility', 'Academic', 'Accountancy, Business and Management', 11, 3, 'Arcie Natuel', 4, '2027 - 2028', 0),
+(4, 'Humility', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 5, 'Daryl Balbastro', 4, '2027 - 2028', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +158,450 @@ CREATE TABLE `sf2` (
   `attendance_month` int(11) NOT NULL,
   `attendance_year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf2`
+--
+
+INSERT INTO `sf2` (`id`, `student_id`, `student_name`, `student_section`, `school_year_id`, `sex`, `day`, `attendance_status`, `attendance_month`, `attendance_year`) VALUES
+(1, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '1', 'on', 5, 2024),
+(2, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '2', 'on', 5, 2024),
+(3, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '3', 'on', 5, 2024),
+(4, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '6', 'on', 5, 2024),
+(5, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '7', 'on', 5, 2024),
+(6, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '8', 'on', 5, 2024),
+(7, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '9', 'on', 5, 2024),
+(8, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '10', 'on', 5, 2024),
+(9, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '13', 'on', 5, 2024),
+(10, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '14', 'on', 5, 2024),
+(11, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '15', 'on', 5, 2024),
+(12, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '16', 'on', 5, 2024),
+(13, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '17', 'on', 5, 2024),
+(14, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '21', 'on', 5, 2024),
+(15, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '22', 'on', 5, 2024),
+(16, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '23', 'on', 5, 2024),
+(17, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '24', 'on', 5, 2024),
+(18, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '27', 'on', 5, 2024),
+(19, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '28', 'on', 5, 2024),
+(20, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '29', 'on', 5, 2024),
+(21, 1, 'lastname, firstname  M.', 'sample section', 2, 'M', '30', 'on', 5, 2024),
+(22, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '1', 'on', 5, 2024),
+(23, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '2', 'on', 5, 2024),
+(24, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '3', 'on', 5, 2024),
+(25, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '6', 'on', 5, 2024),
+(26, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '7', 'on', 5, 2024),
+(27, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '8', 'on', 5, 2024),
+(28, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '9', 'on', 5, 2024),
+(29, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '10', 'on', 5, 2024),
+(30, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '13', 'on', 5, 2024),
+(31, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '14', 'on', 5, 2024),
+(32, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '15', 'on', 5, 2024),
+(33, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '16', 'on', 5, 2024),
+(34, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '17', 'on', 5, 2024),
+(35, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '20', 'on', 5, 2024),
+(37, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '22', 'on', 5, 2024),
+(38, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '23', 'on', 5, 2024),
+(39, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '24', 'on', 5, 2024),
+(40, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '27', 'on', 5, 2024),
+(41, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '28', 'on', 5, 2024),
+(42, 10, 'Berry, Elsa  O.', 'Responsibility', 4, 'F', '29', 'on', 5, 2024),
+(44, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '1', 'on', 5, 2024),
+(45, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '2', 'on', 5, 2024),
+(46, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '3', 'on', 5, 2024),
+(47, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '6', 'on', 5, 2024),
+(49, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '8', 'on', 5, 2024),
+(50, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '9', 'on', 5, 2024),
+(51, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '10', 'on', 5, 2024),
+(52, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '13', 'on', 5, 2024),
+(53, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '14', 'on', 5, 2024),
+(54, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '15', 'on', 5, 2024),
+(55, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '16', 'on', 5, 2024),
+(57, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '20', 'on', 5, 2024),
+(58, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '21', 'on', 5, 2024),
+(59, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '22', 'on', 5, 2024),
+(60, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '23', 'on', 5, 2024),
+(61, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '24', 'on', 5, 2024),
+(62, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '27', 'on', 5, 2024),
+(63, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '28', 'on', 5, 2024),
+(64, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '29', 'on', 5, 2024),
+(65, 8, 'Lagunzad, Jennifer  J.', 'Responsibility', 4, 'F', '30', 'on', 5, 2024),
+(66, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '1', 'on', 5, 2024),
+(67, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '2', 'on', 5, 2024),
+(68, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '3', 'on', 5, 2024),
+(69, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '6', 'on', 5, 2024),
+(70, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '7', 'on', 5, 2024),
+(71, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '8', 'on', 5, 2024),
+(72, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '9', 'on', 5, 2024),
+(73, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '10', 'on', 5, 2024),
+(74, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '13', 'on', 5, 2024),
+(75, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '14', 'on', 5, 2024),
+(76, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '15', 'on', 5, 2024),
+(77, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '16', 'on', 5, 2024),
+(78, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '17', 'on', 5, 2024),
+(79, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '20', 'on', 5, 2024),
+(80, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '21', 'on', 5, 2024),
+(81, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '22', 'on', 5, 2024),
+(82, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '23', 'on', 5, 2024),
+(83, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '24', 'on', 5, 2024),
+(84, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '27', 'on', 5, 2024),
+(85, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '28', 'on', 5, 2024),
+(86, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '29', 'on', 5, 2024),
+(87, 9, 'Maiden, Crystal  S.', 'Responsibility', 4, 'F', '30', 'on', 5, 2024),
+(88, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '1', 'on', 5, 2024),
+(89, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '2', 'on', 5, 2024),
+(90, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '3', 'on', 5, 2024),
+(91, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '6', 'on', 5, 2024),
+(92, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '7', 'on', 5, 2024),
+(93, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '8', 'on', 5, 2024),
+(94, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '9', 'on', 5, 2024),
+(95, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '10', 'on', 5, 2024),
+(96, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '13', 'on', 5, 2024),
+(97, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '14', 'on', 5, 2024),
+(98, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '15', 'on', 5, 2024),
+(99, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '16', 'on', 5, 2024),
+(100, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '17', 'on', 5, 2024),
+(101, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '20', 'on', 5, 2024),
+(102, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '21', 'on', 5, 2024),
+(103, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '22', 'on', 5, 2024),
+(104, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '23', 'on', 5, 2024),
+(105, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '24', 'on', 5, 2024),
+(106, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '27', 'on', 5, 2024),
+(107, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '28', 'on', 5, 2024),
+(108, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '29', 'on', 5, 2024),
+(109, 12, 'Poland, Damsel  T.', 'Responsibility', 4, 'F', '30', 'on', 5, 2024),
+(110, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '1', 'on', 5, 2024),
+(111, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '2', 'on', 5, 2024),
+(112, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '3', 'on', 5, 2024),
+(114, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '7', 'on', 5, 2024),
+(115, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '8', 'on', 5, 2024),
+(116, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '9', 'on', 5, 2024),
+(117, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '10', 'on', 5, 2024),
+(118, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '13', 'on', 5, 2024),
+(119, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '14', 'on', 5, 2024),
+(120, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '15', 'on', 5, 2024),
+(122, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '17', 'on', 5, 2024),
+(123, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '20', 'on', 5, 2024),
+(124, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '21', 'on', 5, 2024),
+(125, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '22', 'on', 5, 2024),
+(126, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '23', 'on', 5, 2024),
+(127, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '24', 'on', 5, 2024),
+(128, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '27', 'on', 5, 2024),
+(129, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '28', 'on', 5, 2024),
+(130, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '29', 'on', 5, 2024),
+(131, 11, 'Real, Stacey  A.', 'Responsibility', 4, 'F', '30', 'on', 5, 2024),
+(132, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '1', 'on', 5, 2024),
+(133, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '2', 'on', 5, 2024),
+(134, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '3', 'on', 5, 2024),
+(135, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '6', 'on', 5, 2024),
+(136, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '7', 'on', 5, 2024),
+(137, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '8', 'on', 5, 2024),
+(138, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '9', 'on', 5, 2024),
+(139, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '10', 'on', 5, 2024),
+(141, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '14', 'on', 5, 2024),
+(142, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '15', 'on', 5, 2024),
+(143, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '16', 'on', 5, 2024),
+(144, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '17', 'on', 5, 2024),
+(145, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '20', 'on', 5, 2024),
+(146, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '21', 'on', 5, 2024),
+(147, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '22', 'on', 5, 2024),
+(148, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '23', 'on', 5, 2024),
+(149, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '24', 'on', 5, 2024),
+(150, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '27', 'on', 5, 2024),
+(151, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '28', 'on', 5, 2024),
+(152, 4, 'Howard, Dwight  T.', 'Responsibility', 4, 'M', '29', 'on', 5, 2024),
+(154, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '1', 'on', 5, 2024),
+(155, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '2', 'on', 5, 2024),
+(156, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '3', 'on', 5, 2024),
+(157, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '6', 'on', 5, 2024),
+(158, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '7', 'on', 5, 2024),
+(159, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '8', 'on', 5, 2024),
+(160, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '9', 'on', 5, 2024),
+(161, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '10', 'on', 5, 2024),
+(163, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '14', 'on', 5, 2024),
+(164, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '15', 'on', 5, 2024),
+(165, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '16', 'on', 5, 2024),
+(166, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '17', 'on', 5, 2024),
+(167, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '20', 'on', 5, 2024),
+(168, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '21', 'on', 5, 2024),
+(169, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '22', 'on', 5, 2024),
+(170, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '23', 'on', 5, 2024),
+(172, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '27', 'on', 5, 2024),
+(173, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '28', 'on', 5, 2024),
+(174, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '29', 'on', 5, 2024),
+(175, 5, 'Koykoy, Bugoy  N.', 'Responsibility', 4, 'M', '30', 'on', 5, 2024),
+(176, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '1', 'on', 5, 2024),
+(177, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '2', 'on', 5, 2024),
+(178, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '3', 'on', 5, 2024),
+(179, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '6', 'on', 5, 2024),
+(181, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '8', 'on', 5, 2024),
+(182, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '9', 'on', 5, 2024),
+(183, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '10', 'on', 5, 2024),
+(184, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '13', 'on', 5, 2024),
+(185, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '14', 'on', 5, 2024),
+(186, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '15', 'on', 5, 2024),
+(187, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '16', 'on', 5, 2024),
+(188, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '17', 'on', 5, 2024),
+(189, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '20', 'on', 5, 2024),
+(190, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '21', 'on', 5, 2024),
+(191, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '22', 'on', 5, 2024),
+(192, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '23', 'on', 5, 2024),
+(193, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '24', 'on', 5, 2024),
+(194, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '27', 'on', 5, 2024),
+(195, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '28', 'on', 5, 2024),
+(196, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '29', 'on', 5, 2024),
+(197, 6, 'Mojica, Ancis  M.', 'Responsibility', 4, 'M', '30', 'on', 5, 2024),
+(198, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '1', 'on', 5, 2024),
+(199, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '2', 'on', 5, 2024),
+(200, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '3', 'on', 5, 2024),
+(201, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '6', 'on', 5, 2024),
+(202, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '7', 'on', 5, 2024),
+(203, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '8', 'on', 5, 2024),
+(204, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '9', 'on', 5, 2024),
+(205, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '10', 'on', 5, 2024),
+(206, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '13', 'on', 5, 2024),
+(207, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '14', 'on', 5, 2024),
+(208, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '15', 'on', 5, 2024),
+(209, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '16', 'on', 5, 2024),
+(210, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '17', 'on', 5, 2024),
+(211, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '20', 'on', 5, 2024),
+(213, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '22', 'on', 5, 2024),
+(214, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '23', 'on', 5, 2024),
+(215, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '24', 'on', 5, 2024),
+(216, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '27', 'on', 5, 2024),
+(217, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '28', 'on', 5, 2024),
+(218, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '29', 'on', 5, 2024),
+(219, 3, 'Overload, Diwata  P.', 'Responsibility', 4, 'M', '30', 'on', 5, 2024),
+(221, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '2', 'on', 5, 2024),
+(222, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '3', 'on', 5, 2024),
+(223, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '6', 'on', 5, 2024),
+(224, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '7', 'on', 5, 2024),
+(225, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '8', 'on', 5, 2024),
+(226, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '9', 'on', 5, 2024),
+(227, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '10', 'on', 5, 2024),
+(228, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '13', 'on', 5, 2024),
+(229, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '14', 'on', 5, 2024),
+(230, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '15', 'on', 5, 2024),
+(231, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '16', 'on', 5, 2024),
+(232, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '17', 'on', 5, 2024),
+(233, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '20', 'on', 5, 2024),
+(234, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '21', 'on', 5, 2024),
+(235, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '22', 'on', 5, 2024),
+(236, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '23', 'on', 5, 2024),
+(237, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '24', 'on', 5, 2024),
+(238, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '27', 'on', 5, 2024),
+(239, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '28', 'on', 5, 2024),
+(240, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '29', 'on', 5, 2024),
+(242, 7, 'Pagkaliwangan, Jimuel  A.', 'Responsibility', 4, 'M', '1', 'on', 5, 2024),
+(243, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '1', 'on', 5, 2024),
+(244, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '2', 'on', 5, 2024),
+(245, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '3', 'on', 5, 2024),
+(246, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '6', 'on', 5, 2024),
+(247, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '7', 'on', 5, 2024),
+(248, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '8', 'on', 5, 2024),
+(249, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '9', 'on', 5, 2024),
+(250, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '10', 'on', 5, 2024),
+(251, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '13', 'on', 5, 2024),
+(252, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '14', 'on', 5, 2024),
+(254, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '16', 'on', 5, 2024),
+(255, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '17', 'on', 5, 2024),
+(256, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '20', 'on', 5, 2024),
+(257, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '21', 'on', 5, 2024),
+(258, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '22', 'on', 5, 2024),
+(259, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '23', 'on', 5, 2024),
+(260, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '24', 'on', 5, 2024),
+(261, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '27', 'on', 5, 2024),
+(262, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '28', 'on', 5, 2024),
+(263, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '29', 'on', 5, 2024),
+(264, 22, 'Aquino, Yasy  N.', 'Humility', 4, 'F', '30', 'on', 5, 2024),
+(265, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '1', 'on', 5, 2024),
+(266, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '2', 'on', 5, 2024),
+(267, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '3', 'on', 5, 2024),
+(268, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '6', 'on', 5, 2024),
+(269, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '7', 'on', 5, 2024),
+(270, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '8', 'on', 5, 2024),
+(271, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '9', 'on', 5, 2024),
+(272, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '10', 'on', 5, 2024),
+(273, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '13', 'on', 5, 2024),
+(274, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '14', 'on', 5, 2024),
+(275, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '15', 'on', 5, 2024),
+(276, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '16', 'on', 5, 2024),
+(277, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '17', 'on', 5, 2024),
+(278, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '20', 'on', 5, 2024),
+(280, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '22', 'on', 5, 2024),
+(281, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '23', 'on', 5, 2024),
+(282, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '24', 'on', 5, 2024),
+(283, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '27', 'on', 5, 2024),
+(284, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '28', 'on', 5, 2024),
+(285, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '29', 'on', 5, 2024),
+(286, 19, 'Bida, Jesril  H.', 'Humility', 4, 'F', '30', 'on', 5, 2024),
+(287, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '1', 'on', 5, 2024),
+(288, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '2', 'on', 5, 2024),
+(289, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '3', 'on', 5, 2024),
+(290, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '6', 'on', 5, 2024),
+(291, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '7', 'on', 5, 2024),
+(292, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '8', 'on', 5, 2024),
+(293, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '9', 'on', 5, 2024),
+(295, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '13', 'on', 5, 2024),
+(296, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '14', 'on', 5, 2024),
+(297, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '15', 'on', 5, 2024),
+(298, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '16', 'on', 5, 2024),
+(299, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '17', 'on', 5, 2024),
+(300, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '20', 'on', 5, 2024),
+(301, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '21', 'on', 5, 2024),
+(302, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '22', 'on', 5, 2024),
+(303, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '23', 'on', 5, 2024),
+(304, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '24', 'on', 5, 2024),
+(305, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '27', 'on', 5, 2024),
+(306, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '28', 'on', 5, 2024),
+(307, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '29', 'on', 5, 2024),
+(308, 20, 'Nembo, Kyline  K.', 'Humility', 4, 'F', '30', 'on', 5, 2024),
+(309, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '1', 'on', 5, 2024),
+(310, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '2', 'on', 5, 2024),
+(311, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '3', 'on', 5, 2024),
+(312, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '6', 'on', 5, 2024),
+(313, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '7', 'on', 5, 2024),
+(314, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '8', 'on', 5, 2024),
+(315, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '9', 'on', 5, 2024),
+(316, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '10', 'on', 5, 2024),
+(317, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '13', 'on', 5, 2024),
+(318, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '14', 'on', 5, 2024),
+(320, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '16', 'on', 5, 2024),
+(321, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '17', 'on', 5, 2024),
+(322, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '20', 'on', 5, 2024),
+(323, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '21', 'on', 5, 2024),
+(324, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '22', 'on', 5, 2024),
+(325, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '23', 'on', 5, 2024),
+(326, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '24', 'on', 5, 2024),
+(327, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '27', 'on', 5, 2024),
+(328, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '28', 'on', 5, 2024),
+(329, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '29', 'on', 5, 2024),
+(330, 18, 'Valdez, Jacky  Q.', 'Humility', 4, 'F', '30', 'on', 5, 2024),
+(331, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '1', 'on', 5, 2024),
+(332, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '2', 'on', 5, 2024),
+(333, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '3', 'on', 5, 2024),
+(334, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '6', 'on', 5, 2024),
+(335, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '7', 'on', 5, 2024),
+(336, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '8', 'on', 5, 2024),
+(337, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '9', 'on', 5, 2024),
+(338, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '10', 'on', 5, 2024),
+(339, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '13', 'on', 5, 2024),
+(340, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '14', 'on', 5, 2024),
+(341, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '15', 'on', 5, 2024),
+(342, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '16', 'on', 5, 2024),
+(343, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '17', 'on', 5, 2024),
+(344, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '20', 'on', 5, 2024),
+(346, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '22', 'on', 5, 2024),
+(347, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '23', 'on', 5, 2024),
+(348, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '24', 'on', 5, 2024),
+(349, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '27', 'on', 5, 2024),
+(350, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '28', 'on', 5, 2024),
+(351, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '29', 'on', 5, 2024),
+(352, 21, 'Vasquez, Tonnette  X.', 'Humility', 4, 'F', '30', 'on', 5, 2024),
+(353, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(354, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(355, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(356, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(357, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '7', 'on', 5, 2024),
+(358, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(359, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '9', 'on', 5, 2024),
+(360, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(361, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(362, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '14', 'on', 5, 2024),
+(364, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '16', 'on', 5, 2024),
+(365, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(366, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '20', 'on', 5, 2024),
+(367, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '21', 'on', 5, 2024),
+(368, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '22', 'on', 5, 2024),
+(369, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '23', 'on', 5, 2024),
+(370, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '24', 'on', 5, 2024),
+(371, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
+(372, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
+(373, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
+(374, 16, 'Canedo, Roi  F.', 'Humility', 4, 'M', '30', 'on', 5, 2024),
+(375, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(376, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(377, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(378, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(380, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(381, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '9', 'on', 5, 2024),
+(382, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(383, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(384, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '14', 'on', 5, 2024),
+(385, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '15', 'on', 5, 2024),
+(386, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '16', 'on', 5, 2024),
+(387, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(388, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '20', 'on', 5, 2024),
+(389, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '21', 'on', 5, 2024),
+(390, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '22', 'on', 5, 2024),
+(391, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '23', 'on', 5, 2024),
+(392, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '24', 'on', 5, 2024),
+(393, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
+(394, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
+(395, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
+(396, 13, 'Jay, Cole  G.', 'Humility', 4, 'M', '30', 'on', 5, 2024),
+(397, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(398, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(399, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(400, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(401, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '7', 'on', 5, 2024),
+(402, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(403, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '9', 'on', 5, 2024),
+(404, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(405, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(406, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '14', 'on', 5, 2024),
+(408, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '16', 'on', 5, 2024),
+(409, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(410, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '20', 'on', 5, 2024),
+(411, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '21', 'on', 5, 2024),
+(412, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '22', 'on', 5, 2024),
+(413, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '23', 'on', 5, 2024),
+(414, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '24', 'on', 5, 2024),
+(415, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
+(416, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
+(417, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
+(418, 15, 'Jerry, Tom  N.', 'Humility', 4, 'M', '30', 'on', 5, 2024),
+(419, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(420, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(421, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(422, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(423, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '7', 'on', 5, 2024),
+(424, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(425, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '9', 'on', 5, 2024),
+(426, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(427, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(428, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '14', 'on', 5, 2024),
+(429, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '15', 'on', 5, 2024),
+(430, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '16', 'on', 5, 2024),
+(431, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(433, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '21', 'on', 5, 2024),
+(434, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '22', 'on', 5, 2024),
+(435, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '23', 'on', 5, 2024),
+(436, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '24', 'on', 5, 2024),
+(437, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
+(438, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
+(439, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
+(440, 17, 'Navaro, Jhong  B.', 'Humility', 4, 'M', '30', 'on', 5, 2024),
+(441, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '1', 'on', 5, 2024),
+(442, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '2', 'on', 5, 2024),
+(443, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '3', 'on', 5, 2024),
+(444, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '6', 'on', 5, 2024),
+(445, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '7', 'on', 5, 2024),
+(446, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '8', 'on', 5, 2024),
+(448, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '10', 'on', 5, 2024),
+(449, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '13', 'on', 5, 2024),
+(450, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '14', 'on', 5, 2024),
+(451, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '15', 'on', 5, 2024),
+(452, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '16', 'on', 5, 2024),
+(453, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '17', 'on', 5, 2024),
+(454, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '20', 'on', 5, 2024),
+(455, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '21', 'on', 5, 2024),
+(456, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '22', 'on', 5, 2024),
+(457, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '23', 'on', 5, 2024),
+(458, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '24', 'on', 5, 2024),
+(459, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '27', 'on', 5, 2024),
+(460, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '28', 'on', 5, 2024),
+(461, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '29', 'on', 5, 2024),
+(462, 14, 'Noah, Kenji  Z.', 'Humility', 4, 'M', '30', 'on', 5, 2024);
 
 -- --------------------------------------------------------
 
@@ -160,6 +638,33 @@ CREATE TABLE `sf5b` (
   `sex` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf5b`
+--
+
+INSERT INTO `sf5b` (`id`, `lrn`, `student_name`, `student_id`, `school_year_id`, `completed`, `nc`, `section`, `sex`) VALUES
+(1, 123123123, 'lastname, firstname  M.', 1, 2, 'Yes', 'NC I', 'sample section', 'M'),
+(2, 123123321, 'Lagunzad, Jennifer  J.', 8, 4, 'Yes', 'NC I', 'Responsibility', 'F'),
+(3, 287204828, 'Maiden, Crystal  S.', 9, 4, 'Yes', 'NC I', 'Responsibility', 'F'),
+(4, 164863893, 'Berry, Elsa  O.', 10, 4, 'Yes', 'NC II', 'Responsibility', 'F'),
+(5, 20010068, 'Real, Stacey  A.', 11, 4, 'Yes', 'NC I', 'Responsibility', 'F'),
+(6, 28859272, 'Poland, Damsel  T.', 12, 4, 'Yes', 'NC I', 'Responsibility', 'F'),
+(7, 20010516, 'Overload, Diwata  P.', 3, 4, 'Yes', 'NC I', 'Responsibility', 'M'),
+(8, 20011150, 'Howard, Dwight  T.', 4, 4, 'Yes', 'NC I', 'Responsibility', 'M'),
+(9, 20011009, 'Koykoy, Bugoy  N.', 5, 4, 'Yes', 'NC I', 'Responsibility', 'M'),
+(10, 20059872, 'Mojica, Ancis  M.', 6, 4, 'Yes', 'NC I', 'Responsibility', 'M'),
+(11, 200197223, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Yes', 'NC I', 'Responsibility', 'M'),
+(12, 200185749, 'Valdez, Jacky  Q.', 18, 4, 'Yes', 'NC I', 'Humility', 'F'),
+(13, 32746932, 'Bida, Jesril  H.', 19, 4, 'Yes', 'NC I', 'Humility', 'F'),
+(14, 8237589, 'Nembo, Kyline  K.', 20, 4, 'Yes', 'NC I', 'Humility', 'F'),
+(15, 21095719, 'Vasquez, Tonnette  X.', 21, 4, 'Yes', 'NC I', 'Humility', 'F'),
+(16, 2001857103, 'Aquino, Yasy  N.', 22, 4, 'Yes', 'NC I', 'Humility', 'F'),
+(17, 120849492, 'Jay, Cole  G.', 13, 4, 'Yes', 'NC I', 'Humility', 'M'),
+(18, 817305124, 'Noah, Kenji  Z.', 14, 4, 'Yes', 'NC I', 'Humility', 'M'),
+(19, 37871385, 'Jerry, Tom  N.', 15, 4, 'Yes', 'NC I', 'Humility', 'M'),
+(20, 20018521, 'Canedo, Roi  F.', 16, 4, 'Yes', 'NC I', 'Humility', 'M'),
+(21, 932859723, 'Navaro, Jhong  B.', 17, 4, 'Yes', 'NC I', 'Humility', 'M');
+
 -- --------------------------------------------------------
 
 --
@@ -180,6 +685,432 @@ CREATE TABLE `sf9` (
   `sex` varchar(255) NOT NULL,
   `section` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9`
+--
+
+INSERT INTO `sf9` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `sem_grade1`, `sem_grade2`, `final_grade`, `semester`, `sex`, `section`) VALUES
+(1, 'lastname, firstname  M.', 1, 2, 'Core', 'Oral Communication in Context', 98, 89, 93.5, '1st', 'M', 'sample section'),
+(2, 'lastname, firstname  M.', 1, 2, 'Core', '21st Century from the Philippines and the World', 99, 99, 99, '1st', 'M', 'sample section'),
+(3, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(4, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(5, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(6, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(7, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(8, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(9, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(10, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '1st', 'M', 'sample section'),
+(11, 'lastname, firstname  M.', 1, 2, 'Applied', 'Practical Research 1', 99, 99, 99, '2nd', 'M', 'sample section'),
+(12, 'lastname, firstname  M.', 1, 2, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 89, 98, 93.5, '2nd', 'M', 'sample section'),
+(13, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(14, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(15, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(16, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(17, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(18, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(19, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(20, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '2nd', 'M', 'sample section'),
+(21, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(22, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(23, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(24, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', '21st Century from the Philippines and the World', 99, 87, 93, '1st', 'F', 'Responsibility'),
+(25, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'General Mathematics', 84, 98, 91, '1st', 'F', 'Responsibility'),
+(26, 'Lagunzad, Jennifer  J.', 8, 4, 'Applied', 'Empowerment Technologies', 98, 79, 88.5, '1st', 'F', 'Responsibility'),
+(27, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(28, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(29, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(30, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(31, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 92, 93, 92.5, '2nd', 'F', 'Responsibility'),
+(32, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'Understanding Culture, Society, and Politics', 96, 96, 96, '2nd', 'F', 'Responsibility'),
+(33, 'Lagunzad, Jennifer  J.', 8, 4, 'Core', 'Statistics and Probability', 84, 82, 83, '2nd', 'F', 'Responsibility'),
+(34, 'Lagunzad, Jennifer  J.', 8, 4, 'Applied', 'Practical Research 1', 74, 98, 86, '2nd', 'F', 'Responsibility'),
+(35, 'Lagunzad, Jennifer  J.', 8, 4, 'Applied', 'Filipino sa Piling Larang', 81, 93, 87, '2nd', 'F', 'Responsibility'),
+(36, 'Lagunzad, Jennifer  J.', 8, 4, '', NULL, 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(37, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(38, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(39, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(40, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(41, 'Maiden, Crystal  S.', 9, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(42, 'Maiden, Crystal  S.', 9, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 74, 84, 79, '1st', 'F', 'Responsibility'),
+(43, 'Maiden, Crystal  S.', 9, 4, 'Core', '21st Century from the Philippines and the World', 94, 91, 92.5, '1st', 'F', 'Responsibility'),
+(44, 'Maiden, Crystal  S.', 9, 4, 'Applied', 'Empowerment Technologies', 86, 91, 88.5, '1st', 'F', 'Responsibility'),
+(45, 'Maiden, Crystal  S.', 9, 4, 'Applied', 'English for Academic and Special Purposes', 93, 91, 92, '1st', 'F', 'Responsibility'),
+(46, 'Maiden, Crystal  S.', 9, 4, 'Specialized', 'Philippine Politics and Governance', 91, 99, 95, '1st', 'F', 'Responsibility'),
+(47, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(48, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(49, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(50, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(51, 'Maiden, Crystal  S.', 9, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'F', 'Responsibility'),
+(52, 'Maiden, Crystal  S.', 9, 4, 'Core', 'Understanding Culture, Society, and Politics', 88, 88, 88, '2nd', 'F', 'Responsibility'),
+(53, 'Maiden, Crystal  S.', 9, 4, 'Core', 'Statistics and Probability', 79, 98, 88.5, '2nd', 'F', 'Responsibility'),
+(54, 'Maiden, Crystal  S.', 9, 4, 'Applied', 'Practical Research 1', 89, 98, 93.5, '2nd', 'F', 'Responsibility'),
+(55, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(56, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(57, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(58, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(59, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(60, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(61, 'Berry, Elsa  O.', 10, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(62, 'Berry, Elsa  O.', 10, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 88, 88, 88, '1st', 'F', 'Responsibility'),
+(63, 'Berry, Elsa  O.', 10, 4, 'Core', '21st Century from the Philippines and the World', 77, 77, 77, '1st', 'F', 'Responsibility'),
+(64, 'Berry, Elsa  O.', 10, 4, 'Core', 'General Mathematics', 98, 89, 93.5, '1st', 'F', 'Responsibility'),
+(65, 'Berry, Elsa  O.', 10, 4, 'Applied', 'Empowerment Technologies', 98, 78, 88, '1st', 'F', 'Responsibility'),
+(66, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(67, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(68, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(69, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(70, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(71, 'Berry, Elsa  O.', 10, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'F', 'Responsibility'),
+(72, 'Berry, Elsa  O.', 10, 4, 'Core', 'Understanding Culture, Society, and Politics', 88, 88, 88, '2nd', 'F', 'Responsibility'),
+(73, 'Berry, Elsa  O.', 10, 4, 'Core', 'Statistics and Probability', 77, 77, 77, '2nd', 'F', 'Responsibility'),
+(74, 'Berry, Elsa  O.', 10, 4, 'Applied', 'Practical Research 1', 89, 98, 93.5, '2nd', 'F', 'Responsibility'),
+(75, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(76, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(77, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(78, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(79, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(80, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(81, 'Real, Stacey  A.', 11, 4, 'Core', 'Oral Communication in Context', 89, 98, 93.5, '1st', 'F', 'Responsibility'),
+(82, 'Real, Stacey  A.', 11, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(83, 'Real, Stacey  A.', 11, 4, 'Core', '21st Century from the Philippines and the World', 88, 88, 88, '1st', 'F', 'Responsibility'),
+(84, 'Real, Stacey  A.', 11, 4, 'Applied', 'Empowerment Technologies', 78, 98, 88, '1st', 'F', 'Responsibility'),
+(85, 'Real, Stacey  A.', 11, 4, 'Applied', 'English for Academic and Special Purposes', 89, 99, 94, '1st', 'F', 'Responsibility'),
+(86, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(87, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(88, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(89, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(90, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(91, 'Real, Stacey  A.', 11, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'F', 'Responsibility'),
+(92, 'Real, Stacey  A.', 11, 4, 'Core', 'Understanding Culture, Society, and Politics', 88, 88, 88, '2nd', 'F', 'Responsibility'),
+(93, 'Real, Stacey  A.', 11, 4, 'Core', 'Statistics and Probability', 77, 77, 77, '2nd', 'F', 'Responsibility'),
+(94, 'Real, Stacey  A.', 11, 4, 'Applied', 'Practical Research 1', 99, 99, 99, '2nd', 'F', 'Responsibility'),
+(95, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(96, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(97, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(98, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(99, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(100, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(101, 'Poland, Damsel  T.', 12, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'F', 'Responsibility'),
+(102, 'Poland, Damsel  T.', 12, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 88, 88, 88, '1st', 'F', 'Responsibility'),
+(103, 'Poland, Damsel  T.', 12, 4, 'Core', '21st Century from the Philippines and the World', 77, 77, 77, '1st', 'F', 'Responsibility'),
+(104, 'Poland, Damsel  T.', 12, 4, 'Applied', 'Empowerment Technologies', 98, 89, 93.5, '1st', 'F', 'Responsibility'),
+(105, 'Poland, Damsel  T.', 12, 4, 'Applied', 'English for Academic and Special Purposes', 78, 91, 84.5, '1st', 'F', 'Responsibility'),
+(106, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(107, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(108, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(109, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(110, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '1st', 'F', 'Responsibility'),
+(111, 'Poland, Damsel  T.', 12, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'F', 'Responsibility'),
+(112, 'Poland, Damsel  T.', 12, 4, 'Core', 'Understanding Culture, Society, and Politics', 88, 88, 88, '2nd', 'F', 'Responsibility'),
+(113, 'Poland, Damsel  T.', 12, 4, 'Core', 'Statistics and Probability', 77, 77, 77, '2nd', 'F', 'Responsibility'),
+(114, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(115, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(116, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(117, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(118, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(119, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(120, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '2nd', 'F', 'Responsibility'),
+(121, 'Overload, Diwata  P.', 3, 4, 'Core', 'Oral Communication in Context', 99, 77, 88, '1st', 'M', 'Responsibility'),
+(122, 'Overload, Diwata  P.', 3, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 78, 98, 88, '1st', 'M', 'Responsibility'),
+(123, 'Overload, Diwata  P.', 3, 4, 'Core', '21st Century from the Philippines and the World', 78, 98, 88, '1st', 'M', 'Responsibility'),
+(124, 'Overload, Diwata  P.', 3, 4, 'Core', 'General Mathematics', 79, 98, 88.5, '1st', 'M', 'Responsibility'),
+(125, 'Overload, Diwata  P.', 3, 4, 'Applied', 'Empowerment Technologies', 88, 88, 88, '1st', 'M', 'Responsibility'),
+(126, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(127, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(128, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(129, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(130, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(131, 'Overload, Diwata  P.', 3, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 89, 97, 93, '2nd', 'M', 'Responsibility'),
+(132, 'Overload, Diwata  P.', 3, 4, 'Core', 'Understanding Culture, Society, and Politics', 88, 90, 89, '2nd', 'M', 'Responsibility'),
+(133, 'Overload, Diwata  P.', 3, 4, 'Core', 'Statistics and Probability', 91, 90, 90.5, '2nd', 'M', 'Responsibility'),
+(134, 'Overload, Diwata  P.', 3, 4, 'Applied', 'Practical Research 1', 82, 89, 85.5, '2nd', 'M', 'Responsibility'),
+(135, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(136, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(137, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(138, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(139, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(140, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(141, 'Howard, Dwight  T.', 4, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'M', 'Responsibility'),
+(142, 'Howard, Dwight  T.', 4, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 89, 98, 93.5, '1st', 'M', 'Responsibility'),
+(143, 'Howard, Dwight  T.', 4, 4, 'Core', '21st Century from the Philippines and the World', 79, 98, 88.5, '1st', 'M', 'Responsibility'),
+(144, 'Howard, Dwight  T.', 4, 4, 'Core', 'General Mathematics', 81, 91, 86, '1st', 'M', 'Responsibility'),
+(145, 'Howard, Dwight  T.', 4, 4, 'Applied', 'Empowerment Technologies', 98, 89, 93.5, '1st', 'M', 'Responsibility'),
+(146, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(147, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(148, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(149, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(150, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(151, 'Howard, Dwight  T.', 4, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 91, 92, 91.5, '2nd', 'M', 'Responsibility'),
+(152, 'Howard, Dwight  T.', 4, 4, 'Core', 'Understanding Culture, Society, and Politics', 92, 99, 95.5, '2nd', 'M', 'Responsibility'),
+(153, 'Howard, Dwight  T.', 4, 4, 'Applied', 'Practical Research 1', 89, 87, 88, '2nd', 'M', 'Responsibility'),
+(154, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(155, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(156, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(157, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(158, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(159, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(160, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(161, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'Oral Communication in Context', 89, 98, 93.5, '1st', 'M', 'Responsibility'),
+(162, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 71, 98, 84.5, '1st', 'M', 'Responsibility'),
+(163, 'Koykoy, Bugoy  N.', 5, 4, 'Core', '21st Century from the Philippines and the World', 91, 92, 91.5, '1st', 'M', 'Responsibility'),
+(164, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'General Mathematics', 93, 93, 93, '1st', 'M', 'Responsibility'),
+(165, 'Koykoy, Bugoy  N.', 5, 4, 'Applied', 'Empowerment Technologies', 91, 83, 87, '1st', 'M', 'Responsibility'),
+(166, 'Koykoy, Bugoy  N.', 5, 4, 'Specialized', 'Philippine Politics and Governance', 89, 90, 89.5, '1st', 'M', 'Responsibility'),
+(167, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(168, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(169, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(170, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(171, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 89, 91, 90, '2nd', 'M', 'Responsibility'),
+(172, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'Understanding Culture, Society, and Politics', 91, 90, 90.5, '2nd', 'M', 'Responsibility'),
+(173, 'Koykoy, Bugoy  N.', 5, 4, 'Core', 'Statistics and Probability', 81, 89, 85, '2nd', 'M', 'Responsibility'),
+(174, 'Koykoy, Bugoy  N.', 5, 4, 'Applied', 'Practical Research 1', 79, 75, 77, '2nd', 'M', 'Responsibility'),
+(175, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(176, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(177, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(178, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(179, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(180, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(181, 'Mojica, Ancis  M.', 6, 4, 'Applied', 'Empowerment Technologies', 99, 99, 99, '1st', 'M', 'Responsibility'),
+(182, 'Mojica, Ancis  M.', 6, 4, 'Core', 'Oral Communication in Context', 98, 89, 93.5, '1st', 'M', 'Responsibility'),
+(183, 'Mojica, Ancis  M.', 6, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 79, 98, 88.5, '1st', 'M', 'Responsibility'),
+(184, 'Mojica, Ancis  M.', 6, 4, 'Core', '21st Century from the Philippines and the World', 99, 91, 95, '1st', 'M', 'Responsibility'),
+(185, 'Mojica, Ancis  M.', 6, 4, 'Applied', 'English for Academic and Special Purposes', 71, 99, 85, '1st', 'M', 'Responsibility'),
+(186, 'Mojica, Ancis  M.', 6, 4, 'Specialized', 'Philippine Politics and Governance', 79, 98, 88.5, '1st', 'M', 'Responsibility'),
+(187, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(188, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(189, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(190, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(191, 'Mojica, Ancis  M.', 6, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 99, 99, 99, '2nd', 'M', 'Responsibility'),
+(192, 'Mojica, Ancis  M.', 6, 4, 'Applied', 'Practical Research 1', 89, 98, 93.5, '2nd', 'M', 'Responsibility'),
+(193, 'Mojica, Ancis  M.', 6, 4, 'Applied', 'Filipino sa Piling Larang', 77, 77, 77, '2nd', 'M', 'Responsibility'),
+(194, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(195, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(196, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(197, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(198, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(199, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(200, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(201, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'Oral Communication in Context', 99, 99, 99, '1st', 'M', 'Responsibility'),
+(202, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'Komunikasyon at Pananaliksik sa Wika at Kulturang Filipino', 99, 99, 99, '1st', 'M', 'Responsibility'),
+(203, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', '21st Century from the Philippines and the World', 98, 89, 93.5, '1st', 'M', 'Responsibility'),
+(204, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'General Mathematics', 79, 98, 88.5, '1st', 'M', 'Responsibility'),
+(205, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Applied', 'Empowerment Technologies', 77, 88, 82.5, '1st', 'M', 'Responsibility'),
+(206, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Applied', 'English for Academic and Special Purposes', 89, 98, 93.5, '1st', 'M', 'Responsibility'),
+(207, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(208, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(209, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(210, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '1st', 'M', 'Responsibility'),
+(211, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'Pagbasa at Pagsusuri ng Iba\'t Ibang Teksto Tungo sa Pananaliksik', 98, 89, 93.5, '2nd', 'M', 'Responsibility'),
+(212, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'Understanding Culture, Society, and Politics', 79, 98, 88.5, '2nd', 'M', 'Responsibility'),
+(213, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Core', 'Statistics and Probability', 96, 91, 93.5, '2nd', 'M', 'Responsibility'),
+(214, 'Pagkaliwangan, Jimuel  A.', 7, 4, 'Applied', 'Practical Research 1', 88, 87, 87.5, '2nd', 'M', 'Responsibility'),
+(215, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(216, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(217, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(218, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(219, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(220, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '2nd', 'M', 'Responsibility'),
+(221, 'Valdez, Jacky  Q.', 18, 4, 'Core', 'Personality Development', 99, 99, 99, '1st', 'F', 'Humility'),
+(222, 'Valdez, Jacky  Q.', 18, 4, 'Core', 'Physical Education and Health', 99, 99, 99, '1st', 'F', 'Humility'),
+(223, 'Valdez, Jacky  Q.', 18, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 88, 88, 88, '1st', 'F', 'Humility'),
+(224, 'Valdez, Jacky  Q.', 18, 4, 'Applied', 'Practical Research 2', 71, 98, 84.5, '1st', 'F', 'Humility'),
+(225, 'Valdez, Jacky  Q.', 18, 4, 'Applied', 'Inquiries, Investigation, and Immersion', 78, 81, 79.5, '1st', 'F', 'Humility'),
+(226, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(227, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(228, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(229, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(230, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(231, 'Valdez, Jacky  Q.', 18, 4, 'Core', 'Media and Information Technology', 98, 89, 93.5, '2nd', 'F', 'Humility'),
+(232, 'Valdez, Jacky  Q.', 18, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 87, 78, 82.5, '2nd', 'F', 'Humility'),
+(233, 'Valdez, Jacky  Q.', 18, 4, 'Applied', 'Entrepreneurship', 98, 89, 93.5, '2nd', 'F', 'Humility'),
+(234, 'Valdez, Jacky  Q.', 18, 4, '', NULL, 0, 0, 0, '2nd', 'F', 'Humility'),
+(235, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(236, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(237, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(238, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(239, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(240, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(241, 'Bida, Jesril  H.', 19, 4, 'Core', 'Physical Education and Health', 99, 90, 94.5, '1st', 'F', 'Humility'),
+(242, 'Bida, Jesril  H.', 19, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 90, 99, 94.5, '1st', 'F', 'Humility'),
+(243, 'Bida, Jesril  H.', 19, 4, 'Core', 'Personality Development', 89, 98, 93.5, '1st', 'F', 'Humility'),
+(244, 'Bida, Jesril  H.', 19, 4, 'Applied', 'Practical Research 2', 89, 88, 88.5, '1st', 'F', 'Humility'),
+(245, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(246, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(247, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(248, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(249, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(250, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(251, 'Bida, Jesril  H.', 19, 4, 'Core', 'Media and Information Technology', 99, 99, 99, '2nd', 'F', 'Humility'),
+(252, 'Bida, Jesril  H.', 19, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 88, 88, 88, '2nd', 'F', 'Humility'),
+(253, 'Bida, Jesril  H.', 19, 4, 'Applied', 'Entrepreneurship', 77, 77, 77, '2nd', 'F', 'Humility'),
+(254, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(255, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(256, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(257, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(258, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(259, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(260, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(261, 'Nembo, Kyline  K.', 20, 4, 'Core', 'Physical Education and Health', 99, 99, 99, '1st', 'F', 'Humility'),
+(262, 'Nembo, Kyline  K.', 20, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 88, 88, 88, '1st', 'F', 'Humility'),
+(263, 'Nembo, Kyline  K.', 20, 4, 'Core', 'Personality Development', 77, 77, 77, '1st', 'F', 'Humility'),
+(264, 'Nembo, Kyline  K.', 20, 4, 'Applied', 'Practical Research 2', 89, 98, 93.5, '1st', 'F', 'Humility'),
+(265, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(266, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(267, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(268, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(269, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(270, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(271, 'Nembo, Kyline  K.', 20, 4, 'Core', 'Media and Information Technology', 99, 98, 98.5, '2nd', 'F', 'Humility'),
+(272, 'Nembo, Kyline  K.', 20, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 89, 98, 93.5, '2nd', 'F', 'Humility'),
+(273, 'Nembo, Kyline  K.', 20, 4, 'Applied', 'Entrepreneurship', 77, 77, 77, '2nd', 'F', 'Humility'),
+(274, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(275, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(276, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(277, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(278, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(279, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(280, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(281, 'Vasquez, Tonnette  X.', 21, 4, 'Core', 'Physical Education and Health', 99, 98, 98.5, '1st', 'F', 'Humility'),
+(282, 'Vasquez, Tonnette  X.', 21, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 87, 98, 92.5, '1st', 'F', 'Humility'),
+(283, 'Vasquez, Tonnette  X.', 21, 4, 'Core', 'Personality Development', 89, 98, 93.5, '1st', 'F', 'Humility'),
+(284, 'Vasquez, Tonnette  X.', 21, 4, 'Applied', 'Practical Research 2', 78, 87, 82.5, '1st', 'F', 'Humility'),
+(285, 'Vasquez, Tonnette  X.', 21, 4, 'Applied', 'Inquiries, Investigation, and Immersion', 91, 92, 91.5, '1st', 'F', 'Humility'),
+(286, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(287, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(288, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(289, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(290, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(291, 'Vasquez, Tonnette  X.', 21, 4, 'Core', 'Media and Information Technology', 88, 98, 93, '2nd', 'F', 'Humility'),
+(292, 'Vasquez, Tonnette  X.', 21, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 79, 98, 88.5, '2nd', 'F', 'Humility'),
+(293, 'Vasquez, Tonnette  X.', 21, 4, 'Applied', 'Entrepreneurship', 91, 85, 88, '2nd', 'F', 'Humility'),
+(294, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(295, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(296, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(297, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(298, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(299, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(300, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(301, 'Aquino, Yasy  N.', 22, 4, 'Core', 'Physical Education and Health', 90, 98, 94, '1st', 'F', 'Humility'),
+(302, 'Aquino, Yasy  N.', 22, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 88, 78, 83, '1st', 'F', 'Humility'),
+(303, 'Aquino, Yasy  N.', 22, 4, 'Core', 'Personality Development', 87, 95, 91, '1st', 'F', 'Humility'),
+(304, 'Aquino, Yasy  N.', 22, 4, 'Applied', 'Practical Research 2', 78, 98, 88, '1st', 'F', 'Humility'),
+(305, 'Aquino, Yasy  N.', 22, 4, 'Applied', 'Inquiries, Investigation, and Immersion', 89, 98, 93.5, '1st', 'F', 'Humility'),
+(306, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(307, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(308, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(309, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(310, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '1st', 'F', 'Humility'),
+(311, 'Aquino, Yasy  N.', 22, 4, 'Core', 'Media and Information Technology', 99, 99, 99, '2nd', 'F', 'Humility'),
+(312, 'Aquino, Yasy  N.', 22, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 98, 89, 93.5, '2nd', 'F', 'Humility'),
+(313, 'Aquino, Yasy  N.', 22, 4, 'Applied', 'Entrepreneurship', 87, 78, 82.5, '2nd', 'F', 'Humility'),
+(314, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(315, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(316, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(317, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(318, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(319, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(320, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '2nd', 'F', 'Humility'),
+(321, 'Jay, Cole  G.', 13, 4, 'Core', 'Physical Education and Health', 99, 98, 98.5, '1st', 'M', 'Humility'),
+(322, 'Jay, Cole  G.', 13, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 78, 98, 88, '1st', 'M', 'Humility'),
+(323, 'Jay, Cole  G.', 13, 4, 'Core', 'Personality Development', 78, 87, 82.5, '1st', 'M', 'Humility'),
+(324, 'Jay, Cole  G.', 13, 4, 'Applied', 'Practical Research 2', 98, 89, 93.5, '1st', 'M', 'Humility'),
+(325, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(326, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(327, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(328, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(329, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(330, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(331, 'Jay, Cole  G.', 13, 4, 'Core', 'Media and Information Technology', 91, 99, 95, '2nd', 'M', 'Humility'),
+(332, 'Jay, Cole  G.', 13, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 79, 81, 80, '2nd', 'M', 'Humility'),
+(333, 'Jay, Cole  G.', 13, 4, 'Applied', 'Entrepreneurship', 90, 91, 90.5, '2nd', 'M', 'Humility'),
+(334, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(335, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(336, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(337, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(338, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(339, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(340, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(341, 'Noah, Kenji  Z.', 14, 4, 'Core', 'Physical Education and Health', 99, 99, 99, '1st', 'M', 'Humility'),
+(342, 'Noah, Kenji  Z.', 14, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 99, 99, 99, '1st', 'M', 'Humility'),
+(343, 'Noah, Kenji  Z.', 14, 4, 'Core', 'Personality Development', 99, 99, 99, '1st', 'M', 'Humility'),
+(344, 'Noah, Kenji  Z.', 14, 4, 'Applied', 'Practical Research 2', 99, 99, 99, '1st', 'M', 'Humility'),
+(345, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(346, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(347, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(348, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(349, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(350, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(351, 'Noah, Kenji  Z.', 14, 4, 'Core', 'Media and Information Technology', 99, 99, 99, '2nd', 'M', 'Humility'),
+(352, 'Noah, Kenji  Z.', 14, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 99, 99, 99, '2nd', 'M', 'Humility'),
+(353, 'Noah, Kenji  Z.', 14, 4, 'Applied', 'Entrepreneurship', 99, 98, 98.5, '2nd', 'M', 'Humility'),
+(354, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(355, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(356, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(357, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(358, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(359, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(360, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(361, 'Jerry, Tom  N.', 15, 4, 'Core', 'Physical Education and Health', 98, 89, 93.5, '1st', 'M', 'Humility'),
+(362, 'Jerry, Tom  N.', 15, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 88, 99, 93.5, '1st', 'M', 'Humility'),
+(363, 'Jerry, Tom  N.', 15, 4, 'Core', 'Personality Development', 89, 98, 93.5, '1st', 'M', 'Humility'),
+(364, 'Jerry, Tom  N.', 15, 4, 'Applied', 'Practical Research 2', 87, 79, 83, '1st', 'M', 'Humility'),
+(365, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(366, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(367, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(368, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(369, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(370, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(371, 'Jerry, Tom  N.', 15, 4, 'Core', 'Media and Information Technology', 99, 99, 99, '2nd', 'M', 'Humility'),
+(372, 'Jerry, Tom  N.', 15, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 78, 87, 82.5, '2nd', 'M', 'Humility'),
+(373, 'Jerry, Tom  N.', 15, 4, 'Applied', 'Entrepreneurship', 89, 81, 85, '2nd', 'M', 'Humility'),
+(374, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(375, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(376, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(377, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(378, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(379, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(380, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(381, 'Canedo, Roi  F.', 16, 4, 'Core', 'Physical Education and Health', 99, 99, 99, '1st', 'M', 'Humility'),
+(382, 'Canedo, Roi  F.', 16, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 99, 99, 99, '1st', 'M', 'Humility'),
+(383, 'Canedo, Roi  F.', 16, 4, 'Core', 'Personality Development', 88, 88, 88, '1st', 'M', 'Humility'),
+(384, 'Canedo, Roi  F.', 16, 4, 'Applied', 'Practical Research 2', 87, 78, 82.5, '1st', 'M', 'Humility'),
+(385, 'Canedo, Roi  F.', 16, 4, 'Applied', 'Inquiries, Investigation, and Immersion', 77, 77, 77, '1st', 'M', 'Humility'),
+(386, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(387, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(388, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(389, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(390, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(391, 'Canedo, Roi  F.', 16, 4, 'Core', 'Media and Information Technology', 99, 99, 99, '2nd', 'M', 'Humility'),
+(392, 'Canedo, Roi  F.', 16, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 88, 88, 88, '2nd', 'M', 'Humility'),
+(393, 'Canedo, Roi  F.', 16, 4, 'Applied', 'Entrepreneurship', 77, 77, 77, '2nd', 'M', 'Humility'),
+(394, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(395, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(396, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(397, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(398, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(399, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(400, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(401, 'Navaro, Jhong  B.', 17, 4, 'Core', 'Physical Education and Health', 89, 98, 93.5, '1st', 'M', 'Humility'),
+(402, 'Navaro, Jhong  B.', 17, 4, 'Core', 'Introduction to the Philosophy of the Human Person/Pambungad sa Pilosopiya ng Tao', 99, 99, 99, '1st', 'M', 'Humility'),
+(403, 'Navaro, Jhong  B.', 17, 4, 'Core', 'Personality Development', 77, 79, 78, '1st', 'M', 'Humility'),
+(404, 'Navaro, Jhong  B.', 17, 4, 'Applied', 'Practical Research 2', 99, 99, 99, '1st', 'M', 'Humility'),
+(405, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(406, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(407, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(408, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(409, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(410, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '1st', 'M', 'Humility'),
+(411, 'Navaro, Jhong  B.', 17, 4, 'Core', 'Media and Information Technology', 77, 79, 78, '2nd', 'M', 'Humility'),
+(412, 'Navaro, Jhong  B.', 17, 4, 'Core', 'Contemporary Philippine Arts from the Regions', 89, 88, 88.5, '2nd', 'M', 'Humility'),
+(413, 'Navaro, Jhong  B.', 17, 4, 'Applied', 'Entrepreneurship', 71, 80, 75.5, '2nd', 'M', 'Humility'),
+(414, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(415, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(416, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(417, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(418, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(419, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility'),
+(420, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '2nd', 'M', 'Humility');
 
 -- --------------------------------------------------------
 
@@ -204,6 +1135,33 @@ CREATE TABLE `sf9_modality` (
   `ip_q3` tinyint(1) DEFAULT 0,
   `ip_q4` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf9_modality`
+--
+
+INSERT INTO `sf9_modality` (`id`, `student_name`, `student_id`, `blended_q1`, `blended_q2`, `blended_q3`, `blended_q4`, `mdl_q1`, `mdl_q2`, `mdl_q3`, `mdl_q4`, `ip_q1`, `ip_q2`, `ip_q3`, `ip_q4`) VALUES
+(1, 'lastname, firstname  M.', 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1),
+(2, 'Lagunzad, Jennifer  J.', 8, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(3, 'Maiden, Crystal  S.', 9, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(4, 'Berry, Elsa  O.', 10, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(5, 'Real, Stacey  A.', 11, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1),
+(6, 'Poland, Damsel  T.', 12, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(7, 'Overload, Diwata  P.', 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(8, 'Howard, Dwight  T.', 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(9, 'Koykoy, Bugoy  N.', 5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(10, 'Mojica, Ancis  M.', 6, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(11, 'Pagkaliwangan, Jimuel  A.', 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(12, 'Valdez, Jacky  Q.', 18, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(13, 'Bida, Jesril  H.', 19, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(14, 'Nembo, Kyline  K.', 20, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(15, 'Vasquez, Tonnette  X.', 21, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(16, 'Aquino, Yasy  N.', 22, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(17, 'Jay, Cole  G.', 13, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(18, 'Noah, Kenji  Z.', 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(19, 'Jerry, Tom  N.', 15, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(20, 'Canedo, Roi  F.', 16, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+(21, 'Navaro, Jhong  B.', 17, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -245,6 +1203,33 @@ CREATE TABLE `sf9_ov` (
   `mbq8` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf9_ov`
+--
+
+INSERT INTO `sf9_ov` (`id`, `student_name`, `student_id`, `mdq1`, `mdq2`, `mdq3`, `mdq4`, `mdq5`, `mdq6`, `mdq7`, `mdq8`, `mkq1`, `mkq2`, `mkq3`, `mkq4`, `mkq5`, `mkq6`, `mkq7`, `mkq8`, `mkkq1`, `mkkq2`, `mkkq3`, `mkkq4`, `mbq1`, `mbq2`, `mbq3`, `mbq4`, `mbq5`, `mbq6`, `mbq7`, `mbq8`) VALUES
+(1, 'lastname, firstname  M.', 1, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(2, 'Lagunzad, Jennifer  J.', 8, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(3, 'Maiden, Crystal  S.', 9, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(4, 'Berry, Elsa  O.', 10, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'AO', 'AO', 'SO', 'AO', 'SO', 'AO', 'AO', 'SO', 'SO', 'AO', 'AO', 'AO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'AO'),
+(5, 'Real, Stacey  A.', 11, 'SO', 'SO', 'AO', 'AO', 'AO', 'AO', 'AO', 'SO', 'AO', 'SO', 'AO', 'SO', 'SO', 'AO', 'AO', 'AO', 'AO', 'AO', 'AO', 'SO', 'AO', 'AO', 'AO', 'SO', 'AO', 'AO', 'AO', 'NO'),
+(6, 'Poland, Damsel  T.', 12, 'SO', 'NO', 'AO', 'AO', 'AO', 'AO', 'AO', 'AO', 'AO', 'AO', 'AO', 'NO', 'NO', 'NO', 'SO', 'NO', 'AO', 'SO', 'AO', 'NO', 'NO', 'SO', 'AO', 'AO', 'AO', 'AO', 'AO', 'NO'),
+(7, 'Overload, Diwata  P.', 3, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(8, 'Howard, Dwight  T.', 4, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(9, 'Koykoy, Bugoy  N.', 5, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(10, 'Mojica, Ancis  M.', 6, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(11, 'Pagkaliwangan, Jimuel  A.', 7, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'AO', 'AO', 'AO', 'NO'),
+(12, 'Valdez, Jacky  Q.', 18, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(13, 'Bida, Jesril  H.', 19, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(14, 'Nembo, Kyline  K.', 20, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(15, 'Vasquez, Tonnette  X.', 21, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(16, 'Aquino, Yasy  N.', 22, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(17, 'Jay, Cole  G.', 13, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(18, 'Noah, Kenji  Z.', 14, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(19, 'Jerry, Tom  N.', 15, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(20, 'Canedo, Roi  F.', 16, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO'),
+(21, 'Navaro, Jhong  B.', 17, 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO', 'SO');
+
 -- --------------------------------------------------------
 
 --
@@ -267,6 +1252,117 @@ CREATE TABLE `sf10remedial` (
   `section` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sf10remedial`
+--
+
+INSERT INTO `sf10remedial` (`id`, `student_name`, `student_id`, `school_year_id`, `subject_type`, `subject_title`, `old_grade`, `new_grade`, `final_grade`, `semester`, `action`, `sex`, `section`) VALUES
+(1, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '', '', 'M', 'sample section'),
+(2, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '', '', 'M', 'sample section'),
+(3, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '', '', 'M', 'sample section'),
+(4, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '', '', 'M', 'sample section'),
+(5, 'lastname, firstname  M.', 1, 2, '', '', 0, 0, 0, '', '', 'M', 'sample section'),
+(6, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(7, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(8, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(9, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(10, 'Lagunzad, Jennifer  J.', 8, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(11, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(12, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(13, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(14, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(15, 'Maiden, Crystal  S.', 9, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(16, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(17, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(18, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(19, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(20, 'Berry, Elsa  O.', 10, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(21, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(22, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(23, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(24, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(25, 'Real, Stacey  A.', 11, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(26, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(27, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(28, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(29, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(30, 'Poland, Damsel  T.', 12, 4, '', '', 0, 0, 0, '', '', 'F', 'Responsibility'),
+(31, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(32, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(33, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(34, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(35, 'Overload, Diwata  P.', 3, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(36, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(37, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(38, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(39, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(40, 'Howard, Dwight  T.', 4, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(41, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(42, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(43, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(44, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(45, 'Koykoy, Bugoy  N.', 5, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(46, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(47, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(48, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(49, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(50, 'Mojica, Ancis  M.', 6, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(51, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(52, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(53, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(54, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(55, 'Pagkaliwangan, Jimuel  A.', 7, 4, '', '', 0, 0, 0, '', '', 'M', 'Responsibility'),
+(56, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(57, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(58, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(59, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(60, 'Valdez, Jacky  Q.', 18, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(61, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(62, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(63, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(64, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(65, 'Bida, Jesril  H.', 19, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(66, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(67, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(68, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(69, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(70, 'Nembo, Kyline  K.', 20, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(71, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(72, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(73, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(74, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(75, 'Vasquez, Tonnette  X.', 21, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(76, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(77, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(78, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(79, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(80, 'Aquino, Yasy  N.', 22, 4, '', '', 0, 0, 0, '', '', 'F', 'Humility'),
+(81, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(82, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(83, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(84, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(85, 'Jay, Cole  G.', 13, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(86, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(87, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(88, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(89, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(90, 'Noah, Kenji  Z.', 14, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(91, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(92, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(93, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(94, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(95, 'Jerry, Tom  N.', 15, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(96, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(97, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(98, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(99, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(100, 'Canedo, Roi  F.', 16, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(101, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(102, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(103, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(104, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility'),
+(105, 'Navaro, Jhong  B.', 17, 4, '', '', 0, 0, 0, '', '', 'M', 'Humility');
+
 -- --------------------------------------------------------
 
 --
@@ -282,6 +1378,33 @@ CREATE TABLE `sf10remedialdate` (
   `start_date2` date NOT NULL,
   `end_date2` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sf10remedialdate`
+--
+
+INSERT INTO `sf10remedialdate` (`id`, `student_name`, `student_id`, `start_date1`, `end_date1`, `start_date2`, `end_date2`) VALUES
+(1, 'lastname, firstname  M.', 1, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(2, 'Lagunzad, Jennifer  J.', 8, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(3, 'Maiden, Crystal  S.', 9, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(4, 'Berry, Elsa  O.', 10, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(5, 'Real, Stacey  A.', 11, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(6, 'Poland, Damsel  T.', 12, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(7, 'Overload, Diwata  P.', 3, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(8, 'Howard, Dwight  T.', 4, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(9, 'Koykoy, Bugoy  N.', 5, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(10, 'Mojica, Ancis  M.', 6, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(11, 'Pagkaliwangan, Jimuel  A.', 7, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(12, 'Valdez, Jacky  Q.', 18, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(13, 'Bida, Jesril  H.', 19, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(14, 'Nembo, Kyline  K.', 20, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(15, 'Vasquez, Tonnette  X.', 21, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(16, 'Aquino, Yasy  N.', 22, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(17, 'Jay, Cole  G.', 13, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(18, 'Noah, Kenji  Z.', 14, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(19, 'Jerry, Tom  N.', 15, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(20, 'Canedo, Roi  F.', 16, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'),
+(21, 'Navaro, Jhong  B.', 17, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -309,7 +1432,8 @@ INSERT INTO `strand` (`id`, `name`, `track`, `strand_status`) VALUES
 (7, 'General Academic Strand', 'Academic', 'Active'),
 (8, 'Information and Communications Technology', 'Technical-Vocational-Livelihood', 'Active'),
 (9, 'Data Science', 'Technical-Vocational-Livelihood', 'Active'),
-(10, 'AI', 'Technical-Vocational-Livelihood', 'Active');
+(10, 'AI', 'Technical-Vocational-Livelihood', 'Active'),
+(11, 'sample strand', 'sample track', 'Active');
 
 -- --------------------------------------------------------
 
@@ -364,6 +1488,34 @@ CREATE TABLE `student` (
   `enrollment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`id`, `lrn`, `name`, `fname`, `mname`, `lname`, `suffix`, `sex`, `birth_date`, `birth_date2`, `age`, `ra`, `house_no`, `barangay`, `municipality`, `province`, `barangay_id`, `municipality_id`, `province_id`, `father`, `mother`, `guardian`, `relationship`, `contact`, `section`, `school_year_id`, `school_year`, `track`, `strand`, `grade`, `status`, `lm`, `indicator`, `ri`, `rid`, `weight`, `height`, `height2`, `bmi`, `bmi_category`, `hfa_category`, `sf8_remarks`, `is_archived`, `enrollment`) VALUES
+(1, 123123142, 'lastname, firstname  M.', 'firstname', 'M.', 'lastname', '', 'M', ' 12-10-2005', '2005-12-10', 18, 'sample religion', 'Blk 11 Lot 12', 'Bilog-bilog', 'City of Tanauan', 'Batangas', 9664, 379, 18, 'sample father', 'sample mother', 'sample guardian', 'sample relationship', '009998173823', 'sample section', 2, '2025 - 2026', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 0, 0, 0, 0, '', '', '', 1, '1st Friday of August'),
+(2, 111122341, 'sample lastname, sample firstname  M.', 'sample firstname', 'M.', 'sample lastname', '', 'M', '12-10-2005', '2005-12-10', 18, 'Catholic', 'Blk 01 Lot 02', 'Magkalungay', 'San Fernando', 'Bukidnon', 31355, 1175, 53, 'sample father', 'sample mother', 'sample father', 'parent', '09918248353', 'section', 3, '2026 - 2027', 'sample track', 'sample strand', 11, 'complete', 'Modular(Print)', '', '', '', 56, 1.67, 2.7889, 20.08, 'Normal', 'Stunted', '', 1, '1st Friday of August'),
+(3, 20010516, 'Overload, Diwata  P.', 'Diwata', 'P.', 'Overload', '', 'M', '11-11-2005', '2005-11-11', 18, 'Catholic', 'Blk 11 Lot 12', 'Santa Cruz', 'Talisay', 'Camarines Norte', 15140, 592, 29, 'Jerome Overload', 'Kaly Panapag', 'Jerome Overload', 'Parent', '09988263738', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 56, 1.67, 2.7889, 20.08, 'Normal', 'Stunted', 'Sample Remarks', 0, '1st Friday of August'),
+(4, 20011150, 'Howard, Dwight  T.', 'Dwight', 'T.', 'Howard', '', 'M', '02-01-2005', '2005-02-01', 18, 'Catholic', 'Blk 14 Lot 29', 'Looc', 'Cabucgayan', 'Biliran', 28975, 1080, 49, 'Dawg Howard', 'Emelda Torres', 'Emelda Torres', 'Parent', '09928475928', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 53, 1.39, 1.9321, 27.43, 'Overweight', 'Severely stunted', '', 0, '1st Friday of August'),
+(5, 20011009, 'Koykoy, Bugoy  N.', 'Bugoy', 'N.', 'Koykoy', '', 'M', '10-09-2005', '2005-10-09', 17, 'Catholic', 'Blk 17 Lot 01', 'Uson', 'Caibiran', 'Biliran', 28994, 1081, 49, 'Clark Koykoy', 'Jenny Na', 'Jenny Na', 'Parent', '09988628647', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 56, 1.6, 2.56, 21.88, 'Normal', 'Stunted', '', 0, '1st Friday of August'),
+(6, 20059872, 'Mojica, Ancis  M.', 'Ancis', 'M.', 'Mojica', '', 'M', '01-11-2005', '2005-01-11', 18, 'Catholic', 'Blk 01 Lot 01', 'Hulo', 'Obando', 'Bulacan', 6092, 244, 12, 'Bryan Mojica', 'Marjay Malanay', 'Bryan Mojica', 'Parent', '09726748363', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 53, 1.39, 1.9321, 27.43, 'Overweight', 'Severely stunted', '', 0, '1st Friday of August'),
+(7, 200197223, 'Pagkaliwangan, Jimuel  A.', 'Jimuel', 'A.', 'Pagkaliwangan', '', 'M', '02-06-2005', '2005-02-06', 18, 'Catholic', 'Blk 13 Lot 08', 'Sibonga', 'Kadingilan', 'Bukidnon', 31078, 1163, 53, 'Hanz Pagkaliwangan', 'Kathy Anino', 'Kathy Anino', 'Parent', '09979264922', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Modular(Print)', '', '', '', 53, 1.5, 2.25, 23.56, 'Normal', 'Severely stunted', '', 0, '1st Friday of August'),
+(8, 123123321, 'Lagunzad, Jennifer  J.', 'Jennifer', 'J.', 'Lagunzad', '', 'F', '01-01-2005', '2005-01-01', 18, 'Iglesia ni Cristo', '17th Street', 'District III (Pob.)', 'Lemery', 'Batangas', 9091, 360, 18, 'Ivan Lagunzad', 'Angelica Jaber', 'Ivan Lagunzad', 'Parent', '09986937785', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 59, 1.9, 3.61, 16.34, 'Severely wasted', 'Tall', '', 0, '1st Friday of August'),
+(9, 287204828, 'Maiden, Crystal  S.', 'Crystal', 'S.', 'Maiden', '', 'F', '07-07-2005', '2005-07-07', 17, 'Catholic', 'Purok Otso', 'Tambobong', 'Bocaue', 'Bulacan', 5884, 234, 12, 'Balmond Maiden', 'Selena Sumpa', 'Balmond Maiden', 'Parent', '09927586432', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 60, 2, 4, 15, 'Severely wasted', 'Tall', '', 0, '1st Friday of August'),
+(10, 164863893, 'Berry, Elsa  O.', 'Elsa', 'O.', 'Berry', '', 'F', '12-29-2005', '2005-12-29', 18, 'Catholic', 'Zone 3', 'Laturan', 'Libona', 'Bukidnon', 31176, 1168, 53, 'Zilong Berry', 'Wanwan Osme', 'Wanwan Osme', 'Parent', '09988646324', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 60, 1.5, 2.25, 26.67, 'Overweight', 'Severely stunted', '', 0, '1st Friday of August'),
+(11, 20010068, 'Real, Stacey  A.', 'Stacey', 'A.', 'Real', '', 'F', '01-15-2006', '2006-01-15', 17, 'Catholic', 'Kalbaryo Street', 'Dumrog', 'Pandan', 'Antique', 18287, 705, 35, 'Jerry Real', 'Apel Aquino', 'Jerry Real', 'Parent', '09983837484', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 60, 2, 4, 15, 'Severely wasted', 'Tall', '', 0, '1st Friday of August'),
+(12, 28859272, 'Poland, Damsel  T.', 'Damsel', 'T.', 'Poland', '', 'F', '10-10-2005', '2005-10-10', 17, 'Catholic', 'Blk 12 Lot 24', 'Lucky', 'Lemery', 'Batangas', 9072, 360, 18, 'Joe Poland', 'Monti Tibag', 'Monti Tibag', 'Parent', '09897656363', 'Responsibility', 4, '2027 - 2028', 'Academic', 'Accountancy, Business and Management', 11, 'complete', 'Face to face', '', '', '', 60, 1.63, 2.6569, 22.58, 'Normal', 'Normal', '', 0, '1st Friday of August'),
+(13, 120849492, 'Jay, Cole  G.', 'Cole', 'G.', 'Jay', '', 'M', '01-02-2005', '2005-01-02', 18, 'Catholic', 'Blk 12 Lot 11', 'Niyugan', 'Laurel', 'Batangas', 9049, 359, 18, 'James Jay', 'Chloe Geron', 'Chloe Geron', 'Parent', '09983772832', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 60, 1.67, 2.7889, 21.51, 'Normal', 'Stunted', '', 0, '1st Friday of August'),
+(14, 817305124, 'Noah, Kenji  Z.', 'Kenji', 'Z.', 'Noah', '', 'M', '12-11-2005', '2005-12-11', 18, 'Catholic', 'Zone 1 Purok 13', 'Palengke (Pob.)', 'Caibiran', 'Biliran', 28991, 1081, 49, 'Ken Noah', 'Jiah Zoan', 'Ken Noah', 'Parent', '09983874994', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 56, 2.3, 5.29, 10.59, 'Severely wasted', 'Tall', '', 0, '1st Friday of August'),
+(15, 37871385, 'Jerry, Tom  N.', 'Tom', 'N.', 'Jerry', '', 'M', '12-25-2005', '2005-12-25', 18, 'Catholic', 'Blk 11 Lot 11', 'Minsalirak', 'Quezon', 'Bukidnon', 31333, 1174, 53, 'John Jerry', 'Mia Niffa', 'John Jerry', 'Parent', '09983871832', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 53, 1.39, 1.9321, 27.43, 'Overweight', 'Severely stunted', '', 0, '1st Friday of August'),
+(16, 20018521, 'Canedo, Roi  F.', 'Roi', 'F.', 'Canedo', '', 'M', '10-11-2005', '2005-10-11', 17, 'Cat', 'Blk 01 Lot 01', 'Poblacion', 'Pangantucan', 'Bukidnon', 31301, 1173, 53, 'Kenneth Canedo', 'Eliza Feril', 'Kenneth Canedo', 'Parent', '09984753923', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 60, 1.96, 3.8416, 15.62, 'Severely wasted', 'Tall', '', 0, '1st Friday of August'),
+(17, 932859723, 'Navaro, Jhong  B.', 'Jhong', 'B.', 'Navaro', '', 'M', '12-09-2005', '2005-12-09', 18, 'Catholic', 'Zone 1', 'Matacla', 'Goa', 'Camarines Sur', 15541, 608, 30, 'Vhong Navaro', 'Karyl Nevada', 'Vhong Navaro', 'Parent', '09938175393', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 60, 1.699, 2.8866, 20.79, 'Normal', 'Normal', 'Sample Remarks', 0, '1st Friday of August'),
+(18, 200185749, 'Valdez, Jacky  Q.', 'Jacky', 'Q.', 'Valdez', '', 'F', '07-10-2005', '2005-07-10', 17, 'Catholic', 'Blk 13 Lot 23', 'San Isidro', 'City of Tagbilaran (Capital)', 'Bohol', 22614, 852, 40, 'Arjay Valdez', 'Melissa Quezon', 'Arjay Valdez', 'Parent', '09894847223', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 61, 1.7, 2.89, 21.11, 'Normal', 'Normal', '', 0, '1st Friday of August'),
+(19, 32746932, 'Bida, Jesril  H.', 'Jesril', 'H.', 'Bida', '', 'F', '10-17-2005', '2005-10-17', 17, 'Catholic', 'Blk 11 Lot 08', 'Candami', 'Libmanan', 'Camarines Sur', 15653, 611, 30, 'Bryan Bida', 'Kylie Hemana', 'Kylie Hemana', 'Parent', '09973837459', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 61, 1.75, 3.0625, 19.92, 'Normal', 'Normal', '', 0, '1st Friday of August'),
+(20, 8237589, 'Nembo, Kyline  K.', 'Kyline', 'K.', 'Nembo', '', 'F', '10-10-2005', '2005-10-10', 17, 'Cat', 'Zone 01', 'Mataub', 'Clarin', 'Bohol', 21982, 824, 40, 'Ken Nembo', 'Sarah Kulob', 'Ken Nembo', 'Parent', '09898326583', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 53, 1.6, 2.56, 20.7, 'Normal', 'Normal', '', 0, '1st Friday of August'),
+(21, 21095719, 'Vasquez, Tonnette  X.', 'Tonnette', 'X.', 'Vasquez', '', 'F', '02-01-2005', '2005-02-01', 18, 'Catholic', 'Sitio Uno', 'Butao', 'Calanasan', 'Apayao', 38113, 1437, 72, 'Hanz Vasquez', 'Antonette Xavier', 'Hanz Vasquez', 'Parent', '09974943989', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 53, 1.5, 2.25, 23.56, 'Normal', 'Severely stunted', '', 0, '1st Friday of August'),
+(22, 2001857103, 'Aquino, Yasy  N.', 'Yasy', 'N.', 'Aquino', '', 'F', '10-10-2005', '2005-10-10', 17, 'Catholic', 'Kalye Street', 'Magrafil', 'Gonzaga', 'Cagayan', 3721, 145, 7, 'Dendi Aquino', 'Hulya Nena', 'Dendi Aquino', 'Parent', '09973837482', 'Humility', 4, '2027 - 2028', 'Technical-Vocational-Livelihood', 'Home Economics', 12, 'complete', 'Face to face', '', '', '', 56, 1, 1, 56, 'Obese', 'Severely stunted', '', 0, '1st Friday of August');
+
 -- --------------------------------------------------------
 
 --
@@ -417,8 +1569,8 @@ INSERT INTO `subject` (`id`, `name`, `subject_type`, `track`, `strand`, `grade`,
 (46, 'Creative Writing/ Malikhaing Pagsulat ', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
 (47, 'Discipline and Ideas in the Applied Social Sciences', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
 (48, 'Introduction to World Religions and Belief System', 'Specialized', 'Academic', 'Humanities and Social Science', 12, '1st', 'Active'),
-(49, 'Sample Title', 'Core', 'Sample Track', 'Sample Strand', 11, '1st', 'Active'),
-(51, 'Practical Research', 'Specialized', 'Technical-Vocational-Livelihood', 'AI', 11, '1st', 'Active');
+(51, 'Practical Research', 'Specialized', 'Technical-Vocational-Livelihood', 'AI', 11, '1st', 'Active'),
+(53, 'sample subject', 'Core', 'All', 'All', 11, '1st', 'Active');
 
 -- --------------------------------------------------------
 
@@ -44311,7 +45463,8 @@ CREATE TABLE `track` (
 INSERT INTO `track` (`id`, `name`, `track_status`) VALUES
 (1, 'Technical-Vocational-Livelihood', 'Active'),
 (2, 'Academic', 'Active'),
-(3, 'All', 'Active');
+(3, 'All', 'Active'),
+(5, 'sample track', 'Active');
 
 -- --------------------------------------------------------
 
@@ -44336,13 +45489,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `password2`, `name`, `user_type`, `section`, `status`, `profile_picture`) VALUES
-(1, 'systemadmin', '0192023a7bbd73250516f069df18b500', '0192023a7bbd73250516f069df18b500', 'system administrator', 'System administrator', '', 'Active', 'admin_profile.jpg'),
-(2, 'registrar', '7e072c0f6e3742edda66a94b29c3e10f', 'Registrar.123', 'David Centeno', 'Registrar', '', 'Active', 'registrar_profile.jpg'),
-(3, 'classadviser', '4e24f987eb6534cfa86dfc2351079b85', 'classadviser123', 'Arcie Natuel', 'Adviser', '', 'Active', 'adviser_profile.jpg'),
-(4, 'clinicteacher', '3e23ccd5b83f73dff4be8ae49638e5c5', 'clinic123', 'Jerome Jose', 'Clinic teacher', '', 'Active', 'clinic_profile.jpg'),
-(5, 'daryl.balbastro', 'aea456814a2936caaf6b9e9a755eba45', 'balbastro123', 'Daryl Balbastro', 'Adviser', '', 'Active', 'daryl_profile.jpg'),
-(7, 'bryan.javier', '6142a88d730b9aa48eed872142467129', 'javier123', 'Bryan Javier', 'Adviser', '', 'Active', ''),
-(8, 'newadmin', '5185ea424cb195317d506efcd6b7d2d7', '5185ea424cb195317d506efcd6b7d2d7', 'new admin', 'System administrator', '', 'Disabled', '');
+(1, 'systemadmin', '4bb0ab7e19d254b92ca94e9d98c36890', 'System.admin123', 'system administrator', 'System administrator', '', 'Active', 'admin_profile.jpg'),
+(2, 'registrar', '5a0455c7557558735b1b6e12393d84a0', 'registrar123', 'David Centeno', 'Registrar', '', 'Active', 'david_profile.jpg'),
+(3, 'classadviser', '4e24f987eb6534cfa86dfc2351079b85', 'classadviser123', 'Arcie Natuel', 'Adviser', 'Responsibility', 'Active', 'adviser_profile.jpg'),
+(4, 'clinicteacher', '6ddcca1aef1b3a689475d97543f8c28a', 'clinicteacher123', 'Jerome Jose', 'Clinic teacher', '', 'Active', 'jerome.jpg'),
+(5, 'darylbalbastro', 'aea456814a2936caaf6b9e9a755eba45', 'balbastro123', 'Daryl Balbastro', 'Adviser', 'Humility', 'Active', 'daryl.jpg');
 
 --
 -- Indexes for dumped tables
@@ -44489,7 +45640,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `school`
@@ -44501,25 +45652,25 @@ ALTER TABLE `school`
 -- AUTO_INCREMENT for table `schoolstart`
 --
 ALTER TABLE `schoolstart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `school_year`
 --
 ALTER TABLE `school_year`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `section`
 --
 ALTER TABLE `section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sf2`
 --
 ALTER TABLE `sf2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
 
 --
 -- AUTO_INCREMENT for table `sf2remarks`
@@ -44531,55 +45682,55 @@ ALTER TABLE `sf2remarks`
 -- AUTO_INCREMENT for table `sf5b`
 --
 ALTER TABLE `sf5b`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sf9`
 --
 ALTER TABLE `sf9`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 
 --
 -- AUTO_INCREMENT for table `sf9_modality`
 --
 ALTER TABLE `sf9_modality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sf9_ov`
 --
 ALTER TABLE `sf9_ov`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sf10remedial`
 --
 ALTER TABLE `sf10remedial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `sf10remedialdate`
 --
 ALTER TABLE `sf10remedialdate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `strand`
 --
 ALTER TABLE `strand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `table_barangay`
@@ -44609,13 +45760,13 @@ ALTER TABLE `table_region`
 -- AUTO_INCREMENT for table `track`
 --
 ALTER TABLE `track`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
